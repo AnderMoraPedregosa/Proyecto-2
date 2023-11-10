@@ -39,7 +39,7 @@
                     <span class="date">
                         Hace 5 minutos
                     </span>
-                    <a href="paginas/article.html">Leer más</a>
+                    <a href="paginas/article.php">Leer más</a>
 
                     <div class="clearfix"></div>
                 </article>

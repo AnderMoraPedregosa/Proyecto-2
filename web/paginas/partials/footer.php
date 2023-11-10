@@ -1,3 +1,6 @@
+<div class="clearfix"></div>
+    </div>
+    
 <footer id="footer">
         <div class="center">
             <p>

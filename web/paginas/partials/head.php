@@ -16,7 +16,7 @@
         <div class="center">
             <!-- LOGO -->
             <div id="logo">
-                <a href="index.html"><img src="assets/images/logoAsociacion.png" class="app-logo" alt="Logotipo" /></a>
+                <a href="../../index.php"><img src="../../assets/images/logoAsociacion.png" class="app-logo" alt="Logotipo" /></a>
                 <span id="brand">
                     <strong>Comercio</strong> Vitoria
                 </span>
@@ -26,13 +26,13 @@
             <nav id="menu">
                 <ul>
                     <li>
-                        <a href="index.html">Inicio</a>
+                        <a href="../index.php">Inicio</a>
                     </li>
                     <li>
-                        <a href="paginas/blog.html">Blog</a>
+                        <a href="../paginas/blog.php">Blog</a>
                     </li>
                     <li>
-                        <a href="paginas/formulario.html">Formulario</a>
+                        <a href="../paginas/formulario.php">Formulario</a>
                     </li>
                     <li>
                         <a href="#">Pagina 1</a>
@@ -41,7 +41,7 @@
                         <a href="#">Pagina 2</a>
                     </li>
                     <li>
-                        <a href="paginas/login.html"><button class="btn-sesion">Iniciar sesion</button></a>
+                        <a href="../paginas/login.html"><button class="btn-sesion">Iniciar sesion</button></a>
                     </li>
                 </ul>
             </nav>
