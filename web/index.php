@@ -54,7 +54,7 @@
             <div id="nav-blog" class="sidebar-item">
                 <h3>Puedes hacer esto</h3>
                 <a href="#" class="btn btn-success">Crear producto</a>
-                <a href="paginas/blog.html" class="btn-white">Ir al blog</a>
+                <a href="../paginas/blog.php" class="btn-white">Ir al blog</a>
             </div>
 
             <div id="search" class="sidebar-item">
