@@ -26,19 +26,19 @@
             <nav id="menu">
                 <ul>
                     <li>
-                        <a href="../index.php">Inicio</a>
+                        <a href="../index.php" class="animacion">Inicio</a>
                     </li>
                     <li>
-                        <a href="../paginas/blog.php">Blog</a>
+                        <a href="../paginas/blog.php" class="animacion">Blog</a>
                     </li>
                     <li>
-                        <a href="../paginas/formulario.php">Formulario</a>
+                        <a href="../paginas/formulario.php" class="animacion">Formulario</a>
                     </li>
                     <li>
-                        <a href="#">Pagina 1</a>
+                        <a href="#" class="animacion">Pagina 1</a>
                     </li>
                     <li>
-                        <a href="#">Pagina 2</a>
+                        <a href="#" class="animacion">Pagina 2</a>
                     </li>
                     <li>
                         <a href="../paginas/login.html"><button class="btn-sesion">Iniciar sesion</button></a>
