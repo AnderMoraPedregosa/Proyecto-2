@@ -23,9 +23,10 @@
 
                         articles.appendChild(clonado);
                     }
-
+                    
                 });
             </script>
+            <script src="scripts/anuncios.js"></script>
 
             <!--Listado articulos-->
             <div id="articles">
