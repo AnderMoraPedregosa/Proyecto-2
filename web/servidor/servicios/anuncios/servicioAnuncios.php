@@ -1,5 +1,5 @@
 <?php
-require "backend\bbdd\bbdd.php";
+require "web\servidor\bbdd\bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
 
 $datos = array(
