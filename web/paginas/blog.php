@@ -60,4 +60,4 @@
         <div class="clearfix"></div>
     </div>
 
-    <?php require "partials/head.php" ?>
+    <?php require "partials/footer.php" ?>
