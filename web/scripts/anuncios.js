@@ -1,7 +1,12 @@
 import { Anuncio } from "../modelos/anuncio.js";
-
 async function getAnuncios() {
     const response = await fetch("index.php?accion=anuncios");
+    const data = await response.json();
+    return data;
+}
+
+async function getAnuncioById(id) {
+    const response = await fetch(`index.php?accion=detalle&id=${id}`);
     const data = await response.json();
     return data;
 }
@@ -10,7 +15,7 @@ window.addEventListener("load", async function () {
     var articles = document.getElementById("articles");
     var anuncios = await getAnuncios();
 
-    anuncios.forEach((anuncioJson, index) => {
+    anuncios.forEach(async (anuncioJson, index) => {
         const anuncioNew = new Anuncio(
             anuncioJson.id,
             anuncioJson.titulo,
@@ -42,4 +47,16 @@ window.addEventListener("load", async function () {
         // Agregar el nuevo elemento div al contenedor de artículos
         articles.appendChild(divArticle);
     });
+
+    // Agregar un listener para el evento click en los enlaces "Leer más"
+  /*   articles.addEventListener("click", async function (event) {
+        if (event.target.tagName === "A" && event.target.dataset.anuncioId) {
+            event.preventDefault();
+            const anuncioId = event.target.dataset.anuncioId;
+            const detalleAnuncio = await getAnuncioById(anuncioId);
+
+            // Haz lo que necesites con los detalles del anuncio, por ejemplo, mostrar en un modal.
+            console.log("Detalles del anuncio:", detalleAnuncio);
+        }
+    }); */
 });
