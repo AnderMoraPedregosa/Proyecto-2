@@ -1,7 +1,53 @@
+import { Anuncio } from "../modelos/anuncio.js";
+
 async function getAnuncios() {
     const response = await fetch("index.php?accion=anuncios");
-    console.log(response);
     const data = await response.json();
-    console.log(data);
+    return data;
 }
-window.addEventListener("load", getAnuncios);
+
+window.addEventListener("load", async function () {
+
+    var template = document.getElementById("article-template");
+    var articles = document.getElementById("articles");
+
+    var anuncios = await getAnuncios();
+    anuncios.forEach((anuncioJson, index) => {
+        const anuncioNew = new Anuncio(
+            anuncioJson.id,
+            anuncioJson.titulo,
+            anuncioJson.imagen_anuncio,
+            anuncioJson.categoria,
+            anuncioJson.descripcion,
+            anuncioJson.fecha_creacion,
+            anuncioJson.precio,
+            anuncioJson.id_categorias,
+            anuncioJson.id_comercios,
+            anuncioJson.id_comerciante
+        );
+
+        let divArticles = document.getElementById("articles");
+        // Agregar la información del anuncio al nuevo elemento div
+        divArticles.innerHTML = `
+        <article class="article-item">
+            <div class="image-wrap">
+                <img src="${anuncioNew.imagen}"
+                    alt="Producto" />
+            </div>
+
+            <h2>${anuncioNew.titulo}</h2>
+            <span class="date">
+                ${anuncioNew.fechaC}
+            </span>
+            <a href="paginas/article.php?id=${anuncioNew.id}">Leer más</a>
+
+            <div class="clearfix"></div>
+    </article>
+        `;
+
+        // Agregar el nuevo elemento div al contenedor de artículos
+        articles.appendChild(divArticles);
+    });
+
+
+});

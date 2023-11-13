@@ -9,41 +9,13 @@
         <section id="content">
             <h2 class="subheader">Últimos productos</h2>
 
-            <script>
-                window.addEventListener("load", function () {
-                    var template = document.getElementById("article-template");
-                    var articles = document.getElementById("articles");
-
-                    for (var i = 1; i <= 5; i++) {
-                        var clonado = template.cloneNode(true);
-                        clonado.removeAttribute("id");
-
-                        var h2 = clonado.getElementsByTagName("h2")[0];
-                        h2.innerHTML = h2.textContent + ' ' + i;
-
-                        articles.appendChild(clonado);
-                    }
-                    
-                });
-            </script>
-            <script src="scripts/anuncios.js"></script>
+           
+     
 
             <!--Listado articulos-->
             <div id="articles">
-                <article class="article-item" id="article-template">
-                    <div class="image-wrap">
-                        <img src="https://www.elevencomunicacion.com/wp-content/uploads/2019/02/eleven-fotografia-de-hamburguesas.jpg"
-                            alt="Producto" />
-                    </div>
-
-                    <h2>Producto de prueba</h2>
-                    <span class="date">
-                        Hace 5 minutos
-                    </span>
-                    <a href="paginas/article.php">Leer más</a>
-
-                    <div class="clearfix"></div>
-                </article>
+                
+            <script type="module" src="scripts/anuncios.js"></script>
 
                 <!--AÑADIR ARTICULOS VIA JS-->
 
