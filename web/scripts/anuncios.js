@@ -7,11 +7,9 @@ async function getAnuncios() {
 }
 
 window.addEventListener("load", async function () {
-
-    var template = document.getElementById("article-template");
     var articles = document.getElementById("articles");
-
     var anuncios = await getAnuncios();
+
     anuncios.forEach((anuncioJson, index) => {
         const anuncioNew = new Anuncio(
             anuncioJson.id,
@@ -26,28 +24,22 @@ window.addEventListener("load", async function () {
             anuncioJson.id_comerciante
         );
 
-        let divArticles = document.getElementById("articles");
+        // Crear un nuevo elemento div para cada anuncio
+        let divArticle = document.createElement("div");
+        divArticle.className = "article-item";
+
         // Agregar la información del anuncio al nuevo elemento div
-        divArticles.innerHTML = `
-        <article class="article-item">
+        divArticle.innerHTML = `
             <div class="image-wrap">
-                <img src="${anuncioNew.imagen}"
-                    alt="Producto" />
+                <img src="${anuncioNew.imagen}" alt="Producto" />
             </div>
-
             <h2>${anuncioNew.titulo}</h2>
-            <span class="date">
-                ${anuncioNew.fechaC}
-            </span>
+            <span class="date">${anuncioNew.fechaC}</span>
             <a href="paginas/article.php?id=${anuncioNew.id}">Leer más</a>
-
             <div class="clearfix"></div>
-    </article>
         `;
 
         // Agregar el nuevo elemento div al contenedor de artículos
-        articles.appendChild(divArticles);
+        articles.appendChild(divArticle);
     });
-
-
 });
