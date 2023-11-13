@@ -5,27 +5,22 @@
 
             <h1 class="subheader">Formulario</h1>
 
-            <form class="mid-form">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" />
-                </div>
+            <form class="form_anuncios">
+                    <label for="titulo">Titulo</label>
+                    <input type="text" id="titulo" name="titulo" />
 
-                <div class="form-group">
-                    <label for="apellidos">Apellidos</label>
-                    <input type="text" id="apellidos" name="apellidos" />
-                </div>
+                    <label for="precio">Precio</label>
+                    <input type="number" id="precio" name="precio" />
 
-                <div class="form-group">
-                    <label for="bio">Biografia</label>
-                    <textarea id="bio" name="bio"></textarea>
-                </div>
+                    <label for="desc">Descripcion</label>
+                    <textarea id="desc" name="desc" placeholder="Introduce la descripcion de tu anuncio"></textarea>
 
-                <div class="form-group radibuttons">
-                    <input type="radio" name="genero" value="hombre" /> Hombre
-                    <input type="radio" name="genero" value="mujer" /> Mujer
-                    <input type="radio" name="genero" value="otro" /> Otro
-                </div>
+                    <label for="categoria">Categoria:</label>
+                    <select>
+                        <option value="0">--Selecciona--</option>
+                        <script type="module" src="scripts/anuncios.js"></script>
+
+                    </select>
 
                 <div class="clearfix"></div>
 

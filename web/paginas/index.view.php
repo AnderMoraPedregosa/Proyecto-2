@@ -15,7 +15,7 @@
             <!--Listado articulos-->
             <div id="articles">
                 
-            <script type="module" src="scripts/anuncios.js"></script>
+                <script type="module" src="scripts/anuncios.js"></script>
 
                 <!--AÑADIR ARTICULOS VIA JS-->
 
