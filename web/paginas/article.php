@@ -5,6 +5,7 @@
         <div id="content">
 
             <article class="article-item article-detail">
+            <script type="module" src="../scripts/anuncioDetalle.js"></script>
                 <div>
                     <img src="https://www.elevencomunicacion.com/wp-content/uploads/2019/02/eleven-fotografia-de-hamburguesas.jpg"
                         alt="Producto" />
