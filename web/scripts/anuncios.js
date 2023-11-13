@@ -5,17 +5,12 @@ async function getAnuncios() {
     return data;
 }
 
-async function getAnuncioById(id) {
-    const response = await fetch(`index.php?accion=detalle&id=${id}`);
-    const data = await response.json();
-    return data;
-}
 
 window.addEventListener("load", async function () {
     var articles = document.getElementById("articles");
     var anuncios = await getAnuncios();
 
-    anuncios.forEach(async (anuncioJson, index) => {
+    anuncios.forEach(async (anuncioJson) => {
         const anuncioNew = new Anuncio(
             anuncioJson.id,
             anuncioJson.titulo,
