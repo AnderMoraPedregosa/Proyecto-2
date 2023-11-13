@@ -9,6 +9,9 @@ switch ($path) {
     case 'detalle':
         require './servidor/servicios/anuncios/servicioDetalle.php';
         break;
+    case 'categorias':
+        require './servidor/servicios/anuncios/servicioCategorias.php';
+        break;
     default:
         // Página principal o manejo de rutas no encontradas
         require "./paginas/index.view.php";

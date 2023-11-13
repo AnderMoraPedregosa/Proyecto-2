@@ -15,10 +15,9 @@
                     <label for="desc">Descripcion</label>
                     <textarea id="desc" name="desc" placeholder="Introduce la descripcion de tu anuncio"></textarea>
 
-                    <label for="categoria">Categoria:</label>
-                    <select>
+                    <label for="selectCategorias">Categoria:</label>
+                    <select id="selectCategorias">
                         <option value="0">--Selecciona--</option>
-                        <script type="module" src="scripts/anuncios.js"></script>
 
                     </select>
 
@@ -48,5 +47,7 @@
 
         <div class="clearfix"></div>
     </div>
+    <script type="module" src="../../scripts/categoria.js"></script>
+
 
     <?php require "partials/footer.php" ?>
