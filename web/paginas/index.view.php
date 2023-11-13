@@ -30,21 +30,7 @@
 
             <!--Listado articulos-->
             <div id="articles">
-                <article class="article-item" id="article-template">
-                    <div class="image-wrap">
-                        <img src="https://www.elevencomunicacion.com/wp-content/uploads/2019/02/eleven-fotografia-de-hamburguesas.jpg"
-                            alt="Producto" />
-                    </div>
-
-                    <h2>Producto de prueba</h2>
-                    <span class="date">
-                        Hace 5 minutos
-                    </span>
-                    <a href="paginas/article.php">Leer más</a>
-
-                    <div class="clearfix"></div>
-                </article>
-
+                
                 <!--AÑADIR ARTICULOS VIA JS-->
 
             </div>
