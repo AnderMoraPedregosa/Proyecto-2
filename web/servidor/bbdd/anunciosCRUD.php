@@ -2,6 +2,29 @@
 
 require "bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
+
+if (isset($_GET['accion'])) {
+    $accion = $_GET['accion'];
+
+    // Ejecutar la función correspondiente según la acción
+    switch ($accion) {
+        case 'insertarAnuncio':
+            // Asegúrate de tener los datos necesarios para insertar un anuncio
+            $idCategoria = isset($_GET['selectCategorias']) ? $_GET['selectCategorias'] : null;
+
+            $data = [
+                'titulo' => isset($_GET['titulo']) ? $_GET['titulo'] : '',
+                'precio' => isset($_GET['precio']) ? $_GET['precio'] : '',
+                'descripcion' => isset($_GET['desc']) ? $_GET['desc'] : '',
+                'categoria' => $idCategoria
+                        ];
+            
+            insertarAnuncio($dbh, $data);
+            break;
+
+    }
+}
+
 function getAnuncios($dbh)
 {
     $stmt = $dbh->prepare("SELECT * FROM anuncios");
@@ -17,12 +40,12 @@ function getEmpleadoId($dbh, $id)
     $stmt->execute($data);
     return $empleado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function insertEmpleado($dbh, $data)
+function insertarAnuncio($dbh, $data)
 {
-
-    $stmt = $dbh->prepare("INSERT INTO empleados values (null,:nombre, :apellidos, :edad, :fecha_nacimiento,:email, :dni, :genero, :curriculum)");
-    $stmt->execute($data);
-    close();
+    print_r("estoy en el insert");
+    $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, descripcion, id_categorias) VALUES (:titulo, :precio, :descripcion, :categoria)");
+$stmt->execute($data);
+close();
 }
 
 function eliminarId($dbh, $id)
