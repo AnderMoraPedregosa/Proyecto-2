@@ -2,22 +2,14 @@
 
     <div id="slider" class="slider-big">
         <h1>Bienvenido a la pagina de productos de la Asociación de Comerciantes de Vitoria</h1>
-      
+
     </div>
 
     <div class="center">
         <section id="content">
             <h2 class="subheader">Últimos productos</h2>
-
-           
-     
-
-            <!--Listado articulos-->
             <div id="articles">
-                
-            <script type="module" src="scripts/anuncios.js"></script>
-
-                <!--AÑADIR ARTICULOS VIA JS-->
+                <script type="module" src="scripts/anuncios.js"></script>
 
             </div>
 

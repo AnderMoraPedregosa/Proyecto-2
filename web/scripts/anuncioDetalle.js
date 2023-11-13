@@ -1,7 +1,7 @@
 import { Anuncio } from "../modelos/anuncio.js";
 
-async function getAnuncios() {
-    const response = await fetch("index.php?accion=anuncios");
+async function getAnuncioDetalle() {
+    const response = await fetch("index.php?accion=detalle");
     const data = await response.json();
     return data;
 }
