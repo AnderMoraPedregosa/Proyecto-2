@@ -1,9 +1,8 @@
 <?php
-enum Datos: string
+class Datos
 {
-    case Host = '127.0.0.1';
-    case Dbname = 'agencia';
-    case User = 'javas';
-    case Pass = '1234';
+    const Host = "db:3306";
+    const Dbname = "agencia";
+    const User = "javas";
+    const Pass = "1234";
 }
-?>

@@ -1,18 +1,25 @@
 <?php
-require "web\servidor\bbdd\bbdd.php";
+
+require "servidor/bbdd/bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
 
-$datos = array(
-    "nombre" => "Juan",
-    "apellidos" => "Abarra Lumentza"
-);
+
 // Convertimos la respuesta a JSON
-$respuestaJSON = json_encode($datos);
+
 // Enviamos la respuesta
-die($respuestaJSON);
-/* function getAnuncios($dbh)
+
+function getAnuncios($dbh)
 {
+
     $stmt = $dbh->prepare("SELECT * FROM anuncios");
     $stmt->execute();
-    return $anuncios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} */
+    $anuncios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    return json_encode($anuncios);
+}
+
+
+// Convertimos la respuesta a JSON
+$respuestaJSON = getAnuncios($dbh);
+// Enviamos la respuesta
+die($respuestaJSON); 
