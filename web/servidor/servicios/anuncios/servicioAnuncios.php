@@ -13,7 +13,7 @@ function jsonResponse($data, $statusCode = 200)
 }
 if (isset($_POST['accion']) || isset($_GET['accion'])) {
     // Obtener la acción de la solicitud
-    $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
+    $accion = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
 
     // Manejar diferentes acciones con un switch
     switch ($accion) {
@@ -33,15 +33,34 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
             $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
             jsonResponse($response);
             break;
-        case 'insertarAnuncio':
-            list($id, $nombreCategoria) = explode('/', $idCategoria);
-            // Lógica para la otra acción
-            $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
-            jsonResponse($response);
+        case 'insertar':
+            //$_POST[''];
+            // Separar el id y el nombre de la categoria
+            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+
+            // Split the value into id and name
+            list($id, $nombreCategoria) = explode('|', $idCategoria);
+
+            $titulo = $_POST["titulo"];
+            $precio = $_POST["precio"];
+            $desc = $_POST["desc"];
+
+            $data = [
+                'titulo' => $titulo,
+                'precio' => $precio,
+                'descripcion' => $desc,
+                'nombre_categoria' => $nombreCategoria,
+                'id_categoria' => $id,
+                'fecha' => date('Y-m-d H:i:s'),
+                'comercio' => 1,
+                'anunciante' => 2
+            ];
+
+            insertarAnuncio($dbh, $data);
+            $response = ['status' => 'success', 'message' => 'Anuncio creado correctamente'];
+            jsonResponse($response, 200);
+
             break;
-
-            // Agregar más casos según sea necesario
-
         default:
             $response = ['status' => 'error', 'message' => 'Acción no válida'];
             jsonResponse($response, 400);

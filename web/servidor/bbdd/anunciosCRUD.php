@@ -3,29 +3,6 @@
 require "bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
 
-if (isset($_GET['accion'])) {
-    $accion = $_GET['accion'];
-
-    // Ejecutar la función correspondiente según la acción
-    switch ($accion) {
-        case 'insertarAnuncio':
-            // Asegúrate de tener los datos necesarios para insertar un anuncio
-            $idCategoria = isset($_GET['selectCategorias']) ? $_GET['selectCategorias'] : null;
-
-            $data = [
-                'titulo' => isset($_GET['titulo']) ? $_GET['titulo'] : '',
-                'precio' => isset($_GET['precio']) ? $_GET['precio'] : '',
-                'descripcion' => isset($_GET['desc']) ? $_GET['desc'] : '',
-                'categoria' => $idCategoria
-            ];
-
-            insertarAnuncio($dbh, $data);
-            break;
-        case 'anuncios':
-            
-            break;
-    }
-}
 
 function getAnuncios($dbh)
 {
@@ -44,8 +21,8 @@ function getAnuncioId($dbh, $id)
 }
 function insertarAnuncio($dbh, $data)
 {
-    print_r("estoy en el insert");
-    $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, descripcion, id_categorias) VALUES (:titulo, :precio, :descripcion, :categoria)");
+   
+    $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, categoria, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio) VALUES (:titulo, :precio, :nombre_categoria, :descripcion, :id_categoria,:fecha,:comercio,:anunciante)");
     $stmt->execute($data);
     close();
 }
@@ -53,7 +30,7 @@ function insertarAnuncio($dbh, $data)
 function eliminarId($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("DELETE FROM empleados WHERE id =(:id)");
+    $stmt = $dbh->prepare("DELETE FROM anuncios WHERE id =(:id)");
     $stmt->execute($data);
     close();
 }
