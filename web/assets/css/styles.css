@@ -139,7 +139,7 @@ body {
     /*line-height: 320px;*/
     color: black;
     text-shadow: 0px 0px 5px #444;
-
+    
     /*DEGRADADO CSS*/
     background: rgb(139, 168, 239);
     background: -moz-radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
@@ -178,6 +178,15 @@ body {
 .btn-white:hover {
     background: #444;
     color: white;
+}
+
+#slider.slider-big {
+    height: 150px;
+}
+#slider.slider-big h1 {
+    margin-top: 0.2px;
+    padding: 0px;
+    padding-top: 53px;
 }
 
 #slider.slider-small {
