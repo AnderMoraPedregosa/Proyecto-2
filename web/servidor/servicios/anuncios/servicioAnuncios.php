@@ -1,5 +1,5 @@
 <?php
-require "servidor/bbdd/anunciosCRUD.php";
+require "../../bbdd/anunciosCRUD.php";
 
 // Convertir la respuesta a JSON
 function jsonResponse($data, $statusCode = 200)
@@ -15,36 +15,8 @@ if (isset($_POST['accion'])) {
     // Obtener la acción de la solicitud
     $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
 
-    // Manejar diferentes acciones con un switch
-    switch ($accion) {
-        case 'anuncios':
-            $anuncios = getAnuncios($dbh);
+// Obtener todos los anuncios
 
-            if ($anuncios === false) {
-                $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
-                jsonResponse($response, 500);
-            }
+$anuncios = getAnuncios($dbh);
+jsonResponse($anuncios);
 
-            $response = ['status' => 'success', 'data' => $anuncios];
-            jsonResponse($response);
-            break;
-        case 'detalles':
-            // Lógica para la otra acción
-            $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
-            jsonResponse($response);
-            break;
-        case 'insertarAnuncio':
-            list($id, $nombreCategoria) = explode('/', $idCategoria);
-            // Lógica para la otra acción
-            $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
-            jsonResponse($response);
-            break;
-
-            // Agregar más casos según sea necesario
-
-        default:
-            $response = ['status' => 'error', 'message' => 'Acción no válida'];
-            jsonResponse($response, 400);
-            break;
-    }
-}

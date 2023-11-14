@@ -5,9 +5,9 @@
 
             <h1 class="subheader">Formulario</h1>
 
-            <form class="form_anuncios" id=crearAnuncio action="../../servidor/bbdd/anunciosCRUD.php" method="get">
+            <form class="form_anuncios" id=crearAnuncio action="../servidor/servicios/anuncios/servicioAnuncios.php" method="post">
                     <label for="titulo">Titulo</label>
-                    <input type="text" id="titulo" name="titulo" />
+                    <input type="text" id="titulo" name="titulo" required="require"/>
 
                     <label for="precio">Precio</label>
                     <input type="number" id="precio" name="precio" step="0.01" />
@@ -15,19 +15,21 @@
                     <label for="desc">Descripcion</label>
                     <textarea id="desc" name="desc" placeholder="Introduce la descripcion de tu anuncio"></textarea>
 
-                    <label for="selectCategorias" name="selectCategorias">Categoria:</label>
-                    <select id="selectCategorias">
+                    <label for="selectCategorias">Categoria:</label>
+                    <select id="selectCategorias" name="selectCategorias">
                         <option value="0">--Selecciona--</option>
 
                     </select>
                     <input type="hidden" name="accion" value="insertarAnuncio">
 
 
-                <div class="clearfix"></div>
 
-                <input type="button" value="Enviar" class="btn btn-success" />
+                <input type="submit" value="Crear Anuncio" id="btnCrearAnuncio" class="btn btn-success" />
 
             </form>
+
+            <div class="clearfix"></div>
+
 
         </section>
 
@@ -50,6 +52,8 @@
         <div class="clearfix"></div>
     </div>
     <script type="module" src="../../scripts/categoria.js"></script>
+    <script src="../../scripts/validacion.js"></script>
+
 
 
     <?php require "partials/footer.php" ?>
