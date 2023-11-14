@@ -17,11 +17,13 @@ if (isset($_GET['accion'])) {
                 'precio' => isset($_GET['precio']) ? $_GET['precio'] : '',
                 'descripcion' => isset($_GET['desc']) ? $_GET['desc'] : '',
                 'categoria' => $idCategoria
-                        ];
-            
+            ];
+
             insertarAnuncio($dbh, $data);
             break;
-
+        case 'anuncios':
+            
+            break;
     }
 }
 
@@ -44,8 +46,8 @@ function insertarAnuncio($dbh, $data)
 {
     print_r("estoy en el insert");
     $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, descripcion, id_categorias) VALUES (:titulo, :precio, :descripcion, :categoria)");
-$stmt->execute($data);
-close();
+    $stmt->execute($data);
+    close();
 }
 
 function eliminarId($dbh, $id)
@@ -63,5 +65,3 @@ function eliminar($dbh)
     $stmt->execute();
     close();
 }
-
-
