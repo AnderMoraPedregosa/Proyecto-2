@@ -43,15 +43,4 @@ window.addEventListener("load", async function () {
         articles.appendChild(divArticle);
     });
 
-    // Agregar un listener para el evento click en los enlaces "Leer más"
-  /*   articles.addEventListener("click", async function (event) {
-        if (event.target.tagName === "A" && event.target.dataset.anuncioId) {
-            event.preventDefault();
-            const anuncioId = event.target.dataset.anuncioId;
-            const detalleAnuncio = await getAnuncioById(anuncioId);
-
-            // Haz lo que necesites con los detalles del anuncio, por ejemplo, mostrar en un modal.
-            console.log("Detalles del anuncio:", detalleAnuncio);
-        }
-    }); */
 });
