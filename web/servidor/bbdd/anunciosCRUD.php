@@ -21,16 +21,16 @@ function getAnuncioId($dbh, $id)
 }
 function insertarAnuncio($dbh, $data)
 {
-    print_r("estoy en el insert");
+   
     $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, categoria, descripcion, id_categorias) VALUES (:titulo, :precio, :nombre_categoria, :descripcion, :id_categoria)");
-$stmt->execute($data);
-close();
+    $stmt->execute($data);
+    close();
 }
 
 function eliminarId($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("DELETE FROM empleados WHERE id =(:id)");
+    $stmt = $dbh->prepare("DELETE FROM anuncios WHERE id =(:id)");
     $stmt->execute($data);
     close();
 }

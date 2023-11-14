@@ -9,11 +9,11 @@ function jsonResponse($data, $statusCode = 200)
     header('Content-Type: application/json');
 
     // Imprimir los datos como JSON y salir
-    return json_encode($data);
+    echo json_encode($data);
 }
-if (isset($_POST['accion'])) {
+if (isset($_POST['accion']) || isset($_GET['accion'])) {
     // Obtener la acción de la solicitud
-    $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
+    $accion = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
 
     // Manejar diferentes acciones con un switch
     switch ($accion) {
@@ -33,9 +33,10 @@ if (isset($_POST['accion'])) {
             $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
             jsonResponse($response);
             break;
-        case 'insertarAnuncio':
+        case 'insertar':
+            /*$_POST[''];
             // Separar el id y el nombre de la categoria
-            list($id, $nombreCategoria) = explode('|', $idCategoria);
+            list($id, $nombreCategoria) = explode('|', ); */
 
             $titulo = $_POST["titulo"];
             $precio = $_POST["precio"];
@@ -50,9 +51,7 @@ if (isset($_POST['accion'])) {
             ];
 
             insertarAnuncio($dbh, $data);
-            $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
 
-            jsonResponse($response);
 
             break;
         default:

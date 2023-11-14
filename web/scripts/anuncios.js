@@ -3,7 +3,7 @@ async function getAnuncios() {
     const response = await fetch("index.php?accion=anuncios");
 
     const data = await response.json();
-
+    
     return data;
 }
 

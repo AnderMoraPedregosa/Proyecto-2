@@ -22,8 +22,8 @@
             throw new Error("Selecciona una categoria");
         }
 
-        enviarFormularioAlServidor();
-        alert("Anuncio creado");
+/*         enviarFormularioAlServidor();
+ */       
     }
     catch(err){
         alert(err);
@@ -31,24 +31,24 @@
     }
     }
 
-    // Función para enviar el formulario al servidor mediante Fetch API
-    function enviarFormularioAlServidor() {
-        var formulario = document.getElementById('crearAnuncio');
-        var datosFormulario = new FormData(formulario);
+  /*   // Función para enviar el formulario al servidor mediante Fetch API
+    async function enviarFormularioAlServidor() {
+        try {
+            var formulario = document.getElementById('crearAnuncio');
+            var datosFormulario = new FormData(formulario);
+       
+            const response = await fetch('../servidor/bbdd/anunciosCRUD.php', {
+                method: 'POST',
+                body: datosFormulario,
+            });
     
-        fetch('../servidor/bbdd/anunciosCRUD.php', {
-            method: 'POST',  // Change to POST
-            body: datosFormulario,
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Logic after receiving the server's response
+            const data = await response.json();
+    
+            // Lógica después de recibir la respuesta del servidor
             console.log('Respuesta del servidor:', data);
-            alert('El anuncio ha sido creado correctamente.');
-        })
-        .catch(error => {
-            // Error handling
+        } catch (error) {
+            // Manejo de errores
             console.error('Error al enviar el formulario:', error);
-        });
-    }
+        }
+    } */
     
