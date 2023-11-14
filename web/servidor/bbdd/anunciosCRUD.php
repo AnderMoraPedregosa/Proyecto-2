@@ -3,27 +3,6 @@
 require "bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
 
-if (isset($_GET['accion'])) {
-    $accion = $_GET['accion'];
-
-    // Ejecutar la función correspondiente según la acción
-    switch ($accion) {
-        case 'insertarAnuncio':
-            // Asegúrate de tener los datos necesarios para insertar un anuncio
-            $idCategoria = isset($_GET['selectCategorias']) ? $_GET['selectCategorias'] : null;
-
-            $data = [
-                'titulo' => isset($_GET['titulo']) ? $_GET['titulo'] : '',
-                'precio' => isset($_GET['precio']) ? $_GET['precio'] : '',
-                'descripcion' => isset($_GET['desc']) ? $_GET['desc'] : '',
-                'categoria' => $idCategoria
-                        ];
-            
-            insertarAnuncio($dbh, $data);
-            break;
-
-    }
-}
 
 function getAnuncios($dbh)
 {
@@ -43,7 +22,7 @@ function getEmpleadoId($dbh, $id)
 function insertarAnuncio($dbh, $data)
 {
     print_r("estoy en el insert");
-    $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, descripcion, id_categorias) VALUES (:titulo, :precio, :descripcion, :categoria)");
+    $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, categoria, descripcion, id_categorias) VALUES (:titulo, :precio, :nombre_categoria, :descripcion, :id_categoria)");
 $stmt->execute($data);
 close();
 }

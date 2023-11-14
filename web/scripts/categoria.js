@@ -1,5 +1,4 @@
 import { Categoria } from "../modelos/categoria.js";
-alert("prueba");
 async function getCategorias() {
     const response = await fetch("../index.php?accion=categorias");
     const data = await response.json();
@@ -20,11 +19,15 @@ window.addEventListener("load", async function () {
         );
 
         console.log(categoriaNew.nombre_categoria);
+
+        // Concatenate id and nombre with a delimiter (e.g., "|")
+        let value = categoriaNew.id + '|' + categoriaNew.nombre;
+
         // Crear un nuevo elemento option para cada categoría
         let optCategoria = document.createElement("option");
 
         // Establecer el valor y el texto de la opción con la información de la categoría
-        optCategoria.value = categoriaNew.id;
+        optCategoria.value = value;
         optCategoria.text = categoriaNew.nombre;
 
         // Agregar la opción al elemento select
@@ -35,5 +38,13 @@ window.addEventListener("load", async function () {
     selectCategorias.addEventListener("change", async function (event) {
         // Acciones a realizar cuando se selecciona una categoría, si es necesario
         console.log("Categoría seleccionada:", event.target.value);
+
+        // Split the value into id and nombre_categoria
+        let [id, nombre_categoria] = event.target.value.split('|');
+
+        // Now you have both id and nombre_categoria
+        console.log("ID:", id);
+        console.log("Nombre de la categoría:", nombre_categoria);
     });
 });
+
