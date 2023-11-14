@@ -126,12 +126,12 @@ body {
     background-color: #0B3AAE;
     transform: translateX(-50%);
     transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
-  }
+}
 
-  #menu a.animacion:hover::before {
+#menu a.animacion:hover::before {
     width: 100%;
     background-color: #6187E8;
-  }
+}
 
 #slider {
     width: 100%;
@@ -161,16 +161,16 @@ body {
     background: white;
     color: rgb(88, 88, 88);
     padding: 10px;
-    width:6em;
+    width: 6em;
     height: 1.2em;
     margin: 0px auto;
     font-size: 18px;
     text-transform: uppercase;
     text-shadow: none;
     text-decoration: none;
-   
+
     box-shadow: 0px 0px 5px rgb(88, 88, 88);
-    
+
     border-radius: 4px;
     transition: 300ms all;
 }
@@ -403,6 +403,14 @@ body {
     margin-top: 15px;
     margin-bottom: 0px;
     border: none;
+}
+.image-wrap-detalle {
+    width: 100%; /* Ajusta el ancho según tus necesidades */
+    overflow: hidden; /* Asegura que el contenido recortado no se muestre fuera del contenedor */
+}
+.image-wrap-detalle img {
+    width: 30%; /* Ajusta el ancho según tus necesidades */
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 100%); /* Recorta la mitad superior de la imagen */
 }
 
 /*RESPONSIVE*/
