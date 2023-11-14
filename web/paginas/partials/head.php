@@ -8,6 +8,9 @@
 
     <!--HOJA DE ESTILOS-->
     <link rel="stylesheet" type="text/css" href="../../assets/css/styles.css" />
+    <!--favicon-->
+    <link rel="icon" type="image/png" href="../../assets/images/losJavasLogo.png">
+
 
 </head>
 

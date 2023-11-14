@@ -6,8 +6,11 @@ switch ($path) {
     case 'anuncios':
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
-    case 'detalle':
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
+    case 'detalles':
+        require './servidor/servicios/anuncios/servicioDetalles.php';
+        break;
+    case 'categorias':
+        require './servidor/servicios/anuncios/servicioCategorias.php';
         break;
     default:
         // Página principal o manejo de rutas no encontradas

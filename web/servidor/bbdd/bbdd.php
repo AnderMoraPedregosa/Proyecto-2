@@ -19,3 +19,7 @@ function connect($host, $dbname, $user, $pass)
         return null; // Retorna null en caso de error para indicar una conexión fallida
     }
 }
+function close()
+{
+    $dbh = null;
+}

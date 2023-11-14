@@ -1,12 +1,12 @@
 <?php require "partials/head.php" ?>
 
 
-    <div class="center">
-        <div id="content">
-
-            <article class="article-item article-detail">
-            <script type="module" src="../scripts/anuncioDetalle.js"></script>
-                <div>
+<div class="center">
+    <div id="content">
+        <script type="module" src="../../scripts/anuncioDetalle.js"></script>
+        <!--  <article class="article-item article-detail">
+          
+            <div>
                     <img src="https://www.elevencomunicacion.com/wp-content/uploads/2019/02/eleven-fotografia-de-hamburguesas.jpg"
                         alt="Producto" />
                 </div>
@@ -41,24 +41,24 @@
                 </p>
 
                 <div class="clearfix"></div>
-            </article>
+        </article>-->
 
+    </div>
+
+    <aside id="sidebar">
+        <div id="nav-blog" class="sidebar-item">
+            <h3>Puedes hacer esto</h3>
+            <a href="#" class="btn btn-success">Crear artículo</a>
         </div>
 
-        <aside id="sidebar">
-            <div id="nav-blog" class="sidebar-item">
-                <h3>Puedes hacer esto</h3>
-                <a href="#" class="btn btn-success">Crear artículo</a>
-            </div>
+        <div id="search" class="sidebar-item">
+            <h3>Buscador</h3>
+            <p>Encuentra el artículo que buscas</p>
+            <form>
+                <input type="text" name="search" />
+                <input type="submit" name="submit" value="Buscar" class="btn" />
+            </form>
+        </div>
+    </aside>
 
-            <div id="search" class="sidebar-item">
-                <h3>Buscador</h3>
-                <p>Encuentra el artículo que buscas</p>
-                <form>
-                    <input type="text" name="search" />
-                    <input type="submit" name="submit" value="Buscar" class="btn" />
-                </form>
-            </div>
-        </aside>
-        
-    <?php require "partials/head.php" ?>
+    <?php require "partials/footer.php" ?>

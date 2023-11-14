@@ -1,57 +1,50 @@
 <?php
+require "servidor/bbdd/anunciosCRUD.php";
 
-require "servidor/bbdd/bbdd.php";
-$dbh = connect($host, $dbname, $user, $pass);
-
-$accion = isset($_GET['accion']) ? $_GET['accion'] : '';
-
-// Permitir el acceso desde cualquier origen (CORS)
-header('Access-Control-Allow-Origin: *');
-
-// Convertimos la respuesta a JSON
-function jsonResponse($data)
+// Convertir la respuesta a JSON
+function jsonResponse($data, $statusCode = 200)
 {
+    // Establecer la cabecera para JSON y el código de estado
+    http_response_code($statusCode);
     header('Content-Type: application/json');
+
+    // Imprimir los datos como JSON y salir
     echo json_encode($data);
 }
+if (isset($_POST['accion']) || isset($_GET['accion'])) {
+    // Obtener la acción de la solicitud
+    $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
 
-// Obtener todos los anuncios
-function getAnuncios($dbh)
-{
-    $stmt = $dbh->prepare("SELECT * FROM anuncios");
-    $stmt->execute();
-    $anuncios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    jsonResponse($anuncios);
-}
+    // Manejar diferentes acciones con un switch
+    switch ($accion) {
+        case 'anuncios':
+            $anuncios = getAnuncios($dbh);
 
-// Obtener el detalle de un anuncio específico
-function getDetalleAnuncio($dbh, $id)
-{
-    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id = :id");
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt->execute();
-    $anuncio = $stmt->fetch(PDO::FETCH_ASSOC);
-    jsonResponse($anuncio);
-}
-
-// Convertimos la respuesta a JSON
-switch ($accion) {
-    case 'detalle':
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $anuncio = getDetalleAnuncio($dbh, $id);
-            if ($anuncio) {
-                jsonResponse($anuncio);
-            } else {
-                jsonResponse(["error" => "Anuncio no encontrado"]);
+            if ($anuncios === false) {
+                $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
+                jsonResponse($response, 500);
             }
-        } else {
-            jsonResponse(["error" => "ID no especificado"]);
-        }
-        break;
-    case 'anuncios':
-        getAnuncios($dbh);
-        break;
-    default:
-        jsonResponse(["error" => "Acción no válida"]);
+
+            $response = ['status' => 'success', 'data' => $anuncios];
+            jsonResponse($response);
+            break;
+        case 'detalles':
+            // Lógica para la otra acción
+            $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
+            jsonResponse($response);
+            break;
+        case 'insertarAnuncio':
+            list($id, $nombreCategoria) = explode('/', $idCategoria);
+            // Lógica para la otra acción
+            $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
+            jsonResponse($response);
+            break;
+
+            // Agregar más casos según sea necesario
+
+        default:
+            $response = ['status' => 'error', 'message' => 'Acción no válida'];
+            jsonResponse($response, 400);
+            break;
+    }
 }
