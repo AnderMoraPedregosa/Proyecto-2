@@ -1,12 +1,9 @@
 import { Anuncio } from "../modelos/anuncio.js";
 async function getAnuncios() {
     const response = await fetch("index.php?accion=anuncios");
-
     const data = await response.json();
-    
     return data;
 }
-
 
 window.addEventListener("load", async function () {
     var articles = document.getElementById("articles");
@@ -28,9 +25,6 @@ window.addEventListener("load", async function () {
                 anuncioJson.id_comercios,
                 anuncioJson.id_comerciante
             );
-
-            // Crear un nuevo elemento div para cada anuncio
-
 
             // Agregar la información del anuncio al nuevo elemento div
             divArticle.innerHTML = `

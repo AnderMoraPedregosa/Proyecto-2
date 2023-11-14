@@ -3,11 +3,7 @@
 
 <div class="center">
     <div id="content">
-
-        <article class="article-item article-detail">
-            <script type="module" src="../../scripts/anuncioDetalle.js"></script>
-            <!-- -->
-        </article>
+        <script type="module" src="../../scripts/anuncioDetalle.js"></script>
 
     </div>
 
