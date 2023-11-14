@@ -50,11 +50,15 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
                 'precio' => $precio,
                 'descripcion' => $desc,
                 'nombre_categoria' => $nombreCategoria,
-                'id_categoria' => $id
+                'id_categoria' => $id,
+                'fecha' => date('Y-m-d H:i:s'),
+                'comercio' => 1,
+                'anunciante' => 2
             ];
 
             insertarAnuncio($dbh, $data);
-
+            $response = ['status' => 'success', 'message' => 'Anuncio creado correctamente'];
+            jsonResponse($response, 200);
 
             break;
         default:
