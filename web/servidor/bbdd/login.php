@@ -17,7 +17,7 @@ if ($pdo) {
     // Consulta la base de datos para obtener el hash almacenado
     $stmt = $pdo->prepare("SELECT id, email, password FROM usuarios WHERE email = ?");
     $stmt->execute([$emailUsuario]);
-    $user = $stmt->fetch();
+    $user = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     // Verifica la contraseña
     if ($user && password_verify($passwordProvided, $user['password'])) {

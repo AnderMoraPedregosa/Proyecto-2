@@ -19,11 +19,16 @@
             <form>
                 <h1>Crear Cuenta</h1>
                 <span>o utiliza tu correo electrónico para registrarte</span>
-                <input type="text" placeholder="Nombre de tu comercio" id="nombreComercio">
-                <input type="text" placeholder="Direccion" id="direccionComercio">
-                <input type="email" placeholder="Correo Electrónico" id="emailComercio">
-                <input type="text" placeholder="Telefono" id="tlfnComercio">
-                <label>Logo</label>
+                <input type="text" placeholder="Nombre" id="nombreUsuario">
+                <input type="text" placeholder="Dni" id="dniUsuario">
+                <input type="email" placeholder="Correo Electrónico" id="emailUsuario">
+                <input type="text" placeholder="Contraseña" id="contraseñaUsuario">
+                <div class="radio-buttons">
+                    <input type="radio" id="cliente" name="tipoUsuario" value="cliente">
+                    <label for="cliente">Cliente</label>
+                    <input type="radio" id="comerciante" name="tipoUsuario" value="comerciante">
+                    <label for="comerciante">Comerciante</label>
+                </div>
                 <button id="registro">Solicitar Registrarse</button>
             </form>
         </div>
