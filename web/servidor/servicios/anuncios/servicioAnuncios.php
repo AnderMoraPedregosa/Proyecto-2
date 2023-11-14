@@ -9,9 +9,9 @@ function jsonResponse($data, $statusCode = 200)
     header('Content-Type: application/json');
 
     // Imprimir los datos como JSON y salir
-    return json_encode($data);
+    echo json_encode($data);
 }
-if (isset($_POST['accion'])) {
+if (isset($_POST['accion']) || isset($_GET['accion'])) {
     // Obtener la acción de la solicitud
     $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
 
