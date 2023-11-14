@@ -1,5 +1,5 @@
 import { Anuncio } from "../modelos/anuncio.js";
-
+import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
 async function getDetalleAnuncio(id) {
     const response = await fetch(`../index.php?accion=detalles&id=${id}`);
     const data = await response.json();
@@ -62,26 +62,7 @@ function htmlDetalle(anuncio) {
     content.appendChild(article);
 }
 
-function calcularTiempoTranscurrido(fecha) {
-    const fechaAnuncio = new Date(fecha);
-    const ahora = new Date();
 
-    const diferencia = ahora - fechaAnuncio;
-    const segundos = Math.floor(diferencia / 1000);
-    const minutos = Math.floor(segundos / 60);
-    const horas = Math.floor(minutos / 60);
-    const dias = Math.floor(horas / 24);
-
-    if (dias > 0) {
-        return `Hace ${dias} ${dias === 1 ? 'día' : 'días'}`;
-    } else if (horas > 0) {
-        return `Hace ${horas} ${horas === 1 ? 'hora' : 'horas'}`;
-    } else if (minutos > 0) {
-        return `Hace ${minutos} ${minutos === 1 ? 'minuto' : 'minutos'}`;
-    } else {
-        return 'Hace menos de un minuto';
-    }
-}
 
 // ...
 
