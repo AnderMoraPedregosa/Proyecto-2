@@ -1,9 +1,8 @@
 import { Anuncio } from "../modelos/anuncio.js";
 
 async function getDetalleAnuncio(id) {
-    const response = await fetch(`http://localhost/paginas/article.php?accion=detalle&id=${id}`);
+    const response = await fetch(`../index.php?accion=detalles&id=${id}`);
     const data = await response.json();
-
     return data;
 }
 window.addEventListener("load", async function () {
@@ -12,24 +11,24 @@ window.addEventListener("load", async function () {
 
     // Obtener el valor del parámetro 'id'
     const id = params.get("id");
-
     if (id) {
-        var anuncio = await getDetalleAnuncio(id);
+     
+        var anuncioJSON = await getDetalleAnuncio(id);
 
         const anuncioNew = new Anuncio(
-            anuncio.id,
-            anuncio.titulo,
-            anuncio.imagen_anuncio,
-            anuncio.categoria,
-            anuncio.descripcion,
-            anuncio.fecha_creacion,
-            anuncio.precio,
-            anuncio.id_categorias,
-            anuncio.id_comercios,
-            anuncio.id_comerciante
+            anuncioJSON[0].id,
+            anuncioJSON[0].titulo,
+            anuncioJSON[0].imagen_anuncio,
+            anuncioJSON[0].categoria,
+            anuncioJSON[0].descripcion,
+            anuncioJSON[0].fecha_creacion,
+            anuncioJSON[0].precio,
+            anuncioJSON[0].id_categorias,
+            anuncioJSON[0].id_comercios,
+            anuncioJSON[0].id_comerciante
         );
 
-        console.log(anuncio);
+        console.log(anuncioNew);
     } else {
         console.error("No se proporcionó el parámetro 'id' en la URL");
     }

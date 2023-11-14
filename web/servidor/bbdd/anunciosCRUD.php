@@ -10,12 +10,12 @@ function getAnuncios($dbh)
     return $anuncios;
 }
 
-function getEmpleadoId($dbh, $id)
+function getAnuncioId($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("SELECT * FROM empleados WHERE id= (:id)");
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id= (:id)");
     $stmt->execute($data);
-    return $empleado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 function insertEmpleado($dbh, $data)
 {
