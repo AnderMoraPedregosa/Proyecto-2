@@ -6,7 +6,7 @@
 
             <article class="article-item article-detail">
             <script type="module" src="../scripts/anuncioDetalle.js"></script>
-                <div>
+                <!-- <div>
                     <img src="https://www.elevencomunicacion.com/wp-content/uploads/2019/02/eleven-fotografia-de-hamburguesas.jpg"
                         alt="Producto" />
                 </div>
@@ -39,7 +39,7 @@
                     mollis aliquam magna tempus. Fusce lobortis maximus dapibus. Curabitur aliquam vehicula ultricies.
                     Nulla sed vulputate erat.
                 </p>
-
+ -->
                 <div class="clearfix"></div>
             </article>
 

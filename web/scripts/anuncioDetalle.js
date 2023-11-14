@@ -6,23 +6,31 @@ async function getDetalleAnuncio(id) {
 
     return data;
 }
-
 window.addEventListener("load", async function () {
-  
-    var anuncio = await getDetalleAnuncio();
+    // Crear una instancia de URLSearchParams
+    const params = new URLSearchParams(window.location.search);
 
-    const anuncioNew = new Anuncio(
-        anuncio.id,
-        anuncio.titulo,
-        anuncio.imagen_anuncio,
-        anuncio.categoria,
-        anuncio.descripcion,
-        anuncio.fecha_creacion,
-        anuncio.precio,
-        anuncio.id_categorias,
-        anuncio.id_comercios,
-        anuncio.id_comerciante
-    );
+    // Obtener el valor del parámetro 'id'
+    const id = params.get("id");
 
-    console.log(anuncio);
+    if (id) {
+        var anuncio = await getDetalleAnuncio(id);
+
+        const anuncioNew = new Anuncio(
+            anuncio.id,
+            anuncio.titulo,
+            anuncio.imagen_anuncio,
+            anuncio.categoria,
+            anuncio.descripcion,
+            anuncio.fecha_creacion,
+            anuncio.precio,
+            anuncio.id_categorias,
+            anuncio.id_comercios,
+            anuncio.id_comerciante
+        );
+
+        console.log(anuncio);
+    } else {
+        console.error("No se proporcionó el parámetro 'id' en la URL");
+    }
 });
