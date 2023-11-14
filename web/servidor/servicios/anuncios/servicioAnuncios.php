@@ -34,9 +34,12 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
             jsonResponse($response);
             break;
         case 'insertar':
-            /*$_POST[''];
+            //$_POST[''];
             // Separar el id y el nombre de la categoria
-            list($id, $nombreCategoria) = explode('|', ); */
+            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+
+            // Split the value into id and name
+            list($id, $nombreCategoria) = explode('|', $idCategoria);
 
             $titulo = $_POST["titulo"];
             $precio = $_POST["precio"];
