@@ -1,10 +1,10 @@
 <?php
-
+//conectar
 require "bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
 
 
-
+//insertar Persona
 function insertarPersona($dbh, $data)
 {
   
@@ -13,7 +13,7 @@ function insertarPersona($dbh, $data)
     $stmt->execute($data);
     close();
 }
-
+//buscar los datos desde un email
 function checkIfEmailExists($dbh, $emailUsuario) {
     $data = array ('email' => $emailUsuario);
     $stmt = $dbh->prepare("SELECT COUNT(*) AS count FROM personas WHERE email =(:email)") ;

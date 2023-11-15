@@ -1,47 +1,53 @@
+// Importacion de las clases y funciones necesarias desde archivos externos
 import { Categoria } from "../modelos/categoria.js";
-async function getCategorias() {
-    const response = await fetch("../index.php?accion=categorias");
-    const data = await response.json();
-    return data;
-}
+
+    //realizamos una solicitud al servidor para obtener las categorias
+    async function getCategorias() {
+        const response = await fetch("../index.php?accion=categorias");
+        const data = await response.json();
+        return data;
+    }
 
 
-window.addEventListener("load", async function () {
-    var selectCategorias = document.getElementById("selectCategorias");
-    var categorias = await getCategorias();
+    window.addEventListener("load", async function () {
+        //elemento donde se mostraran las categorias
+        let selectCategorias = document.getElementById("selectCategorias");
+        let categorias = await getCategorias();
 
-    categorias.forEach(async (categoriaJson) => {
+            //Iterar sobre cada categoria añadida
+            categorias.forEach(async (categoriaJson) => {
 
-        const categoriaNew = new Categoria(
-            categoriaJson.id,
-            categoriaJson.nombre
-        );
+                 // Crear una nueva instancia con los datos obtenidos
+                let categoriaNew = new Categoria(
+                    categoriaJson.id,
+                    categoriaJson.nombre
+                );
 
 
-        // Concatenate id and nombre with a delimiter (e.g., "|")
-        let value = categoriaNew.id + '|' + categoriaNew.nombre;
+                // Concatenar id y nombre con el delimitador (e.g., "|")
+                let value = categoriaNew.id + '|' + categoriaNew.nombre;
 
-        // Crear un nuevo elemento option para cada categoría
-        let optCategoria = document.createElement("option");
+                // Crear un nuevo elemento option para cada categoria
+                let optCategoria = document.createElement("option");
 
-        // Establecer el valor y el texto de la opción con la información de la categoría
-        optCategoria.value = value;
-        optCategoria.text = categoriaNew.nombre;
+                // Establecer el valor y el texto de la opcion con la informacion de la categoria
+                optCategoria.value = value;
+                optCategoria.text = categoriaNew.nombre;
 
-        // Agregar la opción al elemento select
-        selectCategorias.appendChild(optCategoria);
+                // Agregar la opcion al elemento select
+                selectCategorias.appendChild(optCategoria);
+            });
+
+            // Agregar un listener para el evento change en el select
+            selectCategorias.addEventListener("change", async function (event) {
+                // Acciones a realizar cuando se selecciona una categoria, si es necesario
+                console.log("Categoría seleccionada:", event.target.value);
+
+                // Dividr el valor  en id y nombre_categoria
+                let idNombreCat = event.target.value.split('|');
+            
+                // Ahora tienes tanto id como nombre_categoria
+            
+            });
     });
-
-    // Agregar un listener para el evento change en el select
-    selectCategorias.addEventListener("change", async function (event) {
-        // Acciones a realizar cuando se selecciona una categoría, si es necesario
-        console.log("Categoría seleccionada:", event.target.value);
-
-        // Split the value into id and nombre_categoria
-        let idNombreCat = event.target.value.split('|');
-     
-        // Now you have both id and nombre_categoria
-     
-    });
-});
 

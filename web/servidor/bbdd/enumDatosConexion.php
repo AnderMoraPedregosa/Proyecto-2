@@ -1,4 +1,5 @@
 <?php
+//Datos de la base de datos
 class Datos
 {
     const Host = "db:3306";

@@ -1,9 +1,9 @@
 <?php
-
+//conectar
 require "bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
 
-
+//persona por email y contraseña
 function getPersonaByEmailAndPassword($dbh, $email, $pass)
 {
     $data = array('email' => $email, 'pass' => $pass);
