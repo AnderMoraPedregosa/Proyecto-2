@@ -1,7 +1,9 @@
     <?php require "paginas/partials/head.php" ?>
 
     <div id="slider" class="slider-big">
+
         <h1>Bienvenido a la pagina de productos de la Asociación de Comerciantes de Vitoria</h1>
+        <div class="wave"></div>
 
     </div>
 

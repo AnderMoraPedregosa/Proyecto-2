@@ -2,6 +2,7 @@
 
     <div id="slider" class="slider-small">
         <h1>Blog</h1>
+        <div class="wave"></div>
     </div>
     <div class="center">
         <section id="content">

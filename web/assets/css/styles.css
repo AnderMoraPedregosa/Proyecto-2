@@ -672,3 +672,75 @@ body {
         padding-top: 2.188em;
     }
 }
+
+  
+/* Keyframes para la animación */
+@keyframes moveWave {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  #slider.slider-big {
+    position: relative;
+    width: 100%;
+    height: 9em;
+    overflow: hidden; /* Evita el desbordamiento de la ola */
+    background: rgb(139, 168, 239);
+    background: -moz-radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
+    background: -webkit-radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
+    background: radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#8ba8ef", endColorstr="#6187e8", GradientType=1);
+  }
+  
+  #slider.slider-big h1 {
+    margin-top: 0.013em;
+    padding: 0em;
+    padding-top: .8em;
+    text-align: center;
+  }
+  
+  #slider.slider-big .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Ajusta el desplazamiento para mantener la ola dentro del slider */
+    width: 100%; /* Ajusta el ancho para que la ola se mueva completamente dentro del slider */
+    height: 50em; /* Altura de la ola */
+    background: linear-gradient(to right, rgba(139, 167, 239, 0.5) 10%, rgba(97, 135, 232, 0.39) 20%, rgba(139, 167, 239, 0.185) 30%);
+    animation: moveWave 15s linear infinite;
+    animation-delay: -7.5s; /* Ajusta la animación para que comience desde el borde del slider */
+  }
+  #slider.slider-small {
+    position: relative;
+    width: 100%;
+    height: 9em;
+    overflow: hidden; /* Evita el desbordamiento de la ola */
+    background: rgb(139, 168, 239);
+    background: -moz-radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
+    background: -webkit-radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
+    background: radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#8ba8ef", endColorstr="#6187e8", GradientType=1);
+  }
+  
+  #slider.slider-small h1 {
+    margin-top: 0.013em;
+    padding: 0em;
+    padding-top: .8em;
+    text-align: center;
+  }
+  #slider.slider-small .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Ajusta el desplazamiento para mantener la ola dentro del slider */
+    width: 100%; /* Ajusta el ancho para que la ola se mueva completamente dentro del slider */
+    height: 25em; /* Altura de la ola para el slider-small */
+    background: linear-gradient(to right, rgba(139, 167, 239, 0.5) 10%, rgba(97, 135, 232, 0.39) 20%, rgba(139, 167, 239, 0.185) 30%);
+    animation: moveWave 15s linear infinite;
+    animation-delay: -7.5s; /* Ajusta la animación para que comience desde el borde del slider */
+  }
+  
+  
+  
