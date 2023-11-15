@@ -41,7 +41,7 @@ function htmlDetalle(anuncio) {
     article.innerHTML = `<article class="article-item article-detail">
     <div>
     <div class="image-wrap-detalle">
-    <img src="${anuncio.imagen}" alt="Producto" />
+    <img src="../${anuncio.imagen}" alt="Producto" />
     </div>
         </div>
 

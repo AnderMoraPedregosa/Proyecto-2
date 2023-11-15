@@ -21,8 +21,8 @@ function getAnuncioId($dbh, $id)
 }
 function insertarAnuncio($dbh, $data)
 {
-   
-    $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, categoria, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio) VALUES (:titulo, :precio, :nombre_categoria, :descripcion, :id_categoria,:fecha,:comercio,:anunciante)");
+    $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, categoria, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio, imagen_anuncio) 
+        VALUES (:titulo, :precio, :categoria, :descripcion, :id_categoria, :fecha, :comercio, :anunciante, :ruta_imagen)");
     $stmt->execute($data);
     close();
 }

@@ -7,7 +7,7 @@ switch ($path) {
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
     case 'detalles':
-        require './servidor/servicios/anuncios/servicioDetalles.php';
+        require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
     case 'categorias':
         require './servidor/servicios/anuncios/servicioCategorias.php';

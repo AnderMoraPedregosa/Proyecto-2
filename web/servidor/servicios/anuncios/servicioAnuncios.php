@@ -29,22 +29,102 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
             jsonResponse($response);
             break;
         case 'detalles':
-            // Lógica para la otra acción
-            $response = ['status' => 'success', 'message' => 'Operación realizada con éxito para otra acción'];
-            jsonResponse($response);
+
+            $anuncio = getAnuncioId($dbh, $_GET['id']);
+            jsonResponse($anuncio);
             break;
         case 'insertar':
-            //$_POST[''];
-            // Separar el id y el nombre de la categoria
-            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+            // Verificar si se ha cargado un archivo
+            if (isset($_FILES['imagen'])) {
+                $imagen = $_FILES['imagen'];
 
-            // Split the value into id and name
+                // Verificar si no hubo errores al subir la imagen
+                if ($imagen['error'] === UPLOAD_ERR_OK) {
+                    // Obtener información sobre el archivo
+                    $nombreArchivo = $imagen['name'];
+                    $tipoArchivo = $imagen['type'];
+                    $tamanoArchivo = $imagen['size'];
+                    $tmpName = $imagen['tmp_name'];
+
+                    // Mover el archivo a la ubicación deseada en el servidor
+                    $rutaDestino = 'imagenes/' . $nombreArchivo;
+
+                    if (move_uploaded_file($tmpName, $rutaDestino)) {
+                        // El archivo se movió correctamente, ahora puedes almacenar la ruta en la base de datos
+
+                        // Continúa con el código para insertar en la base de datos
+                        $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+                        list($id, $nombreCategoria) = explode('|', $idCategoria);
+
+                        $titulo = $_POST["titulo"];
+                        $precio = $_POST["precio"];
+                        $desc = $_POST["desc"];
+
+                        date_default_timezone_set('Europe/Madrid');
+                        $data = [
+                            'titulo' => $titulo,
+                            'precio' => $precio,
+                            'descripcion' => $desc,
+                            'categoria' => $nombreCategoria,
+                            'id_categoria' => $id,
+                            'fecha' => date('Y-m-d H:i:s'),
+                            'comercio' => 1,
+                            'anunciante' => 2,
+                            'ruta_imagen' => $rutaDestino,  // Agrega la ruta de la imagen al array
+                        ];
+
+                        // ... código posterior para insertar en la base de datos ...
+
+                        insertarAnuncio($dbh, $data);
+                        header("Location: index.php");
+                        exit();
+                    } else {
+                        // Hubo un error al mover el archivo
+                        $response = ['status' => 'error', 'message' => 'Error al subir la imagen'];
+                        jsonResponse($response, 500);
+                    }
+                } else {
+                    // Hubo un error al subir la imagen
+                    $response = ['status' => 'error', 'message' => 'Error al subir la imagen'];
+                    jsonResponse($response, 500);
+                }
+            }
+
+            // Si no se cargó una imagen, también continúa con el código para insertar en la base de datos
+            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
             list($id, $nombreCategoria) = explode('|', $idCategoria);
 
             $titulo = $_POST["titulo"];
             $precio = $_POST["precio"];
             $desc = $_POST["desc"];
 
+            date_default_timezone_set('Europe/Madrid');
+            $data = [
+                'titulo' => $titulo,
+                'precio' => $precio,
+                'descripcion' => $desc,
+                'nombre_categoria' => $nombreCategoria,
+                'id_categoria' => $id,
+                'fecha' => date('Y-m-d H:i:s'),
+                'comercio' => 1,
+                'anunciante' => 2,
+            ];
+
+            // ... código posterior para insertar en la base de datos ...
+
+            insertarAnuncio($dbh, $data);
+            header("Location: index.php");
+            exit();
+
+            /*  
+            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+
+            list($id, $nombreCategoria) = explode('|', $idCategoria);
+
+            $titulo = $_POST["titulo"];
+            $precio = $_POST["precio"];
+            $desc = $_POST["desc"];
+            date_default_timezone_set('Europe/Madrid');
             $data = [
                 'titulo' => $titulo,
                 'precio' => $precio,
@@ -57,10 +137,9 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
             ];
 
             insertarAnuncio($dbh, $data);
-            $response = ['status' => 'success', 'message' => 'Anuncio creado correctamente'];
-            jsonResponse($response, 200);
+            header("Location: index.php");
+            exit(); */
 
-            break;
         default:
             $response = ['status' => 'error', 'message' => 'Acción no válida'];
             jsonResponse($response, 400);
