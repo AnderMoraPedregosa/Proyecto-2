@@ -29,117 +29,71 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
             jsonResponse($response);
             break;
         case 'detalles':
-
+            $imagenes = getImagenesId($dbh, $_GET['id']);
             $anuncio = getAnuncioId($dbh, $_GET['id']);
-            jsonResponse($anuncio);
+            $response = [
+                'anuncio' => $anuncio,
+                'imagenes' => $imagenes,
+            ];
+
+            // Envía la respuesta JSON
+            jsonResponse($response);
             break;
         case 'insertar':
-            // Verificar si se ha cargado un archivo
-            if (isset($_FILES['imagen'])) {
-                $imagen = $_FILES['imagen'];
 
-                // Verificar si no hubo errores al subir la imagen
-                if ($imagen['error'] === UPLOAD_ERR_OK) {
-                    // Obtener información sobre el archivo
-                    $nombreArchivo = $imagen['name'];
-                    $tipoArchivo = $imagen['type'];
-                    $tamanoArchivo = $imagen['size'];
-                    $tmpName = $imagen['tmp_name'];
+            if (isset($_FILES['imagenes_adicionales'])) {
+                $imagenesAdicionales = $_FILES['imagenes_adicionales'];
 
-                    // Mover el archivo a la ubicación deseada en el servidor
-                    $rutaDestino = 'imagenes/' . $nombreArchivo;
+                // Obtener información sobre el anuncio desde el formulario
+                $titulo = $_POST["titulo"];
+                $precio = $_POST["precio"];
+                $desc = $_POST["desc"];
+                $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+                list($id, $nombreCategoria) = explode('|', $idCategoria);
 
-                    if (move_uploaded_file($tmpName, $rutaDestino)) {
-                        // El archivo se movió correctamente, ahora puedes almacenar la ruta en la base de datos
+                date_default_timezone_set('Europe/Madrid');
 
-                        // Continúa con el código para insertar en la base de datos
-                        $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-                        list($id, $nombreCategoria) = explode('|', $idCategoria);
+                // Crear el array $data con la información del anuncio
+                $data = [
+                    'titulo' => $titulo,
+                    'precio' => $precio,
+                    'descripcion' => $desc,
+                    'categoria' => $nombreCategoria,
+                    'id_categoria' => $id,
+                    'fecha' => date('Y-m-d H:i:s'),
+                    'comercio' => 1,
+                    'anunciante' => 2,
+                    'imagenes' => [], // Este array almacenará las rutas de las imágenes
+                ];
 
-                        $titulo = $_POST["titulo"];
-                        $precio = $_POST["precio"];
-                        $desc = $_POST["desc"];
+                // Lógica para manejar las imágenes
+                if (isset($_FILES['imagenes_adicionales'])) {
+                    $imagenesAdicionales = $_FILES['imagenes_adicionales'];
 
-                        date_default_timezone_set('Europe/Madrid');
-                        $data = [
-                            'titulo' => $titulo,
-                            'precio' => $precio,
-                            'descripcion' => $desc,
-                            'categoria' => $nombreCategoria,
-                            'id_categoria' => $id,
-                            'fecha' => date('Y-m-d H:i:s'),
-                            'comercio' => 1,
-                            'anunciante' => 2,
-                            'ruta_imagen' => $rutaDestino,  // Agrega la ruta de la imagen al array
-                        ];
+                    foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
+                        $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
+                        $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
+                        $rutaImagenAdicional =  "imagenes/".$nombreImagenAdicional;
 
-                        // ... código posterior para insertar en la base de datos ...
-
-                        insertarAnuncio($dbh, $data);
-                        header("Location: index.php");
-                        exit();
-                    } else {
-                        // Hubo un error al mover el archivo
-                        $response = ['status' => 'error', 'message' => 'Error al subir la imagen'];
-                        jsonResponse($response, 500);
+                        if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
+                            $data['imagenes'][] = $rutaImagenAdicional;
+                        } else {
+                            // Manejar el caso en que haya un error al mover la imagen
+                            $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
+                            jsonResponse($response, 500);
+                        }
                     }
-                } else {
-                    // Hubo un error al subir la imagen
-                    $response = ['status' => 'error', 'message' => 'Error al subir la imagen'];
-                    jsonResponse($response, 500);
                 }
+
+                // Insertar el anuncio en la base de datos
+                insertarAnuncio($dbh, $data);
+                header("Location: index.php");
+                exit();
+            } else {
+                // Manejar el caso en que no se hayan proporcionado archivos de imagen
+                $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
+                jsonResponse($response, 400);
             }
-
-            // Si no se cargó una imagen, también continúa con el código para insertar en la base de datos
-            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-            list($id, $nombreCategoria) = explode('|', $idCategoria);
-
-            $titulo = $_POST["titulo"];
-            $precio = $_POST["precio"];
-            $desc = $_POST["desc"];
-
-            date_default_timezone_set('Europe/Madrid');
-            $data = [
-                'titulo' => $titulo,
-                'precio' => $precio,
-                'descripcion' => $desc,
-                'nombre_categoria' => $nombreCategoria,
-                'id_categoria' => $id,
-                'fecha' => date('Y-m-d H:i:s'),
-                'comercio' => 1,
-                'anunciante' => 2,
-            ];
-
-            // ... código posterior para insertar en la base de datos ...
-
-            insertarAnuncio($dbh, $data);
-            header("Location: index.php");
-            exit();
-
-            /*  
-            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-
-            list($id, $nombreCategoria) = explode('|', $idCategoria);
-
-            $titulo = $_POST["titulo"];
-            $precio = $_POST["precio"];
-            $desc = $_POST["desc"];
-            date_default_timezone_set('Europe/Madrid');
-            $data = [
-                'titulo' => $titulo,
-                'precio' => $precio,
-                'descripcion' => $desc,
-                'nombre_categoria' => $nombreCategoria,
-                'id_categoria' => $id,
-                'fecha' => date('Y-m-d H:i:s'),
-                'comercio' => 1,
-                'anunciante' => 2
-            ];
-
-            insertarAnuncio($dbh, $data);
-            header("Location: index.php");
-            exit(); */
-
         default:
             $response = ['status' => 'error', 'message' => 'Acción no válida'];
             jsonResponse($response, 400);

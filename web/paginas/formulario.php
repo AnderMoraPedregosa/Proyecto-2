@@ -16,7 +16,7 @@
             <textarea id="desc" name="desc" placeholder="Introduce la descripcion de tu anuncio"></textarea>
 
             <label for="imagen">Imagen del anuncio:</label>
-            <input type="file" id="imagen" name="imagen" />
+            <input type="file" id="imagen" name="imagenes_adicionales[]" multiple />
 
             <label for="selectCategorias">Categoria:</label>
             <select id="selectCategorias" name="selectCategorias">

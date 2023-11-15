@@ -4,7 +4,6 @@
 <div class="center">
     <div id="content">
         <script type="module" src="../../scripts/anuncioDetalle.js"></script>
-
     </div>
 
     <aside id="sidebar">
