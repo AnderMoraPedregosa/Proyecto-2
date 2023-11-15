@@ -32,16 +32,6 @@ window.addEventListener("load", async function () {
         selectCategorias.appendChild(optCategoria);
     });
 
-    // Agregar un listener para el evento change en el select
-    selectCategorias.addEventListener("change", async function (event) {
-        // Acciones a realizar cuando se selecciona una categoría, si es necesario
-        console.log("Categoría seleccionada:", event.target.value);
-
-        // Split the value into id and nombre_categoria
-        let idNombreCat = event.target.value.split('|');
-     
-        // Now you have both id and nombre_categoria
-     
-    });
+ 
 });
 

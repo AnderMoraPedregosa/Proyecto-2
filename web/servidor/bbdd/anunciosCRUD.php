@@ -27,6 +27,15 @@ function insertarAnuncio($dbh, $data)
     close();
 }
 
+function actualizarAnuncio($dbh, $data, $idAnuncio)
+{
+    $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio, categoria = :nombre_categoria, descripcion = :descripcion, id_categoria = :id_categoria, fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio WHERE id = :id_anuncio");
+    $data['id_anuncio'] = $idAnuncio;
+    $stmt->execute($data);
+    close();
+}
+
+
 function eliminarId($dbh, $id)
 {
     $data = array('id' => $id);
