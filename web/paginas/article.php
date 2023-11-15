@@ -5,7 +5,6 @@
 <div class="center">
     <div id="content">
         <script type="module" src="../../scripts/anuncioDetalle.js"></script>
-
     </div>
 
     //separarlo en dos formularios

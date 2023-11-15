@@ -1,5 +1,5 @@
 import { Anuncio } from "../modelos/anuncio.js";
-
+import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
 async function getDetalleAnuncio(id) {
     const response = await fetch(`../index.php?accion=detalles&id=${id}`);
     const data = await response.json();
@@ -20,24 +20,27 @@ window.addEventListener("load", async function () {
     if (id) {
 
         var anuncioJSON = await getDetalleAnuncio(id);
-
+        console.log(anuncioJSON);
         const anuncioNew = new Anuncio(
-            anuncioJSON[0].id,
-            anuncioJSON[0].titulo,
-            anuncioJSON[0].imagen_anuncio,
-            anuncioJSON[0].categoria,
-            anuncioJSON[0].descripcion,
-            anuncioJSON[0].fecha_creacion,
-            anuncioJSON[0].precio,
-            anuncioJSON[0].id_categorias,
-            anuncioJSON[0].id_comercios,
-            anuncioJSON[0].id_comerciante
+            anuncioJSON["anuncio"][0].id,
+            anuncioJSON["anuncio"][0].titulo,
+            anuncioJSON["anuncio"][0].imagen_anuncio,
+            anuncioJSON["anuncio"][0].categoria,
+            anuncioJSON["anuncio"][0].descripcion,
+            anuncioJSON["anuncio"][0].fecha_creacion,
+            anuncioJSON["anuncio"][0].precio,
+            anuncioJSON["anuncio"][0].id_categorias,
+            anuncioJSON["anuncio"][0].id_comercios,
+            anuncioJSON["anuncio"][0].id_comerciante
         );
-
-        htmlDetalle(anuncioNew);
+        console.log(anuncioJSON["imagenes"].length);
+        anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
+            htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
     } else {
         console.error("No se proporcionó el parámetro 'id' en la URL");
     }
+});
+
 
 
 
@@ -77,7 +80,7 @@ if (accion === "editarAnuncio") {
 
 }
 
-});
+
 
 
 
@@ -111,27 +114,87 @@ function htmlDetalle(anuncio) {
     content.appendChild(article);
 }
 
-function calcularTiempoTranscurrido(fecha) {
-    const fechaAnuncio = new Date(fecha);
-    const ahora = new Date();
 
-    const diferencia = ahora - fechaAnuncio;
-    const segundos = Math.floor(diferencia / 1000);
-    const minutos = Math.floor(segundos / 60);
-    const horas = Math.floor(minutos / 60);
-    const dias = Math.floor(horas / 24);
+function htmlDetalleImagenes(anuncio, imagenes) {
+    let contenedor = document.getElementById("content");
+    const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
 
-    if (dias > 0) {
-        return `Hace ${dias} ${dias === 1 ? 'día' : 'días'}`;
-    } else if (horas > 0) {
-        return `Hace ${horas} ${horas === 1 ? 'hora' : 'horas'}`;
-    } else if (minutos > 0) {
-        return `Hace ${minutos} ${minutos === 1 ? 'minuto' : 'minutos'}`;
-    } else {
-        return 'Hace menos de un minuto';
-    }
+    // Crear un nuevo contenedor para los detalles del anuncio
+    let contenedorDetalles = document.createElement("div");
+
+    // Crear un div para contener las imágenes y los botones
+    let carrusel = document.createElement("div");
+    carrusel.id = "carrusel";
+    contenedorDetalles.appendChild(carrusel);
+
+    // Iterar sobre el array de imágenes y crear las etiquetas <img>
+    imagenes.forEach(imagen => {
+        let imgElement = document.createElement("img");
+        imgElement.src = "../" + imagen.ruta_imagen;
+        imgElement.alt = "Producto";
+        carrusel.appendChild(imgElement);
+    });
+
+    // Crear botones anterior y siguiente
+    let btnAnterior = document.createElement("button");
+    btnAnterior.id = "anterior";
+    btnAnterior.textContent = "◄";
+
+    let btnSiguiente = document.createElement("button");
+    btnSiguiente.id = "siguiente";
+    btnSiguiente.textContent = "►";
+
+    // Agregar botones al contenedor de imágenes
+    contenedorDetalles.appendChild(btnAnterior);
+    contenedorDetalles.appendChild(btnSiguiente);
+
+    // Agregar detalles del anuncio al nuevo contenedor
+    contenedorDetalles.innerHTML += `
+        <h1>${anuncio.titulo}</h1>
+        <span class="date">
+            Publicado: ${tiempoTranscurrido}
+        </span>
+        <p>
+            ${anuncio.descripcion}
+        </p>
+        <p>
+            ${anuncio.precio} €
+        </p>
+        <p>
+            ${anuncio.categoria}
+        </p>`;
+
+    // Agregar el nuevo contenedor al contenedor principal
+    contenedor.appendChild(contenedorDetalles);
+    carruselImg();
 }
 
-// ...
+function carruselImg() {
+    let currentImageIndex = 0;
+    const images = document.querySelectorAll("#carrusel img");
+    const totalImages = images.length;
 
+    function showImage(index) {
+        images.forEach((img, i) => {
+            img.style.display = i === index ? "block" : "none";
+        });
+    }
+
+    function nextImage() {
+        currentImageIndex = (currentImageIndex + 1) % totalImages;
+        showImage(currentImageIndex);
+    }
+
+    function prevImage() {
+        currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+        showImage(currentImageIndex);
+    }
+
+    // Mostrar la primera imagen al cargar la página
+    showImage(currentImageIndex);
+
+    // Manejar eventos de los botones
+    document.getElementById("anterior").addEventListener("click", prevImage);
+    document.getElementById("siguiente").addEventListener("click", nextImage);
+}
 

@@ -139,7 +139,7 @@ body {
     /*line-height: 320px;*/
     color: black;
     text-shadow: 0px 0px 5px #444;
-
+    
     /*DEGRADADO CSS*/
     background: rgb(139, 168, 239);
     background: -moz-radial-gradient(circle, rgba(139, 168, 239, 1) 30%, rgba(97, 135, 232, 1) 57%);
@@ -178,6 +178,15 @@ body {
 .btn-white:hover {
     background: #444;
     color: white;
+}
+
+#slider.slider-big {
+    height: 150px;
+}
+#slider.slider-big h1 {
+    margin-top: 0.2px;
+    padding: 0px;
+    padding-top: 53px;
 }
 
 #slider.slider-small {
@@ -417,6 +426,60 @@ body {
     width: 30%; /* Ajusta el ancho según tus necesidades */
     clip-path: polygon(0 0, 100% 0, 100% 50%, 0 100%); /* Recorta la mitad superior de la imagen */
 }
+
+
+
+#content-imagenes-anuncio {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#carrusel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.5s;
+}
+
+#carrusel img {
+    width: 100%;
+    height: 450px; /* Puedes ajustar la altura según tus necesidades */
+    object-fit: cover;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+#anterior, #siguiente {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px;
+    font-size: 24px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.116);
+    color: #fff;
+    border-radius: 5px;
+    width: 40px;
+}
+
+#anterior {
+    left: 0;
+}
+
+#siguiente {
+    right: 0;
+}
+
+
 
 /*RESPONSIVE*/
 
