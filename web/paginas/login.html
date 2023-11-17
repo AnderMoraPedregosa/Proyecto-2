@@ -21,17 +21,20 @@
                 <span>o utiliza tu correo electrónico para registrarte</span>
                 <input type="text" placeholder="Nombre" id="nombreUsuario">
                 <input type="text" placeholder="Dni" id="dniUsuario">
-                <input type="email" placeholder="email" id="emailUsuario">
+                <input type="email" placeholder="Correo Electrónico" id="emailUsuario">
                 <input type="text" placeholder="Contraseña" id="contraseñaUsuario">
-                <input type="radio" id="cliente" name="tipoUsuario" value="cliente">
-                <label for="cliente">Cliente</label>
-                <input type="radio" id="comerciante" name="tipoUsuario" value="comerciante">
-                <label for="comerciante">Comerciante</label>
+                <div class="radio-buttons">
+                    <input type="radio" id="cliente" name="tipoUsuario" value="cliente">
+                    <label for="cliente">Cliente</label>
+                    <input type="radio" id="comerciante" name="tipoUsuario" value="comerciante">
+                    <label for="comerciante">Comerciante</label>
+                </div>
                 <button id="registro">Solicitar Registrarse</button>
             </form>
         </div>
         <div class="contenedor-formulario inicio-sesion">
             <a href="../index.php"> <button id="btnVolver">Volver</button></a>
+            
 
 
             <form  action="../index.php?accion=login" method="post">
