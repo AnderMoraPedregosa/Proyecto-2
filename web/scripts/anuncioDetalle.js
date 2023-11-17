@@ -37,19 +37,18 @@ window.addEventListener("load", async function () {
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
 
-        if (accion === "editarAnuncio") {
-
+        if (accion === "actualizar") {
             //cambiar texto del boton crear
             document.getElementById("editarAnuncio").style.display = "block";
-            document.getElementById("accion").value = "modificar";
 
             //cambiar texto del boton crear
             document.getElementById("btnCrearAnuncio").value = "Modificar";
 
-            document.getElementById("titulo").value = anuncioJSON["anuncio"][0].titulo;
-            document.getElementById("precio").value = anuncioJSON["anuncio"][0].precio;
-            document.getElementById("desc").value = anuncioJSON["anuncio"][0].descripcion;
+            document.getElementById("titulo").value = anuncioNew.titulo;
 
+            document.getElementById("precio").value = anuncioNew.precio;
+            document.getElementById("desc").value = anuncioNew.descripcion
+            ;
             var selectElement = document.getElementById("selectCategorias");
 
             var opcionesArray = Array.from(selectElement.options);
@@ -62,7 +61,7 @@ window.addEventListener("load", async function () {
                 console.log("Nombre de la categoría:", nombreCategoria);
 
                 // Comprobar si el valor de la opción actual coincide con la categoría del anuncio
-                if (anuncioJSON["anuncio"][0].categoria === nombreCategoria) {
+                if (anuncioNew.categoria === nombreCategoria) {
                     // Establecer la propiedad selected de la opción
                     option.selected = true;
                 }

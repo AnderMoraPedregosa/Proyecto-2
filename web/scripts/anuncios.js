@@ -51,7 +51,7 @@ window.addEventListener("load", async function () {
              <h2>${anuncioNew.titulo}</h2>
              <span class="date">${tiempoTranscurrido}</span>
              <a href="/anuncioDetalle/detalles/${anuncioNew.id}">Leer más</a>
-              <a href="/formulario/actualizar/${anuncioNew.id}">Editar</a>
+              <a href="/anuncioDetalle/actualizar/${anuncioNew.id}">Editar</a>
               <a href="#" class="eliminar-enlace" data-id="${anuncioNew.id}">Eliminar</a>
               <div class="clearfix"></div>
          `;

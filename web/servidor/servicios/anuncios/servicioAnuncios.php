@@ -92,35 +92,39 @@ switch ($accion) {
                 $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
                 jsonResponse($response, 400);
             }
-            case "modificar":
+            case "actualizar":
                 //ACTUALIZAR
                 $titulo = $_POST["titulo"];
                 $precio = $_POST["precio"];
                 $desc = $_POST["desc"];
                 $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-                list($id, $nombreCategoria) = explode('|', $idCategoria);
 
             date_default_timezone_set('Europe/Madrid');
 
-            $id_anuncio = isset($_POST['id_anuncio']) ? $_POST['id_anuncio'] : '';
+            if($idCategoria !== null){
+                var_dump($idCategoria);
+                list($id_cat, $nombreCategoria) = explode('|', $idCategoria);
 
+            
 
             // Crear el array $data con la información del anuncio
             $data = [
-                "id_anuncio" => $id_anuncio,
+                "id" => $id,
                 'titulo' => $titulo,
                 'precio' => $precio,
                 'descripcion' => $desc,
                 'categoria' => $nombreCategoria,
-                'id_categoria' => $id,
+                'id_categoria' => $id_cat,
                 'fecha' => date('Y-m-d H:i:s'),
                 'comercio' => 1,
                 'anunciante' => 2
             ];
+        
              // Insertar el anuncio en la base de datos
              actualizarAnuncio($dbh, $data);
-             header("Location: index.php");
+         //    header("Location: /");
             exit();
+        }
         
     default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
