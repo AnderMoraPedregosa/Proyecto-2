@@ -94,7 +94,6 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
                 jsonResponse($response, 400);
             }
             case "modificar":
-
                 //ACTUALIZAR
                 $titulo = $_POST["titulo"];
                 $precio = $_POST["precio"];
@@ -124,6 +123,14 @@ if (isset($_POST['accion']) || isset($_GET['accion'])) {
                  header("Location: index.php");
                 exit();
                  
+                break;
+            case "borrarAnuncio":
+                $id_anuncio = isset($_GET['id']) ? $_GET['id'] : '';
+                echo "<script>alert('$id_anuncio');</script>";
+               
+                eliminarId($dbh, $id_anuncio);
+                header("Location: index.php");
+                exit();
                 break;
         default:
             $response = ['status' => 'error', 'message' => 'Acción no válida'];

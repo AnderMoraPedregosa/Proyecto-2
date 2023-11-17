@@ -21,6 +21,9 @@ switch ($path) {
     case 'registrar':
         require './servidor/servicios/login/servicioRegistrar.php';
         break;
+    case "borrarAnuncio":
+        require './servidor/servicios/anuncios/servicioAnuncios.php';
+        break;
     default:
         // Página principal o manejo de rutas no encontradas
         require "./paginas/index.view.php";

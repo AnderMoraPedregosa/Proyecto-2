@@ -6,6 +6,8 @@ async function getAnuncios() {
     return data;
 }
 
+
+
 window.addEventListener("load", async function () {
     let articles = document.getElementById("articles");
     let body = await getAnuncios();
@@ -29,9 +31,17 @@ window.addEventListener("load", async function () {
              <span class="date">${tiempoTranscurrido}</span>
              <a href="paginas/article.php?accion=detalle&id=${anuncioNew.id}">Leer más</a>
               <a href="paginas/article.php?accion=editarAnuncio&id=${anuncioNew.id}">Editar</a>
-             <div class="clearfix"></div>
+              <a href="#" class="eliminar-enlace" data-id="${anuncioNew.id}">Eliminar</a>
+              <div class="clearfix"></div>
          `;
             articles.appendChild(divArticle);
+
+            let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
+            eliminarEnlace.addEventListener('click', function(event) {
+                event.preventDefault();
+                const idAnuncio = this.getAttribute('data-id');
+                confirmarEliminacion(idAnuncio);
+            });
 
         });
     } else {
@@ -41,6 +51,18 @@ window.addEventListener("load", async function () {
         articles.appendChild(divArticle);
     }
 });
+
+function confirmarEliminacion(idAnuncio) {
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
+    if (confirmacion) {
+        // El usuario confirmó, realizar la eliminación
+        window.location.href = `../index.php?accion=borrarAnuncio&id=${idAnuncio}`;
+    } else {
+        // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
+        console.log("Eliminación cancelada");
+    }
+}
+
 
 function datosAnuncios(data) {
     let anuncios = [];
