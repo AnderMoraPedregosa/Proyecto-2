@@ -7,7 +7,6 @@
         <script type="module" src="../../scripts/anuncioDetalle.js"></script>
     </div>
 
-    //separarlo en dos formularios
     <div id="editarAnuncio">
     <?php require "partials/crearEditarAnuncio.php" ?>
 </div>
