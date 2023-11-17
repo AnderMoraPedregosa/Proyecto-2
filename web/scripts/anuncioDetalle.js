@@ -36,49 +36,64 @@ window.addEventListener("load", async function () {
         console.log(anuncioJSON["imagenes"].length);
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
+
+
+            if (accion === "editarAnuncio") {
+
+
+
+                document.getElementById("accion").value = "modificar";
+        
+                //cambiar texto del boton crear
+                document.getElementById("btnCrearAnuncio").value = "Modificar";
+
+                document.getElementById("editarAnuncio").style.display = "block";
+            
+                document.getElementById("titulo").value = anuncioJSON["anuncio"][0].titulo;
+                document.getElementById("precio").value = anuncioJSON["anuncio"][0].precio;
+                document.getElementById("desc").value = anuncioJSON["anuncio"][0].descripcion;
+
+            
+                var selectElement = document.getElementById("selectCategorias");
+            
+                var opcionesArray = Array.from(selectElement.options);
+            
+                    
+            
+                console.log(opcionesArray);
+            
+            
+            
+                // Iterar sobre las opciones del select
+                opcionesArray.forEach((option) => {
+                    var [id, nombreCategoria] = option.value.split('|');
+                        console.log("ID de la categoría:", id);
+                        console.log("Nombre de la categoría:", nombreCategoria);
+            
+                    // Comprobar si el valor de la opción actual coincide con la categoría del anuncio
+                    if ( anuncioJSON["anuncio"][0].categoria === nombreCategoria) {
+                        // Establecer la propiedad selected de la opción
+                        option.selected = true;
+                    }
+                });
+            
+            
+            }
+
     } else {
         console.error("No se proporcionó el parámetro 'id' en la URL");
     }
+
+
+    
+
 });
 
 
 
 
     
-if (accion === "editarAnuncio") {
 
-    //cambiar texto del boton crear
-    document.getElementById("editarAnuncio").style.display = "block";
-
-    document.getElementById("titulo").value = anuncioJSON[0].titulo;
-    document.getElementById("precio").value = anuncioJSON[0].precio;
-    document.getElementById("desc").value = anuncioJSON[0].descripcion;
-
-    var selectElement = document.getElementById("selectCategorias");
-
-        var opcionesArray = Array.from(selectElement.options);
-
-        
-
-    console.log(opcionesArray);
-
-
-
-    // Iterar sobre las opciones del select
-    opcionesArray.forEach((option) => {
-        var [id, nombreCategoria] = option.value.split('|');
-            console.log("ID de la categoría:", id);
-            console.log("Nombre de la categoría:", nombreCategoria);
-
-        // Comprobar si el valor de la opción actual coincide con la categoría del anuncio
-        if (anuncioJSON[0].categoria === nombreCategoria) {
-            // Establecer la propiedad selected de la opción
-            option.selected = true;
-        }
-    });
-
-
-}
 
 
 
