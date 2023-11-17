@@ -47,6 +47,10 @@ window.addEventListener("load", async function () {
 
     //cambiar texto del boton crear
     document.getElementById("editarAnuncio").style.display = "block";
+    document.getElementById("accion").value = "modificar";
+        
+    //cambiar texto del boton crear
+    document.getElementById("btnCrearAnuncio").value = "Modificar";
 
     document.getElementById("titulo").value = anuncioJSON[0].titulo;
     document.getElementById("precio").value = anuncioJSON[0].precio;

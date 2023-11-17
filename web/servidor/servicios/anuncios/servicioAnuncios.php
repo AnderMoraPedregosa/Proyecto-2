@@ -26,7 +26,7 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'detalles':
-     
+        var_dump($id);
         $imagenes = getImagenesId($dbh, $id);
         $anuncio = getAnuncioId($dbh, $id);
         $response = [
@@ -85,13 +85,45 @@ switch ($accion) {
 
             // Insertar el anuncio en la base de datos
             insertarAnuncio($dbh, $data);
-            header("Location: /");
+            header("Location: index.php");
             exit();
         } else {
             // Manejar el caso en que no se hayan proporcionado archivos de imagen
             $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
             jsonResponse($response, 400);
         }
+        case "modificar":
+
+            //ACTUALIZAR
+            $titulo = $_POST["titulo"];
+            $precio = $_POST["precio"];
+            $desc = $_POST["desc"];
+            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+            list($id, $nombreCategoria) = explode('|', $idCategoria);
+
+            date_default_timezone_set('Europe/Madrid');
+
+            $id_anuncio = isset($_POST['id_anuncio']) ? $_POST['id_anuncio'] : '';
+
+
+            // Crear el array $data con la información del anuncio
+            $data = [
+                "id_anuncio" => $id_anuncio,
+                'titulo' => $titulo,
+                'precio' => $precio,
+                'descripcion' => $desc,
+                'categoria' => $nombreCategoria,
+                'id_categoria' => $id,
+                'fecha' => date('Y-m-d H:i:s'),
+                'comercio' => 1,
+                'anunciante' => 2
+            ];
+             // Insertar el anuncio en la base de datos
+             actualizarAnuncio($dbh, $data);
+             header("Location: index.php");
+            exit();
+             
+            break;
     default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);
