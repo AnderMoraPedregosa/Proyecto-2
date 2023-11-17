@@ -1,18 +1,41 @@
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 async function getAnuncios() {
-    const response = await fetch("../index.php?accion=anuncios");
-    const data = await response.json();
-    return data;
+    try {
+        
+        // Obtener la ruta base del documento actual
+        const base_url = window.location.origin;
+        const response = await fetch(`${base_url}/ver`);
+       
+        if (!response.ok) {
+            throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error en la llamada a la API:', error.message);
+        return { status: 'error', message: 'Error en la llamada a la API' };
+    }
 }
 
+
+
+
 window.addEventListener("load", async function () {
+
     let articles = document.getElementById("articles");
     let body = await getAnuncios();
     let divArticle;
 
     if (body['status'] == 'success') {
-      
+
         let anuncios = datosAnuncios(body['data']);
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
         anuncios.forEach(anuncioNew => {
@@ -27,7 +50,7 @@ window.addEventListener("load", async function () {
              </div>
              <h2>${anuncioNew.titulo}</h2>
              <span class="date">${tiempoTranscurrido}</span>
-             <a href="paginas/article.php?accion=detalle&id=${anuncioNew.id}">Leer más</a>
+             <a href="/anuncioDetalle/${anuncioNew.id}">Leer más</a>
               <a href="paginas/article.php?accion=editarAnuncio&id=${anuncioNew.id}">Editar</a>
              <div class="clearfix"></div>
          `;

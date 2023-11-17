@@ -5,7 +5,7 @@
 
         <h1 class="subheader">Formulario</h1>
 
-        <form class="form_anuncios" id=crearAnuncio action="../index.php?accion=insertar" method="post" enctype="multipart/form-data">
+        <form class="form_anuncios" id=crearAnuncio action="/insertar" method="post" enctype="multipart/form-data">
             <label for="titulo">Titulo</label>
             <input type="text" id="titulo" name="titulo" required="require" />
 

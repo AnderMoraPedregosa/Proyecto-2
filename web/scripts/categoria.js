@@ -1,6 +1,6 @@
 import { Categoria } from "../modelos/categoria.js";
 async function getCategorias() {
-    const response = await fetch("../index.php?accion=categorias");
+    const response = await fetch("/categorias");
     const data = await response.json();
     return data;
 }
@@ -9,14 +9,13 @@ async function getCategorias() {
 window.addEventListener("load", async function () {
     var selectCategorias = document.getElementById("selectCategorias");
     var categorias = await getCategorias();
-
+    console.log(categorias)
     categorias.forEach(async (categoriaJson) => {
 
         const categoriaNew = new Categoria(
             categoriaJson.id,
             categoriaJson.nombre
         );
-
 
         // Concatenate id and nombre with a delimiter (e.g., "|")
         let value = categoriaNew.id + '|' + categoriaNew.nombre;
@@ -32,6 +31,6 @@ window.addEventListener("load", async function () {
         selectCategorias.appendChild(optCategoria);
     });
 
- 
+
 });
 

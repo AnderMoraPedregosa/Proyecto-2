@@ -29,13 +29,13 @@
             <nav id="menu">
                 <ul>
                     <li>
-                        <a href="../index.php" class="animacion">Inicio</a>
+                        <a href="/" class="animacion">Inicio</a>
                     </li>
                     <li>
-                        <a href="../paginas/blog.php" class="animacion">Blog</a>
+                        <a href="/blog" class="animacion">Blog</a>
                     </li>
                     <li>
-                        <a href="../paginas/formulario.php" class="animacion">Formulario</a>
+                        <a href="/formulario" class="animacion">Formulario</a>
                     </li>
                     <li>
                         <a href="#" class="animacion">Pagina 1</a>

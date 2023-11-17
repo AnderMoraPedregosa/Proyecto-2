@@ -1,24 +1,22 @@
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
 async function getDetalleAnuncio(id) {
-    const response = await fetch(`../index.php?accion=detalles&id=${id}`);
+    const response = await fetch(`/detalles/${id}`);
     const data = await response.json();
     return data;
 }
 
 
 
-
 window.addEventListener("load", async function () {
-    // Crear una instancia de URLSearchParams
-    
-    const params = new URLSearchParams(window.location.search);
-    // Obtener el valor del parámetro 'id'
-    const id = params.get("id");
-    const accion = params.get("accion");
-    
-    if (id) {
+    // Obtener la ruta de la URL
+    const path = window.location.pathname;
+    // Dividir la ruta en segmentos
+    const pathSegments = path.split('/');
+    // Obtener el último segmento, que debería ser el 'id'
+    const id = pathSegments.pop();
 
+    if (id) {
         var anuncioJSON = await getDetalleAnuncio(id);
         console.log(anuncioJSON);
         const anuncioNew = new Anuncio(
@@ -26,7 +24,7 @@ window.addEventListener("load", async function () {
             anuncioJSON["anuncio"][0].titulo,
             anuncioJSON["anuncio"][0].imagen_anuncio,
             anuncioJSON["anuncio"][0].categoria,
-            anuncioJSON["anuncio"][0].descripcion,
+            anuncioJSON["anuncio"][0].descripcion,  
             anuncioJSON["anuncio"][0].fecha_creacion,
             anuncioJSON["anuncio"][0].precio,
             anuncioJSON["anuncio"][0].id_categorias,
@@ -37,7 +35,7 @@ window.addEventListener("load", async function () {
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
     } else {
-        console.error("No se proporcionó el parámetro 'id' en la URL");
+        console.error("No se pudo obtener el 'id' de la URL");
     }
 });
 
@@ -45,7 +43,7 @@ window.addEventListener("load", async function () {
 
 
     
-if (accion === "editarAnuncio") {
+ if (accion === "editarAnuncio") {
 
     //cambiar texto del boton crear
     document.getElementById("editarAnuncio").style.display = "block";
@@ -78,8 +76,7 @@ if (accion === "editarAnuncio") {
     });
 
 
-}
-
+} 
 
 
 
