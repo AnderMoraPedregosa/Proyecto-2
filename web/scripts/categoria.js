@@ -1,4 +1,5 @@
 import { Categoria } from "../modelos/categoria.js";
+
 async function getCategorias() {
     const response = await fetch("/categorias");
     const data = await response.json();
