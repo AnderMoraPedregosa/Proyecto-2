@@ -85,7 +85,7 @@ switch ($accion) {
 
                 // Insertar el anuncio en la base de datos
                 insertarAnuncio($dbh, $data);
-                header("Location: index.php");
+                header("Location: /");
                 exit();
             } else {
                 // Manejar el caso en que no se hayan proporcionado archivos de imagen
