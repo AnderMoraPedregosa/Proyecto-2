@@ -1,11 +1,17 @@
 <?php require "partials/head.php" ?>
 
+<script type="module" src="../../scripts/categoria.js"></script>
 
 <div class="center">
     <div id="content">
         <script type="module" src="../../scripts/anuncioDetalle.js"></script>
-
     </div>
+
+    //separarlo en dos formularios
+    <div id="editarAnuncio">
+    <?php require "partials/crearEditarAnuncio.php" ?>
+</div>
+
 
     <aside id="sidebar">
         <div id="nav-blog" class="sidebar-item">
@@ -22,5 +28,7 @@
             </form>
         </div>
     </aside>
+
+    
 
     <?php require "partials/footer.php" ?>

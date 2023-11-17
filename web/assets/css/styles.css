@@ -269,6 +269,11 @@ body {
 
 /*FORMULARIO ANUNCIOS*/
 
+#editarAnuncio{
+    display: none;
+    margin-left: 10px;
+    height: 20px;
+}
 
 .btn-success {
     background: rgb(23, 150, 19);
@@ -422,6 +427,60 @@ body {
     width: 30%; /* Ajusta el ancho según tus necesidades */
     clip-path: polygon(0 0, 100% 0, 100% 50%, 0 100%); /* Recorta la mitad superior de la imagen */
 }
+
+
+
+#content-imagenes-anuncio {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#carrusel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.5s;
+}
+
+#carrusel img {
+    width: 100%;
+    height: 450px; /* Puedes ajustar la altura según tus necesidades */
+    object-fit: cover;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+#anterior, #siguiente {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px;
+    font-size: 24px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.116);
+    color: #fff;
+    border-radius: 5px;
+    width: 40px;
+}
+
+#anterior {
+    left: 0;
+}
+
+#siguiente {
+    right: 0;
+}
+
+
 
 /*RESPONSIVE*/
 

@@ -1,6 +1,6 @@
-let contenedor = document.getElementById('contenedor');
-let registrarseBtn = document.getElementById('registrarse');
-let iniciarSesionBtn = document.getElementById('iniciar-sesion');
+const contenedor = document.getElementById('contenedor');
+const registrarseBtn = document.getElementById('registrarse');
+const iniciarSesionBtn = document.getElementById('iniciar-sesion');
 
 registrarseBtn.addEventListener('click', () => {
     contenedor.classList.add("active");
