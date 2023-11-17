@@ -15,6 +15,12 @@ switch ($path) {
     case 'insertar':
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
+    case 'login' :
+        require './servidor/servicios/login/servicioLogin.php';
+        break;
+    case 'registrar':
+        require './servidor/servicios/login/servicioRegistrar.php';
+        break;
     default:
         // Página principal o manejo de rutas no encontradas
         require "./paginas/index.view.php";
