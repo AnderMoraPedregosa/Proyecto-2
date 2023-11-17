@@ -5,11 +5,18 @@ async function getDetalleAnuncio(id) {
     const data = await response.json();
     return data;
 }
+
+
+
+
 window.addEventListener("load", async function () {
     // Crear una instancia de URLSearchParams
+    
     const params = new URLSearchParams(window.location.search);
     // Obtener el valor del parámetro 'id'
     const id = params.get("id");
+    const accion = params.get("accion");
+    
     if (id) {
 
         var anuncioJSON = await getDetalleAnuncio(id);
@@ -33,6 +40,49 @@ window.addEventListener("load", async function () {
         console.error("No se proporcionó el parámetro 'id' en la URL");
     }
 });
+
+
+
+
+    
+if (accion === "editarAnuncio") {
+
+    //cambiar texto del boton crear
+    document.getElementById("editarAnuncio").style.display = "block";
+
+    document.getElementById("titulo").value = anuncioJSON[0].titulo;
+    document.getElementById("precio").value = anuncioJSON[0].precio;
+    document.getElementById("desc").value = anuncioJSON[0].descripcion;
+
+    var selectElement = document.getElementById("selectCategorias");
+
+        var opcionesArray = Array.from(selectElement.options);
+
+        
+
+    console.log(opcionesArray);
+
+
+
+    // Iterar sobre las opciones del select
+    opcionesArray.forEach((option) => {
+        var [id, nombreCategoria] = option.value.split('|');
+            console.log("ID de la categoría:", id);
+            console.log("Nombre de la categoría:", nombreCategoria);
+
+        // Comprobar si el valor de la opción actual coincide con la categoría del anuncio
+        if (anuncioJSON[0].categoria === nombreCategoria) {
+            // Establecer la propiedad selected de la opción
+            option.selected = true;
+        }
+    });
+
+
+}
+
+
+
+
 
 
 function htmlDetalle(anuncio) {

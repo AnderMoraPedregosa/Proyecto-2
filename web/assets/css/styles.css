@@ -269,6 +269,11 @@ body {
 
 /*FORMULARIO ANUNCIOS*/
 
+#editarAnuncio{
+    display: none;
+    margin-left: 10px;
+    height: 20px;
+}
 
 .btn-success {
     background: rgb(23, 150, 19);
