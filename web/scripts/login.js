@@ -11,6 +11,8 @@ iniciarSesionBtn.addEventListener('click', () => {
 });
 
 
+import { Persona } from "../modelos/persona.js";
+
 
 async function hashPassword(password) {
     let encoder = new TextEncoder();
@@ -21,45 +23,35 @@ async function hashPassword(password) {
     return hashHex;
 }
 
-// EventListener cuando el DOM esté cargado
-document.addEventListener('DOMContentLoaded', function () {
-    let loginButton = document.getElementById('login');
+async function getUsuario() {
+    const response = await fetch("../index.php?accion=login");
+    const data = await response.json();
+    return data;
+}
 
-    loginButton.addEventListener('click', async function (event) {
-        event.preventDefault(); 
-        let emailUsuario = document.getElementById('emailUsuario').value;
-        let password = document.getElementById('passwd').value;
+window.addEventListener("load", async function () {
+    var personas = await getUsuario();
 
-        // Llama a la función hashPassword para obtener el hash de la contraseña
-        let hashedPassword = await hashPassword(password);
+    personas.forEach(async (personaJson) => {
 
-        // Envia los datos al servidor
-        let response = await fetch('../servidor/bbdd/login.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                emailUsuario: emailUsuario,
-                hashedPassword: hashedPassword,
-            }),
-        });
-        
-        try {
-            let data = await response.json();
-            if (data.success) {
-                console.log('Inicio de sesión exitoso');
-            } else {
-                console.log('Inicio de sesión fallido:', data.error || 'Credenciales incorrectas');
-            }
-        } catch (error) {
-            console.error('Error al analizar la respuesta JSON:', error);
-        }
+        const newPersona = new Persona(
+            personaJson.id,
+            personaJson.dni,
+            personaJson.nombre,
+            personaJson.passwd,
+            personaJson.email,
+            personaJson.id_rol
+
+           
+        );
+        console.log(newPersona.nombre);
+       
         
     });
+
 });
 
-
+/*
 
 document.addEventListener('DOMContentLoaded', function () {
     let registroButton = document.getElementById('registro');
@@ -107,5 +99,5 @@ document.addEventListener('DOMContentLoaded', function () {
     
 });
 
-
+*/
 

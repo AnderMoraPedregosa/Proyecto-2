@@ -22,7 +22,7 @@
                 <input type="text" placeholder="Nombre" id="nombreUsuario">
                 <input type="text" placeholder="Dni" id="dniUsuario">
                 <input type="email" placeholder="Correo Electrónico" id="emailUsuario">
-                <input type="text" placeholder="Contraseña" id="contraseñaUsuario">
+                <input type="text" placeholder="Contraseña" id="contrasenaUsuario">
                 <div class="radio-buttons">
                     <input type="radio" id="cliente" name="tipoUsuario" value="cliente">
                     <label for="cliente">Cliente</label>
@@ -46,8 +46,8 @@
                     <a href="#" class="icono"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>o utiliza tu correo electrónico y contraseña</span>
-                <input type="email" placeholder="Correo Electrónico" id="emailUsuario">
-                <input type="password" placeholder="Contraseña" id="passwd">
+                <input type="email" placeholder="Correo Electrónico" id="emailUsuario" name="emailUsuario">
+                <input type="password" placeholder="Contraseña" id="passwd" name="passwd">
                 <a href="#">¿Olvidaste tu Contraseña?</a>
                 <button id="login">Iniciar Sesión</button>
             </form>
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <script src="../scripts/login.js"></script>
+    <script type="module" src="../scripts/login.js"></script>
 </body>
 
 </html>
