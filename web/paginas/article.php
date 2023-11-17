@@ -3,14 +3,15 @@
 <script type="module" src="../../scripts/categoria.js"></script>
 
 <div class="center">
-    <div id="content">
-        <script type="module" src="../../scripts/anuncioDetalle.js"></script>
+    <div class="articulos">
+        <div id="content">
+            <script type="module" src="../../scripts/anuncioDetalle.js"></script>
+        </div>
+
+        <div id="editarAnuncio">
+            <?php require "partials/crearEditarAnuncio.php" ?>
+        </div>
     </div>
-
-    <div id="editarAnuncio">
-    <?php require "partials/crearEditarAnuncio.php" ?>
-</div>
-
 
     <aside id="sidebar">
         <div id="nav-blog" class="sidebar-item">
@@ -28,6 +29,5 @@
         </div>
     </aside>
 
-    
-
     <?php require "partials/footer.php" ?>
+</div>

@@ -89,17 +89,6 @@ window.addEventListener("load", async function () {
 
 });
 
-
-
-
-    
-
-
-
-
-
-
-
 function htmlDetalle(anuncio) {
     let content = document.getElementById("content");
     const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);

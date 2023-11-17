@@ -31,10 +31,30 @@ body {
     border-top: 0.313em solid #1950D8;
 }
 
+/*articles.php*/
 .center {
-    width: 75%;
-    margin: 0em auto;
+    display: flex;
+    justify-content: space-around;
 }
+
+.articulos {
+    margin: 10px;
+    width: 70%;
+    display: flex;
+}
+
+
+#content {
+}
+
+#editarAnuncio {
+    /* Estilos para el formulario de edición de anuncios */
+}
+
+#sidebar {
+    /* Estilos para la barra lateral */
+}
+
 
 .clearfix {
     clear: both;
@@ -269,9 +289,13 @@ body {
 
 /*FORMULARIO ANUNCIOS*/
 
-#editarAnuncio{
+#editarAnuncio {
     display: none;
-    margin-left: 10px;
+    width: 50%;
+}
+
+#editarAnuncio #form_anuncios{
+    margin-left: 80px;
     height: 20px;
 }
 
