@@ -8,10 +8,8 @@
     </div>
 
     <div id="editarAnuncio">
-    <?php require "partials/crearEditarAnuncio.php" ?>
-</div>
-
-
+        <?php require "partials/crearEditarAnuncio.php" ?>
+    </div>
     <aside id="sidebar">
         <div id="nav-blog" class="sidebar-item">
             <h3>Puedes hacer esto</h3>
@@ -28,6 +26,6 @@
         </div>
     </aside>
 
-    
+
 
     <?php require "partials/footer.php" ?>

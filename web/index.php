@@ -12,30 +12,21 @@ $relative_path = str_replace($base_path, '', $path);
 $path_parts = explode('/', trim($relative_path, '/'));
 
 // Obtener la acción y el posible ID
-$accion = isset($path_parts[0]) ? $path_parts[0] : '';
-$id = isset($path_parts[1]) ? $path_parts[1] : '';
+$path = isset($path_parts[0]) ? $path_parts[0] : '';
+$accion = isset($path_parts[1]) ? $path_parts[1] : '';
+$id = isset($path_parts[2]) ? $path_parts[2] : '';
 
 // Manejar las rutas
-switch ($accion) {
-    case 'ver':
+switch ($path) {
+    case 'anuncios':
         // Lógica para mostrar anuncios
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
-    case 'detalles':
-        // Lógica para mostrar detalles de un anuncio
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
-        break;
+
     case 'categorias':
         require './servidor/servicios/anuncios/servicioCategorias.php';
         break;
-    case 'insertar':
-        // Lógica para categorías o inserción de anuncios
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
-        break;
-    case 'actualizar':
-        // Lógica para categorías o inserción de anuncios
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
-        break;
+
     case 'login':
         // Lógica para el inicio de sesión
         require './servidor/servicios/login/servicioLogin.php';
@@ -45,7 +36,6 @@ switch ($accion) {
         require './servidor/servicios/login/servicioRegistrar.php';
         break;
     case '':
-    case 'index':
         // Lógica para la página de inicio
         require './paginas/index.view.php';
         break;

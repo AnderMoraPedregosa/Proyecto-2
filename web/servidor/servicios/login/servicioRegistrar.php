@@ -9,9 +9,9 @@ function jsonResponse($data, $statusCode = 200)
 }
 
 if (isset($_POST['accion']) || isset($_GET['accion'])) {
-    $accion = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
+    $path = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
 
-    if ($accion === 'registrar') {
+    if ($path === 'registrar') {
         if (isset($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['contraseñaUsuario'], $_POST['tipoUsuario'])) {
             registrarNuevoUsuario($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['contraseñaUsuario'], $_POST['tipoUsuario']);
         }

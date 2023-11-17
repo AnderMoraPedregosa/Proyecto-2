@@ -10,9 +10,9 @@ function jsonResponse($data, $statusCode = 200)
 
 // Aquí maneja la acción específica 'login'
 if (isset($_POST['accion']) || isset($_GET['accion'])) {
-    $accion = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
+    $path = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
     
-    if ($accion === 'login') {
+    if ($path === 'login') {
         if (isset($_POST['emailUsuario'], $_POST['contraseñaUsuario'])) {
             $emailUsuario = $_POST['emailUsuario'];
             $contraseñaUsuario = $_POST['contraseñaUsuario'];

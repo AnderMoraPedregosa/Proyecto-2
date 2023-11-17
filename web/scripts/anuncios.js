@@ -2,11 +2,11 @@ import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 async function getAnuncios() {
     try {
-        
+
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
-        const response = await fetch(`${base_url}/ver`);
-       
+        const response = await fetch(`${base_url}/anuncios/todos`);
+        console.log(base_url);
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
@@ -50,8 +50,8 @@ window.addEventListener("load", async function () {
              </div>
              <h2>${anuncioNew.titulo}</h2>
              <span class="date">${tiempoTranscurrido}</span>
-             <a href="/anuncioDetalle/${anuncioNew.id}">Leer más</a>
-              <a href="paginas/article.php?accion=editarAnuncio&id=${anuncioNew.id}">Editar</a>
+             <a href="/anuncioDetalle/detalles/${anuncioNew.id}">Leer más</a>
+              <a href="/formulario/actualizar/${anuncioNew.id}">Editar</a>
              <div class="clearfix"></div>
          `;
             articles.appendChild(divArticle);

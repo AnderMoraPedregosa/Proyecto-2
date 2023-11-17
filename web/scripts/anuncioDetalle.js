@@ -1,7 +1,7 @@
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
 async function getDetalleAnuncio(id) {
-    const response = await fetch(`/detalles/${id}`);
+    const response = await fetch(`/anuncios/detalles/${id}`);
     const data = await response.json();
     return data;
 }
@@ -13,8 +13,10 @@ window.addEventListener("load", async function () {
     const path = window.location.pathname;
     // Dividir la ruta en segmentos
     const pathSegments = path.split('/');
+    const accion = pathSegments[2]
     // Obtener el último segmento, que debería ser el 'id'
     const id = pathSegments.pop();
+
 
     if (id) {
         var anuncioJSON = await getDetalleAnuncio(id);
@@ -24,16 +26,50 @@ window.addEventListener("load", async function () {
             anuncioJSON["anuncio"][0].titulo,
             anuncioJSON["anuncio"][0].imagen_anuncio,
             anuncioJSON["anuncio"][0].categoria,
-            anuncioJSON["anuncio"][0].descripcion,  
+            anuncioJSON["anuncio"][0].descripcion,
             anuncioJSON["anuncio"][0].fecha_creacion,
             anuncioJSON["anuncio"][0].precio,
             anuncioJSON["anuncio"][0].id_categorias,
             anuncioJSON["anuncio"][0].id_comercios,
             anuncioJSON["anuncio"][0].id_comerciante
         );
-        console.log(anuncioJSON["imagenes"].length);
+
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
+
+        if (accion === "editarAnuncio") {
+
+            //cambiar texto del boton crear
+            document.getElementById("editarAnuncio").style.display = "block";
+            document.getElementById("accion").value = "modificar";
+
+            //cambiar texto del boton crear
+            document.getElementById("btnCrearAnuncio").value = "Modificar";
+
+            document.getElementById("titulo").value = anuncioJSON["anuncio"][0].titulo;
+            document.getElementById("precio").value = anuncioJSON["anuncio"][0].precio;
+            document.getElementById("desc").value = anuncioJSON["anuncio"][0].descripcion;
+
+            var selectElement = document.getElementById("selectCategorias");
+
+            var opcionesArray = Array.from(selectElement.options);
+
+
+            // Iterar sobre las opciones del select
+            opcionesArray.forEach((option) => {
+                var [id, nombreCategoria] = option.value.split('|');
+                console.log("ID de la categoría:", id);
+                console.log("Nombre de la categoría:", nombreCategoria);
+
+                // Comprobar si el valor de la opción actual coincide con la categoría del anuncio
+                if (anuncioJSON["anuncio"][0].categoria === nombreCategoria) {
+                    // Establecer la propiedad selected de la opción
+                    option.selected = true;
+                }
+            });
+
+
+        }
     } else {
         console.error("No se pudo obtener el 'id' de la URL");
     }
@@ -42,51 +78,14 @@ window.addEventListener("load", async function () {
 
 
 
-    
- if (accion === "editarAnuncio") {
 
-    //cambiar texto del boton crear
-    document.getElementById("editarAnuncio").style.display = "block";
-    document.getElementById("accion").value = "modificar";
-        
-    //cambiar texto del boton crear
-    document.getElementById("btnCrearAnuncio").value = "Modificar";
-
-    document.getElementById("titulo").value = anuncioJSON[0].titulo;
-    document.getElementById("precio").value = anuncioJSON[0].precio;
-    document.getElementById("desc").value = anuncioJSON[0].descripcion;
-
-    var selectElement = document.getElementById("selectCategorias");
-
-        var opcionesArray = Array.from(selectElement.options);
-
-        
-
-    console.log(opcionesArray);
-
-
-
-    // Iterar sobre las opciones del select
-    opcionesArray.forEach((option) => {
-        var [id, nombreCategoria] = option.value.split('|');
-            console.log("ID de la categoría:", id);
-            console.log("Nombre de la categoría:", nombreCategoria);
-
-        // Comprobar si el valor de la opción actual coincide con la categoría del anuncio
-        if (anuncioJSON[0].categoria === nombreCategoria) {
-            // Establecer la propiedad selected de la opción
-            option.selected = true;
-        }
-    });
-
-
-} 
 
 
 
 
 
 function htmlDetalle(anuncio) {
+    let srcImagen = anuncio.imagen.split('/')
     let content = document.getElementById("content");
     const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
     let article = document.createElement("article");
@@ -94,7 +93,7 @@ function htmlDetalle(anuncio) {
     article.innerHTML = `<article class="article-item article-detail">
     <div>
     <div class="image-wrap-detalle">
-    <img src="${anuncio.imagen}" alt="Producto" />
+    <img src="${srcImagen[0] == "imagenes" ? "/" + anuncio.imagen : anuncio.imagen}" alt="Producto" />
     </div>
         </div>
 
@@ -131,7 +130,7 @@ function htmlDetalleImagenes(anuncio, imagenes) {
     // Iterar sobre el array de imágenes y crear las etiquetas <img>
     imagenes.forEach(imagen => {
         let imgElement = document.createElement("img");
-        imgElement.src = "../" + imagen.ruta_imagen;
+        imgElement.src = "/" + imagen.ruta_imagen;
         imgElement.alt = "Producto";
         carrusel.appendChild(imgElement);
     });

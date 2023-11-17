@@ -14,7 +14,7 @@ function jsonResponse($data, $statusCode = 200)
 }
 
 switch ($accion) {
-    case 'ver':
+    case 'todos':
         $anuncios = getAnuncios($dbh);
 
         if ($anuncios === false) {
@@ -26,7 +26,7 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'detalles':
-        var_dump($id);
+   
         $imagenes = getImagenesId($dbh, $id);
         $anuncio = getAnuncioId($dbh, $id);
         $response = [
@@ -85,15 +85,14 @@ switch ($accion) {
 
             // Insertar el anuncio en la base de datos
             insertarAnuncio($dbh, $data);
-            header("Location: index.php");
+            header("Location: /");
             exit();
         } else {
             // Manejar el caso en que no se hayan proporcionado archivos de imagen
             $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
             jsonResponse($response, 400);
         }
-        case "modificar":
-
+        case "acr":
             //ACTUALIZAR
             $titulo = $_POST["titulo"];
             $precio = $_POST["precio"];
@@ -122,8 +121,7 @@ switch ($accion) {
              actualizarAnuncio($dbh, $data);
              header("Location: index.php");
             exit();
-             
-            break;
+        
     default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);
