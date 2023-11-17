@@ -1,15 +1,19 @@
     <?php require "paginas/partials/head.php" ?>
 
-    <div id="slider" class="slider-big">
+    <div class="container">
+   
+            <div id="slider" class="slider-big">
 
         <h1>Bienvenido a la pagina de productos de la Asociación de Comerciantes de Vitoria</h1>
         <div class="wave"></div>
 
-    </div>
+        </div>
 
-    <div class="center">
+        <div class="center">
         <section id="content">
-            <h2 class="subheader">Últimos productos</h2>
+            <h2 class="subheader">Últimos productos
+            <img src="../../assets/images/new.png" class="new" alt="newp" />
+            </h2>
             <div id="articles">
                 
             <script type="module" src="scripts/anuncios.js"></script>
@@ -36,6 +40,9 @@
         </aside>
 
         <div class="clearfix"></div>
+        </div>
+
+
     </div>
 
     <?php require "paginas/partials/footer.php" ?>
