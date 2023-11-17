@@ -27,7 +27,7 @@ switch ($path) {
         require './servidor/servicios/anuncios/servicioCategorias.php';
         break;
 
-    case 'login':
+    case 'loginService':
         // Lógica para el inicio de sesión
         require './servidor/servicios/login/servicioLogin.php';
         break;
@@ -51,7 +51,9 @@ switch ($path) {
         // Lógica para mostrar el detalle de un anuncio
         require './paginas/article.php';
         break;
-
+    case 'login':
+        require './paginas/login.html';
+        break;
     default:
         // Manejo de rutas no encontradas
         require "./paginas/error-404.php";

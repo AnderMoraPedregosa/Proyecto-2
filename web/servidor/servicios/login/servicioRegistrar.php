@@ -8,8 +8,9 @@ function jsonResponse($data, $statusCode = 200)
     echo json_encode($data);
 }
 
-function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $contraseñaUsuario, $tipoUsuario, $dbh) {
-   
+function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $contraseñaUsuario, $tipoUsuario, $dbh)
+{
+
     try {
         echo "<script>alert('estoy en registrar usuario');</script>";
 
@@ -20,7 +21,7 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
             return;
         }
 
-       $hashedPassword = password_hash($contraseñaUsuario, PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($contraseñaUsuario, PASSWORD_DEFAULT);
         $rol = ($tipoUsuario === 'cliente') ? 2 : (($tipoUsuario === 'comerciante') ? 3 : null);
 
         $data = [
@@ -40,32 +41,13 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
 }
 
 // Aquí maneja la acción específica 'regiatro'
-if (isset($_POST['accion']) || isset($_GET['accion'])) {
 
+echo "<script>alert('estoy en registro');</script>";
 
-    $accion = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
-    echo "<script>alert('$accion');</script>";
-
-    if ($accion === 'registrar') {
-        echo "<script>alert('estoy en registro');</script>";
-        
-        if (isset($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'])) {
-            echo "<script>alert('comprobando usuario y contraseña registro');</script>";
-            registrarNuevoUsuario($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'], $dbh);
-
-        } else {
-            $response = ['status' => 'error', 'message' => 'Acción no válida'];
-            jsonResponse($response, 400);
-        }
-    }
-    
-
-
+if (isset($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'])) {
+    echo "<script>alert('comprobando usuario y contraseña registro');</script>";
+    registrarNuevoUsuario($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'], $dbh);
+} else {
+    $response = ['status' => 'error', 'message' => 'Acción no válida'];
+    jsonResponse($response, 400);
 }
-
-
-
-
-
-
-?>
