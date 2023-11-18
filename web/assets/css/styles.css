@@ -214,19 +214,25 @@ body {
 }
 
 #prueba{
-    margin: 0 auto;
-
+    margin: 15px auto;
     height: 100%;
     width: 80%;
  
 }
 
-#content {
+#content{
+    border: 2px solid rgba(0, 0, 0, 0.349);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
     width: 100%;
+    height: 75%;
     float: left;
     min-height: 40.625em;
     margin-right: 1.25em;
 }
+
+
 #content .article-item {
     font-size: 1.5em; 
     margin-bottom: 2.2em;
