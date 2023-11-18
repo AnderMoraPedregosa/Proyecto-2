@@ -125,8 +125,13 @@ switch ($accion) {
              actualizarAnuncio($dbh, $data);
            header("Location: /");
            die(); // Finalizar el script después de la redirección
+           case "borrarAnuncio":
+            eliminarId($dbh, $id);
+           header("Location: /");
+           die(); // Finalizar el script después de la redirección
            default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);
         break;
+    
 }
