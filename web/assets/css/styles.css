@@ -45,7 +45,7 @@ body {
     width:70%;
     margin: 0em auto;
      display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
 }
 
 
@@ -213,8 +213,16 @@ body {
     padding-top: 1.8em;
 }
 
+#prueba{
+    margin: 0 auto;
+
+    height: 100%;
+    width: 80%;
+ 
+}
+
 #content {
-    width: 50%;
+    width: 100%;
     float: left;
     min-height: 40.625em;
     margin-right: 1.25em;
