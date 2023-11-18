@@ -1,51 +1,50 @@
 <?php
-require "servidor/bbdd/login.php"; 
-function jsonResponse($data, $statusCode = 200)
+require "servidor/bbdd/login.php";
+
+
+
+// Permitir el acceso desde cualquier origen (CORS)
+header('Access-Control-Allow-Origin: *');
+
+// Convertimos la respuesta a JSON
+function jsonResponse($data)
 {
-    http_response_code($statusCode);
-    header('Content-Type: application/json');
+    //header('Content-Type: application/json');
     echo json_encode($data);
 }
 
+echo "<script>alert('servicio login');</script>";
 
-// Aquí maneja la acción específica 'login'
-if (isset($_POST['accion']) || isset($_GET['accion'])) {
-    $accion = isset($_POST['accion']) ? $_POST['accion'] : $_GET['accion'];
-    
-    if ($accion === 'login') {
-        if (isset($_POST['emailUsuario'], $_POST['contraseñaUsuario'])) {
-            $emailUsuario = $_POST['emailUsuario'];
-            $contraseñaUsuario = $_POST['contraseñaUsuario'];
-        logearCuenta( $emailUsuario,$contraseñaUsuario);
-    } else {
-        $response = ['status' => 'error', 'message' => 'Acción no válida'];
-        jsonResponse($response, 400);
-    }
-}
-
-function logearCuenta($emailUsuario,$contraseñaUsuario)
+function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 {
 
+    echo "<script>alert('estoy en loguear cuenta');</script>";
 
-        try {
-            $user = getPersonaByEmailAndPassword($dbh, $emailUsuario, $contraseñaUsuario);
+    $user = getPersonaByEmailAndPassword($dbh, $emailUsuario, $contraseñaUsuario);
 
-            if ($user) {
-                // Las credenciales son correctas
-                $response = ['success' => true];
-                jsonResponse($response);
-            } else {
-                // Las credenciales son incorrectas
-                $response = ['success' => false];
-                jsonResponse($response);
-            }
-        } catch (PDOException $e) {
-            // Error al procesar la solicitud
-            $response = ['success' => false, 'error' => 'Error al procesar la solicitud'];
-            jsonResponse($response);
-        }
+    if ($user) {
+        // Las credenciales son correctas
+        $response = ['success' => true];
+        jsonResponse($response);
+        
+    } else {
+        // Las credenciales son incorrectas
+        $response = ['success' => false];
+        jsonResponse($response);
     }
 }
 
+// Aquí maneja la acción específica 'login'
 
-?>
+echo "<script>alert('estoy en login');</script>";
+
+if (isset($_POST['emailUsuario']) && isset($_POST['passwd'])) {
+    echo "<script>alert('comprobando usuario y contraseña');</script>";
+
+    $emailUsuario = $_POST['emailUsuario'];
+    $contraseñaUsuario = $_POST['passwd'];
+    logearCuenta($emailUsuario, $contraseñaUsuario, $dbh);
+} else {
+    $response = ['status' => 'error', 'message' => 'Acción no válida'];
+    jsonResponse($response, 400);
+}

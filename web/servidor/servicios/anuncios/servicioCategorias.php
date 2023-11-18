@@ -1,7 +1,7 @@
 <?php
 require "servidor/bbdd/categorias.php";
 
-$accion = isset($_GET['accion']) ? $_GET['accion'] : '';
+$path = isset($_GET['accion']) ? $_GET['accion'] : '';
 
 // Permitir el acceso desde cualquier origen (CORS)
 header('Access-Control-Allow-Origin: *');

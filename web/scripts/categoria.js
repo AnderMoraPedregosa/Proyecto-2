@@ -1,21 +1,18 @@
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Categoria } from "../modelos/categoria.js";
 
-    //realizamos una solicitud al servidor para obtener las categorias
-    async function getCategorias() {
-        const response = await fetch("../index.php?accion=categorias");
-        const data = await response.json();
-        return data;
-    }
+async function getCategorias() {
+    const response = await fetch("/categorias");
+    const data = await response.json();
+    return data;
+}
 
 
-    window.addEventListener("load", async function () {
-        //elemento donde se mostraran las categorias
-        let selectCategorias = document.getElementById("selectCategorias");
-        let categorias = await getCategorias();
+window.addEventListener("load", async function () {
+    var selectCategorias = document.getElementById("selectCategorias");
+    var categorias = await getCategorias();
 
-            //Iterar sobre cada categoria añadida
-            categorias.forEach(async (categoriaJson) => {
+    categorias.forEach(async (categoriaJson) => {
 
                  // Crear una nueva instancia con los datos obtenidos
                 let categoriaNew = new Categoria(
@@ -38,16 +35,6 @@ import { Categoria } from "../modelos/categoria.js";
                 selectCategorias.appendChild(optCategoria);
             });
 
-            // Agregar un listener para el evento change en el select
-            selectCategorias.addEventListener("change", async function (event) {
-                // Acciones a realizar cuando se selecciona una categoria, si es necesario
-                console.log("Categoría seleccionada:", event.target.value);
 
-                // Dividr el valor  en id y nombre_categoria
-                let idNombreCat = event.target.value.split('|');
-            
-                // Ahora tienes tanto id como nombre_categoria
-            
-            });
-    });
+});
 

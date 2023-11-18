@@ -5,7 +5,7 @@
 
         <h1 class="subheader">Formulario</h1>
 
-        <form class="form_anuncios" id=crearAnuncio action="../index.php?accion=insertar" method="post">
+        <form class="form_anuncios" id=crearAnuncio action="anuncios/insertar" method="post" enctype="multipart/form-data">
             <label for="titulo">Titulo</label>
             <input type="text" id="titulo" name="titulo" required="require" />
 
@@ -14,6 +14,9 @@
 
             <label for="desc">Descripcion</label>
             <textarea id="desc" name="desc" placeholder="Introduce la descripcion de tu anuncio"></textarea>
+
+            <label for="imagen">Imagen del anuncio:</label>
+            <input type="file" id="imagen" name="imagenes_adicionales[]" multiple />
 
             <label for="selectCategorias">Categoria:</label>
             <select id="selectCategorias" name="selectCategorias">

@@ -11,6 +11,8 @@
     <!--favicon-->
     <link rel="icon" type="image/png" href="../../assets/images/losJavasLogo.png">
 
+    <!--iconos font awesome-->
+    <script src="https://kit.fontawesome.com/2f23627a24.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -19,7 +21,7 @@
         <div class="center">
             <!-- LOGO -->
             <div id="logo">
-                <a href="../../index.php"><img src="../../assets/images/logoAsociacion.png" class="app-logo" alt="Logotipo" /></a>
+                <a href="/"><img src="../../assets/images/logoAsociacion.png" class="app-logo" alt="Logotipo" /></a>
                 <span id="brand">
                     <strong>Comercio</strong> Vitoria
                 </span>
@@ -29,13 +31,13 @@
             <nav id="menu">
                 <ul>
                     <li>
-                        <a href="../index.php" class="animacion">Inicio</a>
+                        <a href="/" class="animacion">Inicio</a>
                     </li>
                     <li>
-                        <a href="../paginas/blog.php" class="animacion">Blog</a>
+                        <a href="/blog" class="animacion">Blog</a>
                     </li>
                     <li>
-                        <a href="../paginas/formulario.php" class="animacion">Formulario</a>
+                        <a href="/formulario" class="animacion">Formulario</a>
                     </li>
                     <li>
                         <a href="#" class="animacion">Pagina 1</a>
