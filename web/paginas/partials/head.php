@@ -11,6 +11,8 @@
     <!--favicon-->
     <link rel="icon" type="image/png" href="../../assets/images/losJavasLogo.png">
 
+    <!--iconos font awesome-->
+    <script src="https://kit.fontawesome.com/2f23627a24.js" crossorigin="anonymous"></script>
 
 </head>
 

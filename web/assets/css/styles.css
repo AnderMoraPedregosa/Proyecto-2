@@ -331,6 +331,47 @@ body {
     cursor: pointer;
 }
 
+/*ENLACES ANUNCIOS*/
+
+
+.link-container {
+    display: flex; /* Hace que los enlaces estén en línea */
+    justify-content: flex-start; /* Centra los enlaces horizontalmente */
+    margin-top: 10px; /* Ajusta el espacio entre la información y los enlaces */
+  }
+  
+  .link {
+    width: 15px;
+    background-color: rgba(44, 62, 80, 0.336);
+    border: 2px solid black;
+    padding: 10px 15px;
+    margin: 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  }
+  
+  .edit:hover {
+    border: 2px solid #6187E8;
+    color: #6187E8;
+  }
+  
+  .read-more:hover {
+    border: 2px solid #AC5AE8;
+    color: #AC5AE8;
+  }
+  
+  .delete:hover {
+    border: 2px solid #c0392b;
+    color: #c0392b;
+  }
+  
+  .link:hover {
+    background-color: white;
+  }
+
 /*FORMULARIO ANUNCIOS*/
 
 #editarAnuncio {
@@ -437,7 +478,6 @@ body {
 
 .article-item .image-wrap img {
     height: 100%;
-    text-align: center;
 }
 
 .article-item h2 {
@@ -475,6 +515,7 @@ body {
     float: none;
     width: 100%;
     height: 18.75em;
+    text-align: center;
 }
 
 .article-detail .image-wrap img {

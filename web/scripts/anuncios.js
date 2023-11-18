@@ -50,9 +50,12 @@ window.addEventListener("load", async function () {
              </div>
              <h2>${anuncioNew.titulo}</h2>
              <span class="date">${tiempoTranscurrido}</span>
-             <a href="/anuncioDetalle/detalles/${anuncioNew.id}">Leer más</a>
-              <a href="/anuncioDetalle/actualizar/${anuncioNew.id}">Editar</a>
-              <a href="#" class="eliminar-enlace" data-id="${anuncioNew.id}">Eliminar</a>
+             <div class="link-container">
+  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
+  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
+  <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
+</div>
+
               <div class="clearfix"></div>
          `;
             articles.appendChild(divArticle);
