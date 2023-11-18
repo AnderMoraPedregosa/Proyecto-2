@@ -8,10 +8,11 @@ function jsonResponse($data, $statusCode = 200)
     http_response_code($statusCode);
     header('Content-Type: application/json');
 
-    // Imprimir los datos como JSON y salir
+    // Imprimir los datos como JSON (sin llamar a exit)
     echo json_encode($data);
-    exit; // Asegúrate de salir después de enviar la respuesta
+    // No es necesario llamar a exit aquí
 }
+
 
 switch ($accion) {
     case 'todos':
@@ -86,13 +87,14 @@ switch ($accion) {
                 // Insertar el anuncio en la base de datos
                 insertarAnuncio($dbh, $data);
                 header("Location: /");
-                exit();
+                die(); // Finalizar el script después de la redirección
             } else {
                 // Manejar el caso en que no se hayan proporcionado archivos de imagen
                 $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
                 jsonResponse($response, 400);
             }
             case "actualizar":
+            
                 //ACTUALIZAR
                 $titulo = $_POST["titulo"];
                 $precio = $_POST["precio"];
@@ -101,15 +103,15 @@ switch ($accion) {
 
             date_default_timezone_set('Europe/Madrid');
 
-            if($idCategoria !== null){
-                var_dump($idCategoria);
-                list($id_cat, $nombreCategoria) = explode('|', $idCategoria);
+            $id_cat = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+            list($id_cat, $nombreCategoria) = explode('|', $id_cat);
 
             
 
+            $id_anuncio = $_POST["id_anuncio"];
             // Crear el array $data con la información del anuncio
             $data = [
-                "id" => $id,
+                "id" => $id_anuncio,
                 'titulo' => $titulo,
                 'precio' => $precio,
                 'descripcion' => $desc,
@@ -119,14 +121,11 @@ switch ($accion) {
                 'comercio' => 1,
                 'anunciante' => 2
             ];
-        
-             // Insertar el anuncio en la base de datos
+             // Actualizar el anuncio en la base de datos
              actualizarAnuncio($dbh, $data);
-         //    header("Location: /");
-            exit();
-        }
-        
-    default:
+           header("Location: /");
+           die(); // Finalizar el script después de la redirección
+           default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);
         break;

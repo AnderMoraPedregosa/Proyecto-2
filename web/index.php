@@ -16,6 +16,7 @@ $path = isset($path_parts[0]) ? $path_parts[0] : '';
 $accion = isset($path_parts[1]) ? $path_parts[1] : '';
 $id = isset($path_parts[2]) ? $path_parts[2] : '';
 
+
 // Manejar las rutas
 switch ($path) {
     case 'anuncios':
