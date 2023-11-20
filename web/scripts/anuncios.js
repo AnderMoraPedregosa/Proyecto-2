@@ -62,7 +62,7 @@ window.addEventListener("load", async function () {
             articles.appendChild(divArticle);
 
             let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
-            eliminarEnlace.addEventListener('click', function(event) {
+            eliminarEnlace.addEventListener('click', function (event) {
                 event.preventDefault();
                 const idAnuncio = this.getAttribute('data-id');
                 confirmarEliminacion(idAnuncio);

@@ -23,7 +23,6 @@ switch ($path) {
         // Lógica para mostrar anuncios
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
-
     case 'categorias':
         require './servidor/servicios/anuncios/servicioCategorias.php';
         break;
