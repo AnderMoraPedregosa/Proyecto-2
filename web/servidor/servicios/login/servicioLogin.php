@@ -19,8 +19,13 @@ function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 
     $user1 = getPersonaByEmail($dbh, $emailUsuario);
 
-
+    if (password_verify($contraseñaUsuario, $user1['passwd'])) {
+        echo "¡Contraseña válida!";
+    } else {
+        echo "Contraseña incorrecta";
+    }
     
+    /*
     $user = getPersonaByEmailAndPassword($dbh, $emailUsuario, $contraseñaUsuario);
 
     if ($user) {
@@ -36,6 +41,7 @@ function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
         $response = ['success' => false];
         jsonResponse($response);
     }
+    */
 }
 
 // Aquí maneja la acción específica 'login'

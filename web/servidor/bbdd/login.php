@@ -17,7 +17,7 @@ function getPersonaByEmailAndPassword($dbh, $email, $pass)
 function getPersonaByEmail($dbh, $email)
 {
     $data = array('email' => $email);
-    $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = (:email)");
+    $stmt = $dbh->prepare("SELECT passwd FROM personas WHERE email = (:email)");
     $stmt->execute($data);
     return $persona = $stmt->fetch(PDO::FETCH_ASSOC);
 
