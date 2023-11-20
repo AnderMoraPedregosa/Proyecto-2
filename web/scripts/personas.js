@@ -29,7 +29,7 @@ window.addEventListener("load", async function () {
     let divPersona;
 
     if (body['status'] == 'success') {
-        let personas = datosPersonas(body['data']);
+        var personas = datosPersonas(body['data']);
 
         divPersona = document.createElement("div");
         divPersona.className = "persona";
@@ -53,6 +53,7 @@ window.addEventListener("load", async function () {
         // Datos de las personas
         personas.forEach(persona => {
             let row = document.createElement("tr");
+            console.log(persona.nombre);
             row.innerHTML = `
                 <td>${persona.id}</td>
                 <td>${persona.dni}</td>
@@ -60,7 +61,7 @@ window.addEventListener("load", async function () {
                 <td>${persona.email}</td>
                 <td>${persona.id_rol}</td>
                 <td>
-                    <a href="/personaDetalle/actualizar/${persona.id}" class="linkEditUser"><i class="fa-solid fa-user-pen"></i></a>
+                    <a href="#" class="linkEditUser" data-id="${persona.id}"><i class="fa-solid fa-user-pen"></i></a>
                     <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${persona.id}"><i class="fa-solid fa-user-minus"></i></a>
                 </td>
             `;
@@ -81,14 +82,20 @@ window.addEventListener("load", async function () {
             });
         });
 
-        //crearUsuario
-        let enlaceCrearUsuario = divPersona.querySelector('.enlaceCrearUsuario');
+         // Agregar evento al enlace "Crear Usuario" para abrir el modal
+         $(".enlaceCrearUsuario").click(function (e) {
+            e.preventDefault();
+            openModal("../paginas/partials/crearEditarPersona.php");
+        });
 
-    // Agregar evento de clic al enlace de crear usuario
-    enlaceCrearUsuario.addEventListener('click', function (event) {
-        event.preventDefault();
-        mostrarFormulario();
-    });
+         // Agregar evento al enlace "Crear Usuario" para abrir el modal
+         $(".linkEditUser").click(function (e) {
+            e.preventDefault();
+            const idPersona = this.getAttribute('data-id');
+        
+            openModalActualizar("../paginas/partials/crearEditarPersona.php", idPersona, personas);
+        });
+      
 
     } else {
         divPersona = document.createElement("div");
@@ -98,7 +105,78 @@ window.addEventListener("load", async function () {
     }
 });
 
+function openModal(url) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (data) {
+            // Inserta el contenido en el modal
+            $("#modalContent").html(data);
+            // Muestra el modal
+            $("#myModal").show();
+        },
+        error: function (error) {
+            console.error('Error al cargar el contenido:', error);
+        }
+    });
+}
 
+function openModalActualizar(url, idPersona, personas) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (data) {
+            // Inserta el contenido en el modal
+            $("#modalContent").html(data);
+
+            // Filtra la información de la persona por ID
+            const personaSeleccionada = personas.find(persona => persona.id === idPersona);
+
+            // Llena los campos del formulario con la información de la persona
+            document.getElementById("nombre").value = personaSeleccionada.nombre;
+            document.getElementById("email").value = personaSeleccionada.email;
+            document.getElementById("dni").value = personaSeleccionada.dni;
+            document.getElementById("passwd").value = personaSeleccionada.passwd;
+
+
+
+            // Selector para el radio button
+            const radioSelector = `input[name="id_rol"][value="${personaSeleccionada.id_rol}"]`;
+
+            // Verifica si el elemento existe en el documento
+            const radioElement = document.querySelector(radioSelector);
+
+            if (radioElement) {
+                // Si existe, establece el valor del radio button
+                radioElement.checked = true;
+            } else {
+                // Si no existe, imprime un mensaje en la consola para depuración
+                console.error(`Elemento no encontrado: ${radioSelector}`);
+            }
+
+            // Muestra el modal
+            $("#myModal").show();
+        },
+        error: function (error) {
+            console.error('Error al cargar el contenido:', error);
+        }
+    });
+}
+
+// Cierra el modal al hacer clic en la "x"
+$("#closeModalBtn").click(function () {
+    $("#myModal").hide();
+});
+
+/*
+// Cierra el modal al hacer clic fuera del contenido del modal
+$(window).click(function (event) {
+    if (event.target == $("#myModal")[0]) {
+        $("#myModal").hide();
+    }
+});
+
+*/
 function confirmarEliminacion(idPersona) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar el usuario?");
     if (confirmacion) {
@@ -108,9 +186,7 @@ function confirmarEliminacion(idPersona) {
     }
 }
 
-function mostrarFormulario(){
-    
-}
+
 
 function datosPersonas(data) {
     return data.map(personaJson => {

@@ -396,7 +396,7 @@ body {
     width: 50%;
 
 }
-.form_anuncios {
+form {
     max-width: 25em;
     margin: 1.25em auto;
     padding: 1.25em;
@@ -406,16 +406,18 @@ body {
     box-shadow: 0px 0px 10px #3D6CE1; 
 }
 
-.form_anuncios label {
+form label {
     display: block;
     margin-bottom: 0.5em;
     font-weight: bold;
 }
 
-.form_anuncios input[type="text"],
-.form_anuncios input[type="number"],
-.form_anuncios textarea,
-.form_anuncios select {
+form input[type="text"],
+form input[type="number"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
     width: 100%;
     padding: 0.5em;
     margin-bottom: 0.75em;
@@ -424,11 +426,11 @@ body {
     border-radius: 0.25em;
 }
 
-.form_anuncios select {
+form select {
     background-color: white; 
 }
 
-.form_anuncios input[type="submit"] {
+form input[type="submit"] {
     background-color: #4caf50;
     color: white;
     padding: 0.625em 0.938em;
@@ -438,9 +440,27 @@ body {
     transition: background 0.3s;
 }
 
-.form_anuncios input[type="submit"]:hover {
+form input[type="submit"]:hover {
     background-color: #45a049;
 }
+
+/*formulario crear/editar persona*/
+#id_rol {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+#id_rol input[type="radio"] {
+    margin-right: 5px;
+}
+
+#id_rol label {
+margin: 0;}
 
 
 
@@ -534,6 +554,55 @@ body {
 
     background-color: rgba(145, 145, 145, 0.151);
 }
+
+/* estilos pantalla modal*/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    border-radius: 10px;
+
+}
+
+#closeModalBtn {
+    border-radius: 10px;
+
+    position: absolute;
+    top: 0px; 
+    right: 0px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 23px;
+  }
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 
 #footer {
