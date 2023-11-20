@@ -13,19 +13,23 @@ function jsonResponse($data)
     echo json_encode($data);
 }
 
-echo "<script>alert('servicio login');</script>";
 
 function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 {
 
-    echo "<script>alert('estoy en loguear cuenta');</script>";
+    $user1 = getPersonaByEmail($dbh, $emailUsuario);
 
+
+    
     $user = getPersonaByEmailAndPassword($dbh, $emailUsuario, $contraseñaUsuario);
 
     if ($user) {
         // Las credenciales son correctas
+        
         $response = ['success' => true];
         jsonResponse($response);
+
+        
         
     } else {
         // Las credenciales son incorrectas
@@ -36,10 +40,8 @@ function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 
 // Aquí maneja la acción específica 'login'
 
-echo "<script>alert('estoy en login');</script>";
 
 if (isset($_POST['emailUsuario']) && isset($_POST['passwd'])) {
-    echo "<script>alert('comprobando usuario y contraseña');</script>";
 
     $emailUsuario = $_POST['emailUsuario'];
     $contraseñaUsuario = $_POST['passwd'];

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //movimientos LOGIN
 let contenedor = document.getElementById('contenedor');
 let registrarseBtn = document.getElementById('registrarse');
@@ -13,6 +12,10 @@ let iniciarSesionBtn = document.getElementById('iniciar-sesion');
     });
 
 
+
+    
+
+    /*
         //funcion asincrona para hashear una contraseña usando SHA-256
         async function hashPassword(password) {
             let encoder = new TextEncoder();
@@ -22,31 +25,6 @@ let iniciarSesionBtn = document.getElementById('iniciar-sesion');
             let hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
             return hashHex;
         }
-=======
-const contenedor = document.getElementById('contenedor');
-const registrarseBtn = document.getElementById('registrarse');
-const iniciarSesionBtn = document.getElementById('iniciar-sesion');
-
-registrarseBtn.addEventListener('click', () => {
-    contenedor.classList.add("active");
-});
-
-iniciarSesionBtn.addEventListener('click', () => {
-    contenedor.classList.remove("active");
-});
-
-
-import { Persona } from "../modelos/persona.js";
-
-
-async function hashPassword(password) {
-    let encoder = new TextEncoder();
-    let data = encoder.encode(password);
-    let hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    let hashArray = Array.from(new Uint8Array(hashBuffer));
-    let hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
 
 async function getUsuario() {
     const response = await fetch("../index.php?accion=login");
