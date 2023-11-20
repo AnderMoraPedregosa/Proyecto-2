@@ -1,6 +1,56 @@
 import { Persona } from "../modelos/persona.js";
+let btnLogin = document.getElementById("btnLogin")
+const emailUsuario = document.getElementById('emailUsuario').value;
+const passwd = document.getElementById('passwd').value;
+document.addEventListener('DOMContentLoaded', function () {
 
-//movimientos LOGIN
+
+
+    let botonLogin = document.getElementById("btnLogin")
+    botonLogin.addEventListener('click', async function (event) {
+        try {
+            event.preventDefault();
+            const emailUsuario = document.getElementById('emailUsuarioLogin').value;
+            const passwd = document.getElementById('passwd').value;
+            if (emailUsuario == "" || passwd == "") {
+                alert("Debes rellenar las credenciales")
+            } else {
+                const response = await fetch('/loginService', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `emailUsuario=${emailUsuario}&passwd=${passwd}`,
+                });
+
+                if (response.ok) {
+                    // Obtener el cuerpo de la respuesta como JSON
+                    const json = await response.json();
+
+                    // Hacer algo con el cuerpo de la respuesta (por ejemplo, imprimirlo en la consola)
+                    console.log(json);
+                    sessionStorage.setItem("user", JSON.stringify(json['user']))
+                    location.href = "/"
+                    // También puedes usar sessionStorage aquí si es necesario
+                    // sessionStorage.setItem("user", JSON.stringify(json));
+                    // location.href = "profile.php";
+                } else {
+                    // La solicitud no fue exitosa, mostrar un mensaje de error
+                    console.error('Error en la solicitud:', response.statusText);
+                }
+
+            }
+
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
+    });
+});
+
+
+
+
+/* //movimientos LOGIN
 let contenedor = document.getElementById('contenedor');
 let registrarseBtn = document.getElementById('registrarse');
 let iniciarSesionBtn = document.getElementById('iniciar-sesion');
@@ -65,7 +115,7 @@ window.addEventListener("load", async function () {
     });
 
 });
-
+ */
 /*
 >>>>>>> desarrollo
 

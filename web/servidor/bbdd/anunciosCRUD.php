@@ -3,13 +3,48 @@
 require "bbdd.php";
 $dbh = connect($host, $dbname, $user, $pass);
 
+
+function getAnuncioSearch($dbh, $palabra)
+{
+    try {
+        $data = array('palabra' => '%' . $palabra . '%');
+        $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE titulo LIKE :palabra");
+
+        $stmt->execute($data);
+
+        // Manejar el caso en que no hay coincidencias
+        $anuncios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (empty($anuncios)) {
+            // Puedes devolver un valor específico, lanzar una excepción, o manejarlo de otra manera.
+            return false;
+        }
+
+        // Cerrar la conexión
+        $stmt->closeCursor();
+
+        return $anuncios;
+    } catch (PDOException $e) {
+        // Manejar la excepción según tus necesidades (log, mostrar mensaje de error, etc.)
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
 function getAnuncios($dbh)
 {
-    $stmt = $dbh->prepare("SELECT * FROM anuncios");
-    $stmt->execute();
-    $anuncios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $anuncios;
+    try {
+        $stmt = $dbh->prepare("SELECT * FROM anuncios");
+        $stmt->execute();
+
+        // Obtener resultados directamente sin necesidad de almacenar en una variable intermedia
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // Manejar la excepción según tus necesidades (log, mostrar mensaje de error, etc.)
+        echo "Error al obtener anuncios: " . $e->getMessage();
+        return false;
+    }
 }
+
 //solo anuncios por id
 function getAnuncioId($dbh, $id)
 {

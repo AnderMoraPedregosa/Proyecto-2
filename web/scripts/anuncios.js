@@ -7,7 +7,7 @@ async function getAnuncios() {
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
         const response = await fetch(`${base_url}/anuncios/todos`);
-        console.log(base_url);
+
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
@@ -26,13 +26,76 @@ async function getAnuncios() {
     }
 }
 
+async function getAnunciosSearch(searchTerm) {
+    try {
 
+        // Obtener la ruta base del documento actual
+        const base_url = window.location.origin;
+        const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
+        const response = await fetch(searchUrl);
+        if (!response.ok) {
+            throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        return { status: 'error', message: 'Error en la llamada a la API' };
+    }
+}
 
 
 window.addEventListener("load", async function () {
 
     let articles = document.getElementById("articles");
     let body = await getAnuncios();
+
+    mostarHtml(body);
+    const searchForm = document.getElementById("search-form");
+
+    searchForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const searchInput = document.getElementById("search-input").value;
+        body = await getAnunciosSearch(searchInput);
+        // Limpia los anuncios existentes
+        articles.innerHTML = "";
+        if (body['data']) {
+            if (body['data'].length > 0) {
+                mostarHtml(body);
+            }
+        } else {
+            // Mostrar un mensaje si no hay resultados
+            const noResultsMessage = document.createElement("div");
+            noResultsMessage.className = "anuncios-error";
+            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
+            articles.appendChild(noResultsMessage);
+        }
+
+    });
+
+
+});
+
+function confirmarEliminacion(idAnuncio) {
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
+    if (confirmacion) {
+        // El usuario confirmó, realizar la eliminación
+        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
+    } else {
+        // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
+        console.log("Eliminación cancelada");
+    }
+}
+
+
+function mostarHtml(body) {
     let divArticle;
 
     if (body['status'] == 'success') {
@@ -44,7 +107,6 @@ window.addEventListener("load", async function () {
             divArticle.className = "article-item";
             let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
             // Agregar la información del anuncio al nuevo elemento div
-            console.log(anuncioNew)
             divArticle.innerHTML = `
              <div class="image-wrap">
                  <img src="${anuncioNew.imagen}" alt="Producto" />
@@ -75,19 +137,7 @@ window.addEventListener("load", async function () {
         divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
         articles.appendChild(divArticle);
     }
-});
-
-function confirmarEliminacion(idAnuncio) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
-    if (confirmacion) {
-        // El usuario confirmó, realizar la eliminación
-        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
-    } else {
-        // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
-        console.log("Eliminación cancelada");
-    }
 }
-
 
 function datosAnuncios(data) {
     let anuncios = [];
