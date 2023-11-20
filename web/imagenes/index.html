@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zoom de Imagen con CSS y JavaScript</title>
+  <style>
+    .contenedor {
+      position: relative;
+      width: 300px; 
+      height: 200px; 
+      overflow: hidden;
+    }
+    .imagen {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .zoom {
+      position: absolute;
+      display: none;
+      width: 200%; 
+      height: 200%; 
+    }
+  </style>
+</head>
+<body>
+
+<div class="contenedor">
+  <img class="imagen" src="hogar5.jpg" alt="Imagen">
+  <img class="zoom" src="hogar5.jpg" alt="Zoom">
+</div>
+
+<script>
+  const contenedor = document.querySelector('.contenedor');
+  const imagen = document.querySelector('.imagen');
+  const zoom = document.querySelector('.zoom');
+
+  contenedor.addEventListener('mousemove', (e) => {
+    const { left, top, width, height } = contenedor.getBoundingClientRect();
+    const x = (e.clientX - left) / width * 100;
+    const y = (e.clientY - top) / height * 100;
+
+    zoom.style.display = 'block';
+    zoom.style.left = `-${x}%`;
+    zoom.style.top = `-${y}%`;
+  });
+
+  contenedor.addEventListener('mouseleave', () => {
+    zoom.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
