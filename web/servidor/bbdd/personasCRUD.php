@@ -76,12 +76,14 @@ function getImagenesId($dbh, $id)
     $stmt->execute($data);
     return $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function eliminarId($dbh, $id)
+
+function borrarPersona($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("DELETE FROM anuncios WHERE id =(:id)");
-    $stmt->execute($data);
+    $stmt = $dbh->prepare("DELETE FROM personas WHERE id =(:id)");
+    $success = $stmt->execute($data);
     close();
+    return $success;
 }
 //borar todos los anuncios
 function eliminar($dbh)

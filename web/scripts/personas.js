@@ -28,66 +28,88 @@ window.addEventListener("load", async function () {
     let body = await getPersonas();
     let divPersona;
 
-
     if (body['status'] == 'success') {
         let personas = datosPersonas(body['data']);
 
+        divPersona = document.createElement("div");
+        divPersona.className = "persona";
+
+        let table = document.createElement("table");
+        table.className = "table-personas";
+
+        // Encabezados de la tabla
+        let headersRow = document.createElement("tr");
+        headersRow.innerHTML = `
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>ID Rol</th>
+            <th>Operaciones <a href="#" class="enlaceCrearUsuario linkAddUser" ><i class="fa-solid fa-user-plus"></i></i></a>
+            </th>
+        `;
+        table.appendChild(headersRow);
+
+        // Datos de las personas
         personas.forEach(persona => {
-            divPersona = document.createElement("div");
-            divPersona.className = "persona";
-
-            divPersona.innerHTML = `
-        <table class="table-personas">
-            <tr>
-                <th>ID</th>
+            let row = document.createElement("tr");
+            row.innerHTML = `
                 <td>${persona.id}</td>
-            </tr>
-            <tr>
-                <th>DNI</th>
                 <td>${persona.dni}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>${persona.nombre}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
+                <td><i class="fa-solid fa-user"></i>${persona.nombre}</td>
                 <td>${persona.email}</td>
-            </tr>
-            <tr>
-                <th>ID Rol</th>
                 <td>${persona.id_rol}</td>
-            </tr>
-        </table>
-        <div class="link-container">
-            <a href="/personaDetalle/actualizar/${persona.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
-            <a href="#" class="eliminar-enlace link delete" data-id="${persona.id}"><i class="fa-solid fa-trash"></i></a>
-        </div>
-        <div class="clearfix"></div>
-    `;
-            prueba.appendChild(divPersona);
+                <td>
+                    <a href="/personaDetalle/actualizar/${persona.id}" class="linkEditUser"><i class="fa-solid fa-user-pen"></i></a>
+                    <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${persona.id}"><i class="fa-solid fa-user-minus"></i></a>
+                </td>
+            `;
+            table.appendChild(row);
+        });
 
-            let eliminarEnlace = divPersona.querySelector('.eliminar-enlace');
+        divPersona.appendChild(table);
+
+        prueba.appendChild(divPersona);
+
+        // Agregar evento a los enlaces eliminar
+        let eliminarEnlaces = divPersona.querySelectorAll('.eliminar-enlace');
+        eliminarEnlaces.forEach(eliminarEnlace => {
             eliminarEnlace.addEventListener('click', function (event) {
                 event.preventDefault();
                 const idPersona = this.getAttribute('data-id');
                 confirmarEliminacion(idPersona);
             });
         });
+
+        //crearUsuario
+        let enlaceCrearUsuario = divPersona.querySelector('.enlaceCrearUsuario');
+
+    // Agregar evento de clic al enlace de crear usuario
+    enlaceCrearUsuario.addEventListener('click', function (event) {
+        event.preventDefault();
+        mostrarFormulario();
+    });
+
     } else {
         divPersona = document.createElement("div");
         divPersona.className = "personas-error";
         divPersona.innerHTML = `<h2>Error, no se han podido cargar las personas. Vuelva a intentarlo más tarde.</h2>`;
+        prueba.appendChild(divPersona);
     }
 });
 
+
 function confirmarEliminacion(idPersona) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta persona?");
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar el usuario?");
     if (confirmacion) {
         window.location.href = `/personas/borrarPersona/${idPersona}`;
     } else {
         console.log("Eliminación cancelada");
     }
+}
+
+function mostrarFormulario(){
+    
 }
 
 function datosPersonas(data) {

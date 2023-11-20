@@ -459,13 +459,11 @@ body {
     margin: 20px auto;
     height: 100%;
     width: 80%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Dos personas por fila */
     justify-content: center;
     gap: 20px; /* Espacio entre las personas */
     border: 2px solid rgba(0, 0, 0, 0.349);
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 15px rgba(172, 90, 232, 0.5);
 }
 
 /* Estilos para cada persona */
@@ -476,8 +474,31 @@ body {
 
 
 
-.link-container{
-    display: flex;justify-content: center;
+
+.linkEditUser, .linkDeleteUser, .enlaceCrearUsuario{
+    width: 15px;
+    border: 2px solid black;
+    padding: 5px 6px;
+    margin: 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.linkEditUser{
+    background-color: #3D6CE1;
+}
+
+.linkDeleteUser{
+    background-color: #c0392b;
+}
+
+.enlaceCrearUsuario{
+    margin-left: 20px;
+    background-color: #45a049;
+
 }
 
 .table-personas {
@@ -486,10 +507,14 @@ body {
     margin-bottom: 10px;
 }
 
+.table-personas i{
+    margin-right: 10px;
+}
+
 /* Estilos para las celdas de la tabla */
 .table-personas td, .table-personas th {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
 }
 
@@ -498,7 +523,14 @@ body {
     background-color: #f2f2f2;
 }
 
-.personas:hover {
+.table-personas th{
+    text-transform: uppercase;
+    padding: 15px;
+    background-color: #6187E8;
+
+}
+
+.table-personas tr:hover {
 
     background-color: rgba(145, 145, 145, 0.151);
 }
