@@ -44,8 +44,8 @@ body {
 .center {
     width:70%;
     margin: 0em auto;
-     display: flex;
-        justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 
@@ -451,8 +451,57 @@ body {
     display: table;
 }
 
+/*pagina crud user*/
+
+/* Estilos para el contenedor principal */
+/* Estilos para el contenedor principal */
+#crudUsers {
+    margin: 20px auto;
+    height: 100%;
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos personas por fila */
+    justify-content: center;
+    gap: 20px; /* Espacio entre las personas */
+    border: 2px solid rgba(0, 0, 0, 0.349);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos para cada persona */
+.personas {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
 
 
+
+.link-container{
+    display: flex;justify-content: center;
+}
+
+.table-personas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+/* Estilos para las celdas de la tabla */
+.table-personas td, .table-personas th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Estilos para las filas impares (opcional, solo para resaltar alternancias) */
+.table-personas tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.personas:hover {
+
+    background-color: rgba(145, 145, 145, 0.151);
+}
 
 
 #footer {

@@ -40,7 +40,7 @@
                         <a href="/formulario" class="animacion">Formulario</a>
                     </li>
                     <li>
-                        <a href="#" class="animacion">Pagina 1</a>
+                        <a href="/crudPersonas" class="animacion">Pagina 1</a>
                     </li>
                     <li>
                         <a href="#" class="animacion">Pagina 2</a>
