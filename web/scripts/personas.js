@@ -91,11 +91,11 @@ window.addEventListener("load", async function () {
          // Agregar evento al enlace "Crear Usuario" para abrir el modal
          $(".linkEditUser").click(function (e) {
             e.preventDefault();
-            const idPersona = this.getAttribute('data-id');
+            let idPersona = this.getAttribute('data-id');
         
             openModalActualizar("../paginas/partials/crearEditarPersona.php", idPersona, personas);
         });
-      
+
 
     } else {
         divPersona = document.createElement("div");
@@ -104,6 +104,15 @@ window.addEventListener("load", async function () {
         prueba.appendChild(divPersona);
     }
 });
+
+function confirmarEliminacion(idPersona) {
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar el usuario?");
+    if (confirmacion) {
+        window.location.href = `/personas/borrarPersona/${idPersona}`;
+    } else {
+        console.log("Eliminación cancelada");
+    }
+}
 
 function openModal(url) {
     $.ajax({
@@ -120,6 +129,33 @@ function openModal(url) {
         }
     });
 }
+
+       // Agregar evento al botón "Crear Persona" en el modal
+       $(document).on("click", "#btnCrearPersona", function () {
+        // Obtener valores del formulario
+        const nombre = document.getElementById("nombre").value;
+        const email = document.getElementById("email").value;
+        const dni = document.getElementById("dni").value;
+        const passwd = document.getElementById("passwd").value;
+        const idRol = document.querySelector('input[name="id_rol"]:checked').value;
+
+        const idPersona = this.getAttribute('data-id'); 
+
+        alert(document.getElementById("btnCrearPersona").value);
+
+        // Verificar si el botón tiene el valor "Actualizar"
+        if (this.value === "Actualizar") {
+            alert("Actualizar");
+            // Realizar lógica para actualizar
+            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, `/personas/actualizar/${idPersona}`);
+        } else {
+            // Realizar lógica para insertar
+            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, `/personas/insertar/${idPersona}`);
+        }
+
+        // Cerrar el modal después de la operación
+        document.getElementById("myModal").style.display = "none";
+    });
 
 function openModalActualizar(url, idPersona, personas) {
     $.ajax({
@@ -154,6 +190,9 @@ function openModalActualizar(url, idPersona, personas) {
                 console.error(`Elemento no encontrado: ${radioSelector}`);
             }
 
+            //cambiar valor del boton
+            document.getElementById("btnCrearPersona").value = "Actualizar";
+
             // Muestra el modal
             $("#myModal").show();
         },
@@ -177,16 +216,22 @@ $(window).click(function (event) {
 });
 
 */
-function confirmarEliminacion(idPersona) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar el usuario?");
-    if (confirmacion) {
-        window.location.href = `/personas/borrarPersona/${idPersona}`;
-    } else {
-        console.log("Eliminación cancelada");
-    }
+
+
+
+function insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url) {
+    fetch(url, {
+        method: 'PUT', // o el método correcto según tu API
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idPersona, nombre, email, dni, passwd, idRol }),
+    })
+    .then(response => response.text())
+    .catch(error => console.error('Error en la operación:', error.message));
+    
+    
 }
-
-
 
 function datosPersonas(data) {
     return data.map(personaJson => {

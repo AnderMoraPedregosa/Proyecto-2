@@ -14,6 +14,9 @@
     <!--iconos font awesome-->
     <script src="https://kit.fontawesome.com/2f23627a24.js" crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
 </head>
 
 <body>

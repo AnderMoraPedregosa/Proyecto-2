@@ -15,6 +15,12 @@ function jsonResponse($data, $statusCode = 200)
     // No es necesario llamar a exit aquí
 }
 
+// Obtener datos JSON del cuerpo de la solicitud PUT
+$datos_json = file_get_contents("php://input");
+
+// Decodificar datos JSON
+$datos = json_decode($datos_json, true); // El segundo parámetro true devuelve un array asociativo
+
 
 switch ($accion) {
     case 'todos':
@@ -30,6 +36,40 @@ switch ($accion) {
         break;
         case "borrarPersona":
             $result = borrarPersona($dbh, $id);
+    
+            if ($result) {
+                // Si la eliminación fue exitosa
+                $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
+                jsonResponse($response);
+    
+                // Redirigir a la página desde la que se hizo la solicitud
+                header("Location: ".$_SERVER['HTTP_REFERER']);
+                exit(); // Asegura que el script se detenga después de la redirección
+            } else {
+                // Si hubo un problema al intentar borrar la persona
+                $response = ['status' => 'error', 'message' => 'No se pudo borrar la persona'];
+                jsonResponse($response, 500);
+            }
+            break;
+        case "actualizar":
+              //ACTUALIZAR
+              $idPersona = $datos['idPersona'];
+              $nombre = $datos['nombre'];
+              $email = $datos['email'];
+              $dni = $datos['dni'];
+              $passwd = $datos['passwd'];
+              $idRol = $datos['id_rol'];
+
+              $data = [
+                "id" => $idPersona,
+                "dni" => $dni,
+                "email" => $email,
+                'nombre' => $nombre,
+                'passwd' => $passwd,
+                'rol' => $idRol
+            ];
+
+            $result = actualizarPersona($dbh, $data);
     
             if ($result) {
                 // Si la eliminación fue exitosa

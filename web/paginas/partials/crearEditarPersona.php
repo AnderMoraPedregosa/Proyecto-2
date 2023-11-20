@@ -11,7 +11,7 @@
     <label for="email">Email</label>
     <input type="email" id="email" name="email" required="required" />
 
-    <label for="id_rol">Rol</label>
+    <label >Rol</label>
     <div id="id_rol">
         <input type="radio" id="cliente" name="id_rol" value="2" />
         <label for="cliente">Cliente</label>
@@ -22,6 +22,6 @@
         <input type="radio" id="admin" name="id_rol" value="1" />
         <label for="admin">Admin</label>
     </div>
-    <input type="submit" name="crearPersona" value="Crear" id="btnCrearPersona" class="btn btn-success" />
+    <input type="button" name="crearPersona" value="Crear" id="btnCrearPersona" class="btn btn-success " />
 
 </form>

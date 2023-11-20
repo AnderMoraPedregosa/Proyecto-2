@@ -60,13 +60,27 @@ function insertarRutaImagen($dbh, $data)
     close();
 }
 
-function actualizarAnuncio($dbh, $data)
+function actualizarPersona($dbh, $data)
 {
+    try {
+        $stmt = $dbh->prepare("UPDATE personas SET dni = :dni, nombre = :nombre, passwd = :passwd, id_rol = :rol, email = :email WHERE id = :id");
+        if (!$stmt) {
+            throw new Exception("Error en la preparación de la consulta");
+        }
 
-    $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio, categoria = :categoria, descripcion = :descripcion, id_categoria = :id_categoria, fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio WHERE id = :id");
-    $stmt->execute($data);
-    close();
+        $success = $stmt->execute($data);
+        if (!$success) {
+            throw new Exception("Error al ejecutar la consulta");
+        }
+
+        return true; // Opcional: Puedes devolver algo más significativo si lo deseas
+    } catch (Exception $e) {
+        // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
+        error_log($e->getMessage());
+        return false;
+    }
 }
+
 
 
 function getImagenesId($dbh, $id)
