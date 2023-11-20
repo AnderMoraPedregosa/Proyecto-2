@@ -22,9 +22,7 @@
             <!-- LOGO -->
             <div id="logo">
                 <a href="/"><img src="../../assets/images/logoAsociacion.png" class="app-logo" alt="Logotipo" /></a>
-                <span id="brand">
-                    <strong>Comercio</strong> Vitoria
-                </span>
+
             </div>
 
             <!-- MENU -->

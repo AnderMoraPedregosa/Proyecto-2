@@ -95,10 +95,10 @@ body {
 }
 
 #menu {
-    margin-top: 1.6em;
+  margin-top: 1em;
     width: 60%;
     float: right;
-    font-size: 1.1em;
+    font-size: 1.3em;
 }
 
 #menu ul {
@@ -128,13 +128,22 @@ body {
     color: #1950D8;
 }
 
+.animacion{
+    font-size: 1.2em;
+}
+.animacion:hover{
+    transform: scale(1.5);
+    transition: transform 0.3s ease;
+    color: rgb(153, 53, 225);
+}
 
 #menu a.animacion::before {
+    
     content: "";
     position: absolute;
     width: 0%;
     height: 0.125em;
-    bottom: 0.938em;
+    bottom:0.938em;
     left: 50%;
     background-color: #0B3AAE;
     transform: translateX(-50%);
@@ -144,6 +153,7 @@ body {
 #menu a.animacion:hover::before {
     width: 100%;
     background-color: #6187E8;
+    
 }
 
 #slider {
@@ -297,6 +307,13 @@ body {
     border-radius: 20%;
     position: relative;
     overflow: hidden;
+    scale: 120%;
+}
+
+.btn-sesion:hover {
+    transform: scale(1.2); 
+    transition: transform 0.3s ease; 
+    color: rgb(129, 243, 163);
 }
 
 .btn-sesion::before {
@@ -317,6 +334,7 @@ body {
 .btn-sesion:hover::before {
     transform: translate(-50%, -50%) scale(2);
     opacity: 0;
+    
 }
 
 
@@ -356,6 +374,7 @@ body {
 #cargarMasBtn:hover {
     border: 2px solid  #6187E8;
     color:  #6187E8;
+    background-color: lightgrey;
   }
 
 .btn {
@@ -371,7 +390,12 @@ body {
     transition: 300ms all;
     border: none;
     cursor: pointer;
+    border-radius: .4em;
 }
+.btn:hover{
+    color: black;
+     background-color: grey; 
+    }
 
 /*ENLACES ANUNCIOS*/
 
@@ -645,11 +669,11 @@ button {
     }
 
     #logo {
-        width: 50%;
+        width: 30%;
     }
 
     #menu {
-        width: 50%;
+        width: 70%;
     }
 
     #menu ul {
@@ -658,9 +682,9 @@ button {
 }
 
 
-@media (max-width: 1390px) {
+@media (max-width: 1300px) {
     #logo {
-        width: 30%;
+        width: 20%;
     }
 
     #brand {
@@ -668,11 +692,12 @@ button {
     }
 
     #menu {
-        width: 70%;
+        width: 80%;
+        
     }
 }
 
-@media (max-width: 990px) {
+@media (max-width: 1200px) {
 
     #logo {
         display: flex;
@@ -710,6 +735,7 @@ button {
         width: 60%;
         margin: 0em auto;
         margin-bottom: 3.125em;
+        overflow: auto;
     }
 
     #slider h1 {
@@ -722,7 +748,7 @@ button {
     }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 766px) {
     #logo {
         display: flex;
         justify-content: center;
