@@ -40,6 +40,8 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
     }
 }
 
+
+
 // Aquí maneja la acción específica 'regiatro'
 
 echo "<script>alert('estoy en registro');</script>";

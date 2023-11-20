@@ -17,13 +17,20 @@ function jsonResponse($data)
 function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 {
 
+    $user1 = getPersonaByEmail($dbh, $emailUsuario);
 
+
+    
     $user = getPersonaByEmailAndPassword($dbh, $emailUsuario, $contraseñaUsuario);
 
     if ($user) {
         // Las credenciales son correctas
+        
         $response = ['success' => true];
         jsonResponse($response);
+
+        
+        
     } else {
         // Las credenciales son incorrectas
         $response = ['success' => false];
@@ -35,7 +42,6 @@ function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 
 
 if (isset($_POST['emailUsuario']) && isset($_POST['passwd'])) {
-  
 
     $emailUsuario = $_POST['emailUsuario'];
     $contraseñaUsuario = $_POST['passwd'];
