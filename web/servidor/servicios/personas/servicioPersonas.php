@@ -61,7 +61,7 @@ switch ($accion) {
               $idRol = $datos['id_rol'];
 
               $data = [
-                "id" => $idPersona,
+                "id" => $id,
                 "dni" => $dni,
                 "email" => $email,
                 'nombre' => $nombre,

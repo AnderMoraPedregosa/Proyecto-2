@@ -23,6 +23,8 @@ async function getPersonas() {
     }
 }
 
+var idPersona;
+
 window.addEventListener("load", async function () {
     let prueba = document.getElementById("crudUsers");
     let body = await getPersonas();
@@ -91,7 +93,7 @@ window.addEventListener("load", async function () {
          // Agregar evento al enlace "Crear Usuario" para abrir el modal
          $(".linkEditUser").click(function (e) {
             e.preventDefault();
-            let idPersona = this.getAttribute('data-id');
+            idPersona = this.getAttribute('data-id');
         
             openModalActualizar("../paginas/partials/crearEditarPersona.php", idPersona, personas);
         });
@@ -139,7 +141,6 @@ function openModal(url) {
         const passwd = document.getElementById("passwd").value;
         const idRol = document.querySelector('input[name="id_rol"]:checked').value;
 
-        const idPersona = this.getAttribute('data-id'); 
 
         alert(document.getElementById("btnCrearPersona").value);
 
