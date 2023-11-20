@@ -46,7 +46,7 @@
                         <a href="#" class="animacion">Pagina 2</a>
                     </li>
                     <li>
-                        <a href="../paginas/login.html"><button class="btn-sesion">Iniciar sesion</button></a>
+                        <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
                     </li>
                 </ul>
             </nav>
