@@ -1,19 +1,23 @@
 import { Persona } from "../modelos/persona.js";
 
+
 async function getPersonas() {
     try {
         const base_url = window.location.origin;
         const response = await fetch(`${base_url}/personas/todos`);
 
+
         if (!response.ok) {
             throw new Error(`Error al obtener personas. Código de estado: ${response.status}`);
         }
+
 
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
             const text = await response.text();
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
+
 
         const data = await response.json();
         return data;
@@ -23,21 +27,25 @@ async function getPersonas() {
     }
 }
 
-var idPersona;
 
+var idPersona;
 window.addEventListener("load", async function () {
     let prueba = document.getElementById("crudUsers");
     let body = await getPersonas();
     let divPersona;
 
+
     if (body['status'] == 'success') {
         var personas = datosPersonas(body['data']);
+
 
         divPersona = document.createElement("div");
         divPersona.className = "persona";
 
+
         let table = document.createElement("table");
         table.className = "table-personas";
+
 
         // Encabezados de la tabla
         let headersRow = document.createElement("tr");
@@ -47,10 +55,11 @@ window.addEventListener("load", async function () {
             <th>Nombre</th>
             <th>Email</th>
             <th>ID Rol</th>
-            <th>Operaciones <a href="#" class="enlaceCrearUsuario linkAddUser" ><i class="fa-solid fa-user-plus"></i></i></a>
+            <th>Operaciones <a href="#" class="enlaceCrearUsuario linkAddUser" ><i class="fa-solid fa-user-plus"></i></a>
             </th>
         `;
         table.appendChild(headersRow);
+
 
         // Datos de las personas
         personas.forEach(persona => {
@@ -70,9 +79,12 @@ window.addEventListener("load", async function () {
             table.appendChild(row);
         });
 
+
         divPersona.appendChild(table);
 
+
         prueba.appendChild(divPersona);
+
 
         // Agregar evento a los enlaces eliminar
         let eliminarEnlaces = divPersona.querySelectorAll('.eliminar-enlace');
@@ -84,17 +96,22 @@ window.addEventListener("load", async function () {
             });
         });
 
-         // Agregar evento al enlace "Crear Usuario" para abrir el modal
-         $(".enlaceCrearUsuario").click(function (e) {
+
+        // Agregar evento al enlace "Crear Usuario" para abrir el modal
+        document.querySelector(".enlaceCrearUsuario").addEventListener('click', function (e) {
             e.preventDefault();
             openModal("../paginas/partials/crearEditarPersona.php");
         });
 
-         // Agregar evento al enlace "Crear Usuario" para abrir el modal
-         $(".linkEditUser").click(function (e) {
-            e.preventDefault();
-            idPersona = this.getAttribute('data-id');
-            openModalActualizar("../paginas/partials/crearEditarPersona.php", idPersona, personas);
+
+        // Agregar evento al enlace "Editar Usuario" para abrir el modal
+        let editUserLinks = divPersona.querySelectorAll('.linkEditUser');
+        editUserLinks.forEach(editUserLink => {
+            editUserLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                idPersona = this.getAttribute('data-id');
+                openModalActualizar("../paginas/partials/crearEditarPersona.php", idPersona, personas);
+            });
         });
 
 
@@ -106,6 +123,7 @@ window.addEventListener("load", async function () {
     }
 });
 
+
 function confirmarEliminacion(idPersona) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar el usuario?");
     if (confirmacion) {
@@ -115,30 +133,34 @@ function confirmarEliminacion(idPersona) {
     }
 }
 
+
 function openModal(url) {
-    $.ajax({
-        url: url,
-        type: 'GET',
-        success: function (data) {
+    // Obtener valores del formulario
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
             // Inserta el contenido en el modal
-            $("#modalContent").html(data);
+            document.getElementById("modalContent").innerHTML = data;
             // Muestra el modal
-            $("#myModal").show();
-        },
-        error: function (error) {
-            console.error('Error al cargar el contenido:', error);
-        }
-    });
+            document.getElementById("myModal").style.display = "block";
+        })
+        .catch(error => console.error('Error al cargar el contenido:', error));
 }
 
-       // Agregar evento al botón "Crear Persona" en el modal
-       $(document).on("click", "#btnCrearPersona", function () {
+
+
+
+     // Agregar evento al botón "Crear Persona" en el modal
+     $(document).on("click", "#btnCrearPersona", function () {
         // Obtener valores del formulario
         const nombre = document.getElementById("nombre").value;
         const email = document.getElementById("email").value;
         const dni = document.getElementById("dni").value;
         const passwd = document.getElementById("passwd").value;
         const idRol = document.querySelector('input[name="id_rol"]:checked').value;
+
+
+
 
 
 
@@ -149,26 +171,37 @@ function openModal(url) {
              url = `/personas/actualizar/${idPersona}`;
         } else {
 
+
              url = `/personas/insertar`;
         }
 
+
         insertarActualizarPersona(nombre, email, dni, passwd, idRol, url);
+
+
 
 
         // Cerrar el modal después de la operación
         document.getElementById("myModal").style.display = "none";
     });
 
+
+
+
+
+
 function openModalActualizar(url, idPersona, personas) {
-    $.ajax({
-        url: url,
-        type: 'GET',
-        success: function (data) {
+    // Obtener valores del formulario
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
             // Inserta el contenido en el modal
-            $("#modalContent").html(data);
+            document.getElementById("modalContent").innerHTML = data;
+
 
             // Filtra la información de la persona por ID
             const personaSeleccionada = personas.find(persona => persona.id === idPersona);
+
 
             // Llena los campos del formulario con la información de la persona
             document.getElementById("nombre").value = personaSeleccionada.nombre;
@@ -177,12 +210,13 @@ function openModalActualizar(url, idPersona, personas) {
             document.getElementById("passwd").value = personaSeleccionada.passwd;
 
 
-
             // Selector para el radio button
             const radioSelector = `input[name="id_rol"][value="${personaSeleccionada.id_rol}"]`;
 
+
             // Verifica si el elemento existe en el documento
             const radioElement = document.querySelector(radioSelector);
+
 
             if (radioElement) {
                 // Si existe, establece el valor del radio button
@@ -192,67 +226,63 @@ function openModalActualizar(url, idPersona, personas) {
                 console.error(`Elemento no encontrado: ${radioSelector}`);
             }
 
-            //cambiar valor del boton
+
+            // Cambiar valor del botón
             document.getElementById("btnCrearPersona").value = "Actualizar";
 
+
             // Muestra el modal
-            $("#myModal").show();
-        },
-        error: function (error) {
-            console.error('Error al cargar el contenido:', error);
-        }
-    });
+            document.getElementById("myModal").style.display = "block";
+        })
+        .catch(error => console.error('Error al cargar el contenido:', error));
 }
 
+
 // Cierra el modal al hacer clic en la "x"
-$("#closeModalBtn").click(function () {
-    $("#myModal").hide();
+document.getElementById("closeModalBtn").addEventListener("click", function () {
+    document.getElementById("myModal").style.display = "none";
 });
 
-/*
-// Cierra el modal al hacer clic fuera del contenido del modal
-$(window).click(function (event) {
-    if (event.target == $("#myModal")[0]) {
-        $("#myModal").hide();
-    }
-});
 
-*/
+async function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url) {
+    try {
+        // Crear un objeto con las claves correspondientes
+        const data = {
+            id: idPersona,
+            dni: dni,
+            email: email,
+            nombre: nombre,
+            passwd: passwd,
+            rol: idRol
+        };
 
+        // Realizar la solicitud con fetch y esperar la respuesta
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
 
-
-function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url) {
-    // Crear un objeto con las claves correspondientes
-    const data = {
-        id: idPersona,
-        dni: dni,
-        email: email,
-        nombre: nombre,
-        passwd: passwd,
-        rol: idRol
-    };
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => {
+        // Verificar si la respuesta es exitosa
         if (!response.ok) {
             throw new Error(`Error en la operación: ${response.statusText}`);
         }
-        return response.text();
-    })
-    .then(data => {
-        console.log('Operación exitosa:', data);
-        // Recarga la página después de una operación exitosa
-        location.reload(true); // El parámetro true fuerza la recarga desde el servidor, omitir si no es necesario
-    })
-    .catch(error => console.error('Error en la operación:', error.message));
-}
 
+        // Obtener el texto de la respuesta
+        const responseData = await response.text();
+
+        // Imprimir un mensaje en la consola
+        console.log('Operación exitosa:', responseData);
+
+        // Recargar la página después de una operación exitosa
+        location.reload(true); // El parámetro true fuerza la recarga desde el servidor, omitir si no es necesario
+    } catch (error) {
+        // Capturar y manejar errores
+        console.error('Error en la operación:', error.message);
+    }
+}
 
 function datosPersonas(data) {
     return data.map(personaJson => {
@@ -266,3 +296,6 @@ function datosPersonas(data) {
         );
     });
 }
+
+
+

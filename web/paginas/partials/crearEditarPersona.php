@@ -22,6 +22,6 @@
         <input type="radio" id="admin" name="id_rol" value="1" />
         <label for="admin">Admin</label>
     </div>
-    <input type="button" name="crearPersona" value="Crear" id="btnCrearPersona" class="btn btn-success " />
+    <input type="button" name="crearPersona" value="Crear" id="btnCrearPersona" class="pruebaPersona " />
 
 </form>
