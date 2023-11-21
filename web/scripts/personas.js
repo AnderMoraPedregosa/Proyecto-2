@@ -23,7 +23,7 @@ async function getPersonas() {
     }
 }
 
-var idPersona;
+var idPersona = 0;
 
 window.addEventListener("load", async function () {
     let prueba = document.getElementById("crudUsers");
@@ -142,19 +142,22 @@ function openModal(url) {
         const idRol = document.querySelector('input[name="id_rol"]:checked').value;
 
 
-        alert(document.getElementById("btnCrearPersona").value);
 
+        let url;
         // Verificar si el botón tiene el valor "Actualizar"
         if (this.value === "Actualizar") {
             alert("Estoy en Actualizar");
             // Realizar lógica para actualizar
-            let url = `/personas/actualizar/${idPersona}`;
+             url = `/personas/actualizar/${idPersona}`;
             alert(url);
-            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url );
         } else {
-            let url = `/personas/insertar/${idPersona}`;
-            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, );
+            alert("Estoy en insertar");
+
+             url = `/personas/insertar`;
         }
+
+        insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url);
+
 
         // Cerrar el modal después de la operación
         document.getElementById("myModal").style.display = "none";
@@ -223,18 +226,27 @@ $(window).click(function (event) {
 
 
 function insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url) {
+    // Crear un objeto con las claves correspondientes
+    const data = {
+        id: idPersona,
+        dni: dni,
+        email: email,
+        nombre: nombre,
+        passwd: passwd,
+        rol: idRol
+    };
+
     fetch(url, {
-        method: 'POST', // o el método correcto según tu API
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ idPersona, nombre, email, dni, passwd, idRol }),
+        body: JSON.stringify(data),
     })
     .then(response => response.text())
     .catch(error => console.error('Error en la operación:', error.message));
-    
-    
 }
+
 
 function datosPersonas(data) {
     return data.map(personaJson => {

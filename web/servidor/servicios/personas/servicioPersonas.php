@@ -15,6 +15,8 @@ function jsonResponse($data, $statusCode = 200)
     // No es necesario llamar a exit aquí
 }
 
+$data = json_decode(file_get_contents('php://input'), true);
+
 /*
 // Obtener datos JSON del cuerpo de la solicitud PUT
 $datos_json = file_get_contents("php://input");
@@ -52,14 +54,31 @@ switch ($accion) {
                 jsonResponse($response, 500);
             }
             break;
+            case "insertar":
+                $nombre = isset($data['nombre']) ? $data['nombre'] : '';
+                $email = isset($data['email']) ? $data['email'] : '';
+                $dni = isset($data['dni']) ? $data['dni'] : '';
+                $passwd = isset($data['passwd']) ? $data['passwd'] : '';
+                $idRol = isset($data['rol']) ? $data['rol'] : ''; 
+  
+                $data = [
+                  "id" => $id,
+                  "dni" => $dni,
+                  "email" => $email,
+                  'nombre' => $nombre,
+                  'passwd' => $passwd,
+                  'rol' => $idRol
+              ];
+  
+              $result = insertarPersona2($dbh, $data);
+                break;
         case "actualizar":
               //ACTUALIZAR
-              $idPersona = $id;
-              $nombre = $_POST["nombre"];
-              $email = $_POST["email"];
-              $dni = $_POST["dni"];
-              $passwd = $_POST["passwd"];
-              $idRol = $_POST["id_rol"];
+              $nombre = isset($data['nombre']) ? $data['nombre'] : '';
+                $email = isset($data['email']) ? $data['email'] : '';
+                $dni = isset($data['dni']) ? $data['dni'] : '';
+                $passwd = isset($data['passwd']) ? $data['passwd'] : '';
+                $idRol = isset($data['rol']) ? $data['rol'] : ''; 
 
               $data = [
                 "id" => $id,
