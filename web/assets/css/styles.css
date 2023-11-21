@@ -998,3 +998,24 @@ button {
     animation-delay: -7.5s; 
   }
   
+  a.read-more,
+  a.edit,
+  a.delete {
+    /* Fondo con degradado lineal */
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    /* Otros estilos de diseño */
+    padding: 5px 10px; /* Añade relleno alrededor del texto */
+    border-radius: 5px; /* Redondea los bordes */
+    text-decoration: none; /* Elimina el subrayado predeterminado */
+    color: #333; /* Color del texto */
+  }
+  
+  a.read-more:hover,
+  a.edit:hover,
+  a.delete:hover {
+    /* Estilos al pasar el mouse sobre los enlaces */
+    background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+    /* Cambia el degradado al pasar el mouse */
+    /* Puedes ajustar los colores y la dirección del degradado según tu preferencia */
+  }
+  
