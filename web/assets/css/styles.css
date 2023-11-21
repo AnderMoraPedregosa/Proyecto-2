@@ -453,12 +453,14 @@ body {
     border: 0.063em solid rgba(0, 0, 0, 0.349);
     border-radius: 10px;
     box-shadow: 0px 0px 10px #3D6CE1; 
+    
 }
 
 .form_anuncios label {
     display: block;
     margin-bottom: 0.5em;
     font-weight: bold;
+    font-size: 1.5em;
 }
 
 .form_anuncios input[type="text"],
@@ -471,6 +473,7 @@ body {
     box-sizing: border-box;
     border: 0.063em solid #ccc;
     border-radius: 0.25em;
+    font-size: 1.2em;
 }
 
 .form_anuncios select {
@@ -976,6 +979,4 @@ button {
     animation: moveWave 15s linear infinite;
     animation-delay: -7.5s; 
   }
-  
-  
   
