@@ -111,6 +111,7 @@ function confirmarEliminacion(idAnuncio) {
 
 function mostarHtml(body) {
     let divArticle;
+    const scrollBefore = window.scrollY;
     console.log(numero1,numero2)
 
     if (body['status'] == 'success') {
@@ -146,6 +147,8 @@ function mostarHtml(body) {
             });
 
         });
+          
+          window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
     } else {
         divArticle = document.createElement("div");
         divArticle.className = "anuncios-error";
