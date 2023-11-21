@@ -146,12 +146,14 @@ function openModal(url) {
 
         // Verificar si el botón tiene el valor "Actualizar"
         if (this.value === "Actualizar") {
-            alert("Actualizar");
+            alert("Estoy en Actualizar");
             // Realizar lógica para actualizar
-            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, `/personas/actualizar/${idPersona}`);
+            let url = `/personas/actualizar/${idPersona}`;
+            alert(url);
+            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url );
         } else {
-            // Realizar lógica para insertar
-            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, `/personas/insertar/${idPersona}`);
+            let url = `/personas/insertar/${idPersona}`;
+            insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, );
         }
 
         // Cerrar el modal después de la operación
@@ -222,7 +224,7 @@ $(window).click(function (event) {
 
 function insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url) {
     fetch(url, {
-        method: 'PUT', // o el método correcto según tu API
+        method: 'POST', // o el método correcto según tu API
         headers: {
             'Content-Type': 'application/json',
         },

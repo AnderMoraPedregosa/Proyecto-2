@@ -15,12 +15,13 @@ function jsonResponse($data, $statusCode = 200)
     // No es necesario llamar a exit aquí
 }
 
+/*
 // Obtener datos JSON del cuerpo de la solicitud PUT
 $datos_json = file_get_contents("php://input");
 
 // Decodificar datos JSON
 $datos = json_decode($datos_json, true); // El segundo parámetro true devuelve un array asociativo
-
+*/
 
 switch ($accion) {
     case 'todos':
@@ -53,12 +54,12 @@ switch ($accion) {
             break;
         case "actualizar":
               //ACTUALIZAR
-              $idPersona = $datos['idPersona'];
-              $nombre = $datos['nombre'];
-              $email = $datos['email'];
-              $dni = $datos['dni'];
-              $passwd = $datos['passwd'];
-              $idRol = $datos['id_rol'];
+              $idPersona = $id;
+              $nombre = $_POST["nombre"];
+              $email = $_POST["email"];
+              $dni = $_POST["dni"];
+              $passwd = $_POST["passwd"];
+              $idRol = $_POST["id_rol"];
 
               $data = [
                 "id" => $id,
