@@ -33,28 +33,28 @@
             <!-- MENU -->
             <nav id="menu">
                 <ul>
-                    <li>
+                    <li id="liInicio">
                         <a href="/" class="animacion">Inicio</a>
                     </li>
-                    <li>
+                    <li id="liBlog">
                         <a href="/blog" class="animacion">Blog</a>
                     </li>
-                    <li>
+                    <li id="liFormulario">
                         <a href="/formulario" class="animacion">Formulario</a>
                     </li>
-                    <li>
+                    <li id="liUsuarios">
                         <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
-                    <li>
+                    <li id="liPerfil">
                         <a href="#" class="animacion">Perfil</a>
                     </li>
-                    <li>
+                    <li id="liIniciarSesion">
                         <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
-                        <a href="/login"><button class="btn-sesion" id="btnLogOutHead">Cerrar sesion</button></a>
+                        <a href="/login"><button class="btn-sesion" id="btnLogOutHead" style="display: none;">Cerrar sesion</button></a>
                     </li>
                 </ul>
             </nav>
-
+            <script src="../../scripts/header.js"></script>
             <!--LIMPIAR FLOTADOS-->
             <div class="clearfix"></div>
         </div>
