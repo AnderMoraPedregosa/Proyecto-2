@@ -23,7 +23,7 @@ async function getPersonas() {
     }
 }
 
-var idPersona = 0;
+var idPersona;
 
 window.addEventListener("load", async function () {
     let prueba = document.getElementById("crudUsers");
@@ -94,7 +94,6 @@ window.addEventListener("load", async function () {
          $(".linkEditUser").click(function (e) {
             e.preventDefault();
             idPersona = this.getAttribute('data-id');
-        
             openModalActualizar("../paginas/partials/crearEditarPersona.php", idPersona, personas);
         });
 
@@ -146,17 +145,14 @@ function openModal(url) {
         let url;
         // Verificar si el botón tiene el valor "Actualizar"
         if (this.value === "Actualizar") {
-            alert("Estoy en Actualizar");
             // Realizar lógica para actualizar
              url = `/personas/actualizar/${idPersona}`;
-            alert(url);
         } else {
-            alert("Estoy en insertar");
 
              url = `/personas/insertar`;
         }
 
-        insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url);
+        insertarActualizarPersona(nombre, email, dni, passwd, idRol, url);
 
 
         // Cerrar el modal después de la operación
@@ -225,7 +221,7 @@ $(window).click(function (event) {
 
 
 
-function insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol, url) {
+function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url) {
     // Crear un objeto con las claves correspondientes
     const data = {
         id: idPersona,
@@ -243,7 +239,17 @@ function insertarActualizarPersona(idPersona, nombre, email, dni, passwd, idRol,
         },
         body: JSON.stringify(data),
     })
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error en la operación: ${response.statusText}`);
+        }
+        return response.text();
+    })
+    .then(data => {
+        console.log('Operación exitosa:', data);
+        // Recarga la página después de una operación exitosa
+        location.reload(true); // El parámetro true fuerza la recarga desde el servidor, omitir si no es necesario
+    })
     .catch(error => console.error('Error en la operación:', error.message));
 }
 

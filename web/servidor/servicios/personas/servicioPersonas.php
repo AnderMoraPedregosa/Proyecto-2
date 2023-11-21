@@ -62,7 +62,6 @@ switch ($accion) {
                 $idRol = isset($data['rol']) ? $data['rol'] : ''; 
   
                 $data = [
-                  "id" => $id,
                   "dni" => $dni,
                   "email" => $email,
                   'nombre' => $nombre,
@@ -71,6 +70,19 @@ switch ($accion) {
               ];
   
               $result = insertarPersona2($dbh, $data);
+              if ($result) {
+                // Si la eliminación fue exitosa
+                $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
+                jsonResponse($response);
+    
+                // Redirigir a la página desde la que se hizo la solicitud
+                header("Location: ".$_SERVER['HTTP_REFERER']);
+                exit(); // Asegura que el script se detenga después de la redirección
+            } else {
+                // Si hubo un problema al intentar borrar la persona
+                $response = ['status' => 'error', 'message' => 'No se pudo borrar la persona'];
+                jsonResponse($response, 500);
+            }
                 break;
         case "actualizar":
               //ACTUALIZAR
