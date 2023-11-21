@@ -79,11 +79,6 @@ window.addEventListener("load", async function () {
 
 
 
-
-
-
-
-
 function htmlDetalle(anuncio) {
     let srcImagen = anuncio.imagen.split('/')
     let content = document.getElementById("content");
