@@ -25,31 +25,22 @@ async function getAnuncios() {
         return { status: 'error', message: 'Error en la llamada a la API' };
     }
 }
-
+//variables globales
 let numero1;
 let numero2;
+let body;
+
 
 const cargarMasBtn = document.getElementById("cargarMasBtn");
-let datosCargadosCompletos = false; 
-
 cargarMasBtn.addEventListener('click', async function () {
-    if (!datosCargadosCompletos) {
+  
         numero1 += 11;
         numero2 += 11;
-        let body = await getAnuncios();
         console.log(body);
+        await mostrarHtmlBoton(body);
+        console.log("pase por aqui");
+    
 
-        // Verificar si no hay más datos para cargar
-        if (body['data'].length === 0 || body['data'].length < numero1) {
-            datosCargadosCompletos = true;
-            cargarMasBtn.style.display = 'none'; 
-            window.alert('No quedan más anuncios para mostrar. ¡Has alcanzado el final de los anuncios disponibles!');
-        }
-
-        await mostarHtml(body);
-    } else {
-        cargarMasBtn.style.display = 'none'; 
-    }
 });
 
 
@@ -83,11 +74,11 @@ async function getAnunciosSearch(searchTerm) {
 window.addEventListener("load", async function () {
 
     let articles = document.getElementById("articles");
-    let body = await getAnuncios();
+     body = await getAnuncios();
     numero1 = 0;
     numero2 = 10;
 
-    mostarHtml(body);
+    mostrarHtmlBoton(body);
     const searchForm = document.getElementById("search-form");
 
     searchForm.addEventListener("submit", async function (event) {
@@ -99,7 +90,7 @@ window.addEventListener("load", async function () {
         articles.innerHTML = "";
         if (body['data']) {
             if (body['data'].length > 0) {
-                mostarHtml(body);
+                mostrarHtmlBoton(body);
             }
         } else {
             // Mostrar un mensaje si no hay resultados
@@ -108,6 +99,7 @@ window.addEventListener("load", async function () {
             noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
             articles.appendChild(noResultsMessage);
         }
+        console.log(body);
 
     });
 
@@ -124,54 +116,70 @@ function confirmarEliminacion(idAnuncio) {
         console.log("Eliminación cancelada");
     }
 }
-
+function mostrarHtmlBoton(body) {
+    if (body['data'].length >   numero2)  
+    {
+        mostarHtml(body);
+        cargarMasBtn.style.display = 'block';
+    }
+    else
+    {
+        mostarHtml(body);
+        cargarMasBtn.style.display = 'none';
+    }
+}
 
 function mostarHtml(body) {
     let divArticle;
     const scrollBefore = window.scrollY;
     console.log(numero1,numero2)
 
-    if (body['status'] == 'success') {
+        
+        if (body['status'] == 'success') {
 
-        let anuncios = datosAnuncios(body['data']);
-        anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(anuncioNew => {
-            divArticle = document.createElement("div");
-            divArticle.className = "article-item";
-            let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
-            // Agregar la información del anuncio al nuevo elemento div
-            divArticle.innerHTML = `
-             <div class="image-wrap">
-                 <img src="${anuncioNew.imagen}" alt="Producto" />
-             </div>
-             <h2>${anuncioNew.titulo}</h2>
-             <span class="date">${tiempoTranscurrido}</span>
-             <div class="link-container">
-             <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
-            <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
-            <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
-            </div>
-
-              <div class="clearfix"></div>
-         `;
-            articles.appendChild(divArticle);
-
-            let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
-            eliminarEnlace.addEventListener('click', function (event) {
-                event.preventDefault();
-                const idAnuncio = this.getAttribute('data-id');
-                confirmarEliminacion(idAnuncio);
+            let anuncios = datosAnuncios(body['data']);
+            anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
+            anuncios.forEach(anuncioNew => {
+                divArticle = document.createElement("div");
+                divArticle.className = "article-item";
+                let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
+                // Agregar la información del anuncio al nuevo elemento div
+                divArticle.innerHTML = `
+                 <div class="image-wrap">
+                     <img src="${anuncioNew.imagen}" alt="Producto" />
+                 </div>
+                 <h2>${anuncioNew.titulo}</h2>
+                 <span class="date">${tiempoTranscurrido}</span>
+                 <div class="link-container">
+                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
+                <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
+                </div>
+    
+                  <div class="clearfix"></div>
+             `;
+                articles.appendChild(divArticle);
+    
+                let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
+                eliminarEnlace.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const idAnuncio = this.getAttribute('data-id');
+                    confirmarEliminacion(idAnuncio);
+                });
+    
             });
+              
+              window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
+        } else {
+            divArticle = document.createElement("div");
+            divArticle.className = "anuncios-error";
+            divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
+            articles.appendChild(divArticle);
+        }
 
-        });
-          
-          window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
-    } else {
-        divArticle = document.createElement("div");
-        divArticle.className = "anuncios-error";
-        divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
-        articles.appendChild(divArticle);
-    }
+
+
+
 }
 
 function datosAnuncios(data) {

@@ -352,7 +352,7 @@ body {
 
 #cargarMasBtn {
     position: absolute;
-    background: black;
+    background: #1950D8;
     color: white;
     padding: 10px 20px;
     font-weight: bold;
@@ -366,6 +366,7 @@ body {
     bottom: 1em;
     left: 40%;
     transform: translateX(-50%);
+    border-radius: 3em;
 }
 
 
@@ -374,6 +375,7 @@ body {
     color: #6187E8;
     background-color: lightgrey;
 }
+
 
 
 .btn {
@@ -392,7 +394,7 @@ body {
     border-radius: .4em;
 }
 .btn:hover{
-    color: black;
+    color: white;
      background-color: grey; 
     }
 
