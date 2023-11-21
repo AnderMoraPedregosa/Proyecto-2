@@ -7,7 +7,7 @@ async function getAnuncios() {
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
         const response = await fetch(`${base_url}/anuncios/todos`);
-        console.log(base_url);
+
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
@@ -26,55 +26,61 @@ async function getAnuncios() {
     }
 }
 
+async function getAnunciosSearch(searchTerm) {
+    try {
 
+        // Obtener la ruta base del documento actual
+        const base_url = window.location.origin;
+        const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
+        const response = await fetch(searchUrl);
+        if (!response.ok) {
+            throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        return { status: 'error', message: 'Error en la llamada a la API' };
+    }
+}
 
 
 window.addEventListener("load", async function () {
 
     let articles = document.getElementById("articles");
     let body = await getAnuncios();
-    let divArticle;
 
-    if (body['status'] == 'success') {
+    mostarHtml(body);
+    const searchForm = document.getElementById("search-form");
 
-        let anuncios = datosAnuncios(body['data']);
-        anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(anuncioNew => {
-            divArticle = document.createElement("div");
-            divArticle.className = "article-item";
-            let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
-            // Agregar la información del anuncio al nuevo elemento div
-            console.log(anuncioNew)
-            divArticle.innerHTML = `
-             <div class="image-wrap">
-                 <img src="${anuncioNew.imagen}" alt="Producto" />
-             </div>
-             <h2>${anuncioNew.titulo}</h2>
-             <span class="date">${tiempoTranscurrido}</span>
-             <div class="link-container">
-  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
-  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
-  <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
-</div>
+    searchForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-              <div class="clearfix"></div>
-         `;
-            articles.appendChild(divArticle);
+        const searchInput = document.getElementById("search-input").value;
+        body = await getAnunciosSearch(searchInput);
+        // Limpia los anuncios existentes
+        articles.innerHTML = "";
+        if (body['data']) {
+            if (body['data'].length > 0) {
+                mostarHtml(body);
+            }
+        } else {
+            // Mostrar un mensaje si no hay resultados
+            const noResultsMessage = document.createElement("div");
+            noResultsMessage.className = "anuncios-error";
+            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
+            articles.appendChild(noResultsMessage);
+        }
 
-            let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
-            eliminarEnlace.addEventListener('click', function(event) {
-                event.preventDefault();
-                const idAnuncio = this.getAttribute('data-id');
-                confirmarEliminacion(idAnuncio);
-            });
+    });
 
-        });
-    } else {
-        divArticle = document.createElement("div");
-        divArticle.className = "anuncios-error";
-        divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
-        articles.appendChild(divArticle);
-    }
+
 });
 
 function confirmarEliminacion(idAnuncio) {
@@ -88,6 +94,50 @@ function confirmarEliminacion(idAnuncio) {
     }
 }
 
+
+function mostarHtml(body) {
+    let divArticle;
+
+    if (body['status'] == 'success') {
+
+        let anuncios = datosAnuncios(body['data']);
+        anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
+        anuncios.forEach(anuncioNew => {
+            divArticle = document.createElement("div");
+            divArticle.className = "article-item";
+            let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
+            // Agregar la información del anuncio al nuevo elemento div
+            divArticle.innerHTML = `
+             <div class="image-wrap">
+                 <img src="${anuncioNew.imagen}" alt="Producto" />
+             </div>
+             <h2>${anuncioNew.titulo}</h2>
+             <span class="date">${tiempoTranscurrido}</span>
+             <div class="link-container">
+             <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
+            <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
+            </div>
+
+              <div class="clearfix"></div>
+         `;
+            articles.appendChild(divArticle);
+
+            let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
+            eliminarEnlace.addEventListener('click', function (event) {
+                event.preventDefault();
+                const idAnuncio = this.getAttribute('data-id');
+                confirmarEliminacion(idAnuncio);
+            });
+
+        });
+    } else {
+        divArticle = document.createElement("div");
+        divArticle.className = "anuncios-error";
+        divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
+        articles.appendChild(divArticle);
+    }
+}
 
 function datosAnuncios(data) {
     let anuncios = [];

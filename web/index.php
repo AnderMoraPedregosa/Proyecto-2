@@ -15,6 +15,8 @@ $path_parts = explode('/', trim($relative_path, '/'));
 $path = isset($path_parts[0]) ? $path_parts[0] : '';
 $accion = isset($path_parts[1]) ? $path_parts[1] : '';
 $id = isset($path_parts[2]) ? $path_parts[2] : '';
+$palabra = isset($path_parts[3]) ? $path_parts[3] : '';
+
 
 
 // Manejar las rutas
@@ -23,7 +25,6 @@ switch ($path) {
         // Lógica para mostrar anuncios
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
-
     case 'categorias':
         require './servidor/servicios/anuncios/servicioCategorias.php';
         break;
@@ -68,35 +69,3 @@ switch ($path) {
         break;
 }
 
-
-
-/* 
-$path = isset($_GET['accion']) ? $_GET['accion'] : '';
-
-switch ($path) {
-    case 'anuncios':
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
-        break;
-    case 'detalles':
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
-        break;
-    case 'categorias':
-        require './servidor/servicios/anuncios/servicioCategorias.php';
-        break;
-    case 'insertar':
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
-        break;
-    case 'login' :
-        require './servidor/servicios/login/servicioLogin.php';
-        break;
-    case 'registrar':
-        require './servidor/servicios/login/servicioRegistrar.php';
-        break;
-    case "borrarAnuncio":
-        require './servidor/servicios/anuncios/servicioAnuncios.php';
-        break;
-    default:
-        // Página principal o manejo de rutas no encontradas
-        require "./paginas/index.view.php";
-        break;
-} */

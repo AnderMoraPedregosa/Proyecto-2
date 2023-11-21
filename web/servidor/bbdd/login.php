@@ -10,8 +10,6 @@ function getPersonaByEmailAndPassword($dbh, $email, $pass)
     $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = (:email) AND passwd = (:pass)");
     $stmt->execute($data);
     return $persona = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    close();
 }
 
 function getPersonaByEmail($dbh, $email)
@@ -20,6 +18,4 @@ function getPersonaByEmail($dbh, $email)
     $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = (:email)");
     $stmt->execute($data);
     return $persona = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    close();
 }

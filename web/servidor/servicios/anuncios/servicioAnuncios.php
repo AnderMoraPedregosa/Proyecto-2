@@ -15,6 +15,23 @@ function jsonResponse($data, $statusCode = 200)
 
 
 switch ($accion) {
+    case 'search':
+        $palabra = urldecode($path_parts[2]);
+      
+
+        if (empty($palabra)) {
+            $response = ['status' => 'error', 'message' => 'Término de búsqueda no proporcionado'];
+            jsonResponse($response, 400);
+        }
+
+        $anuncios = getAnuncioSearch($dbh, $palabra);
+        if ($anuncios === false) {
+            $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
+            jsonResponse($response, 500);
+        }
+        $response = ['status' => 'success', 'data' => $anuncios];
+        jsonResponse($response);
+        break;
     case 'todos':
         $anuncios = getAnuncios($dbh);
 
@@ -27,7 +44,7 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'detalles':
-   
+
         $imagenes = getImagenesId($dbh, $id);
         $anuncio = getAnuncioId($dbh, $id);
         $response = [
@@ -84,54 +101,53 @@ switch ($accion) {
                 }
             }
 
-                // Insertar el anuncio en la base de datos
-                insertarAnuncio($dbh, $data);
-                header("Location: /");
-                die(); // Finalizar el script después de la redirección
-            } else {
-                // Manejar el caso en que no se hayan proporcionado archivos de imagen
-                $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
-                jsonResponse($response, 400);
-            }
-            case "actualizar":
-            
-                //ACTUALIZAR
-                $titulo = $_POST["titulo"];
-                $precio = $_POST["precio"];
-                $desc = $_POST["desc"];
-                $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+            // Insertar el anuncio en la base de datos
+            insertarAnuncio($dbh, $data);
+            header("Location: /");
+            die(); // Finalizar el script después de la redirección
+        } else {
+            // Manejar el caso en que no se hayan proporcionado archivos de imagen
+            $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
+            jsonResponse($response, 400);
+        }
+    case "actualizar":
 
-            date_default_timezone_set('Europe/Madrid');
+        //ACTUALIZAR
+        $titulo = $_POST["titulo"];
+        $precio = $_POST["precio"];
+        $desc = $_POST["desc"];
+        $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
 
-            $id_cat = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-            list($id_cat, $nombreCategoria) = explode('|', $id_cat);
+        date_default_timezone_set('Europe/Madrid');
 
-            
+        $id_cat = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+        list($id_cat, $nombreCategoria) = explode('|', $id_cat);
 
-            $id_anuncio = $_POST["id_anuncio"];
-            // Crear el array $data con la información del anuncio
-            $data = [
-                "id" => $id_anuncio,
-                'titulo' => $titulo,
-                'precio' => $precio,
-                'descripcion' => $desc,
-                'categoria' => $nombreCategoria,
-                'id_categoria' => $id_cat,
-                'fecha' => date('Y-m-d H:i:s'),
-                'comercio' => 1,
-                'anunciante' => 2
-            ];
-             // Actualizar el anuncio en la base de datos
-             actualizarAnuncio($dbh, $data);
-           header("Location: /");
-           die(); // Finalizar el script después de la redirección
-           case "borrarAnuncio":
-            eliminarId($dbh, $id);
-           header("Location: /");
-           die(); // Finalizar el script después de la redirección
-           default:
+
+
+        $id_anuncio = $_POST["id_anuncio"];
+        // Crear el array $data con la información del anuncio
+        $data = [
+            "id" => $id_anuncio,
+            'titulo' => $titulo,
+            'precio' => $precio,
+            'descripcion' => $desc,
+            'categoria' => $nombreCategoria,
+            'id_categoria' => $id_cat,
+            'fecha' => date('Y-m-d H:i:s'),
+            'comercio' => 1,
+            'anunciante' => 2
+        ];
+        // Actualizar el anuncio en la base de datos
+        actualizarAnuncio($dbh, $data);
+        header("Location: /");
+        die(); // Finalizar el script después de la redirección
+    case "borrarAnuncio":
+        eliminarId($dbh, $id);
+        header("Location: /");
+        die(); // Finalizar el script después de la redirección
+    default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);
         break;
-    
 }

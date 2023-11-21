@@ -331,7 +331,32 @@ body {
     }
 }
 
+#cargarMasBtn{
 
+    background: black;
+    color: white;
+    padding: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.875em;
+    text-decoration: none;
+    max-width: 10em;
+    transition: 300ms all;
+    border: none;
+    cursor: pointer;
+    
+    position: absolute;
+    bottom: 20px; /* Ajusta esta distancia según sea necesario */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Otros estilos */
+    padding: 10px 20px;
+   
+}
+#cargarMasBtn:hover {
+    border: 2px solid  #6187E8;
+    color:  #6187E8;
+  }
 
 .btn {
     display: block;
