@@ -718,7 +718,11 @@ button {
         flex-direction: column-reverse;
 
     }
-
+    #menu a.animacion::before {
+    
+       
+        bottom:0.5em;
+    }
     #menu,
     #menu ul {
         clear: both;
@@ -767,7 +771,11 @@ button {
         flex-direction: column-reverse;
 
     }
-
+    #menu a.animacion::before {
+    
+       
+        bottom:0.65em;
+    }
 
     #menu ul {
 
@@ -831,7 +839,11 @@ button {
         line-height: 3.125em;
     }
 
-
+    #menu a.animacion::before {
+    
+       
+        bottom:0.65em;
+    }
 
     #menu ul li {
         margin-left: 0.438em;
@@ -876,6 +888,11 @@ button {
         height: auto;
 
 
+    }
+    #menu a.animacion::before {
+    
+       
+        bottom:0.75em;
     }
 
     #menu ul {
