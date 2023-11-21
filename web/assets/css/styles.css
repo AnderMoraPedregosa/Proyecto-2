@@ -16,6 +16,7 @@ body {
     width: 90%; 
     margin: 0 auto; 
     background-color: white;
+    position: relative;
 }
 
 
@@ -95,10 +96,10 @@ body {
 }
 
 #menu {
-    margin-top: 1.6em;
+  margin-top: 1em;
     width: 60%;
     float: right;
-    font-size: 1.1em;
+    font-size: 1.3em;
 }
 
 #menu ul {
@@ -128,13 +129,22 @@ body {
     color: #1950D8;
 }
 
+.animacion{
+    font-size: 1.2em;
+}
+.animacion:hover{
+    transform: scale(1.5);
+    transition: transform 0.3s ease;
+    color: rgb(153, 53, 225);
+}
 
 #menu a.animacion::before {
+    
     content: "";
     position: absolute;
     width: 0%;
     height: 0.125em;
-    bottom: 0.938em;
+    bottom:0.938em;
     left: 50%;
     background-color: #0B3AAE;
     transform: translateX(-50%);
@@ -144,6 +154,7 @@ body {
 #menu a.animacion:hover::before {
     width: 100%;
     background-color: #6187E8;
+    
 }
 
 #slider {
@@ -297,6 +308,13 @@ body {
     border-radius: 20%;
     position: relative;
     overflow: hidden;
+    scale: 120%;
+}
+
+.btn-sesion:hover {
+    transform: scale(1.2); 
+    transition: transform 0.3s ease; 
+    color: rgb(129, 243, 163);
 }
 
 .btn-sesion::before {
@@ -317,6 +335,7 @@ body {
 .btn-sesion:hover::before {
     transform: translate(-50%, -50%) scale(2);
     opacity: 0;
+    
 }
 
 
@@ -331,11 +350,11 @@ body {
     }
 }
 
-#cargarMasBtn{
-
+#cargarMasBtn {
+    position: absolute;
     background: black;
     color: white;
-    padding: 1em;
+    padding: 10px 20px;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.875em;
@@ -344,19 +363,18 @@ body {
     transition: 300ms all;
     border: none;
     cursor: pointer;
-    
-    position: absolute;
-    bottom: 20px; /* Ajusta esta distancia según sea necesario */
-    left: 50%;
+    bottom: 1em;
+    left: 40%;
     transform: translateX(-50%);
-    /* Otros estilos */
-    padding: 10px 20px;
-   
 }
+
+
 #cargarMasBtn:hover {
-    border: 2px solid  #6187E8;
-    color:  #6187E8;
-  }
+    border: 2px solid #6187E8;
+    color: #6187E8;
+    background-color: lightgrey;
+}
+
 
 .btn {
     display: block;
@@ -371,7 +389,12 @@ body {
     transition: 300ms all;
     border: none;
     cursor: pointer;
+    border-radius: .4em;
 }
+.btn:hover{
+    color: black;
+     background-color: grey; 
+    }
 
 /*ENLACES ANUNCIOS*/
 
@@ -429,12 +452,14 @@ body {
     border: 0.063em solid rgba(0, 0, 0, 0.349);
     border-radius: 10px;
     box-shadow: 0px 0px 10px #3D6CE1; 
+    
 }
 
 .form_anuncios label {
     display: block;
     margin-bottom: 0.5em;
     font-weight: bold;
+    font-size: 1.5em;
 }
 
 .form_anuncios input[type="text"],
@@ -447,6 +472,7 @@ body {
     box-sizing: border-box;
     border: 0.063em solid #ccc;
     border-radius: 0.25em;
+    font-size: 1.2em;
 }
 
 .form_anuncios select {
@@ -645,11 +671,11 @@ button {
     }
 
     #logo {
-        width: 50%;
+        width: 30%;
     }
 
     #menu {
-        width: 50%;
+        width: 70%;
     }
 
     #menu ul {
@@ -658,9 +684,9 @@ button {
 }
 
 
-@media (max-width: 1390px) {
+@media (max-width: 1300px) {
     #logo {
-        width: 30%;
+        width: 20%;
     }
 
     #brand {
@@ -668,11 +694,12 @@ button {
     }
 
     #menu {
-        width: 70%;
+        width: 80%;
+        
     }
 }
 
-@media (max-width: 990px) {
+@media (max-width: 1200px) {
 
     #logo {
         display: flex;
@@ -710,6 +737,7 @@ button {
         width: 60%;
         margin: 0em auto;
         margin-bottom: 3.125em;
+        overflow: auto;
     }
 
     #slider h1 {
@@ -722,7 +750,7 @@ button {
     }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 766px) {
     #logo {
         display: flex;
         justify-content: center;
@@ -950,6 +978,4 @@ button {
     animation: moveWave 15s linear infinite;
     animation-delay: -7.5s; 
   }
-  
-  
   

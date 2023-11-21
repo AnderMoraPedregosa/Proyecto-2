@@ -29,22 +29,39 @@ async function getAnuncios() {
 let numero1;
 let numero2;
 
-// Al presionar el botón "Cargar más", se muestran los siguientes 10 anuncios
 const cargarMasBtn = document.getElementById("cargarMasBtn");
+let datosCargadosCompletos = false; 
+
 cargarMasBtn.addEventListener('click', async function () {
-    numero1 += 11;
-    numero2 += 11;
-    let body = await getAnuncios();
-    await mostarHtml(body);
+    if (!datosCargadosCompletos) {
+        numero1 += 11;
+        numero2 += 11;
+        let body = await getAnuncios();
+        console.log(body);
+
+        // Verificar si no hay más datos para cargar
+        if (body['data'].length === 0 || body['data'].length < numero1) {
+            datosCargadosCompletos = true;
+            cargarMasBtn.style.display = 'none'; 
+            window.alert('No quedan más anuncios para mostrar. ¡Has alcanzado el final de los anuncios disponibles!');
+        }
+
+        await mostarHtml(body);
+    } else {
+        cargarMasBtn.style.display = 'none'; 
+    }
 });
+
 
 async function getAnunciosSearch(searchTerm) {
     try {
-
+        numero1 = 0;
+        numero2 = 10;
+    
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
         const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
-        const response = await fetch(searchUrl);
+        const response = await fetch(searchUrl);    
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
