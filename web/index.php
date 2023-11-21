@@ -58,8 +58,8 @@ switch ($path) {
         break;
     case "personas":
         require './servidor/servicios/personas/servicioPersonas.php';
-    break;
-    case "crudPersonas": 
+        break;
+    case "crudPersonas":
         require './paginas/personas.php';
 
         break;
@@ -68,4 +68,3 @@ switch ($path) {
         require "./paginas/error-404.php";
         break;
 }
-

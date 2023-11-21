@@ -1,5 +1,5 @@
 <?php
-require "servidor/bbdd/registrar.php";
+require "servidor/bbdd/personasCRUD.php";
 
 function jsonResponse($data, $statusCode = 200)
 {
@@ -8,7 +8,7 @@ function jsonResponse($data, $statusCode = 200)
     echo json_encode($data);
 }
 
-function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $contraseñaUsuario, $tipoUsuario, $dbh)
+function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $contrasenyaUsuario, $tipoUsuario, $dbh)
 {
 
     try {
@@ -21,7 +21,7 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
             return;
         }
 
-        $hashedPassword = password_hash($contraseñaUsuario, PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($contrasenyaUsuario, PASSWORD_DEFAULT);
         $rol = ($tipoUsuario === 'cliente') ? 2 : (($tipoUsuario === 'comerciante') ? 3 : null);
 
         $data = [

@@ -43,13 +43,14 @@
                         <a href="/formulario" class="animacion">Formulario</a>
                     </li>
                     <li>
-                        <a href="/crudPersonas" class="animacion">Pagina 1</a>
+                        <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
                     <li>
-                        <a href="#" class="animacion">Pagina 2</a>
+                        <a href="#" class="animacion">Perfil</a>
                     </li>
                     <li>
                         <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
+                        <a href="/login"><button class="btn-sesion" id="btnLogOutHead">Cerrar sesion</button></a>
                     </li>
                 </ul>
             </nav>

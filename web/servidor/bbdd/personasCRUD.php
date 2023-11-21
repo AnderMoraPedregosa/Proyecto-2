@@ -19,12 +19,25 @@ function getPersonaId($dbh, $id)
     return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // Dentro de tu función insertarAnuncio
-function insertarPersona2($dbh, $data)
+
+
+//insertar Persona
+
+
+function checkIfEmailExists($dbh, $emailUsuario)
+{
+    $data = array('email' => $emailUsuario);
+    $stmt = $dbh->prepare("SELECT COUNT(*) AS count FROM personas WHERE email =(:email)");
+    $stmt->execute($data);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function insertarPersona($dbh, $data)
 {
     try {
         $stmt = $dbh->prepare("INSERT INTO personas (dni, nombre, passwd, email, id_rol)
         VALUES (:dni, :nombre, :passwd, :email, :rol)");
-                if (!$stmt) {
+        if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
 
@@ -41,14 +54,7 @@ function insertarPersona2($dbh, $data)
     }
 }
 
-// Dentro de tu función insertarRutaImagen
-function insertarRutaImagen($dbh, $data)
-{
-    $stmt = $dbh->prepare("INSERT INTO imagenes_anuncios (id_anuncio, ruta_imagen) 
-        VALUES (:id_anuncio, :ruta_imagen)");
-    $stmt->execute($data);
-    close();
-}
+
 
 function actualizarPersona($dbh, $data)
 {
@@ -73,13 +79,6 @@ function actualizarPersona($dbh, $data)
 
 
 
-function getImagenesId($dbh, $id)
-{
-    $data = array('id' => $id);
-    $stmt = $dbh->prepare("SELECT * FROM imagenes_anuncios WHERE id_anuncio = (:id)");
-    $stmt->execute($data);
-    return $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 
 function borrarPersona($dbh, $id)
 {

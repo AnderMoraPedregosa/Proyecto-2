@@ -69,7 +69,7 @@ switch ($accion) {
                   'rol' => $idRol
               ];
   
-              $result = insertarPersona2($dbh, $data);
+              $result = insertarPersona($dbh, $data);
               if ($result) {
                 // Si la eliminación fue exitosa
                 $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
