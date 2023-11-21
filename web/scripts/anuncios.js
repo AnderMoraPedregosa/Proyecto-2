@@ -26,6 +26,18 @@ async function getAnuncios() {
     }
 }
 
+let numero1;
+let numero2;
+
+// Al presionar el botón "Cargar más", se muestran los siguientes 10 anuncios
+const cargarMasBtn = document.getElementById("cargarMasBtn");
+cargarMasBtn.addEventListener('click', async function () {
+    numero1 += 11;
+    numero2 += 11;
+    let body = await getAnuncios();
+    await mostarHtml(body);
+});
+
 async function getAnunciosSearch(searchTerm) {
     try {
 
@@ -55,6 +67,8 @@ window.addEventListener("load", async function () {
 
     let articles = document.getElementById("articles");
     let body = await getAnuncios();
+    numero1 = 0;
+    numero2 = 10;
 
     mostarHtml(body);
     const searchForm = document.getElementById("search-form");
@@ -97,6 +111,7 @@ function confirmarEliminacion(idAnuncio) {
 
 function mostarHtml(body) {
     let divArticle;
+    console.log(numero1,numero2)
 
     if (body['status'] == 'success') {
 
@@ -142,7 +157,7 @@ function mostarHtml(body) {
 function datosAnuncios(data) {
     let anuncios = [];
 
-    data.forEach(async (anuncioJson) => {
+    data.slice(numero1,numero2).forEach(async (anuncioJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
         const anuncioNew = new Anuncio(
