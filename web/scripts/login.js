@@ -1,10 +1,18 @@
 import { Persona } from "../modelos/persona.js";
-let btnLogin = document.getElementById("btnLogin")
-const emailUsuario = document.getElementById('emailUsuario').value;
-const passwd = document.getElementById('passwd').value;
+//movimientos LOGIN
+let contenedor = document.getElementById('contenedor');
+let registrarseBtn = document.getElementById('registrarse');
+let iniciarSesionBtn = document.getElementById('iniciar-sesion');
+
+registrarseBtn.addEventListener('click', () => {
+    contenedor.classList.add("active");
+});
+
+iniciarSesionBtn.addEventListener('click', () => {
+    contenedor.classList.remove("active");
+});
+
 document.addEventListener('DOMContentLoaded', function () {
-
-
 
     let botonLogin = document.getElementById("btnLogin")
     botonLogin.addEventListener('click', async function (event) {
@@ -22,19 +30,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: `emailUsuario=${emailUsuario}&passwd=${passwd}`,
                 });
-
+                console.log(response);
                 if (response.ok) {
                     // Obtener el cuerpo de la respuesta como JSON
                     const json = await response.json();
-
                     // Hacer algo con el cuerpo de la respuesta (por ejemplo, imprimirlo en la consola)
-                    console.log(json);
                     sessionStorage.setItem("user", JSON.stringify(json['user']))
                     location.href = "/"
                     // También puedes usar sessionStorage aquí si es necesario
                     // sessionStorage.setItem("user", JSON.stringify(json));
                     // location.href = "profile.php";
                 } else {
+                    alert("Las credenciales no son validas")
                     // La solicitud no fue exitosa, mostrar un mensaje de error
                     console.error('Error en la solicitud:', response.statusText);
                 }
@@ -50,36 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-/* //movimientos LOGIN
-let contenedor = document.getElementById('contenedor');
-let registrarseBtn = document.getElementById('registrarse');
-let iniciarSesionBtn = document.getElementById('iniciar-sesion');
 
-registrarseBtn.addEventListener('click', () => {
-    contenedor.classList.add("active");
-});
-
-iniciarSesionBtn.addEventListener('click', () => {
-    contenedor.classList.remove("active");
-});
-
-
-//funcion asincrona para hashear una contraseña usando SHA-256
-async function hashPassword(password) {
-    let encoder = new TextEncoder();
-    let data = encoder.encode(password);
-    let hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    let hashArray = Array.from(new Uint8Array(hashBuffer));
-    let hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
-
-
-
-
-
-
-async function hashPassword(password) {
+/* async function hashPassword(password) {
     let encoder = new TextEncoder();
     let data = encoder.encode(password);
     let hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -114,8 +93,8 @@ window.addEventListener("load", async function () {
 
     });
 
-});
- */
+}); */
+
 /*
 >>>>>>> desarrollo
 
