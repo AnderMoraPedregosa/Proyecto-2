@@ -47,7 +47,7 @@ switch ($path) {
         break;
     case 'formulario':
         // Lógica para el formulario
-        require './paginas/formulario.php';
+        require './paginas/crearEditarAnuncio.php';
         break;
     case 'anuncioDetalle':
         // Lógica para mostrar el detalle de un anuncio

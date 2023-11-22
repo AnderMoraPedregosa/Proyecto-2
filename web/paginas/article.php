@@ -11,7 +11,7 @@
         </div>
 
         <div id="editarAnuncio">
-            <?php require "partials/crearEditarAnuncio.php" ?>
+            <?php require "paginas/crearEditarAnuncio.php" ?>
         </div>
         
       

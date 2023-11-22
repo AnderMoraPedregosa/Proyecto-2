@@ -42,9 +42,6 @@ window.addEventListener("load", async function () {
             //cambiar texto del boton crear
             document.getElementById("editarAnuncio").style.display = "block";
 
-            //cambiar texto del boton crear
-            document.getElementById("btnCrearAnuncio").value = "Modificar";
-
             document.getElementById("titulo").value = anuncioNew.titulo;
 
             document.getElementById("precio").value = anuncioNew.precio;

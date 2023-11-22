@@ -15,7 +15,7 @@
         <option value="0">--Selecciona--</option>
     </select>
 
-    <input type="submit" name="formAnuncios" value="Crear" id="btnCrearAnuncio" class="btn btn-success" />
+    <input type="submit" name="formAnuncios" value="Actualizar" id="btnCrearAnuncio" class="btn btn-success" />
 </form>
 
 <div class="clearfix"></div>
