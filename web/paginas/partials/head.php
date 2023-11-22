@@ -30,7 +30,7 @@
 
             <!-- MENU -->
             <nav id="menu">
-                <ul>
+                <ul id="menuUl">
                     <li id="liInicio">
                         <a href="/" class="animacion">Inicio</a>
                     </li>
@@ -40,7 +40,7 @@
                     <li id="liFormulario">
                         <a href="/formulario" class="animacion">Formulario</a>
                     </li>
-                    <li id="liUsuarios">
+                    <li id="liUsuarios" class="crudUsuariosOculto">
                         <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
                     <li id="liPerfil">
@@ -48,7 +48,7 @@
                     </li>
                     <li id="liIniciarSesion">
                         <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
-                        <a href="/login"><button class="btn-sesion" id="btnLogOutHead" style="display: none;">Cerrar sesion</button></a>
+                        <a href="/login"><button class="btn-sesion" style="display: none;" id="btnLogOutHead">Cerrar sesion</button></a>
                     </li>
                 </ul>
             </nav>
