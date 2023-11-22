@@ -3,7 +3,7 @@ body {
     margin: 0em;
     padding: 0em;
     background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    background: linear-gradient(to left, #e2e2e2, #c9d6ff);
 
     /*FUENTES*/
     font-family: 'Inria Serif', '';
@@ -48,6 +48,24 @@ body {
     margin: 0em auto;
     display: flex;
     justify-content: space-between;
+    background: none;
+    
+}
+.centerf {
+    width: 70%;
+    margin: 0em auto;
+    display: flex;
+    justify-content: space-between;
+    background: none;
+    
+}
+.centerh {
+    width: 70%;
+    margin: 0em auto;
+    display: flex;
+    justify-content: space-between;
+    background: none;
+    
 }
 
 
@@ -152,6 +170,7 @@ body {
     background-color: #0B3AAE;
     transform: translateX(-50%);
     transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+
 }
 
 #menu a.animacion:hover::before {
@@ -166,6 +185,7 @@ body {
     /*line-height: 20em;*/
     color: black;
     text-shadow: 0em 0em 0.313em #444;
+
 
     /*DEGRADADO CSS*/
     background: rgb(139, 168, 239);
@@ -236,14 +256,17 @@ body {
 }
 
 #content {
-    border: 2px solid rgba(0, 0, 0, 0.349);
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    padding: 20px;
+    border: 0.2em solid rgba(0, 0, 0, 0.349);
+    border-radius: 1em;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
+    padding: 2em;
     width: 100%;
     height: 90%;
     min-height: 40.625em;
     margin-right: 1.25em;
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    padding-left: 5em;
+    
 
 }
 
@@ -271,17 +294,32 @@ body {
     width: 3em;
     height: auto;
     margin-left: 1em;
+    animation: shake 1s ease infinite;
+
 }
+@keyframes shake {
+    0% { transform: rotate(0); }
+    25% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0); }
+  }
 
 #sidebar {
+
     width: 25%;
     float: left;
+    padding-left: .5em;
+    padding-right: .5em;
+    background: linear-gradient(to left,rgb(155, 179, 240), #e2e2e2);;
+
 }
 
 .sidebar-item {
     background: #f7f7f7;
-    padding: 1.25em;
+    padding: 3em;
     margin-top: 1.875em;
+
     border-radius: 10px;
 }
 
@@ -416,16 +454,17 @@ body {
 }
 
 .link {
-    width: 15px;
+    width: 1em;
     background-color: rgba(44, 62, 80, 0.336);
-    border: 2px solid black;
-    padding: 10px 15px;
-    margin: 10px;
+    border: 0.15em solid black;
+    padding: 1em 1.5em;
+    margin: 0.6em;
     text-decoration: none;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 0.5em;
     font-weight: bold;
     transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    box-shadow: 0 0 0.4em black;
 }
 
 .edit:hover {
@@ -694,12 +733,13 @@ form input[type="submit"]:hover {
 }
 
 .article-item .image-wrap {
-    width: 8.125em;
-    height: 8.125em;
+    width: 13em;
+    height: 13em;
     overflow: hidden;
     float: left;
     margin-right: 0.938em;
     border: 0.063em solid #ccc;
+    box-shadow: 0 .4em .8em rgba(0, 0, 0, 0.2)
 }
 
 .article-item .image-wrap img {
@@ -1201,4 +1241,59 @@ button {
     /* Cambia el degradado al pasar el mouse */
     /* Puedes ajustar los colores y la dirección del degradado según tu preferencia */
   }
+  .imagen{
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer; 
+
+  }
+  .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background:  radial-gradient(circle, #e2e2e2,rgb(155, 179, 240));
+    /* Resto de estilos */
+    opacity: 0;
+    pointer-events: none; /* Evita que el modal sea interactivo mientras está oculto */
+    visibility: hidden; /* Oculta el modal */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    padding-top: 3em;
+  }
   
+  .modal.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto; /* Restablece la interacción cuando el modal está activo */
+    visibility: visible; /* Vuelve a hacer visible el modal */
+  }
+  
+  .modal img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9;
+    display: block;
+    margin: 0 auto; /* Centra la imagen horizontalmente */
+  }
+  .close-btn {
+    position: absolute;
+    top: -0.1em;
+    right: 0.1em;
+    cursor: pointer;
+    color: white;
+    font-size: 15em;
+  }
+  .modal.active {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 1;
+  }
+
+  .modal.active .zoom img {
+    width: 50%;
+    height: 50%;
+    transition: transform 0.3s ease;
+  }

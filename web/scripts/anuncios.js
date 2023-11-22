@@ -44,6 +44,8 @@ cargarMasBtn.addEventListener('click', async function () {
 });
 
 
+
+
 async function getAnunciosSearch(searchTerm) {
     try {
         numero1 = 0;
@@ -102,6 +104,15 @@ window.addEventListener("load", async function () {
         console.log(body);
 
     });
+    let imagenes = document.querySelectorAll('.imagen');
+
+    // Iterar sobre cada imagen y asignar el evento de clic a cada una
+    imagenes.forEach(imagen => {
+        imagen.addEventListener('click', (e) => {
+            // Llamar a la función para mostrar la ventana modal
+            mostrarModal(e.target);
+        });
+    });
 
 
 });
@@ -146,8 +157,16 @@ function mostarHtml(body) {
                 // Agregar la información del anuncio al nuevo elemento div
                 divArticle.innerHTML = `
                  <div class="image-wrap">
-                     <img src="${anuncioNew.imagen}" alt="Producto" />
+                     <img class="imagen" src="${anuncioNew.imagen}" alt="Producto" />
                  </div>
+                 <div class="modal" id="modal">
+                 <span class="close-btn" id="closeBtn">&times;</span>
+                 <div class="img-container">
+                   <div class="zoom">
+                   <img class="modalImagen" id="zoomedImage" src="" alt="Zoomed Image">
+                   </div>
+                 </div>
+               </div>
                  <h2>${anuncioNew.titulo}</h2>
                  <span class="date">${tiempoTranscurrido}</span>
                  <div class="link-container">
@@ -166,8 +185,10 @@ function mostarHtml(body) {
                     const idAnuncio = this.getAttribute('data-id');
                     confirmarEliminacion(idAnuncio);
                 });
-    
-            });
+
+
+                
+                            });
               
               window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
         } else {
@@ -177,10 +198,21 @@ function mostarHtml(body) {
             articles.appendChild(divArticle);
         }
 
+        let imagenes = document.querySelectorAll('.imagen');
 
+        // Iterar sobre cada imagen y asignar el evento de clic a cada una
+        imagenes.forEach(imagen => {
+            imagen.addEventListener('click', (e) => {
+                // Llamar a la función para mostrar la ventana modal
+                mostrarModal(e.target);
+            });
+        });
 
 
 }
+
+
+
 
 function datosAnuncios(data) {
     let anuncios = [];
@@ -204,4 +236,39 @@ function datosAnuncios(data) {
         anuncios.push(anuncioNew);
     });
     return anuncios;
+}
+
+                
+function mostrarModal(imagen) {
+    const modal = document.getElementById('modal');
+    const zoomedImage = document.getElementById('zoomedImage');
+    const closeBtn = document.getElementById('closeBtn');
+    const zoom = modal.querySelector('.zoom');
+
+    // Lógica para mostrar la ventana modal
+    zoomedImage.src = imagen.src;
+    modal.style.display = 'block';
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 50);
+
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    });
+
+    zoom.addEventListener('mousemove', (e) => {
+        const { left, top, width, height } = zoom.getBoundingClientRect();
+        const x = (e.clientX - left) / width * 100;
+        const y = (e.clientY - top) / height * 100;
+
+        zoomedImage.style.transformOrigin = `${x}% ${y}%`;
+        zoomedImage.style.transform = 'scale(1.75)';
+    });
+
+    zoom.addEventListener('mouseleave', () => {
+        zoomedImage.style.transform = 'scale(1)';
+    });
 }
