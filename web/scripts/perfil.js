@@ -12,7 +12,7 @@ async function getAnunciosPorComercio() {
 
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
-        let idPersona = sessionStorage.getItem('user') ? datosArray['id'] : null;
+        let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
         const response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}`);
 
         if (!response.ok) {
@@ -157,7 +157,7 @@ function mostarHtml(body) {
                  <span class="date">${tiempoTranscurrido}</span>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}/anunciosPerfil" class="link read-more"><i class="fa-solid fa-info"></i></a>
-                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}/anunciosPerfil" class="link edit" id="hola" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
+                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="hola" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
 
                  <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
                 </div>

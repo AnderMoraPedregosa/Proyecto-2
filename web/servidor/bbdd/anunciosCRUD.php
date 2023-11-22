@@ -54,9 +54,9 @@ function getAnuncioId($dbh, $id)
     return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getAnuncioPorComercio($dbh, $id)
+function getAnuncioPorComercio($dbh, $idComercio)
 {
-    $data = array('comercio_id' => $id);
+    $data = array('comercio_id' => $idComercio);
     $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id_comercio= (:comercio_id)");
     $stmt->execute($data);
     return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);

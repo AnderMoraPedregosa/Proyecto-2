@@ -24,13 +24,9 @@ comprobarRolBtnSesion();
 
 switch (parseInt(rol)) {
     case 1:
-
         liFormulario.style.display = "block";
         liUsuarios.style.display = "block";
         liPerfil.style.display = "block";
-
-
-
         break;
     case 2:
     

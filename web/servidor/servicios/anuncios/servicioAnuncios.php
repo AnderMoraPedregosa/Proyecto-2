@@ -45,7 +45,6 @@ switch ($accion) {
         break;
     case "comercioConcreto":
 
-
         $idComercio = getComercio($dbh, $id);
 
         $anuncios = getAnuncioPorComercio($dbh, $idComercio);
@@ -158,13 +157,11 @@ switch ($accion) {
         ];
         // Actualizar el anuncio en la base de datos
         actualizarAnuncio($dbh, $data);
+        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
 
-        if($palabra === "anunciosPerfil"){
-            header("Location: /perfil");
-        }
-        else if($palabra === "anunciosPerfil"){
-            header("Location: /");
-        }
+        // Redirige a la página anterior
+        header("Location: $referer");
+        
         die(); // Finalizar el script después de la redirección
     case "borrarAnuncio":
         eliminarId($dbh, $id);
