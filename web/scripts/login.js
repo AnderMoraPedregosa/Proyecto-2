@@ -34,8 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.ok) {
                     // Obtener el cuerpo de la respuesta como JSON
                     const json = await response.json();
-                    // Hacer algo con el cuerpo de la respuesta (por ejemplo, imprimirlo en la consola)
-                    sessionStorage.setItem("user", JSON.stringify(json['user']))
+                    let usuario = {
+                        "id_rol": json["user"]["id_rol"],
+                        "idPersona": json["user"]["id"]
+                    };
+
+                    sessionStorage.setItem("user", JSON.stringify(usuario));
+                    console.log(json);
                     location.href = "/"
                     // También puedes usar sessionStorage aquí si es necesario
                     // sessionStorage.setItem("user", JSON.stringify(json));

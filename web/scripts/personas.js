@@ -100,7 +100,7 @@ window.addEventListener("load", async function () {
         // Agregar evento al enlace "Crear Usuario" para abrir el modal
         document.querySelector(".enlaceCrearUsuario").addEventListener('click', function (e) {
             e.preventDefault();
-            openModal("../paginas/partials/crearEditarPersona.php");
+            openModal("../paginas/crearEditarPersona.php");
         });
 
 
@@ -110,7 +110,7 @@ window.addEventListener("load", async function () {
             editUserLink.addEventListener('click', function (e) {
                 e.preventDefault();
                 idPersona = this.getAttribute('data-id');
-                openModalActualizar("../paginas/partials/crearEditarPersona.php", idPersona, personas);
+                openModalActualizar("../paginas/crearEditarPersona.php", idPersona, personas);
             });
         });
 
@@ -158,10 +158,6 @@ function openModal(url) {
         const dni = document.getElementById("dni").value;
         const passwd = document.getElementById("passwd").value;
         const idRol = document.querySelector('input[name="id_rol"]:checked').value;
-
-
-
-
 
 
         let url;

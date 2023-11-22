@@ -17,7 +17,7 @@ function jsonResponse($data, $statusCode = 200)
 switch ($accion) {
     case 'search':
         $palabra = urldecode($path_parts[2]);
-      
+
 
         if (empty($palabra)) {
             $response = ['status' => 'error', 'message' => 'Término de búsqueda no proporcionado'];
@@ -43,6 +43,22 @@ switch ($accion) {
         $response = ['status' => 'success', 'data' => $anuncios];
         jsonResponse($response);
         break;
+    case "comercioConcreto":
+
+        $idComercio = getComercio($dbh, $id);
+
+        $anuncios = getAnuncioPorComercio($dbh, $idComercio);
+
+        if ($anuncios === false) {
+            $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
+            jsonResponse($response, 500);
+        }
+        $response = ['status' => 'success', 'data' => $anuncios];
+        jsonResponse($response);
+        break;
+
+
+      
     case 'detalles':
 
         $imagenes = getImagenesId($dbh, $id);
@@ -63,7 +79,7 @@ switch ($accion) {
             // Obtener información sobre el anuncio desde el formulario
             $titulo = $_POST["titulo"];
             $precio = $_POST["precio"];
-            $desc = $_POST["desc"];
+            $texto = $_POST["desc"];
             $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
             list($id, $nombreCategoria) = explode('|', $idCategoria);
 
@@ -73,8 +89,7 @@ switch ($accion) {
             $data = [
                 'titulo' => $titulo,
                 'precio' => $precio,
-                'descripcion' => $desc,
-                'categoria' => $nombreCategoria,
+                'descripcion' => $texto,
                 'id_categoria' => $id,
                 'fecha' => date('Y-m-d H:i:s'),
                 'comercio' => 1,
@@ -82,27 +97,24 @@ switch ($accion) {
                 'imagenes' => [], // Este array almacenará las rutas de las imágenes
             ];
 
-            // Lógica para manejar las imágenes
-            if (isset($_FILES['imagenes_adicionales'])) {
-                $imagenesAdicionales = $_FILES['imagenes_adicionales'];
+            foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
+                $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
+                $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
+                $rutaImagenAdicional =  "imagenes/" . $nombreImagenAdicional;
 
-                foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
-                    $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
-                    $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
-                    $rutaImagenAdicional =  "imagenes/" . $nombreImagenAdicional;
-
-                    if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
-                        $data['imagenes'][] = $rutaImagenAdicional;
-                    } else {
-                        // Manejar el caso en que haya un error al mover la imagen
-                        $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
-                        jsonResponse($response, 500);
-                    }
+                if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
+                    $data['imagenes'][] = $rutaImagenAdicional;
+                } else {
+                    // Manejar el caso en que haya un error al mover la imagen
+                    $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
+                    jsonResponse($response, 500);
                 }
             }
 
+
             // Insertar el anuncio en la base de datos
             insertarAnuncio($dbh, $data);
+            
             header("Location: /");
             die(); // Finalizar el script después de la redirección
         } else {
@@ -115,14 +127,10 @@ switch ($accion) {
         //ACTUALIZAR
         $titulo = $_POST["titulo"];
         $precio = $_POST["precio"];
-        $desc = $_POST["desc"];
-        $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+        $texto = $_POST["desc"];
+        $idCategoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
 
         date_default_timezone_set('Europe/Madrid');
-
-        $id_cat = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-        list($id_cat, $nombreCategoria) = explode('|', $id_cat);
-
 
 
         $id_anuncio = $_POST["id_anuncio"];
@@ -131,20 +139,32 @@ switch ($accion) {
             "id" => $id_anuncio,
             'titulo' => $titulo,
             'precio' => $precio,
-            'descripcion' => $desc,
-            'categoria' => $nombreCategoria,
-            'id_categoria' => $id_cat,
+            'descripcion' => $texto,
+            'categoria' => $idCategoria,
             'fecha' => date('Y-m-d H:i:s'),
             'comercio' => 1,
             'anunciante' => 2
         ];
+        var_dump($data);
         // Actualizar el anuncio en la base de datos
         actualizarAnuncio($dbh, $data);
-        header("Location: /");
+        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+
+        // Redirige a la página anterior
+        header("Location: $referer");
+        
         die(); // Finalizar el script después de la redirección
     case "borrarAnuncio":
         eliminarId($dbh, $id);
-        header("Location: /");
+
+        //redireccionar al index o al perfil
+        if($palabra === "anunciosPerfil"){
+            header("Location: /perfil");
+        }
+        else{
+            header("Location: /");
+        }
+
         die(); // Finalizar el script después de la redirección
     default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];

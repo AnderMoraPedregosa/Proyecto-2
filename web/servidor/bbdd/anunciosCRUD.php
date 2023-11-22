@@ -53,6 +53,14 @@ function getAnuncioId($dbh, $id)
     $stmt->execute($data);
     return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getAnuncioPorComercio($dbh, $idComercio)
+{
+    $data = array('comercio_id' => $idComercio);
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id_comercio= (:comercio_id)");
+    $stmt->execute($data);
+    return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 // Dentro de tu función insertarAnuncio
 function insertarAnuncio($dbh, $data)
 {
@@ -60,8 +68,8 @@ function insertarAnuncio($dbh, $data)
         $imagenes = $data['imagenes'];
 
         // Insertar el anuncio en la tabla 'anuncios'
-        $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, categoria, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio, imagen_anuncio) 
-            VALUES (:titulo, :precio, :categoria, :descripcion, :id_categoria, :fecha, :comercio, :anunciante, :imagen_anuncio)");
+        $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio,  descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio, imagen_anuncio) 
+            VALUES (:titulo, :precio, :descripcion, :id_categoria, :fecha, :comercio, :anunciante, :imagen_anuncio)");
 
         // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
         $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
@@ -86,6 +94,15 @@ function insertarAnuncio($dbh, $data)
     }
 }
 
+function getComercio($dbh, $id){
+    $data = array('id' => $id);
+
+    $stmt = $dbh->prepare("SELECT DISTINCT id_comercio FROM anuncios WHERE id_comerciante = :id");
+    $stmt->execute($data);
+    $id_comercio = $stmt->fetchColumn();
+
+    return $id_comercio;
+}
 // Dentro de tu función insertarRutaImagen
 function insertarRutaImagen($dbh, $data)
 {
@@ -98,7 +115,7 @@ function insertarRutaImagen($dbh, $data)
 function actualizarAnuncio($dbh, $data)
 {
 
-    $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio, categoria = :categoria, descripcion = :descripcion, id_categoria = :id_categoria, fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio WHERE id = :id");
+    $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria, fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio WHERE id = :id");
     $stmt->execute($data);
     close();
 }

@@ -9,18 +9,19 @@
 
     </div>
 
+    <div id="productosComercio">
     <div class="center">
         <section id="content">
-            <h2 class="subheader">Últimos productos
-                <img src="../../assets/images/new.png" class="new" alt="newp" />
+            <h2 class="subheader">Mis productos
             </h2>
             <div id="articles">
 
-                <script type="module" src="scripts/anuncios.js"></script>
+                <script type="module" src="scripts/perfil.js"></script>
 
             </div>
 
         </section>
+    </div>
 
         <aside id="sidebar">
             <div id="nav-blog" class="sidebar-item">
