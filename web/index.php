@@ -56,9 +56,15 @@ switch ($path) {
     case 'login':
         require './paginas/login.html';
         break;
+    case "personas":
+        require './servidor/servicios/personas/servicioPersonas.php';
+        break;
+    case "crudPersonas":
+        require './paginas/personas.php';
+
+        break;
     default:
         // Manejo de rutas no encontradas
         require "./paginas/error-404.php";
         break;
 }
-

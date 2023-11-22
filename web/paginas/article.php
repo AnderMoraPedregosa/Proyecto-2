@@ -2,7 +2,7 @@
 
 <script type="module" src="../../scripts/categoria.js"></script>
 
-<div id="prueba">
+
     <div class="center">
         <div class="articulos">
             <div id="content">
@@ -16,6 +16,6 @@
         
       
     </div>
-</div>
+
 
 <?php require "partials/footer.php" ?>

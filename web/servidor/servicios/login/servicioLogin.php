@@ -1,5 +1,5 @@
 <?php
-require "servidor/bbdd/login.php";
+require "servidor/bbdd/personasCRUD.php";
 
 
 
@@ -13,9 +13,11 @@ function jsonResponse($data, $statusCode = 200)
 function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 {
 
-    $user = getPersonaByEmailAndPassword($dbh, $emailUsuario, $contraseñaUsuario);
+    $user = getPersonaByEmail($dbh, $emailUsuario);
 
-    if ($user) {
+
+    /*   echo "<script> alert($user) </script>"; */
+    if ($user && password_verify($contraseñaUsuario, $user['passwd'])) {
 
         /* session_start();
         $_SESSION["user"] = $user; */

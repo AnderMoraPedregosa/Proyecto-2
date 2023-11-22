@@ -49,7 +49,7 @@ window.addEventListener("load", async function () {
 
             document.getElementById("precio").value = anuncioNew.precio;
             document.getElementById("desc").value = anuncioNew.descripcion
-            ;
+                ;
             var selectElement = document.getElementById("selectCategorias");
 
             var opcionesArray = Array.from(selectElement.options);
@@ -79,39 +79,44 @@ window.addEventListener("load", async function () {
 
 
 
-
-
-
-
-
 function htmlDetalle(anuncio) {
-    let srcImagen = anuncio.imagen.split('/')
+    let srcImagen = anuncio.imagen.split('/');
     let content = document.getElementById("content");
     const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
-    let article = document.createElement("article");
-    article.className = "article-item article-detail";
-    article.innerHTML = `<article class="article-item article-detail">
-    <div>
-    <div class="image-wrap-detalle">
-    <img src="${srcImagen[0] == "imagenes" ? "/" + anuncio.imagen : anuncio.imagen}" alt="Producto" />
-    </div>
-        </div>
 
-                <h2 class="subheader">${anuncio.titulo}</h2>
-                <span class="date">
-                Publicado:  ${tiempoTranscurrido}
-                </span>
-                <p>
-                    ${anuncio.descripcion}
-                </p>
-                <p>
-                ${anuncio.precio} €
-                </p>
-                <p>
-                ${anuncio.categoria} </p>
-                <div class="clearfix"></div>
-                </article>`;
-                                content.appendChild(article);
+    // Crear un contenedor principal para las dos columnas
+    let container = document.createElement("div");
+    container.className = "two-columns-container";
+
+    // Columna de la izquierda con la imagen
+    let imageColumn = document.createElement("div");
+    imageColumn.className = "image-column";
+    let imageWrap = document.createElement("div");
+    imageWrap.className = "image-wrap-detalle";
+    let imgElement = document.createElement("img");
+    imgElement.src = srcImagen[0] == "imagenes" ? "/" + anuncio.imagen : anuncio.imagen;
+    imgElement.alt = "Producto";
+    imageWrap.appendChild(imgElement);
+    imageColumn.appendChild(imageWrap);
+
+    // Columna de la derecha con los detalles
+    let detailsColumn = document.createElement("div");
+    detailsColumn.className = "details-column";
+    detailsColumn.innerHTML = `
+        <h2 class="subheader">${anuncio.titulo}</h2>
+        <span class="date">Publicado: ${tiempoTranscurrido}</span>
+        <p>${anuncio.descripcion}</p>
+        <p>${anuncio.precio} €</p>
+        <p>${anuncio.categoria}</p>
+        <div class="clearfix"></div>
+    `;
+
+    // Agregar las columnas al contenedor principal
+    container.appendChild(imageColumn);
+    container.appendChild(detailsColumn);
+
+    // Agregar el contenedor principal al contenido
+    content.appendChild(container);
 }
 
 
