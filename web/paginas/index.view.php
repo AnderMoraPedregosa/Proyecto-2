@@ -44,5 +44,5 @@
         <button id="cargarMasBtn">Cargar más</button>
     </div>
 </div>
-<script src="../scripts/index.js"></script>
+<script src="../scripts/header.js"></script>
 <?php require "paginas/partials/footer.php" ?>

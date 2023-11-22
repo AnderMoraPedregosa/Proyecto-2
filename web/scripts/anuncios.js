@@ -1,3 +1,9 @@
+const datos = sessionStorage.getItem('user');
+const datosArray = JSON.parse(datos);
+
+let rol = sessionStorage.getItem('user') ? datosArray['id_rol'] : null;
+
+
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
@@ -152,8 +158,9 @@ function mostarHtml(body) {
                  <span class="date">${tiempoTranscurrido}</span>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
-                <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
+                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="hola" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                 <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
                 </div>
     
                   <div class="clearfix"></div>
