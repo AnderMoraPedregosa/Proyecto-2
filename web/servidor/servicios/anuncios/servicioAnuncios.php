@@ -10,8 +10,12 @@ function jsonResponse($data, $statusCode = 200)
 
     // Imprimir los datos como JSON (sin llamar a exit)
     echo json_encode($data);
-    // No es necesario llamar a exit aquí
 }
+
+// Decodifica los datos JSON enviados en el cuerpo de una solicitud POST
+// y los almacena en un array asociativo.
+$datos = json_decode(file_get_contents('php://input'), true);
+
 
 
 switch ($accion) {
@@ -77,11 +81,10 @@ switch ($accion) {
             $imagenesAdicionales = $_FILES['imagenes_adicionales'];
 
             // Obtener información sobre el anuncio desde el formulario
-            $titulo = $_POST["titulo"];
-            $precio = $_POST["precio"];
-            $texto = $_POST["desc"];
-            $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-            list($id, $nombreCategoria) = explode('|', $idCategoria);
+            $titulo = isset($data['titulo']) ? $data['titulo'] : '';
+            $precio = isset($data['precio']) ? $data['precio'] : '';
+            $desc = isset($data['descripcion']) ? $data['descripcion'] : '';
+            $cat = isset($data['cat']) ? $data['cat'] : '';
 
             date_default_timezone_set('Europe/Madrid');
 
@@ -89,8 +92,8 @@ switch ($accion) {
             $data = [
                 'titulo' => $titulo,
                 'precio' => $precio,
-                'descripcion' => $texto,
-                'id_categoria' => $id,
+                'descripcion' => $desc,
+                'id_categoria' => $cat,
                 'fecha' => date('Y-m-d H:i:s'),
                 'comercio' => 1,
                 'anunciante' => 2,
@@ -125,35 +128,41 @@ switch ($accion) {
     case "actualizar":
 
         //ACTUALIZAR
-        $titulo = $_POST["titulo"];
-        $precio = $_POST["precio"];
-        $texto = $_POST["desc"];
-        $idCategoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
-
+        $id = $datos['id'];
+        $titulo = $datos['titulo'];
+        $precio = $datos['precio'];
+        $descripcion = $datos['descripcion'];
+        $cat = $datos['cat'];
         date_default_timezone_set('Europe/Madrid');
 
-
-        $id_anuncio = $_POST["id_anuncio"];
-        // Crear el array $data con la información del anuncio
+        
         $data = [
-            "id" => $id_anuncio,
+            "id" => $id,
             'titulo' => $titulo,
             'precio' => $precio,
-            'descripcion' => $texto,
-            'categoria' => $idCategoria,
+            'descripcion' => $descripcion,
+            'categoria' => $cat,
             'fecha' => date('Y-m-d H:i:s'),
             'comercio' => 1,
             'anunciante' => 2
         ];
-        var_dump($data);
-        // Actualizar el anuncio en la base de datos
-        actualizarAnuncio($dbh, $data);
-        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
 
-        // Redirige a la página anterior
-        header("Location: $referer");
-        
-        die(); // Finalizar el script después de la redirección
+        // Actualizar el anuncio en la base de datos
+        $result = actualizarAnuncio($dbh, $data);
+        if ($result) {
+            // Si la eliminación fue exitosa
+            $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
+            jsonResponse($response);
+
+            // Redirigir a la página desde la que se hizo la solicitud
+            header("Location: ".$_SERVER['HTTP_REFERER']);
+            exit(); // Asegura que el script se detenga después de la redirección
+        } else {
+            // Si hubo un problema al intentar borrar la persona
+            $response = ['status' => 'error', 'message' => 'No se pudo borrar la persona'];
+            jsonResponse($response, 500);
+        }
+break;
     case "borrarAnuncio":
         eliminarId($dbh, $id);
 

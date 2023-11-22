@@ -6,8 +6,9 @@ async function getDetalleAnuncio(id) {
     const data = await response.json();
     return data;
 }
-let btnForm = document.getElementById("btnCrearAnuncio");
+var btnForm = document.getElementById("btnCrearAnuncio");
 let selectElement = document.getElementById("selectCategorias");
+
 window.addEventListener("load", async function () {
     // Obtener la ruta de la URL
     const path = window.location.pathname;
@@ -15,7 +16,7 @@ window.addEventListener("load", async function () {
     const pathSegments = path.split('/');
     const accion = pathSegments[2]
     // Obtener el último segmento, que debería ser el 'id'
-    const id = pathSegments.pop();
+    var id = pathSegments.pop();
 
 
     if (id) {
@@ -35,7 +36,7 @@ window.addEventListener("load", async function () {
 
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
-        let url;
+        var url;
 
         if (accion === "actualizar") {
             // Cambiar texto del botón crear
@@ -53,18 +54,21 @@ window.addEventListener("load", async function () {
                 }
             }
         
-            // Verificar si el botón tiene el valor "Actualizar"
-            // Realizar lógica para actualizar
+           
             const url = `/anuncios/actualizar/${anuncioNew.id}`;
         
             btnForm.addEventListener("click", () => {
+                this.alert("click")
                 const titulo = document.getElementById("titulo").value;
                 const precio = document.getElementById("precio").value;
                 const descripcion = document.getElementById("desc").value;
                 const cat = selectElement.value;  // Usar selectElement.value para obtener el valor seleccionado
         
+                alert(cat);
+                alert(url);
+                this.alert(id);
                 // Asegurarte de que insertarActualizarAnuncio tenga los parámetros necesarios
-                insertarActualizarAnuncio(titulo, precio, descripcion, cat, url);
+                insertarActualizarAnuncio(id,titulo, precio, descripcion, cat, url);
                 // Resto de tu lógica de actualización...
             });
         }
@@ -243,5 +247,7 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
     } catch (error) {
         // Capturar y manejar errores
         console.error('Error en la operación:', error.message);
+        alert('Error en la operación: ' + error.message); // Agrega esta alerta para verificar el mensaje de error
+
     }
 }
