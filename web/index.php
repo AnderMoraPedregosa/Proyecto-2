@@ -65,6 +65,9 @@ switch ($path) {
         break;
     case "crudPersonas":
         require './paginas/personas.php';
+        break;
+    case "perfil":
+        require './paginas/perfil.php';
 
         break;
     default:

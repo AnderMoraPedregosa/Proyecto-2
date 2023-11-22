@@ -7,12 +7,13 @@ let rol = sessionStorage.getItem('user') ? datosArray['id_rol'] : null;
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
-async function getAnuncios() {
+async function getAnunciosPorComercio() {
     try {
 
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
-        const response = await fetch(`${base_url}/anuncios/todos`);
+        let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
+        const response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}`);
 
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
@@ -80,7 +81,7 @@ async function getAnunciosSearch(searchTerm) {
 window.addEventListener("load", async function () {
 
     let articles = document.getElementById("articles");
-     body = await getAnuncios();
+     body = await getAnunciosPorComercio();
     numero1 = 0;
     numero2 = 10;
 
@@ -108,15 +109,13 @@ window.addEventListener("load", async function () {
         console.log(body);
 
     });
-
-
 });
 
 function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
         // El usuario confirmó, realizar la eliminación
-        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
+        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}/anunciosPerfil`;
     } else {
         // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
         console.log("Eliminación cancelada");
@@ -157,10 +156,10 @@ function mostarHtml(body) {
                  <h2>${anuncioNew.titulo}</h2>
                  <span class="date">${tiempoTranscurrido}</span>
                  <div class="link-container">
-                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
-                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}/anuncio" class="link edit" id="hola" style="display: none;"><i class="fa-solid fa-pen-to-square"></i></a>
+                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}/anunciosPerfil" class="link read-more"><i class="fa-solid fa-info"></i></a>
+                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="hola" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                 <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" style="display: none;"  data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
+                 <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
                 </div>
     
                   <div class="clearfix"></div>
@@ -195,16 +194,16 @@ function datosAnuncios(data) {
     data.slice(numero1,numero2).forEach(async (anuncioJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
-        console.log(anuncioJson)
         const anuncioNew = new Anuncio(
             anuncioJson.id,
             anuncioJson.titulo,
             anuncioJson.imagen_anuncio,
+            anuncioJson.categoria,
             anuncioJson.descripcion,
             anuncioJson.fecha_creacion,
             anuncioJson.precio,
-            anuncioJson.id_categoria,
-            anuncioJson.id_comercio,
+            anuncioJson.id_categorias,
+            anuncioJson.id_comercios,
             anuncioJson.id_comerciante
         );
 

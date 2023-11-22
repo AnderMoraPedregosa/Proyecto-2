@@ -43,12 +43,12 @@
                     <li id="liUsuarios" class="crudUsuariosOculto">
                         <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
-                    <li id="liPerfil">
-                        <a href="#" class="animacion">Perfil</a>
+                    <li id="liPerfil"  style="display: none;">
+                        <a href="/perfil" class="animacion">Perfil</a>
                     </li>
                     <li id="liIniciarSesion">
                         <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
-                        <a href="/login"><button class="btn-sesion" style="display: none;" id="btnLogOutHead">Cerrar sesion</button></a>
+                        <a href="/"><button class="btn-sesion" style="display: none;" id="btnLogOutHead">Cerrar sesion</button></a>
                     </li>
                 </ul>
             </nav>

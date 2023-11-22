@@ -53,6 +53,14 @@ function getAnuncioId($dbh, $id)
     $stmt->execute($data);
     return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getAnuncioPorComercio($dbh, $idComercio)
+{
+    $data = array('comercio_id' => $idComercio);
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id_comercio= (:comercio_id)");
+    $stmt->execute($data);
+    return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 // Dentro de tu función insertarAnuncio
 function insertarAnuncio($dbh, $data)
 {
@@ -86,6 +94,15 @@ function insertarAnuncio($dbh, $data)
     }
 }
 
+function getComercio($dbh, $id){
+    $data = array('id' => $id);
+
+    $stmt = $dbh->prepare("SELECT DISTINCT id_comercio FROM anuncios WHERE id_comerciante = :id");
+    $stmt->execute($data);
+    $id_comercio = $stmt->fetchColumn();
+
+    return $id_comercio;
+}
 // Dentro de tu función insertarRutaImagen
 function insertarRutaImagen($dbh, $data)
 {
