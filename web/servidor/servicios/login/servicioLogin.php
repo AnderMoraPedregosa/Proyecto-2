@@ -35,8 +35,6 @@ function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 
 
 
-
-
 // Verifica si la petición es de tipo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

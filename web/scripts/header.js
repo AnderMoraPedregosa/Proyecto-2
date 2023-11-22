@@ -6,8 +6,12 @@ const liFormulario = document.getElementById("liFormulario");
 const liUsuarios = document.getElementById("liUsuarios");
 const liPerfil = document.getElementById("liPerfil");
 
+btnLogOutHead.addEventListener("click", logOut);
 
-
+function logOut(){
+    sessionStorage.clear();
+    location.reload();
+}
 
 //ocultar acciones del admin y comerciante desde el principio
 liUsuarios.style.display = "none";
