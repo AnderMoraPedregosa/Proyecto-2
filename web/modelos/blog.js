@@ -1,14 +1,12 @@
 // Definición de la clase Anuncio
-class Anuncio {
+class Blog {
     // Constructor que recibe los detalles del anuncio
-    constructor(id,titulo, imagen, descripcion, fechaC, precio, idCategoria, idComercio, idComerciante) {
+    constructor(id, titulo, imagen, texto, fechaC, idComercio, idComerciante) {
         this.id = id;
         this.titulo = titulo;
         this.imagen = imagen;
-        this.descripcion = descripcion;
+        this.texto = texto;
         this.fechaC = fechaC;
-        this.precio = precio;
-        this.idCategoria = idCategoria;
         this.idComercio = idComercio;
         this.idComerciante = idComerciante;
     }
@@ -17,4 +15,4 @@ class Anuncio {
 
     // Otros métodos y propiedades pueden ser añadidos según sea necesario
 }
-export { Anuncio };
+export { Blog as Blog };

@@ -25,6 +25,10 @@ switch ($path) {
         // Lógica para mostrar anuncios
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
+    case 'blogs':
+        // Lógica para mostrar anuncios
+        require './servidor/servicios/blogs/serviciosBlogs.php';
+        break;
     case 'categorias':
         require './servidor/servicios/anuncios/servicioCategorias.php';
         break;
@@ -47,7 +51,7 @@ switch ($path) {
         break;
     case 'formulario':
         // Lógica para el formulario
-        require './paginas/crearEditarAnuncio.php';
+        require './paginas/formularioCuerpo.php';
         break;
     case 'anuncioDetalle':
         // Lógica para mostrar el detalle de un anuncio

@@ -1,5 +1,5 @@
 <?php
-require "servidor/bbdd/anunciosCRUD.php";
+require "servidor/bbdd/blogsCRUD.php";
 
 // Convertir la respuesta a JSON
 function jsonResponse($data, $statusCode = 200)
@@ -35,7 +35,7 @@ switch ($accion) {
     case 'todos':
         $blogs = getBlogs($dbh);
 
-        if ($anuncios === false) {
+        if ($blogs === false) {
             $response = ['status' => 'error', 'message' => 'No se pudieron obtener los blogs'];
             jsonResponse($response, 500);
         }

@@ -195,16 +195,16 @@ function datosAnuncios(data) {
     data.slice(numero1,numero2).forEach(async (anuncioJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
+        console.log(anuncioJson)
         const anuncioNew = new Anuncio(
             anuncioJson.id,
             anuncioJson.titulo,
             anuncioJson.imagen_anuncio,
-            anuncioJson.categoria,
             anuncioJson.descripcion,
             anuncioJson.fecha_creacion,
             anuncioJson.precio,
-            anuncioJson.id_categorias,
-            anuncioJson.id_comercios,
+            anuncioJson.id_categoria,
+            anuncioJson.id_comercio,
             anuncioJson.id_comerciante
         );
 

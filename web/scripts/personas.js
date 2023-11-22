@@ -160,10 +160,6 @@ function openModal(url) {
         const idRol = document.querySelector('input[name="id_rol"]:checked').value;
 
 
-
-
-
-
         let url;
         // Verificar si el botón tiene el valor "Actualizar"
         if (this.value === "Actualizar") {

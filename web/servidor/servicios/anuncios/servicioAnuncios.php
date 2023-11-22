@@ -111,13 +111,9 @@ switch ($accion) {
         $titulo = $_POST["titulo"];
         $precio = $_POST["precio"];
         $texto = $_POST["desc"];
-        $idCategoria = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
+        $idCategoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
 
         date_default_timezone_set('Europe/Madrid');
-
-        $id_cat = isset($_POST['selectCategorias']) ? $_POST['selectCategorias'] : null;
-        list($id_cat, $nombreCategoria) = explode('|', $id_cat);
-
 
 
         $id_anuncio = $_POST["id_anuncio"];
@@ -127,11 +123,12 @@ switch ($accion) {
             'titulo' => $titulo,
             'precio' => $precio,
             'descripcion' => $texto,
-            'id_categoria' => $id_cat,
+            'categoria' => $idCategoria,
             'fecha' => date('Y-m-d H:i:s'),
             'comercio' => 1,
             'anunciante' => 2
         ];
+        var_dump($data);
         // Actualizar el anuncio en la base de datos
         actualizarAnuncio($dbh, $data);
         header("Location: /");

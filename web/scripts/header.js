@@ -1,5 +1,4 @@
-const datos = sessionStorage.getItem('user');
-const datosArray = JSON.parse(datos);
+const datosArray = JSON.parse(sessionStorage.getItem('user'));
 const btnLoginHead = document.getElementById("btnLoginHead");
 const btnLogOutHead = document.getElementById("btnLogOutHead");
 const liFormulario = document.getElementById("liFormulario");
