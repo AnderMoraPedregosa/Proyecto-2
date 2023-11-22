@@ -43,6 +43,23 @@ switch ($accion) {
         $response = ['status' => 'success', 'data' => $anuncios];
         jsonResponse($response);
         break;
+    case "comercioConcreto":
+
+
+        $idComercio = getComercio($dbh, $id);
+
+        $anuncios = getAnuncioPorComercio($dbh, $idComercio);
+
+        if ($anuncios === false) {
+            $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
+            jsonResponse($response, 500);
+        }
+        $response = ['status' => 'success', 'data' => $anuncios];
+        jsonResponse($response);
+        break;
+
+
+      
     case 'detalles':
 
         $imagenes = getImagenesId($dbh, $id);
@@ -103,6 +120,7 @@ switch ($accion) {
 
             // Insertar el anuncio en la base de datos
             insertarAnuncio($dbh, $data);
+            
             header("Location: /");
             die(); // Finalizar el script después de la redirección
         } else {
@@ -140,11 +158,25 @@ switch ($accion) {
         ];
         // Actualizar el anuncio en la base de datos
         actualizarAnuncio($dbh, $data);
-        header("Location: /");
+
+        if($palabra === "anunciosPerfil"){
+            header("Location: /perfil");
+        }
+        else if($palabra === "anunciosPerfil"){
+            header("Location: /");
+        }
         die(); // Finalizar el script después de la redirección
     case "borrarAnuncio":
         eliminarId($dbh, $id);
-        header("Location: /");
+
+        //redireccionar al index o al perfil
+        if($palabra === "anunciosPerfil"){
+            header("Location: /perfil");
+        }
+        else{
+            header("Location: /");
+        }
+
         die(); // Finalizar el script después de la redirección
     default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];

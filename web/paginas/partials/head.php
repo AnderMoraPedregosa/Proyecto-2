@@ -44,7 +44,7 @@
                         <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
                     <li id="liPerfil">
-                        <a href="#" class="animacion">Perfil</a>
+                        <a href="/perfil" class="animacion">Perfil</a>
                     </li>
                     <li id="liIniciarSesion">
                         <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
