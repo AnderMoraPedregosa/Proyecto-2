@@ -147,7 +147,7 @@ body {
     position: absolute;
     width: 0%;
     height: 0.125em;
-    bottom:0.938em;
+    bottom: 0.938em;
     left: 50%;
     background-color: #0B3AAE;
     transform: translateX(-50%);
@@ -875,7 +875,8 @@ button {
     }
 
     #menu {
-        width: 70%;
+        width: 80%;
+
     }
 }
 
