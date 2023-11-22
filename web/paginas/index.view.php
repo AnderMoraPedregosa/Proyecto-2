@@ -25,26 +25,24 @@
         <aside id="sidebar">
             <div id="nav-blog" class="sidebar-item">
                 <h3>Puedes hacer esto</h3>
-                <a href="#" class="btn btn-success">Crear producto</a>
-                <a href="../paginas/blog.php" class="btn-white">Ir al blog</a>
+                <a href="#" class="btn btn-success" id="btnCrearProducto">Crear producto</a>
+                <a href="../paginas/blog.php" class="btn-white" id="btnBlog">Ir al blog</a>
             </div>
 
             <div id="search" class="sidebar-item">
                 <h3>Buscador</h3>
                 <p>Encuentra el producto que buscas</p>
-                <form>
-                    <input type="text" name="search" />
+                <form action="/anuncios/search/" id="search-form">
+                    <input type="text" id="search-input" name="search" />
                     <input type="submit" name="submit" value="Buscar" class="btn" />
                 </form>
             </div>
         </aside>
 
         <div class="clearfix"></div>
-        
-        <button id="cargarMasBtn">Cargar más</button>  
+
+        <button id="cargarMasBtn">Cargar más</button>
     </div>
-
-
 </div>
-
+<script src="../scripts/index.js"></script>
 <?php require "paginas/partials/footer.php" ?>

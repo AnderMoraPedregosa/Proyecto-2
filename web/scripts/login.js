@@ -1,5 +1,4 @@
 import { Persona } from "../modelos/persona.js";
-
 //movimientos LOGIN
 let contenedor = document.getElementById('contenedor');
 let registrarseBtn = document.getElementById('registrarse');
@@ -13,23 +12,53 @@ iniciarSesionBtn.addEventListener('click', () => {
     contenedor.classList.remove("active");
 });
 
+document.addEventListener('DOMContentLoaded', function () {
 
-//funcion asincrona para hashear una contraseña usando SHA-256
-async function hashPassword(password) {
-    let encoder = new TextEncoder();
-    let data = encoder.encode(password);
-    let hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    let hashArray = Array.from(new Uint8Array(hashBuffer));
-    let hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
+    let botonLogin = document.getElementById("btnLogin")
+    botonLogin.addEventListener('click', async function (event) {
+        try {
+            event.preventDefault();
+            const emailUsuario = document.getElementById('emailUsuarioLogin').value;
+            const passwd = document.getElementById('passwd').value;
+            if (emailUsuario == "" || passwd == "") {
+                alert("Debes rellenar las credenciales")
+            } else {
+                const response = await fetch('/loginService', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `emailUsuario=${emailUsuario}&passwd=${passwd}`,
+                });
+                console.log(response);
+                if (response.ok) {
+                    // Obtener el cuerpo de la respuesta como JSON
+                    const json = await response.json();
+                    // Hacer algo con el cuerpo de la respuesta (por ejemplo, imprimirlo en la consola)
+                    sessionStorage.setItem("user", JSON.stringify(json['user']))
+                    location.href = "/"
+                    // También puedes usar sessionStorage aquí si es necesario
+                    // sessionStorage.setItem("user", JSON.stringify(json));
+                    // location.href = "profile.php";
+                } else {
+                    alert("Las credenciales no son validas")
+                    // La solicitud no fue exitosa, mostrar un mensaje de error
+                    console.error('Error en la solicitud:', response.statusText);
+                }
+
+            }
+
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
+    });
+});
 
 
 
 
 
-
-async function hashPassword(password) {
+/* async function hashPassword(password) {
     let encoder = new TextEncoder();
     let data = encoder.encode(password);
     let hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -64,7 +93,7 @@ window.addEventListener("load", async function () {
 
     });
 
-});
+}); */
 
 /*
 >>>>>>> desarrollo

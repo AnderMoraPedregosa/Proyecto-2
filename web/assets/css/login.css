@@ -61,13 +61,13 @@ body {
 }
 
 #registro,
-#login {
+#btnLogin {
     background: rgb(195, 134, 239);
     background: linear-gradient(90deg, rgba(195, 134, 239, 1) 16%, rgba(172, 90, 232, 1) 52%, rgba(153, 53, 225, 1) 85%);
 }
 
 #registro:hover,
-#login:hover {
+#btnLogin:hover {
     background: rgb(153, 53, 225);
     background: linear-gradient(90deg, rgba(153, 53, 225, 1) 18%, rgba(172, 90, 232, 1) 59%, rgba(195, 134, 239, 1) 100%);
 }

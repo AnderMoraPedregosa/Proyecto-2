@@ -7,7 +7,7 @@ async function getAnuncios() {
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
         const response = await fetch(`${base_url}/anuncios/todos`);
-        console.log(base_url);
+
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
@@ -25,124 +25,87 @@ async function getAnuncios() {
         return { status: 'error', message: 'Error en la llamada a la API' };
     }
 }
-
+//variables globales
 let numero1;
 let numero2;
+let body;
 
-// Al presionar el botón "Cargar más", se muestran los siguientes 10 anuncios
+
 const cargarMasBtn = document.getElementById("cargarMasBtn");
 cargarMasBtn.addEventListener('click', async function () {
-    numero1 += 11;
-    numero2 += 11;
-    await mostrarMasAnuncios(numero1,numero2);
+  
+        numero1 += 11;
+        numero2 += 11;
+        console.log(body);
+        await mostrarHtmlBoton(body);
+        console.log("pase por aqui");
+    
+
 });
+
+
+async function getAnunciosSearch(searchTerm) {
+    try {
+        numero1 = 0;
+        numero2 = 10;
+    
+        // Obtener la ruta base del documento actual
+        const base_url = window.location.origin;
+        const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
+        const response = await fetch(searchUrl);    
+        if (!response.ok) {
+            throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        return { status: 'error', message: 'Error en la llamada a la API' };
+    }
+}
+
 
 window.addEventListener("load", async function () {
 
     let articles = document.getElementById("articles");
-    let body = await getAnuncios();
-    let divArticle;
+     body = await getAnuncios();
     numero1 = 0;
     numero2 = 10;
-    
-    if (body['status'] == 'success') {
 
-        let anuncios = datosAnuncios(body['data'],numero1,numero2);
-        anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(anuncioNew => {
-            divArticle = document.createElement("div");
-            divArticle.className = "article-item";
-            let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
-            // Agregar la información del anuncio al nuevo elemento div
-            console.log(anuncioNew)
-            divArticle.innerHTML = `
-             <div class="image-wrap">
-                 <img src="${anuncioNew.imagen}" alt="Producto" />
-             </div>
-             <h2>${anuncioNew.titulo}</h2>
-             <span class="date">${tiempoTranscurrido}</span>
-             <div class="link-container">
-            <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
-            <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
-            <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
-            </div>
+    mostrarHtmlBoton(body);
+    const searchForm = document.getElementById("search-form");
 
-              <div class="clearfix"></div>
-         `;
-            articles.appendChild(divArticle);
+    searchForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-            let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
-            eliminarEnlace.addEventListener('click', function (event) {
-                event.preventDefault();
-                const idAnuncio = this.getAttribute('data-id');
-                confirmarEliminacion(idAnuncio);
-            });
-
-        });
-    } else {
-        divArticle = document.createElement("div");
-        divArticle.className = "anuncios-error";
-        divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
-        articles.appendChild(divArticle);
-    }
-});
-// Cargar más anuncios al presionar el botón
-async function mostrarMasAnuncios(numero1,numero2) {
-    let articles = document.getElementById("articles");
-    let body = await getAnuncios();
-    let divArticle;
-    const scrollBefore = window.scrollY;
-    console.log(numero1,numero2);
-
-    if (body['status'] == 'success') {
-        let anuncios = datosAnuncios(body['data'], numero1, numero2);
-        anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(anuncioNew => {
-            divArticle = document.createElement("div");
-            divArticle.className = "article-item";
-            let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
-            divArticle.innerHTML = `
-                <div class="image-wrap">
-                    <img src="${anuncioNew.imagen}" alt="Producto" />
-                </div>
-                <h2>${anuncioNew.titulo}</h2>
-                <span class="date">${tiempoTranscurrido}</span>
-                <div class="link-container">
-                    <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
-                    <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
-                </div>
-                <div class="clearfix"></div>
-            `;
-            articles.appendChild(divArticle);
-
-            let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
-            eliminarEnlace.addEventListener('click', function (event) {
-                event.preventDefault();
-                const idAnuncio = this.getAttribute('data-id');
-                confirmarEliminacion(idAnuncio);
-            });
-        });
-        let nuevosAnuncios = document.querySelectorAll('.article-item');
-        let ultimoAnuncio = nuevosAnuncios[nuevosAnuncios.length - 1];
-        if (ultimoAnuncio) {
-            ultimoAnuncio.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        const searchInput = document.getElementById("search-input").value;
+        body = await getAnunciosSearch(searchInput);
+        // Limpia los anuncios existentes
+        articles.innerHTML = "";
+        if (body['data']) {
+            if (body['data'].length > 0) {
+                mostrarHtmlBoton(body);
+            }
+        } else {
+            // Mostrar un mensaje si no hay resultados
+            const noResultsMessage = document.createElement("div");
+            noResultsMessage.className = "anuncios-error";
+            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
+            articles.appendChild(noResultsMessage);
         }
+        console.log(body);
 
-        // Si deseas mantener el scroll original después de cargar más anuncios
-        window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
-    } else {
-        divArticle = document.createElement("div");
-        divArticle.className = "anuncios-error";
-        divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
-        articles.appendChild(divArticle);
-    }
-}
-
-// Variables para controlar el rango de anuncios a mostrar
+    });
 
 
-articles.appendChild(cargarMasBtn);
+});
+
 function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
@@ -153,10 +116,75 @@ function confirmarEliminacion(idAnuncio) {
         console.log("Eliminación cancelada");
     }
 }
+function mostrarHtmlBoton(body) {
+    if (body['data'].length >   numero2)  
+    {
+        mostarHtml(body);
+        cargarMasBtn.style.display = 'block';
+    }
+    else
+    {
+        mostarHtml(body);
+        cargarMasBtn.style.display = 'none';
+    }
+}
 
+function mostarHtml(body) {
+    let divArticle;
+    const scrollBefore = window.scrollY;
+    console.log(numero1,numero2)
+
+        
+        if (body['status'] == 'success') {
+
+            let anuncios = datosAnuncios(body['data']);
+            anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
+            anuncios.forEach(anuncioNew => {
+                divArticle = document.createElement("div");
+                divArticle.className = "article-item";
+                let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
+                // Agregar la información del anuncio al nuevo elemento div
+                divArticle.innerHTML = `
+                 <div class="image-wrap">
+                     <img src="${anuncioNew.imagen}" alt="Producto" />
+                 </div>
+                 <h2>${anuncioNew.titulo}</h2>
+                 <span class="date">${tiempoTranscurrido}</span>
+                 <div class="link-container">
+                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
+                <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="#" class="eliminar-enlace link delete" data-id="${anuncioNew.id}"><i class="fa-solid fa-trash"></i></a>
+                </div>
+    
+                  <div class="clearfix"></div>
+             `;
+                articles.appendChild(divArticle);
+    
+                let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
+                eliminarEnlace.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const idAnuncio = this.getAttribute('data-id');
+                    confirmarEliminacion(idAnuncio);
+                });
+    
+            });
+              
+              window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
+        } else {
+            divArticle = document.createElement("div");
+            divArticle.className = "anuncios-error";
+            divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
+            articles.appendChild(divArticle);
+        }
+
+
+
+
+}
 
 function datosAnuncios(data) {
     let anuncios = [];
+
     data.slice(numero1,numero2).forEach(async (anuncioJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
@@ -175,6 +203,5 @@ function datosAnuncios(data) {
 
         anuncios.push(anuncioNew);
     });
-
     return anuncios;
 }
