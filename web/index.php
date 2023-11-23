@@ -22,6 +22,7 @@ $palabra = isset($path_parts[3]) ? $path_parts[3] : '';
 // Manejar las rutas
 switch ($path) {
     case 'anuncios':
+        
         // Lógica para mostrar anuncios
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;

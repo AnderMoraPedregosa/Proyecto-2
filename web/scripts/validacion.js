@@ -1,54 +1,80 @@
-    document.getElementById('btnCrearAnuncio').addEventListener('click', validarFormulario);
-   
-        //valida los campos del formulario antes de enviarlos al server
-        function validarFormulario(event) {
-            try{
-            let campos = [
-                { nombre: "Titulo", valor: document.getElementById('titulo').value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
-                { nombre: "Precio", valor: document.getElementById('precio').value.trim(), exp: /^[0-9]+(\.[0-9]{1,2})?$/ },
-                { nombre: "Descripcion", valor: document.getElementById('desc').value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }
-            ];
+document.getElementById('btnCrearAnuncio').addEventListener('click', function (event) {
+    event.preventDefault(); // Evitar la acción predeterminada del botón (en este caso, evitar que el formulario se envíe)
 
-            campos.forEach(campo => {
-                if (!campo.exp.test(campo.valor)) {
-                    throw new Error("El campo '" + campo.nombre + "' no tiene un formato adecuado");
-                }
+    insertarActualizarAnuncio(); // Llamar a la función que realiza la lógica de inserción/actualización
+});
+
+async function insertarActualizarAnuncio() {
+    try {
+        if (validarFormulario()) {
+            const url = `/anuncios/insertar`;
+
+            let selectElement = document.getElementById("selectCategorias");
+            let titulo = document.getElementById("titulo");
+            let precio = document.getElementById("precio");
+            let descripcion = document.getElementById("desc");
+            let imagenesInput = document.getElementById("imagen");
+
+            const cat = selectElement.value;
+
+            // Crear un objeto FormData para manejar los datos del formulario, incluyendo archivos
+            const formData = new FormData();
+            formData.append("titulo", titulo.value);
+            formData.append("precio", precio.value);
+            formData.append("descripcion", descripcion.value);
+            formData.append("cat", cat);
+
+            // Agregar cada archivo seleccionado al objeto FormData
+            for (let i = 0; i < imagenesInput.files.length; i++) {
+                formData.append("imagenes_adicionales[]", imagenesInput.files[i]);
+            }
+            
+            // Realizar la solicitud con fetch y esperar la respuesta
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
             });
 
-            //validar categoria
-
-            let categoria = document.getElementById("selectCategorias").value;
-            if (categoria === "0") {
-                throw new Error("Selecciona una categoria");
+            // Verificar si la respuesta es exitosa
+            if (response.ok) {
+                // Lógica para manejar una respuesta exitosa (si es necesario)
+                console.log('Anuncio creado/actualizado correctamente');
+            } else {
+                // Lógica para manejar errores específicos del servidor
+                const errorText = await response.text();
+                console.error(`Error en la operación: ${errorText}`);
             }
+        }
+    } catch (error) {
+        // Capturar y manejar errores
+        console.error('Error en la operación:', error.message);
+    }
+}
 
-    /*         enviarFormularioAlServidor();
-    */       
-        }
-        catch(err){
-            alert(err);
-            event.preventDefault();
-        }
-        }
+function validarFormulario() {
+    try {
+        let campos = [
+            { nombre: "Titulo", valor: document.getElementById('titulo').value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
+            { nombre: "Precio", valor: document.getElementById('precio').value.trim(), exp: /^[0-9]+(\.[0-9]{1,2})?$/ },
+            { nombre: "Descripcion", valor: document.getElementById('desc').value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }
+        ];
 
-        /*   // Función para enviar el formulario al servidor mediante Fetch API
-            async function enviarFormularioAlServidor() {
-                try {
-                    let formulario = document.getElementById('crearAnuncio');
-                    let datosFormulario = new FormData(formulario);
-            
-                    const response = await fetch('../servidor/bbdd/anunciosCRUD.php', {
-                        method: 'POST',
-                        body: datosFormulario,
-                    });
-            
-                    const data = await response.json();
-            
-                    // Lógica después de recibir la respuesta del servidor
-                    console.log('Respuesta del servidor:', data);
-                } catch (error) {
-                    // Manejo de errores
-                    console.error('Error al enviar el formulario:', error);
-                }
-            } */
-    
+        campos.forEach(campo => {
+            if (!campo.exp.test(campo.valor)) {
+                throw new Error("El campo '" + campo.nombre + "' no tiene un formato adecuado");
+            }
+        });
+
+
+        let categoria = document.getElementById("selectCategorias").value;
+        if (categoria === "0") {
+            throw new Error("Selecciona una categoria");
+        }
+        return true;
+    }
+    catch (err) {
+        alert(err);
+        return false;
+
+    }
+}

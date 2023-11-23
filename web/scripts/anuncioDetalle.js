@@ -1,11 +1,20 @@
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
+import { Categoria } from "../modelos/categoria.js";
 import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
 async function getDetalleAnuncio(id) {
     const response = await fetch(`/anuncios/detalles/${id}`);
     const data = await response.json();
     return data;
 }
+
+
+async function getCategoriaById(id) {
+    const response = await fetch(`/categorias/categoria/${id}`);
+    const data = await response.json();
+    return data;
+}
+let categoria;
 var btnForm = document.getElementById("btnCrearAnuncio");
 let selectElement = document.getElementById("selectCategorias");
 
@@ -21,7 +30,6 @@ window.addEventListener("load", async function () {
 
     if (id) {
         var anuncioJSON = await getDetalleAnuncio(id);
-        console.log(anuncioJSON);
         const anuncioNew = new Anuncio(
             anuncioJSON["anuncio"][0].id,
             anuncioJSON["anuncio"][0].titulo,
@@ -33,10 +41,9 @@ window.addEventListener("load", async function () {
             anuncioJSON["anuncio"][0].id_comercios,
             anuncioJSON["anuncio"][0].id_comerciante
         );
-
+        categoria =  await categoriaAnuncio(anuncioNew.idCategoria);
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
-        var url;
 
         if (accion === "actualizar") {
             // Cambiar texto del botón crear
@@ -45,34 +52,30 @@ window.addEventListener("load", async function () {
             document.getElementById("titulo").value = anuncioNew.titulo;
             document.getElementById("precio").value = anuncioNew.precio;
             document.getElementById("desc").value = anuncioNew.descripcion;
-        
+
             for (var i = 0; i < selectElement.options.length; i++) {
                 // Si la opción está seleccionada, agregarla a la lista en JavaScript
-                console.log(anuncioNew.idCategoria, selectElement.options[i].value)
                 if (anuncioNew.idCategoria == selectElement.options[i].value) {
                     selectElement.options[i].selected = true;
                 }
             }
-        
-           
+
+
             const url = `/anuncios/actualizar/${anuncioNew.id}`;
-        
+
             btnForm.addEventListener("click", () => {
-                this.alert("click")
                 const titulo = document.getElementById("titulo").value;
                 const precio = document.getElementById("precio").value;
                 const descripcion = document.getElementById("desc").value;
-                const cat = selectElement.value;  // Usar selectElement.value para obtener el valor seleccionado
-        
-                alert(cat);
-                alert(url);
-                this.alert(id);
-                // Asegurarte de que insertarActualizarAnuncio tenga los parámetros necesarios
-                insertarActualizarAnuncio(id,titulo, precio, descripcion, cat, url);
-                // Resto de tu lógica de actualización...
+                const cat = selectElement.value;
+
+
+
+                insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, url);
+
             });
         }
-        
+
 
     } else {
         console.error("No se pudo obtener el 'id' de la URL");
@@ -111,7 +114,7 @@ function htmlDetalle(anuncio) {
         <span class="date">Publicado: ${tiempoTranscurrido}</span>
         <p>${anuncio.descripcion}</p>
         <p>${anuncio.precio} €</p>
-        <p>${anuncio.idCategoria}</p>
+        <p>${categoria.nombre}</p>
         <div class="clearfix"></div>
     `;
 
@@ -170,7 +173,7 @@ function htmlDetalleImagenes(anuncio, imagenes) {
             ${anuncio.precio} €
         </p>
         <p>
-            ${anuncio.idCategoria}
+            ${categoria.nombre}
         </p>`;
 
     // Agregar el nuevo contenedor al contenedor principal
@@ -237,17 +240,21 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
         }
 
         // Obtener el objeto JSON de la respuesta
-        const responseData = await response.json();
 
-        // Imprimir un mensaje en la consola
-        console.log('Operación exitosa:', responseData);
+
 
         // Actualizar dinámicamente el DOM con JavaScript si es necesario
 
     } catch (error) {
         // Capturar y manejar errores
         console.error('Error en la operación:', error.message);
-        alert('Error en la operación: ' + error.message); // Agrega esta alerta para verificar el mensaje de error
 
     }
+}
+
+async function categoriaAnuncio(id) {
+    let categoriaJSON = await getCategoriaById(id);
+
+    return categoria = new Categoria(categoriaJSON['categoria'][0].id, categoriaJSON['categoria'][0].nombre)
+
 }

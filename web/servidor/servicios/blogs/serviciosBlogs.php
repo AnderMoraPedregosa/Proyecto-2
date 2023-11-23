@@ -58,7 +58,7 @@ switch ($accion) {
     
         date_default_timezone_set('Europe/Madrid');
         // Crear el array $data con la información del anuncio
-        $data = [
+        $datos = [
             'titulo' => $titulo,
             'texto' => $texto,
             'fecha' => date('Y-m-d H:i:s'),
@@ -67,7 +67,7 @@ switch ($accion) {
             'imagenes' => [], // Este array almacenará las rutas de las imágenes
         ];
         // Insertar el anuncio en la base de datos
-        insertarAnuncio($dbh, $data);
+        insertarAnuncio($dbh, $datos);
         header("Location: /");
         die(); // Finalizar el script después de la redirección
 
@@ -80,7 +80,7 @@ switch ($accion) {
 
         $id_blog = $_POST["id_blog"];
         // Crear el array $data con la información del anuncio
-        $data = [
+        $datos = [
             "id" => $id_anuncio,
             'titulo' => $titulo,
             'texto' => $texto,
@@ -89,7 +89,7 @@ switch ($accion) {
             'anunciante' => 2
         ];
         // Actualizar el anuncio en la base de datos
-        actualizarAnuncio($dbh, $data);
+        actualizarAnuncio($dbh, $datos);
         header("Location: /");
         die(); // Finalizar el script después de la redirección
     case "borrarBlog":

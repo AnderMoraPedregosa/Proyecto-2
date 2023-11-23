@@ -15,7 +15,7 @@ function jsonResponse($data, $statusCode = 200)
     // No es necesario llamar a exit aquí
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
+$datos = json_decode(file_get_contents('php://input'), true);
 
 /*
 // Obtener datos JSON del cuerpo de la solicitud PUT
@@ -55,13 +55,13 @@ switch ($accion) {
             }
             break;
             case "insertar":
-                $nombre = isset($data['nombre']) ? $data['nombre'] : '';
-                $email = isset($data['email']) ? $data['email'] : '';
-                $dni = isset($data['dni']) ? $data['dni'] : '';
-                $passwd = isset($data['passwd']) ? $data['passwd'] : '';
-                $idRol = isset($data['rol']) ? $data['rol'] : ''; 
+                $nombre = isset($datos['nombre']) ? $datos['nombre'] : '';
+                $email = isset($datos['email']) ? $datos['email'] : '';
+                $dni = isset($datos['dni']) ? $datos['dni'] : '';
+                $passwd = isset($datos['passwd']) ? $datos['passwd'] : '';
+                $idRol = isset($datos['rol']) ? $datos['rol'] : ''; 
   
-                $data = [
+                $datos = [
                   "dni" => $dni,
                   "email" => $email,
                   'nombre' => $nombre,
@@ -69,7 +69,7 @@ switch ($accion) {
                   'rol' => $idRol
               ];
   
-              $result = insertarPersona($dbh, $data);
+              $result = insertarPersona($dbh, $datos);
               if ($result) {
                 // Si la eliminación fue exitosa
                 $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
@@ -86,13 +86,13 @@ switch ($accion) {
                 break;
         case "actualizar":
               //ACTUALIZAR
-              $nombre = isset($data['nombre']) ? $data['nombre'] : '';
-                $email = isset($data['email']) ? $data['email'] : '';
-                $dni = isset($data['dni']) ? $data['dni'] : '';
-                $passwd = isset($data['passwd']) ? $data['passwd'] : '';
-                $idRol = isset($data['rol']) ? $data['rol'] : ''; 
+              $nombre = isset($datos['nombre']) ? $datos['nombre'] : '';
+                $email = isset($datos['email']) ? $datos['email'] : '';
+                $dni = isset($datos['dni']) ? $datos['dni'] : '';
+                $passwd = isset($datos['passwd']) ? $datos['passwd'] : '';
+                $idRol = isset($datos['rol']) ? $datos['rol'] : ''; 
 
-              $data = [
+              $datos = [
                 "id" => $id,
                 "dni" => $dni,
                 "email" => $email,
@@ -101,7 +101,7 @@ switch ($accion) {
                 'rol' => $idRol
             ];
 
-            $result = actualizarPersona($dbh, $data);
+            $result = actualizarPersona($dbh, $datos);
     
             if ($result) {
                 // Si la eliminación fue exitosa

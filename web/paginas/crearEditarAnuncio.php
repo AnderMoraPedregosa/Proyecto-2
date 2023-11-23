@@ -1,6 +1,6 @@
-<form class="form_anuncios"  enctype="multipart/form-data">
+<form class="form_anuncios" enctype="multipart/form-data">
     <label for="titulo">Titulo</label>
-    <input type="text" id="titulo" name="titulo" required="require" />
+    <input type="text" id="titulo" name="titulo"  />
 
     <input type="hidden" id="id" name="id_anuncio" value="<?= $path_parts[2] ?>" />
 

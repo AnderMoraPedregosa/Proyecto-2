@@ -62,7 +62,7 @@ switch ($accion) {
         break;
 
 
-      
+
     case 'detalles':
 
         $imagenes = getImagenesId($dbh, $id);
@@ -76,57 +76,49 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'insertar':
+        header("Location: /");
 
-        if (isset($_FILES['imagenes_adicionales'])) {
-            $imagenesAdicionales = $_FILES['imagenes_adicionales'];
+        $imagenesAdicionales = $_FILES['imagenes_adicionales'];
 
-            // Obtener información sobre el anuncio desde el formulario
-            $titulo = isset($data['titulo']) ? $data['titulo'] : '';
-            $precio = isset($data['precio']) ? $data['precio'] : '';
-            $desc = isset($data['descripcion']) ? $data['descripcion'] : '';
-            $cat = isset($data['cat']) ? $data['cat'] : '';
+        // Obtener información sobre el anuncio desde el formulario
+        $titulo = isset($datos['titulo']) ? $datos['titulo'] : '';
+        $precio = isset($datos['precio']) ? $datos['precio'] : '';
+        $desc = isset($datos['descripcion']) ? $datos['descripcion'] : '';
+        $cat = isset($datos['cat']) ? $datos['cat'] : '';
 
-            date_default_timezone_set('Europe/Madrid');
+        date_default_timezone_set('Europe/Madrid');
+        // Crear el array $data con la información del anuncio
+        $dataAnuncio = [
+            'titulo' => $titulo,
+            'precio' => $precio,
+            'descripcion' => $desc,
+            'id_categoria' => $cat,
+            'fecha' => date('Y-m-d H:i:s'),
+            'comercio' => 1,
+            'anunciante' => 2,
+            'imagenes' => [], // Este array almacenará las rutas de las imágenes
+        ];
 
-            // Crear el array $data con la información del anuncio
-            $data = [
-                'titulo' => $titulo,
-                'precio' => $precio,
-                'descripcion' => $desc,
-                'id_categoria' => $cat,
-                'fecha' => date('Y-m-d H:i:s'),
-                'comercio' => 1,
-                'anunciante' => 2,
-                'imagenes' => [], // Este array almacenará las rutas de las imágenes
-            ];
+        foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
+            $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
+            $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
+            $rutaImagenAdicional =  "imagenes/" . $nombreImagenAdicional;
 
-            foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
-                $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
-                $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
-                $rutaImagenAdicional =  "imagenes/" . $nombreImagenAdicional;
-
-                if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
-                    $data['imagenes'][] = $rutaImagenAdicional;
-                } else {
-                    // Manejar el caso en que haya un error al mover la imagen
-                    $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
-                    jsonResponse($response, 500);
-                }
+            if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
+                $dataAnuncio['imagenes'][] = $rutaImagenAdicional;
+            } else {
+                // Manejar el caso en que haya un error al mover la imagen
+                $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
+                jsonResponse($response, 500);
             }
-
-
-            // Insertar el anuncio en la base de datos
-            insertarAnuncio($dbh, $data);
-            
-            header("Location: /");
-            die(); // Finalizar el script después de la redirección
-        } else {
-            // Manejar el caso en que no se hayan proporcionado archivos de imagen
-            $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
-            jsonResponse($response, 400);
         }
-    case "actualizar":
 
+        insertarAnuncio($dbh, $dataAnuncio);
+
+
+        break;
+    case "actualizar":
+        $imagenesAdicionales = $_FILES['imagenes_adicionales'];
         //ACTUALIZAR
         $id = $datos['id'];
         $titulo = $datos['titulo'];
@@ -135,8 +127,8 @@ switch ($accion) {
         $cat = $datos['cat'];
         date_default_timezone_set('Europe/Madrid');
 
-        
-        $data = [
+
+        $datos = [
             "id" => $id,
             'titulo' => $titulo,
             'precio' => $precio,
@@ -144,33 +136,35 @@ switch ($accion) {
             'categoria' => $cat,
             'fecha' => date('Y-m-d H:i:s'),
             'comercio' => 1,
-            'anunciante' => 2
+            'anunciante' => 2,
+            'imagenes' => [],
         ];
 
-        // Actualizar el anuncio en la base de datos
-        $result = actualizarAnuncio($dbh, $data);
-        if ($result) {
-            // Si la eliminación fue exitosa
-            $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
-            jsonResponse($response);
 
-            // Redirigir a la página desde la que se hizo la solicitud
-            header("Location: ".$_SERVER['HTTP_REFERER']);
-            exit(); // Asegura que el script se detenga después de la redirección
-        } else {
-            // Si hubo un problema al intentar borrar la persona
-            $response = ['status' => 'error', 'message' => 'No se pudo borrar la persona'];
-            jsonResponse($response, 500);
+        foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
+            $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
+            $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
+            $rutaImagenAdicional =  "imagenes/" . $nombreImagenAdicional;
+
+            if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
+                $datos['imagenes'][] = $rutaImagenAdicional;
+            } else {
+                // Manejar el caso en que haya un error al mover la imagen
+                $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
+                jsonResponse($response, 500);
+            }
         }
-break;
+
+        actualizarAnuncio($dbh, $datos);
+
+        break;
     case "borrarAnuncio":
         eliminarId($dbh, $id);
 
         //redireccionar al index o al perfil
-        if($palabra === "anunciosPerfil"){
+        if ($palabra === "anunciosPerfil") {
             header("Location: /perfil");
-        }
-        else{
+        } else {
             header("Location: /");
         }
 

@@ -10,4 +10,4 @@ class Categoria {
 
     // Otros métodos y propiedades pueden ser añadidos según sea necesario
 }
-export { Categoria };
+export { Categoria as Categoria};

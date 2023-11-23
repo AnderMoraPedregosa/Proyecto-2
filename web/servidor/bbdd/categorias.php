@@ -9,3 +9,11 @@ function getCategorias($dbh)
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getCategoriaId($dbh, $id)
+{
+    $data = array('id' => $id);
+    $stmt = $dbh->prepare("SELECT * FROM categorias WHERE id= (:id)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

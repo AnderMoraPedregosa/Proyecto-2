@@ -14,7 +14,39 @@ function jsonResponse($data)
 }
 
 // Obtener todos los anuncios
+switch ($accion) {
+    case 'todos':
+        $categorias = getCategorias($dbh);
+        if ($categorias === false) {
+            $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
+            jsonResponse($response, 500);
+        }
 
-$categorias = getCategorias($dbh);
-jsonResponse($categorias);
+        $response = ['status' => 'success', 'data' => $categorias];
+        jsonResponse($response);
+        break;
 
+    case 'categoria':
+        $categoria = getCategoriaId($dbh, $id);
+
+        $response = [
+            'success' => true,
+            'categoria' => $categoria,
+        ];
+
+        // Envía la respuesta JSON
+        jsonResponse($response);
+        break;
+     
+    case 'insertar':
+
+
+        break;
+    case "actualizar":
+
+
+        break;
+    case "borrarAnuncio":
+
+        break;
+}

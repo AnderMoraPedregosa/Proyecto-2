@@ -2,7 +2,7 @@
 import { Categoria } from "../modelos/categoria.js";
 
 async function getCategorias() {
-    const response = await fetch("/categorias");
+    const response = await fetch("/categorias/todos");
     const data = await response.json();
     return data;
 }
@@ -10,9 +10,8 @@ async function getCategorias() {
 
 window.addEventListener("load", async function () {
     var selectCategorias = document.getElementById("selectCategorias");
-    var categorias = await getCategorias();
-
-    categorias.forEach(async (categoriaJson) => {
+    var body = await getCategorias();
+    body['data'].forEach(async (categoriaJson) => {
 
         // Crear una nueva instancia con los datos obtenidos
         let categoriaNew = new Categoria(
