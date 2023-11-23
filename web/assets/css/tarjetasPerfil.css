@@ -5,6 +5,7 @@
 }
 
 .tarjeta {
+    box-shadow: 0em 0em 0.313em rgb(88, 88, 88);
     width: 200px;
     height: 150px;
     padding: 20px;
@@ -30,3 +31,20 @@
   .tarjeta:hover{
     transform: scale(1.1);
   }
+
+  .enlaceTarjetasPerfil {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: lightgray; /* Color de fondo del botón */
+    color: #ffffff; /* Color del texto del botón */
+    border: 2px solid darkgray; /* Color del borde del botón */
+    border-radius: 5px; /* Borde redondeado del botón */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efecto de transición */
+    cursor: pointer;
+}
+
+.enlaceTarjetasPerfil:hover {
+    background-color: darkgray; /* Cambio de color de fondo al pasar el ratón */
+    color: #ffffff; /* Cambio de color del texto al pasar el ratón */
+}
