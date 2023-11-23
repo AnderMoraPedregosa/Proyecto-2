@@ -33,7 +33,7 @@ function getBlogSearch($dbh, $palabra)
 function getBlogs($dbh)
 {
     try {
-        $stmt = $dbh->prepare("SELECT * FROM blogs");
+        $stmt = $dbh->prepare("SELECT * FROM blogs ORDER BY fecha_creacion desc");
         $stmt->execute();
 
         // Obtener resultados directamente sin necesidad de almacenar en una variable intermedia
@@ -50,10 +50,10 @@ function getBlogId($dbh, $id)
 {
     $data = array('id' => $id);
     $stmt = $dbh->prepare("SELECT * FROM blog WHERE id= (:id)");
-    $stmt->execute($data);    close();
+    $stmt->execute($data);
+    close();
 
     return $blog = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
 }
 // Dentro de tu función insertarAnuncio
 function insertarBlog($dbh, $data)
@@ -71,14 +71,11 @@ function insertarBlog($dbh, $data)
         unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
 
         $stmt->execute($data);
-
-      
     } else {
         // Si no se cargó ninguna imagen, manejarlo según tus necesidades
         $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
         jsonResponse($response, 400);
     }
-
 }
 
 

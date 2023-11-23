@@ -74,13 +74,13 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'insertar':
-        $titulo = isset($datos['titulo']) ? $datos['titulo'] : '';
-        $idComercio = isset($datos['idComercio']) ? $datos['idComercio'] : '';
-        $idComerciante = isset($datos['idComerciante']) ? $datos['idComerciante'] : '';
-        $precio = isset($datos['precio']) ? $datos['precio'] : '';
-        $desc = isset($datos['descripcion']) ? $datos['descripcion'] : '';
-        $cat = isset($datos['cat']) ? $datos['cat'] : '';
-        $imagenesAdicionales = isset($datos['imagenes']) ? $datos['imagenes'] : [];
+        $titulo = $datos['titulo'];
+        $idComercio =  $datos['idComercio'];
+        $idComerciante = $datos['idComerciante'];
+        $precio =  $datos['precio'];
+        $desc =  $datos['descripcion'];
+        $cat = $datos['cat'];
+        $imagenesAdicionales =  $datos['imagenes'];
 
         date_default_timezone_set('Europe/Madrid');
         // Crear el array $data con la información del anuncio
@@ -92,9 +92,10 @@ switch ($accion) {
             'fecha' => date('Y-m-d H:i:s'),
             'comercio' => $idComercio,
             'anunciante' => $idComerciante,
-            'imagenes' => [], // Este array almacenará las rutas de las imágenes
+
         ];
-        
+
+
         // Verificar si se proporcionaron imágenes
         if (!empty($imagenesAdicionales)) {
             foreach ($imagenesAdicionales as $index => $imagen) {
@@ -117,55 +118,53 @@ switch ($accion) {
         header("Location: /");
         break;
     case "actualizar":
-        $imagenesAdicionales = $_FILES['imagenes_adicionales'];
-
-        //ACTUALIZAR
-        $id = $datos['id'];
-        $titulo = $datos['titulo'];
-        $precio = $datos['precio'];
-        $descripcion = $datos['descripcion'];
-        $cat = $datos['cat'];
+        $titulo = isset($datos['titulo']) ? $datos['titulo'] : '';
+        $idComercio = isset($datos['idComercio']) ? $datos['idComercio'] : '';
+        $idComerciante = isset($datos['idComerciante']) ? $datos['idComerciante'] : '';
+        $precio = isset($datos['precio']) ? $datos['precio'] : '';
+        $desc = isset($datos['descripcion']) ? $datos['descripcion'] : '';
+        $cat = isset($datos['cat']) ? $datos['cat'] : '';
+        $imagenesAdicionales = isset($datos['imagenes']) ? $datos['imagenes'] : [];
         date_default_timezone_set('Europe/Madrid');
-
-
-        $datos = [
-            "id" => $id,
+        // Crear el array $data con la información del anuncio
+        $dataAnuncio = [
+            'id' =>  $id,
             'titulo' => $titulo,
             'precio' => $precio,
-            'descripcion' => $descripcion,
+            'descripcion' => $desc,
             'categoria' => $cat,
             'fecha' => date('Y-m-d H:i:s'),
-            'comercio' => 1,
-            'anunciante' => 2,
-            'imagenes' => [],
+            'comercio' => $idComercio,
+            'anunciante' => $idComerciante,
+            'imagenes' => array(0)
         ];
 
+        // Verificar si se proporcionaron imágenes
+        if (!empty($imagenesAdicionales)) {
+            foreach ($imagenesAdicionales as $index => $imagen) {
+                $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
+                $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
+                // Guardar la imagen en el sistema de archivos y obtener su ruta
+                $rutaImagen = guardarImagenBase64($imagen['base64'], $nombreImagen);
 
-        foreach ($dataAnuncio['imagenes'] as $index => $imagen) {
-            $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
-            $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
-
-            // Guardar la imagen en el sistema de archivos y obtener su ruta
-            $rutaImagen = guardarImagenBase64($imagen['base64'], $nombreImagen);
-
-            if ($rutaImagen) {
-                $dataAnuncio['imagenes'][$index] = $rutaImagen;
-            } else {
-                // Manejar el caso en que haya un error al guardar la imagen
-                $response = ['status' => 'error', 'message' => 'Error al guardar una o más imágenes'];
-                jsonResponse($response, 500);
+                if ($rutaImagen) {
+                    $dataAnuncio['imagenes'][] = $rutaImagen;
+                } else {
+                    // Manejar el caso en que haya un error al guardar la imagen
+                    $response = ['status' => 'error', 'message' => 'Error al guardar una o más imágenes'];
+                    jsonResponse($response, 500);
+                }
             }
         }
-
-        actualizarAnuncio($dbh, $datos);
-
+        actualizarAnuncio($dbh, $dataAnuncio);
+        header("Location: /");
         break;
     case "borrarAnuncio":
         eliminarId($dbh, $id);
 
         //redireccionar al index o al perfil
         if ($palabra === "anunciosPerfil") {
-            header("Location: /perfil");
+            header("Location: /perfilAnuncios");
         } else {
             header("Location: /");
         }
