@@ -13,7 +13,6 @@ async function insertarActualizarAnuncio() {
     try {
         if (validarFormulario()) {
             const url = `/anuncios/insertar`;
-
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
             const data = {
                 titulo: titulo.value,
@@ -30,7 +29,7 @@ async function insertarActualizarAnuncio() {
             });
 
             if (response.ok) {
-                console.log('Anuncio creado/actualizado correctamente');
+                window.location.href = "/";
             } else {
                 const errorText = await response.text();
                 console.error(`Error en la operación: ${errorText}`);

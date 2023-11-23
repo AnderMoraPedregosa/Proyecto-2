@@ -92,15 +92,13 @@ switch ($accion) {
             'anunciante' => 2,
             'imagenes' => [], // Este array almacenará las rutas de las imágenes
         ];
-echo  $imagenesAdicionales;
         // Verificar si se proporcionaron imágenes
         if (!empty($imagenesAdicionales)) {
             foreach ($imagenesAdicionales as $index => $imagen) {
-                $extension = pathinfo($imagen['name'], PATHINFO_EXTENSION);
+                $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
                 $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
-
                 // Guardar la imagen en el sistema de archivos y obtener su ruta
-                $rutaImagen = guardarImagenBase64($imagen['tmp_name'], $nombreImagen);
+                $rutaImagen = guardarImagenBase64($imagen['base64'], $nombreImagen);
 
                 if ($rutaImagen) {
                     $dataAnuncio['imagenes'][] = $rutaImagen;
@@ -117,7 +115,7 @@ echo  $imagenesAdicionales;
         break;
     case "actualizar":
         $imagenesAdicionales = $_FILES['imagenes_adicionales'];
-        var_dump($datos);
+      
         //ACTUALIZAR
         $id = $datos['id'];
         $titulo = $datos['titulo'];
@@ -180,11 +178,19 @@ echo  $imagenesAdicionales;
 function guardarImagenBase64($base64Data, $nombreImagen)
 {
     $rutaImagen = "imagenes/" . $nombreImagen;
+   
+
     // Decodificar la imagen base64 y guardarla en el sistema de archivos
     $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
-    if (file_put_contents($rutaImagen, $imagenDecodificada)) {
-        return $rutaImagen;
+    
+    if ($imagenDecodificada === false) {
+        return false; // Error al decodificar la imagen base64
+    }
+
+    if (file_put_contents($rutaImagen, $imagenDecodificada) !== false) {
+        return $rutaImagen; // Éxito al guardar la imagen
     } else {
-        return false;
+        return false; // Error al escribir en el archivo
     }
 }
+
