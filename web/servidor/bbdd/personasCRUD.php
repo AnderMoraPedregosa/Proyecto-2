@@ -36,7 +36,7 @@ function insertarPersona($dbh, $data)
 {
     try {
         $stmt = $dbh->prepare("INSERT INTO personas (dni, nombre, passwd, email, id_rol)
-        VALUES (:dni, :nombre, :passwd, :email, :rol)");
+        VALUES (:dni, :nombre, :pass, :email, :rol)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }

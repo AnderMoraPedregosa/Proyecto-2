@@ -32,6 +32,8 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
             'rol' => $rol
         ];
 
+        echo "<script>alert($rol);</script>";
+
         insertarPersona($dbh, $data);
 
         echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
