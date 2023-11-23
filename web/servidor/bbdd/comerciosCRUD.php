@@ -32,11 +32,11 @@ function checkIfEmailExists($dbh, $emailUsuario)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function insertarPersona($dbh, $data)
+function insertarComercio($dbh, $data)
 {
     try {
-        $stmt = $dbh->prepare("INSERT INTO personas (dni, nombre, passwd, email, id_rol)
-        VALUES (:dni, :nombre, :passwd, :email, :rol)");
+        $stmt = $dbh->prepare("INSERT INTO comercios (nombre, logo, email, telefono, direccion)
+        VALUES (:nombre, :logo, :email, :telefono, :direccion)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
@@ -56,10 +56,10 @@ function insertarPersona($dbh, $data)
 
 
 
-function actualizarPersona($dbh, $data)
+function actualizarComercio($dbh, $data)
 {
     try {
-        $stmt = $dbh->prepare("UPDATE personas SET dni = :dni, nombre = :nombre, passwd = :passwd, id_rol = :rol, email = :email WHERE id = :id");
+        $stmt = $dbh->prepare("UPDATE comercios SET nombre = :nombre, logo = :logo, email = :email, telefono = :telefono, direccion = :direccion WHERE id = :idComercio");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
@@ -80,10 +80,10 @@ function actualizarPersona($dbh, $data)
 
 
 
-function borrarPersona($dbh, $id)
+function eliminarComercio($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("DELETE FROM personas WHERE id =(:id)");
+    $stmt = $dbh->prepare("DELETE FROM comercios WHERE id =(:id)");
     $success = $stmt->execute($data);
     close();
     return $success;

@@ -37,17 +37,6 @@ switch ($accion) {
         $response = ['status' => 'success', 'data' => $comercios];
         jsonResponse($response);
         break;
-    case 'persona':
-        $personas = getPersonaId($dbh, $id);
-
-        if ($personas === false) {
-            $response = ['status' => 'error', 'message' => 'No se pudieron obtener las personas'];
-            jsonResponse($response, 500);
-        }
-
-        $response = ['status' => 'success', 'data' => $personas];
-        jsonResponse($response);
-        break;
     case "borrarPersona":
         $result = borrarPersona($dbh, $id);
 
@@ -67,20 +56,54 @@ switch ($accion) {
         break;
     case "insertar":
         $nombre = $datos['nombre'];
+        $logo = $datos['logo'];
         $email = $datos['email'];
-        $dni = $datos['dni'];
-        $passwd = $datos['passwd'];
-        $idRol = $datos['rol'];
+        $telefono = $datos['telefono'];
+        $direccion = $datos['direccion'];
 
         $datos = [
-            "dni" => $dni,
-            "email" => $email,
-            'nombre' => $nombre,
-            'passwd' => $passwd,
-            'rol' => $idRol
+            "nombre" => $nombre,
+            "logo" => $logo,
+            'email' => $email,
+            'telefono' => $telefono,
+            'direccion' => $direccion
         ];
 
-        $result = insertarPersona($dbh, $datos);
+        $result = insertarComercio($dbh, $datos);
+        if ($result) {
+            // Si la eliminación fue exitosa
+            $response = ['status' => 'success', 'message' => 'Comercio insertado correctamente'];
+            jsonResponse($response);
+
+            // Redirigir a la página desde la que se hizo la solicitud
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit(); // Asegura que el script se detenga después de la redirección
+        } else {
+            // Si hubo un problema al intentar borrar la persona
+            $response = ['status' => 'error', 'message' => 'No se pudo borrar la persona'];
+            jsonResponse($response, 500);
+        }
+        break;
+    case "actualizar":
+        //ACTUALIZAR
+        $idComercio = $datos['id'];
+        $nombre = $datos['nombre'];
+        $logo = $datos['logo'];
+        $email = $datos['email'];
+        $telefono = $datos['telefono'];
+        $direccion = $datos['direccion'];
+
+        $datos = [
+            "idComercio" => $idComercio,
+            "nombre" => $nombre,
+            "logo" => $logo,
+            'email' => $email,
+            'telefono' => $telefono,
+            'direccion' => $direccion
+        ];
+
+        $result = actualizarComercio($dbh, $datos);
+
         if ($result) {
             // Si la eliminación fue exitosa
             $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
@@ -95,25 +118,8 @@ switch ($accion) {
             jsonResponse($response, 500);
         }
         break;
-    case "actualizar":
-        //ACTUALIZAR
-        $idPersona = $datos['id'];
-        $nombre = $datos['nombre'];
-        $email = $datos['email'];
-        $dni = $datos['dni'];
-        $passwd = $datos['passwd'];
-        $idRol = $datos['rol'];
-
-        $datos = [
-            "id" => $idPersona,
-            "dni" => $dni,
-            "email" => $email,
-            'nombre' => $nombre,
-            'passwd' => $passwd,
-            'rol' => $idRol
-        ];
-
-        $result = actualizarPersona($dbh, $datos);
+    case "eliminar":
+        $result = eliminarComercio($dbh, $id);
 
         if ($result) {
             // Si la eliminación fue exitosa

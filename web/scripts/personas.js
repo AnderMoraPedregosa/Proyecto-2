@@ -15,6 +15,7 @@ const tablasCreadas = {
 };
 
 let tipo2;
+var idComercio = null;
 const btnUsuarios = document.getElementById("btnUsuarios");
 const btnCategorias = document.getElementById("btnCategorias");
 const btnComercios = document.getElementById("btnComercios");
@@ -98,7 +99,12 @@ function crearTabla(data, tipo, divTabla) {
             if (nombreCategoria) {
                 console.log("estoy")
                 // Enviar el nombre de la categoría al servidor para insertarla
-                insertarCategoria(nombreCategoria);
+                const data = {
+                    nombre : nombreCategoria
+                };
+                const base_url = window.location.origin;
+                let url = `${base_url}/categorias/insertar`
+                insertarActualizar(data, url);
             }
             }
             else{
@@ -117,14 +123,23 @@ function crearTabla(data, tipo, divTabla) {
             enlaceEditar.addEventListener('click', (e) => {
                 e.preventDefault();
                 if(tipo2 === "categorias"){
+                    let idCat = enlaceEditar.getAttribute('data-id');
+
                     let nombreCategoria = prompt("Ingrese el nombre de la categoría a modificar:");
+                    let data = {
+                        idCat : idCat,
+                        nombre : nombreCategoria
+                    };
+
+                    let url =  `/categorias/actualizar`;
+                    insertarActualizar(data, url);
                 }else{
                     if(tipo2 == "personas"){
                 idPersona = enlaceEditar.getAttribute('data-id');
                 openModalActualizar("../paginas/crearEditarPersona.php", idPersona, elementos);
                     }
                     else{
-                        let idComercio = enlaceEditar.getAttribute('data-id');
+                        idComercio = enlaceEditar.getAttribute('data-id');
                         openModalActualizar("../paginas/crearEditarComercio.php", idComercio, elementos);
 
                     }
@@ -143,34 +158,6 @@ function crearTabla(data, tipo, divTabla) {
         
     } else {
         manejarErrorTabla(divTabla, tipo);
-    }
-}
-
-async function insertarCategoria(nombreCategoria) {
-    try {
-        const base_url = window.location.origin;
-        const response = await fetch(`${base_url}/categorias/insertar`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ nombre: nombreCategoria }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error al insertar la categoría. Código de estado: ${response.status}`);
-        }
-
-        const responseData = await response.json();
-        if (responseData.status === "success") {
-            console.log('Categoría insertada exitosamente:', responseData.data);
-            // Actualizar la tabla para mostrar la nueva categoría
-            ocultarMostrarTablas("categorias");
-        } else {
-            console.error('Error al insertar la categoría:', responseData.message);
-        }
-    } catch (error) {
-        console.error('Error en la operación:', error.message);
     }
 }
 
@@ -315,7 +302,12 @@ function confirmarEliminacion(id, tipo) {
         window.location.href = `/personas/borrarPersona/${id}`;
         }
         else{
+            if(tipo2 === "categorias"){
         window.location.href = `/categorias/borrarCategoria/${id}`;
+            }else{
+                window.location.href = `/comercios/eliminar/${id}`;
+
+            }
 
         }
     } else {
@@ -347,7 +339,41 @@ $(document).on("click", "#btnCrearPersona", function () {
         url = `/personas/insertar`;
     }
 
-    insertarActualizarPersona(nombre, email, dni, passwd, idRol, url);
+     const data = {
+            id: idPersona,
+            dni: dni,
+            email: email,
+            nombre: nombre,
+            passwd: passwd,
+            rol: idRol
+        };
+        insertarActualizar(data, url);
+    document.getElementById("myModal").style.display = "none";
+});
+
+$(document).on("click", "#btnCrearComercio", function () {
+    const nombre = document.getElementById("nombreComercio").value;
+    const logo = document.getElementById("logoComercio").value;
+    const email = document.getElementById("emailComercio").value;
+    const telefono = document.getElementById("telefonoComercio").value;
+    const direccion = document.getElementById("direccionComercio").value;
+
+    let url;
+    if (this.value === "Actualizar") {
+        url = `/comercios/actualizar/${idComercio}`;
+    } else {
+        url = `/comercios/insertar`;
+    }
+
+     const data = {
+            id: idComercio,
+            nombre: nombre,
+            logo: logo,
+            email: email,
+            telefono: telefono,
+            direccion: direccion
+        };
+        insertarActualizar(data, url);
     document.getElementById("myModal").style.display = "none";
 });
 
@@ -406,16 +432,8 @@ function cargarDatosComercioEnFormulario(idComercio, elementos){
     document.getElementById("direccionComercio").value = comercioSeleccionado.direccion;
 }
 
-async function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url) {
+async function insertarActualizar(data, url) {
     try {
-        const data = {
-            id: idPersona,
-            dni: dni,
-            email: email,
-            nombre: nombre,
-            passwd: passwd,
-            rol: idRol
-        };
         console.log(data);
 
         const response = await fetch(url, {

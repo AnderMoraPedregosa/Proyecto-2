@@ -48,6 +48,14 @@ function borrarCategoria($dbh, $id)
     return $success;
 }
 
+function actualizarCategoria($dbh, $data)
+{
+    $stmt = $dbh->prepare("UPDATE categorias set nombre = :nombre where id = (:idCat)");
+    $success = $stmt->execute($data);
+    close();
+    return $success;
+}
+
 
 
 

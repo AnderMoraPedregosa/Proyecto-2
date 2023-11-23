@@ -65,8 +65,15 @@ switch ($accion) {
 
         break;
     case "actualizar":
+        $nombre = $datos['nombre'];
+        $idCat = $datos['idCat'];
 
+        $data = [
+            "idCat" => $idCat,
+            'nombre' => $nombre
+        ];
 
+        $result = actualizarCategoria($dbh, $data);
         break;
     case "borrarCategoria":
         $result = borrarCategoria($dbh, $id);
