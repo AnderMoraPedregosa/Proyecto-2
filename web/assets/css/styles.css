@@ -3,7 +3,7 @@ body {
     margin: 0em;
     padding: 0em;
     background-color: #c9d6ff;
-    background: linear-gradient(to left, #e2e2e2, #c9d6ff);
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
 
     /*FUENTES*/
     font-family: 'Inria Serif', '';
@@ -276,7 +276,7 @@ body {
     height: 90%;
     min-height: 40.625em;
     margin-right: 1.25em;
-    background: linear-gradient(to left, #e2e2e2, #c9d6ff);
+    background: white
    
     
 
@@ -284,15 +284,17 @@ body {
 #content-blog {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     border: 2px solid rgba(0, 0, 0, 0.349);
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     padding: 20px;
-    width: 100%;
+    width: 90%;
     height: 90%;
     min-height: 40.625em;
-    margin-right: 1.25em;
+    
+    background-color: white;
 
 }
 
@@ -438,6 +440,7 @@ body {
     left: 40%;
     transform: translateX(-50%);
     border-radius: 3em;
+   
 }
 
 
@@ -756,7 +759,7 @@ form input[type="submit"]:hover {
     padding-bottom: 1.25em;
     padding-top: 1.25em;
     text-align: left;
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(214, 214, 214, 0.733);
     border: 0.2em solid rgba(0, 0, 0, 0.349);
     border-radius: 1em;
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
@@ -1310,21 +1313,20 @@ button {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     background:  radial-gradient(circle, #e2e2e2,rgb(155, 179, 240));
-  
     opacity: 0;
     pointer-events: none; 
     visibility: hidden; 
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    padding-top: 3em;
+    padding-top: 1em;
   }
   
   .modal.active {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(0.5);
     opacity: 1;
     pointer-events: auto; 
     visibility: visible; 
+    transition: transform 1s ease, opacity 1s ease;
   }
-  
+
   .modal img {
     max-width: 100%;
     height: auto;
@@ -1340,10 +1342,7 @@ button {
     color: white;
     font-size: 15em;
   }
-  .modal.active {
-    transform: translate(-50%, -50%) scale(0.4);
-    opacity: 1;
-  }
+
 
   .modal.active .zoom img {
     width: 50%;
@@ -1352,11 +1351,14 @@ button {
   }
 
 
+
+
   /*Blog*/
   .imagenBlog {
     max-width: 60%; 
     border-radius: 5em; 
     margin-bottom: .5em;
+    padding-left: 1em;
 
   }
   .dateBlog{
@@ -1364,9 +1366,11 @@ button {
     width: 30%;
     color: rgb(122, 122, 122);
     font-size: 1.3em;
+    padding: 1em;
   }
   .divBlog{
     font-size: 2em;
+    padding: 1em;
   }
 
 .subheaderBlog

@@ -254,6 +254,7 @@ function mostrarModal(imagen) {
 
     closeBtn.addEventListener('click', () => {
         modal.classList.remove('active');
+        
         setTimeout(() => {
             modal.style.display = 'none';
         }, 300);
