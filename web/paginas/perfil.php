@@ -10,7 +10,7 @@
     </div>
 
     <div id="productosComercio">
-    <div class="center">
+    <div class="centerPerfil">
         <section id="content">
             <h2 class="subheader">Mis productos
             </h2>

@@ -144,14 +144,16 @@ function mostarHtml(body) {
             let tiempoTranscurrido = calcularTiempoTranscurrido(blogNew.fechaC);
             // Agregar la información del anuncio al nuevo elemento div
             divBlog.innerHTML = `
-            <h2 class="subheader">${blogNew.titulo}</h2>
+            <h2 class="subheaderBlog">${blogNew.titulo}</h2>
             <div class="article-item article-detail-blog">
-               <img src="${blogNew.imagen}"></img>
-                <span class="date">
+               <img  class="imagenBlog" src="${blogNew.imagen}"></img>
+                <span class="dateBlog">
                   ${tiempoTranscurrido}
                 </span>
                 <p>
+                <div class="divBlog">
                     ${blogNew.texto}
+                    </div>
                 </p>
                 
                 <div class="clearfix"></div>
