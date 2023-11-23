@@ -8,7 +8,7 @@ function getAnuncioSearch($dbh, $palabra)
 {
     try {
         $data = array('palabra' => '%' . $palabra . '%');
-        $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE titulo LIKE :palabra");
+        $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE titulo LIKE :palabra ORDER BY fecha_creacion desc");
 
         $stmt->execute($data);
 
@@ -68,19 +68,19 @@ function insertarAnuncio($dbh, $data)
     try {
         if (!empty($data['imagenes'])) {
             $imagenes = $data['imagenes'];
-    
+
             // Insertar el anuncio en la tabla 'anuncios'
             $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio, imagen_anuncio) 
                 VALUES (:titulo, :precio, :descripcion, :id_categoria, :fecha, :anunciante, :comercio, :imagen_anuncio)");
-    
+
             // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
             $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
             unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
-    
+
             // Execute con el array directamente
             $stmt->execute($data);
             $idAnuncio = $dbh->lastInsertId(); // Obtener el ID del último anuncio insertado
-    
+
             // Insertar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
             foreach ($imagenes as $index => $rutaImagen) {
                 // Evitar insertar la imagen principal nuevamente
@@ -101,7 +101,6 @@ function insertarAnuncio($dbh, $data)
         jsonResponse($response, 400);
         // También puedes agregar logs o realizar acciones específicas en caso de error.
     }
-
 }
 
 // Dentro de tu función insertarRutaImagen
@@ -117,25 +116,12 @@ function insertarRutaImagen($dbh, $data)
 
 function actualizarRutaImagen($dbh, $data)
 {
-    try {
-        $stmt = $dbh->prepare("UPDATE imagenes_anuncios SET ruta_imagen = :ruta_imagen WHERE id_anuncio = :id_anuncio");
 
-        if (!$stmt) {
-            throw new Exception("Error en la preparación de la consulta para actualizar la ruta de la imagen");
-        }
+    $stmt = $dbh->prepare("UPDATE imagenes_anuncios SET ruta_imagen = :ruta_imagen WHERE id_anuncio = :id_anuncio");
 
-        $success = $stmt->execute($data);
-
-        if (!$success) {
-            throw new Exception("Error al ejecutar la consulta para actualizar la ruta de la imagen");
-        }
-
-        return true;
-    } catch (Exception $e) {
-        // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
-        error_log($e->getMessage());
-        return false;
-    }
+    // Execute con el array directamente
+    $stmt->execute($data);
+    close();
 }
 
 function getComercio($dbh, $id)
@@ -151,24 +137,20 @@ function getComercio($dbh, $id)
 
 function actualizarAnuncio($dbh, $data)
 {
-
     try {
-
         if (!empty($data['imagenes'])) {
             $imagenes = $data['imagenes'];
 
-            // Insertar el anuncio en la tabla 'anuncios'
-
             $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria,
-            fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio , imagen_anuncio: imagen_anuncio WHERE id = :id");
+            fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio , imagen_anuncio = :imagen_anuncio WHERE id = :id");
+
             // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
             $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
             unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
-
             $stmt->execute($data);
-            $idAnuncio = $dbh->lastInsertId(); // Obtener el ID del último anuncio insertado
+            $idAnuncio = $data['id']; // No necesitas obtener el último ID insertado en una actualización
 
-            // Insertar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
+            // Actualizar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
             foreach ($imagenes as $index => $rutaImagen) {
                 // Evitar insertar la imagen principal nuevamente
                 $dataImagenAdicional = [
@@ -178,28 +160,16 @@ function actualizarAnuncio($dbh, $data)
                 actualizarRutaImagen($dbh, $dataImagenAdicional);
             }
         } else {
-            // Si no se cargó ninguna imagen, manejarlo según tus necesidades
-            $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
-            jsonResponse($response, 400);
+          
+            $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria,
+            fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio , imagen_anuncio = :imagenes WHERE id = :id");
+            $stmt->execute($data);
         }
+    } catch (PDOException $e) {
 
-
-
-        $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria, fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio WHERE id = :id");
-        if (!$stmt) {
-            throw new Exception("Error en la preparación de la consulta");
-        }
-
-        $success = $stmt->execute($data);
-        if (!$success) {
-            throw new Exception("Error al ejecutar la consulta");
-        }
-
-        return true; // Opcional: Puedes devolver algo más significativo si lo deseas
-    } catch (Exception $e) {
-        // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
-        error_log($e->getMessage());
-        return false;
+        $response = ['status' => 'error', 'message' => $e->getMessage()];
+        jsonResponse($response, 400);
+        // También puedes agregar logs o realizar acciones específicas en caso de error.
     }
 }
 

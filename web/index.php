@@ -79,6 +79,9 @@ switch ($path) {
         require './paginas/perfil.php';
 
         break;
+    case "confPerfil":
+        require './paginas/confPerfil.php';
+        break;
     default:
         // Manejo de rutas no encontradas
         require "./paginas/error-404.php";

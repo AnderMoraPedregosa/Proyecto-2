@@ -191,6 +191,15 @@ body {
 
 }
 
+.confPerf{
+    font-size: 28px;
+    color: #1950D8;
+
+}
+
+/*formulario perfil*/
+
+
 #slider {
     width: 100%;
     height: 9em;

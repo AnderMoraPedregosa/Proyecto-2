@@ -2,6 +2,9 @@
 import { Anuncio } from "../modelos/anuncio.js";
 import { Categoria } from "../modelos/categoria.js";
 import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
+import { Comerciante } from "../modelos/comerciante.js";
+import { getComercianteByPersonaId } from "./Funciones/getComerciante.js";
+
 async function getDetalleAnuncio(id) {
     const response = await fetch(`/anuncios/detalles/${id}`);
     const data = await response.json();
@@ -14,9 +17,11 @@ async function getCategoriaById(id) {
     const data = await response.json();
     return data;
 }
+let comerciante;
 let categoria;
 var btnForm = document.getElementById("btnCrearAnuncio");
 let selectElement = document.getElementById("selectCategorias");
+let imagenesInput = document.getElementById("imagen");
 
 window.addEventListener("load", async function () {
     // Obtener la ruta de la URL
@@ -41,7 +46,7 @@ window.addEventListener("load", async function () {
             anuncioJSON["anuncio"][0].id_comercios,
             anuncioJSON["anuncio"][0].id_comerciante
         );
-        categoria =  await categoriaAnuncio(anuncioNew.idCategoria);
+        categoria = await categoriaAnuncio(anuncioNew.idCategoria);
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
 
@@ -59,11 +64,14 @@ window.addEventListener("load", async function () {
                     selectElement.options[i].selected = true;
                 }
             }
-
+            var comercianteJSON = await getComercianteByPersonaId();
+            comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
 
             const url = `/anuncios/actualizar/${anuncioNew.id}`;
 
             btnForm.addEventListener("click", () => {
+              
+
                 const titulo = document.getElementById("titulo").value;
                 const precio = document.getElementById("precio").value;
                 const descripcion = document.getElementById("desc").value;
@@ -226,10 +234,11 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
             titulo: titulo,
             precio: precio,
             descripcion: descripcion,
-            cat: cat
+            cat: cat,
+            imagenes: await obtenerImagenesBase64(imagenesInput.files),
+            idComercio: comerciante.idComercio,
+            idComerciante: comerciante.id
         };
-
-        // Realizar la solicitud con fetch y esperar la respuesta
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -262,4 +271,21 @@ async function categoriaAnuncio(id) {
 
     return categoria = new Categoria(categoriaJSON['categoria'][0].id, categoriaJSON['categoria'][0].nombre)
 
+}
+
+async function obtenerImagenesBase64(files) {
+    const promesas = Array.from(files).map(file => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                resolve({ nombre: file.name, base64: event.target.result });
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    return Promise.all(promesas);
 }
