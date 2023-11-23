@@ -136,6 +136,9 @@ function htmlDetalleImagenes(anuncio, imagenes) {
 
     // Crear un div para contener las imágenes y los botones
     let carrusel = document.createElement("div");
+    let flechas = document.createElement("div");
+    flechas.id = "flechasCarrusel";
+
     carrusel.id = "carrusel";
     contenedorDetalles.appendChild(carrusel);
 
@@ -157,8 +160,10 @@ function htmlDetalleImagenes(anuncio, imagenes) {
     btnSiguiente.textContent = "►";
 
     // Agregar botones al contenedor de imágenes
-    contenedorDetalles.appendChild(btnAnterior);
-    contenedorDetalles.appendChild(btnSiguiente);
+    flechas.appendChild(btnAnterior);
+    flechas.appendChild(btnSiguiente);
+
+    carrusel.appendChild(flechas);
 
     // Agregar detalles del anuncio al nuevo contenedor
     contenedorDetalles.innerHTML += `
