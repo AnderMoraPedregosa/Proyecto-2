@@ -4,9 +4,9 @@
 <div class="container">
 
     <div id="tarjetas">
-        <div id="tarjetaAnuncio">Anuncios</div>
-        <div id="tarjetaBlog">Blog</div>
-        <div id="tarjetaPerfil">Perfil</div>
+        <div id="tarjetaAnuncio" class="tarjeta"><a href="/perfilAnuncios" class="enlaceTarjetasPerfil">Ver mis anuncios</a></div>
+        <div id="tarjetaBlog" class="tarjeta"><a href="/perfilAnuncios" class="enlaceTarjetasPerfil">Ver mi blog</a></div>
+        <div id="tarjetaPerfil" class="tarjeta"><a href="/perfilAnuncios" class="enlaceTarjetasPerfil">Mis datos</a></div>
     </div>
 </div>
 <script src="../scripts/header.js"></script>
