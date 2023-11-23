@@ -677,7 +677,7 @@ form input[type="submit"]:hover {
 
 /* estilos pantalla modal*/
 
-.modal {
+.modal-personas {
     display: none;
     position: fixed;
     z-index: 1;
@@ -690,7 +690,7 @@ form input[type="submit"]:hover {
     border-radius: 10px;
 }
 
-.modal-content {
+.modal-content-personas {
     background-color: #fefefe;
     margin: 10% auto;
     padding: 20px;

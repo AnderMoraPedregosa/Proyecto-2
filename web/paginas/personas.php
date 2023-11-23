@@ -6,8 +6,8 @@
 
 </div>
 
-<div id="myModal" class="modal">
-    <div class="modal-content">
+<div id="myModal" class="modal-personas">
+    <div class="modal-content-personas">
     <button id="closeModalBtn" class="close-button">&times;</button>
         <div id="modalContent"></div>
     </div>
