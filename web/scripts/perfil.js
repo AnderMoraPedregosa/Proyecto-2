@@ -1,7 +1,4 @@
-const datos = sessionStorage.getItem('user');
-const datosArray = JSON.parse(datos);
 
-let rol = sessionStorage.getItem('user') ? datosArray['id_rol'] : null;
 
 
 // Importacion de las clases y funciones necesarias desde archivos externos

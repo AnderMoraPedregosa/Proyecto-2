@@ -71,7 +71,7 @@ function insertarAnuncio($dbh, $data)
     
             // Insertar el anuncio en la tabla 'anuncios'
             $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio, imagen_anuncio) 
-                VALUES (:titulo, :precio, :descripcion, :id_categoria, :fecha, :comercio, :anunciante, :imagen_anuncio)");
+                VALUES (:titulo, :precio, :descripcion, :id_categoria, :fecha, :anunciante, :comercio, :imagen_anuncio)");
     
             // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
             $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal

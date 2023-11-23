@@ -31,7 +31,7 @@
     <div class="clearfix"></div>
 </div>
 <script type="module" src="../../scripts/categoria.js"></script>
-<script src="../../scripts/validacion.js"></script>
+<script type="module" src="../../scripts/validacion.js"></script>
 
 
 

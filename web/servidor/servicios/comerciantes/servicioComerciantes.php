@@ -1,7 +1,7 @@
 <?php
 ob_start();
 
-require "servidor/bbdd/personasCRUD.php";
+require "servidor/bbdd/comerciantesCRUD.php";
 
 // Convertir la respuesta a JSON
 function jsonResponse($data, $statusCode = 200)
@@ -37,15 +37,15 @@ switch ($accion) {
         $response = ['status' => 'success', 'data' => $personas];
         jsonResponse($response);
         break;
-    case 'persona':
-        $personas = getPersonaId($dbh, $id);
+    case 'comerciantePersona':
+        $comerciante = getComercianteIdPersona($dbh, $id);
 
-        if ($personas === false) {
-            $response = ['status' => 'error', 'message' => 'No se pudieron obtener las personas'];
+        if ($comerciante === false) {
+            $response = ['status' => 'error', 'message' => 'No se pudo obtener el comerciante'];
             jsonResponse($response, 500);
         }
 
-        $response = ['status' => 'success', 'data' => $personas];
+        $response = ['status' => 'success', 'data' => $comerciante];
         jsonResponse($response);
         break;
     case "borrarPersona":

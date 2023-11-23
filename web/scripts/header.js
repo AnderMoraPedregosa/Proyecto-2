@@ -20,7 +20,6 @@ document.getElementById("menuUl").style.display = "flex";
 document.getElementById("menuUl").style.justifyContent = "flex-end";
 document.getElementById("menuUl").style.marginRight = "10%";
 
-
 let rol = sessionStorage.getItem('user') ? datosArray['id_rol'] : null;
 comprobarRolBtnSesion();
 
