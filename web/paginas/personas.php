@@ -1,7 +1,17 @@
 <?php require "partials/head.php" ?>
 
 <h1>Gestion de usuarios:</h1>
-<div id="crudUsers">
+<div id="botonesCrud">
+    <button id="btnUsuarios">Usuarios</button>
+    <button id="btnCategorias">Categorias</button>
+    <button id="btnComercios">Comercios</button>
+</div>
+<div id="crudPersonas">
+    
+
+</div>
+
+<div id="crudCategorias">
     
 
 </div>

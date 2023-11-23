@@ -35,7 +35,7 @@ switch ($path) {
         require './servidor/servicios/blogs/serviciosBlogs.php';
         break;
     case 'categorias':
-        require './servidor/servicios/anuncios/servicioCategorias.php';
+        require './servidor/servicios/categorias/servicioCategorias.php';
         break;
 
     case 'loginService':

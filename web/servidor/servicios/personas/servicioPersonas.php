@@ -66,11 +66,11 @@ switch ($accion) {
         }
         break;
     case "insertar":
-        $nombre = isset($datos['nombre']) ? $datos['nombre'] : '';
-        $email = isset($datos['email']) ? $datos['email'] : '';
-        $dni = isset($datos['dni']) ? $datos['dni'] : '';
-        $passwd = isset($datos['passwd']) ? $datos['passwd'] : '';
-        $idRol = isset($datos['rol']) ? $datos['rol'] : '';
+        $nombre = $datos['nombre'];
+        $email = $datos['email'];
+        $dni = $datos['dni'];
+        $passwd = $datos['passwd'];
+        $idRol = $datos['rol'];
 
         $datos = [
             "dni" => $dni,
@@ -97,14 +97,15 @@ switch ($accion) {
         break;
     case "actualizar":
         //ACTUALIZAR
-        $nombre = isset($datos['nombre']) ? $datos['nombre'] : '';
-        $email = isset($datos['email']) ? $datos['email'] : '';
-        $dni = isset($datos['dni']) ? $datos['dni'] : '';
-        $passwd = isset($datos['passwd']) ? $datos['passwd'] : '';
-        $idRol = isset($datos['rol']) ? $datos['rol'] : '';
+        $idPersona = $datos['id'];
+        $nombre = $datos['nombre'];
+        $email = $datos['email'];
+        $dni = $datos['dni'];
+        $passwd = $datos['passwd'];
+        $idRol = $datos['rol'];
 
         $datos = [
-            "id" => $id,
+            "id" => $idPersona,
             "dni" => $dni,
             "email" => $email,
             'nombre' => $nombre,
