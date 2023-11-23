@@ -14,9 +14,9 @@ function getPersonas($dbh)
 function getPersonaId($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id= (:id)");
+    $stmt = $dbh->prepare("SELECT * FROM personas WHERE id= (:id)");
     $stmt->execute($data);
-    return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // Dentro de tu función insertarAnuncio
 

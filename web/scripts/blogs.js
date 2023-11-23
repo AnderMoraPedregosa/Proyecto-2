@@ -1,11 +1,7 @@
-const datos = sessionStorage.getItem('user');
-const datosArray = JSON.parse(datos);
+
 let content = document.getElementById("content-blog");
-let rol = sessionStorage.getItem('user') ? datosArray['id_rol'] : null;
 
 
-// Importacion de las clases y funciones necesarias desde archivos externos
-import { Anuncio } from "../modelos/anuncio.js";
 import { Blog } from "../modelos/blog.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 async function getBlogs() {

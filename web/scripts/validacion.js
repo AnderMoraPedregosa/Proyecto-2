@@ -1,17 +1,22 @@
+import { Comerciante } from "../modelos/comerciante.js";
+
 let selectElement = document.getElementById("selectCategorias");
 let titulo = document.getElementById("titulo");
 let precio = document.getElementById("precio");
 let descripcion = document.getElementById("desc");
 let imagenesInput = document.getElementById("imagen");
-
+let comerciante;
 document.getElementById('btnCrearAnuncio').addEventListener('click', function (event) {
     event.preventDefault();
     insertarActualizarAnuncio();
 });
 
+
 async function insertarActualizarAnuncio() {
     try {
         if (validarFormulario()) {
+            var comercianteJSON = await getComercianteByPersonaId();
+            comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
             const url = `/anuncios/insertar`;
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
             const data = {
@@ -19,7 +24,9 @@ async function insertarActualizarAnuncio() {
                 precio: precio.value,
                 descripcion: descripcion.value,
                 cat: selectElement.value,
-                imagenes: await obtenerImagenesBase64(imagenesInput.files)
+                imagenes: await obtenerImagenesBase64(imagenesInput.files),
+                idComercio: comerciante.idComercio,
+                idComerciante: comerciante.id
             };
 
             // Realizar la solicitud con fetch y esperar la respuesta
@@ -40,7 +47,8 @@ async function insertarActualizarAnuncio() {
     }
 }
 
-function validarFormulario() {
+async function validarFormulario() {
+  
     try {
         let campos = [
             { nombre: "Titulo", valor: titulo.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
@@ -80,4 +88,17 @@ async function obtenerImagenesBase64(files) {
     });
 
     return Promise.all(promesas);
+}
+
+
+
+async function getComercianteByPersonaId() {
+    try {
+        const response = await fetch(`/comerciantes/comerciantePersona/${datosArray["idPersona"]}`);
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Error en la operación:', error.message);
+    }
 }

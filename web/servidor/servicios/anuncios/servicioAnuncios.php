@@ -75,6 +75,8 @@ switch ($accion) {
         break;
     case 'insertar':
         $titulo = isset($datos['titulo']) ? $datos['titulo'] : '';
+        $idComercio = isset($datos['idComercio']) ? $datos['idComercio'] : '';
+        $idComerciante = isset($datos['idComerciante']) ? $datos['idComerciante'] : '';
         $precio = isset($datos['precio']) ? $datos['precio'] : '';
         $desc = isset($datos['descripcion']) ? $datos['descripcion'] : '';
         $cat = isset($datos['cat']) ? $datos['cat'] : '';
@@ -88,10 +90,11 @@ switch ($accion) {
             'descripcion' => $desc,
             'id_categoria' => $cat,
             'fecha' => date('Y-m-d H:i:s'),
-            'comercio' => 1,
-            'anunciante' => 2,
+            'comercio' => $idComercio,
+            'anunciante' => $idComerciante,
             'imagenes' => [], // Este array almacenará las rutas de las imágenes
         ];
+        
         // Verificar si se proporcionaron imágenes
         if (!empty($imagenesAdicionales)) {
             foreach ($imagenesAdicionales as $index => $imagen) {
@@ -115,7 +118,7 @@ switch ($accion) {
         break;
     case "actualizar":
         $imagenesAdicionales = $_FILES['imagenes_adicionales'];
-      
+
         //ACTUALIZAR
         $id = $datos['id'];
         $titulo = $datos['titulo'];
@@ -137,7 +140,7 @@ switch ($accion) {
             'imagenes' => [],
         ];
 
-        
+
         foreach ($dataAnuncio['imagenes'] as $index => $imagen) {
             $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
             $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
@@ -178,11 +181,11 @@ switch ($accion) {
 function guardarImagenBase64($base64Data, $nombreImagen)
 {
     $rutaImagen = "imagenes/" . $nombreImagen;
-   
+
 
     // Decodificar la imagen base64 y guardarla en el sistema de archivos
     $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
-    
+
     if ($imagenDecodificada === false) {
         return false; // Error al decodificar la imagen base64
     }
@@ -193,4 +196,3 @@ function guardarImagenBase64($base64Data, $nombreImagen)
         return false; // Error al escribir en el archivo
     }
 }
-
