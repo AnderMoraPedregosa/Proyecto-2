@@ -276,7 +276,7 @@ body {
     height: 90%;
     min-height: 40.625em;
     margin-right: 1.25em;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    background: linear-gradient(to left, #e2e2e2, #c9d6ff);
    
     
 
@@ -337,7 +337,7 @@ body {
     float: left;
     padding-left: .5em;
     padding-right: .5em;
-    background: linear-gradient(to left,rgb(155, 179, 240), #e2e2e2);;
+ 
 
 }
 
@@ -756,6 +756,12 @@ form input[type="submit"]:hover {
     padding-bottom: 1.25em;
     padding-top: 1.25em;
     text-align: left;
+    background-color: rgb(255, 255, 255);
+    border: 0.2em solid rgba(0, 0, 0, 0.349);
+    border-radius: 1em;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
+   
+    
 }
 
 .article-item .image-wrap {
@@ -765,7 +771,8 @@ form input[type="submit"]:hover {
     float: left;
     margin-right: 0.938em;
     border: 0.063em solid #ccc;
-    box-shadow: 0 .4em .8em rgba(0, 0, 0, 0.2)
+    box-shadow: 0 .8em 1em rgba(0, 0, 0, 0.61);
+    
 }
 
 .article-item .image-wrap img {
@@ -1288,7 +1295,13 @@ button {
     cursor: pointer; 
 
   }
+
   .modal {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    border-radius: 1em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1297,10 +1310,10 @@ button {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     background:  radial-gradient(circle, #e2e2e2,rgb(155, 179, 240));
-    /* Resto de estilos */
+  
     opacity: 0;
-    pointer-events: none; /* Evita que el modal sea interactivo mientras está oculto */
-    visibility: hidden; /* Oculta el modal */
+    pointer-events: none; 
+    visibility: hidden; 
     transition: transform 0.3s ease, opacity 0.3s ease;
     padding-top: 3em;
   }
@@ -1308,8 +1321,8 @@ button {
   .modal.active {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
-    pointer-events: auto; /* Restablece la interacción cuando el modal está activo */
-    visibility: visible; /* Vuelve a hacer visible el modal */
+    pointer-events: auto; 
+    visibility: visible; 
   }
   
   .modal img {
