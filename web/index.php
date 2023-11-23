@@ -81,6 +81,10 @@ switch ($path) {
     case "confPerfil":
         require './paginas/confPerfil.php';
         break;
+    case "comercios":
+        require './servidor/servicios/comercios/servicioComercios.php';
+
+        break;
     default:
         // Manejo de rutas no encontradas
         require "./paginas/error-404.php";

@@ -664,7 +664,7 @@ form input[type="submit"]:hover {
 
 }
 
-.table-personas, .table-categorias{
+.table-personas, .table-categorias, .table-comercios{
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 10px;
@@ -678,7 +678,9 @@ form input[type="submit"]:hover {
 .table-personas td, 
 .table-personas th,
 .table-categorias td, 
-.table-categorias th {
+.table-categorias th,
+.table-comercios td,
+.table-comercios th {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
@@ -686,19 +688,23 @@ form input[type="submit"]:hover {
 
 /* Estilos para las filas impares (opcional, solo para resaltar alternancias) */
 .table-personas tr:nth-child(odd),
-.table-categorias tr:nth-child(odd) {
+.table-categorias tr:nth-child(odd)
+.table-comercios tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
 
 .table-personas th,
-.table-categorias th {
+.table-categorias th,
+.table-comercios th {
     text-transform: uppercase;
     padding: 15px;
     background-color: #6187E8;
 
 }
 
-.table-personas tr:hover {
+.table-personas tr:hover,
+.table-categorias tr:hover,
+.table-comercios tr:hover {
 
     background-color: rgba(145, 145, 145, 0.151);
 }

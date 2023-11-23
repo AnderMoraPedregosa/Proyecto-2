@@ -1,14 +1,17 @@
 import { Categoria } from "../modelos/categoria.js";
 import { Persona } from "../modelos/persona.js";
+import { Comercio } from "../modelos/comercio.js";
+
 
 var divCategorias = document.getElementById("crudCategorias");
 var divPersonas = document.getElementById("crudPersonas");
+var divComercios = document.getElementById("crudComercios");
+
 
 const tablasCreadas = {
     personas: false,
     categorias: false,
     comercios : false
-    // Agrega más tipos según sea necesario
 };
 
 let tipo2;
@@ -25,10 +28,18 @@ function ocultarMostrarTablas(){
         case "personas":
             divPersonas.style.display = "block";
             divCategorias.style.display = "none";
+            divComercios.style.display = "none";
+
             break;
         case "categorias":
             divPersonas.style.display = "none";
+            divComercios.style.display = "none";
             divCategorias.style.display = "block";
+            break;
+        case "comercios":
+            divPersonas.style.display = "none";
+            divCategorias.style.display = "none";
+            divComercios.style.display = "block";
             break;
     }
 }
@@ -91,7 +102,13 @@ function crearTabla(data, tipo, divTabla) {
             }
             }
             else{
-            openModal("../paginas/crearEditarPersona.php");
+                if(tipo2 === "personas"){
+                     openModal("../paginas/crearEditarPersona.php");
+                }
+                else{
+                    openModal("../paginas/crearEditarComercio.php");
+
+                }
             }
         });
 
@@ -102,8 +119,15 @@ function crearTabla(data, tipo, divTabla) {
                 if(tipo2 === "categorias"){
                     let nombreCategoria = prompt("Ingrese el nombre de la categoría a modificar:");
                 }else{
+                    if(tipo2 == "personas"){
                 idPersona = enlaceEditar.getAttribute('data-id');
                 openModalActualizar("../paginas/crearEditarPersona.php", idPersona, elementos);
+                    }
+                    else{
+                        let idComercio = enlaceEditar.getAttribute('data-id');
+                        openModalActualizar("../paginas/crearEditarComercio.php", idComercio, elementos);
+
+                    }
                 }
             });
         });
@@ -181,6 +205,8 @@ function obtenerElementos(data, tipo) {
             return datosPersonas(data);
         case "categorias":
             return datosCategoria(data);
+        case "comercios":
+            return datosComercios(data);
         default:
             return [];
     }
@@ -203,6 +229,16 @@ function obtenerEncabezados(tipo) {
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Operaciones <a href="/categorias/insertar" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
+            `;
+        case "comercios":
+            return `
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Logo</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+                <th>Operaciones <a href="#" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
             `;
         default:
             return "";
@@ -246,6 +282,19 @@ function obtenerFila(elemento, tipo) {
                     <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
                 </td>
             `;
+            case "comercios":
+                return `
+                    <td>${elemento.id}</td>
+                    <td>${elemento.nombre}</td>
+                    <td>${elemento.logo}</td>
+                    <td>${elemento.email}</td>
+                    <td>${elemento.telefono}</td>
+                    <td>${elemento.direccion}</td>
+                    <td>
+                        <a href="#" class="linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
+                        <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
+                    </td>
+                `;
         default:
             return "";
     }
@@ -253,9 +302,10 @@ function obtenerFila(elemento, tipo) {
 
 let idPersona = null;
 
-//al hacer el fetch de insertar puedo pasarle como argumento el tipo y que me muestre la tabla correspondiente
 window.addEventListener("load", async function () {
     // Tu código relacionado con la carga de la página
+    //cookie?
+    mostrarTabla("personas");
 });
 
 function confirmarEliminacion(id, tipo) {
@@ -301,31 +351,24 @@ $(document).on("click", "#btnCrearPersona", function () {
     document.getElementById("myModal").style.display = "none";
 });
 
-function openModalActualizar(url, idPersona, elementos) {
+function openModalActualizar(url, id, elementos) {
     fetch(url)
         .then(response => response.text())
         .then(data => {
             document.getElementById("modalContent").innerHTML = data;
 
-            const personaSeleccionada = elementos.find(elemento => elemento.id === idPersona);
-
-            document.getElementById("nombre").value = personaSeleccionada.nombre;
-            document.getElementById("email").value = personaSeleccionada.email;
-            document.getElementById("dni").value = personaSeleccionada.dni;
-            document.getElementById("passwd").value = personaSeleccionada.passwd;
-
-            const radioSelector = `input[name="id_rol"][value="${personaSeleccionada.id_rol}"]`;
-            alert(personaSeleccionada.id_rol);
-            const radioElement = document.querySelector(radioSelector);
-
-            if (radioElement) {
-                radioElement.checked = true;
-            } else {
-                console.error(`Elemento no encontrado: ${radioSelector}`);
+            if(tipo2 === "personas"){
+                cargarDatosPersonaEnFormulario(id, elementos);
+                document.getElementById("btnCrearPersona").value = "Actualizar";
+                document.getElementById("myModal").style.display = "block";
+            }
+            else{
+                cargarDatosComercioEnFormulario(id, elementos);
+                document.getElementById("btnCrearComercio").value = "Actualizar";
+                document.getElementById("myModal").style.display = "block";
             }
 
-            document.getElementById("btnCrearPersona").value = "Actualizar";
-            document.getElementById("myModal").style.display = "block";
+           
         })
         .catch(error => console.error('Error al cargar el contenido:', error));
 }
@@ -333,6 +376,35 @@ function openModalActualizar(url, idPersona, elementos) {
 document.getElementById("closeModalBtn").addEventListener("click", function () {
     document.getElementById("myModal").style.display = "none";
 });
+
+function cargarDatosPersonaEnFormulario(idPersona, elementos){
+    const personaSeleccionada = elementos.find(elemento => elemento.id === idPersona);
+
+    document.getElementById("nombre").value = personaSeleccionada.nombre;
+    document.getElementById("email").value = personaSeleccionada.email;
+    document.getElementById("dni").value = personaSeleccionada.dni;
+    document.getElementById("passwd").value = personaSeleccionada.passwd;
+
+    const radioSelector = `input[name="id_rol"][value="${personaSeleccionada.id_rol}"]`;
+    alert(personaSeleccionada.id_rol);
+    const radioElement = document.querySelector(radioSelector);
+
+    if (radioElement) {
+        radioElement.checked = true;
+    } else {
+        console.error(`Elemento no encontrado: ${radioSelector}`);
+    }
+}
+
+function cargarDatosComercioEnFormulario(idComercio, elementos){
+    const comercioSeleccionado = elementos.find(elemento => elemento.id === idComercio);
+
+    document.getElementById("nombreComercio").value = comercioSeleccionado.nombre;
+    document.getElementById("emailComercio").value = comercioSeleccionado.email;
+    document.getAnimations("logoComercio").value = comercioSeleccionado.logo;
+    document.getElementById("telefonoComercio").value = comercioSeleccionado.telefono;
+    document.getElementById("direccionComercio").value = comercioSeleccionado.direccion;
+}
 
 async function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url) {
     try {
@@ -385,6 +457,19 @@ function datosCategoria(data) {
         return new Categoria(
             categoriaJson.id,
             categoriaJson.nombre
+        );
+    });
+}
+
+function datosComercios(data) {
+    return data.map(personaJson => {
+        return new Comercio(
+            personaJson.id,
+            personaJson.nombre,
+            personaJson.logo,
+            personaJson.email,
+            personaJson.telefono,
+            personaJson.direccion
         );
     });
 }
