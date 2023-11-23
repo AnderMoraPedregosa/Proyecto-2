@@ -21,8 +21,6 @@ $datos = json_decode(file_get_contents('php://input'), true);
 switch ($accion) {
     case 'search':
         $palabra = urldecode($path_parts[2]);
-
-
         if (empty($palabra)) {
             $response = ['status' => 'error', 'message' => 'Término de búsqueda no proporcionado'];
             jsonResponse($response, 400);
@@ -76,14 +74,11 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'insertar':
-
-        $imagenesAdicionales = $_FILES['imagenes_adicionales'];
-
-        // Obtener información sobre el anuncio desde el formulario
         $titulo = isset($datos['titulo']) ? $datos['titulo'] : '';
         $precio = isset($datos['precio']) ? $datos['precio'] : '';
         $desc = isset($datos['descripcion']) ? $datos['descripcion'] : '';
         $cat = isset($datos['cat']) ? $datos['cat'] : '';
+        $imagenesAdicionales = isset($datos['imagenes']) ? $datos['imagenes'] : [];
 
         date_default_timezone_set('Europe/Madrid');
         // Crear el array $data con la información del anuncio
@@ -97,28 +92,32 @@ switch ($accion) {
             'anunciante' => 2,
             'imagenes' => [], // Este array almacenará las rutas de las imágenes
         ];
+echo  $imagenesAdicionales;
+        // Verificar si se proporcionaron imágenes
+        if (!empty($imagenesAdicionales)) {
+            foreach ($imagenesAdicionales as $index => $imagen) {
+                $extension = pathinfo($imagen['name'], PATHINFO_EXTENSION);
+                $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
 
-        foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
-            $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
-            $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
-            $rutaImagenAdicional =  "imagenes/" . $nombreImagenAdicional;
+                // Guardar la imagen en el sistema de archivos y obtener su ruta
+                $rutaImagen = guardarImagenBase64($imagen['tmp_name'], $nombreImagen);
 
-            if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
-                $dataAnuncio['imagenes'][] = $rutaImagenAdicional;
-            } else {
-                // Manejar el caso en que haya un error al mover la imagen
-                $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
-                jsonResponse($response, 500);
+                if ($rutaImagen) {
+                    $dataAnuncio['imagenes'][] = $rutaImagen;
+                } else {
+                    // Manejar el caso en que haya un error al guardar la imagen
+                    $response = ['status' => 'error', 'message' => 'Error al guardar una o más imágenes'];
+                    jsonResponse($response, 500);
+                }
             }
         }
 
         insertarAnuncio($dbh, $dataAnuncio);
         header("Location: /");
-
-
         break;
     case "actualizar":
         $imagenesAdicionales = $_FILES['imagenes_adicionales'];
+        var_dump($datos);
         //ACTUALIZAR
         $id = $datos['id'];
         $titulo = $datos['titulo'];
@@ -140,17 +139,19 @@ switch ($accion) {
             'imagenes' => [],
         ];
 
+        
+        foreach ($dataAnuncio['imagenes'] as $index => $imagen) {
+            $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
+            $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
 
-        foreach ($imagenesAdicionales['tmp_name'] as $index => $imagenAdicionalTmp) {
-            $extension = pathinfo($imagenesAdicionales['name'][$index], PATHINFO_EXTENSION);
-            $nombreImagenAdicional = date('YmdHis') . '_' . $index . '.' . $extension;
-            $rutaImagenAdicional =  "imagenes/" . $nombreImagenAdicional;
+            // Guardar la imagen en el sistema de archivos y obtener su ruta
+            $rutaImagen = guardarImagenBase64($imagen['base64'], $nombreImagen);
 
-            if (move_uploaded_file($imagenAdicionalTmp, $rutaImagenAdicional)) {
-                $datos['imagenes'][] = $rutaImagenAdicional;
+            if ($rutaImagen) {
+                $dataAnuncio['imagenes'][$index] = $rutaImagen;
             } else {
-                // Manejar el caso en que haya un error al mover la imagen
-                $response = ['status' => 'error', 'message' => 'Error al subir una o más imágenes'];
+                // Manejar el caso en que haya un error al guardar la imagen
+                $response = ['status' => 'error', 'message' => 'Error al guardar una o más imágenes'];
                 jsonResponse($response, 500);
             }
         }
@@ -173,4 +174,17 @@ switch ($accion) {
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);
         break;
+}
+
+
+function guardarImagenBase64($base64Data, $nombreImagen)
+{
+    $rutaImagen = "imagenes/" . $nombreImagen;
+    // Decodificar la imagen base64 y guardarla en el sistema de archivos
+    $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
+    if (file_put_contents($rutaImagen, $imagenDecodificada)) {
+        return $rutaImagen;
+    } else {
+        return false;
+    }
 }
