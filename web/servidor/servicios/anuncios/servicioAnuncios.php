@@ -136,8 +136,9 @@ switch ($accion) {
             'fecha' => date('Y-m-d H:i:s'),
             'comercio' => $idComercio,
             'anunciante' => $idComerciante,
-            'imagenes' => array(0)
         ];
+
+        
 
         // Verificar si se proporcionaron imágenes
         if (!empty($imagenesAdicionales)) {
@@ -157,7 +158,6 @@ switch ($accion) {
             }
         }
         actualizarAnuncio($dbh, $dataAnuncio);
-        header("Location: /");
         break;
     case "borrarAnuncio":
         eliminarId($dbh, $id);

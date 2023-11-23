@@ -137,6 +137,7 @@ function getComercio($dbh, $id)
 
 function actualizarAnuncio($dbh, $data)
 {
+
     try {
         if (!empty($data['imagenes'])) {
             $imagenes = $data['imagenes'];
@@ -159,11 +160,6 @@ function actualizarAnuncio($dbh, $data)
                 ];
                 actualizarRutaImagen($dbh, $dataImagenAdicional);
             }
-        } else {
-          
-            $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria,
-            fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio , imagen_anuncio = :imagenes WHERE id = :id");
-            $stmt->execute($data);
         }
     } catch (PDOException $e) {
 
