@@ -14,9 +14,9 @@ function getPersonas($dbh)
 function getPersonaId($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id= (:id)");
+    $stmt = $dbh->prepare("SELECT * FROM personas WHERE id= (:id)");
     $stmt->execute($data);
-    return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // Dentro de tu función insertarAnuncio
 
@@ -36,7 +36,7 @@ function insertarPersona($dbh, $data)
 {
     try {
         $stmt = $dbh->prepare("INSERT INTO personas (dni, nombre, passwd, email, id_rol)
-        VALUES (:dni, :nombre, :passwd, :email, :rol)");
+        VALUES (:dni, :nombre, :pass, :email, :rol)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }

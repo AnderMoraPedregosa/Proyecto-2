@@ -15,4 +15,4 @@ class Blog {
 
     // Otros métodos y propiedades pueden ser añadidos según sea necesario
 }
-export { Blog as Blog };
+export { Blog};

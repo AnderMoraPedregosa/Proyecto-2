@@ -689,7 +689,7 @@ form input[type="submit"]:hover {
 
 /* estilos pantalla modal*/
 
-.modal {
+.modal-personas {
     display: none;
     position: fixed;
     z-index: 1;
@@ -702,7 +702,7 @@ form input[type="submit"]:hover {
     border-radius: 10px;
 }
 
-.modal-content {
+.modal-content-personas {
     background-color: #fefefe;
     margin: 10% auto;
     padding: 20px;
@@ -858,6 +858,7 @@ form input[type="submit"]:hover {
 
 #carrusel {
     display: flex;
+    flex-direction: column;
     overflow: hidden;
     width: 100%;
     transition: transform 0.5s;
@@ -881,31 +882,35 @@ button {
 
 #anterior,
 #siguiente {
-    position: absolute;
-    margin: 0 10px;
-    /* Espacio entre las flechas */
-    font-size: 20px;
-    /* Tamaño del texto de las flechas */
+
     padding: 10px;
     font-size: 24px;
     border: none;
     background-color: rgba(0, 0, 0, 0.116);
-    color: #fff;
+    color: black;
     border-radius: 5px;
     width: 40px;
-    bottom: 0;
+    height: 40px;
     background-color: #3d6be13b;
 }
 
 
-
-#anterior {
-    left: 0;
+#flechasCarrusel{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   gap: 2em;
+   margin-top: 10px;
 }
 
-#siguiente {
-    right: 0;
-}
+#anterior:hover,
+#siguiente:hover{
+    background-color: white;
+
+} 
+
+
 .articulos{
     margin-top: 2em;
 }

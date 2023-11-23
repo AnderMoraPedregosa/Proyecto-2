@@ -1,11 +1,10 @@
 // Definición de la clase Anuncio
 class Persona {
     // Constructor que recibe los detalles del anuncio
-    constructor(id,dni, nombre, passwd, email, id_rol) {
+    constructor(id,dni, nombre,email, id_rol) {
         this.id = id;
         this.dni = dni;
-        this.nombre = nombre;
-        this.passwd = passwd;
+        this.nombre = nombre,
         this.email = email;
         this.id_rol = id_rol;
     }
@@ -14,4 +13,4 @@ class Persona {
 
     // Otros métodos y propiedades pueden ser añadidos según sea necesario
 }
-export { Persona };
+export { Persona};

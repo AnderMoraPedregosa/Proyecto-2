@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         "id_rol": json["user"]["id_rol"],
                         "idPersona": json["user"]["id"]
                     };
-
                     sessionStorage.setItem("user", JSON.stringify(usuario));
                     console.log(json);
                     location.href = "/"

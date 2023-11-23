@@ -1,12 +1,7 @@
-const datos = sessionStorage.getItem('user');
-const datosArray = JSON.parse(datos);
-
-let rol = sessionStorage.getItem('user') ? datosArray['id_rol'] : null;
-
-
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
+console.log(datosArray)
 async function getAnuncios() {
     try {
 
@@ -39,13 +34,13 @@ let body;
 
 const cargarMasBtn = document.getElementById("cargarMasBtn");
 cargarMasBtn.addEventListener('click', async function () {
-  
-        numero1 += 11;
-        numero2 += 11;
-        console.log(body);
-        await mostrarHtmlBoton(body);
-        console.log("pase por aqui");
-    
+
+    numero1 += 11;
+    numero2 += 11;
+    console.log(body);
+    mostrarHtmlBoton(body);
+    console.log("pase por aqui");
+
 
 });
 
@@ -56,11 +51,11 @@ async function getAnunciosSearch(searchTerm) {
     try {
         numero1 = 0;
         numero2 = 10;
-    
+
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
         const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
-        const response = await fetch(searchUrl);    
+        const response = await fetch(searchUrl);
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
@@ -82,7 +77,7 @@ async function getAnunciosSearch(searchTerm) {
 window.addEventListener("load", async function () {
 
     let articles = document.getElementById("articles");
-     body = await getAnuncios();
+    body = await getAnuncios();
     numero1 = 0;
     numero2 = 10;
 
@@ -134,13 +129,11 @@ function confirmarEliminacion(idAnuncio) {
     }
 }
 function mostrarHtmlBoton(body) {
-    if (body['data'].length >   numero2)  
-    {
+    if (body['data'].length > numero2) {
         mostarHtml(body);
         cargarMasBtn.style.display = 'block';
     }
-    else
-    {
+    else {
         mostarHtml(body);
         cargarMasBtn.style.display = 'none';
     }
@@ -149,19 +142,19 @@ function mostrarHtmlBoton(body) {
 function mostarHtml(body) {
     let divArticle;
     const scrollBefore = window.scrollY;
-    console.log(numero1,numero2)
+    console.log(numero1, numero2)
 
-        
-        if (body['status'] == 'success') {
 
-            let anuncios = datosAnuncios(body['data']);
-            anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-            anuncios.forEach(anuncioNew => {
-                divArticle = document.createElement("div");
-                divArticle.className = "article-item";
-                let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
-                // Agregar la información del anuncio al nuevo elemento div
-                divArticle.innerHTML = `
+    if (body['status'] == 'success') {
+
+        let anuncios = datosAnuncios(body['data']);
+        anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
+        anuncios.forEach(anuncioNew => {
+            divArticle = document.createElement("div");
+            divArticle.className = "article-item";
+            let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
+            // Agregar la información del anuncio al nuevo elemento div
+            divArticle.innerHTML = `
                  <div class="image-wrap">
                      <img class="imagen" src="${anuncioNew.imagen}" alt="Producto" />
                  </div>
@@ -184,36 +177,36 @@ function mostarHtml(body) {
     
                   <div class="clearfix"></div>
              `;
-                articles.appendChild(divArticle);
-    
-                let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
-                eliminarEnlace.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const idAnuncio = this.getAttribute('data-id');
-                    confirmarEliminacion(idAnuncio);
-                });
-
-
-                
-                            });
-              
-              window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
-        } else {
-            divArticle = document.createElement("div");
-            divArticle.className = "anuncios-error";
-            divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
             articles.appendChild(divArticle);
-        }
 
-        let imagenes = document.querySelectorAll('.imagen');
-
-        // Iterar sobre cada imagen y asignar el evento de clic a cada una
-        imagenes.forEach(imagen => {
-            imagen.addEventListener('click', (e) => {
-                // Llamar a la función para mostrar la ventana modal
-                mostrarModal(e.target);
+            let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
+            eliminarEnlace.addEventListener('click', function (event) {
+                event.preventDefault();
+                const idAnuncio = this.getAttribute('data-id');
+                confirmarEliminacion(idAnuncio);
             });
+
+
+
         });
+
+        window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
+    } else {
+        divArticle = document.createElement("div");
+        divArticle.className = "anuncios-error";
+        divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
+        articles.appendChild(divArticle);
+    }
+
+    let imagenes = document.querySelectorAll('.imagen');
+
+    // Iterar sobre cada imagen y asignar el evento de clic a cada una
+    imagenes.forEach(imagen => {
+        imagen.addEventListener('click', (e) => {
+            // Llamar a la función para mostrar la ventana modal
+            mostrarModal(e.target);
+        });
+    });
 
 
 }
@@ -224,7 +217,7 @@ function mostarHtml(body) {
 function datosAnuncios(data) {
     let anuncios = [];
 
-    data.slice(numero1,numero2).forEach(async (anuncioJson) => {
+    data.slice(numero1, numero2).forEach(async (anuncioJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
         console.log(anuncioJson)
@@ -245,7 +238,7 @@ function datosAnuncios(data) {
     return anuncios;
 }
 
-                
+
 function mostrarModal(imagen) {
     const modal = document.getElementById('modal');
     const zoomedImage = document.getElementById('zoomedImage');

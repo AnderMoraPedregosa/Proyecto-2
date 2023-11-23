@@ -21,8 +21,13 @@ $palabra = isset($path_parts[3]) ? $path_parts[3] : '';
 
 // Manejar las rutas
 switch ($path) {
+    case 'comerciantes':
+
+        // Lógica para mostrar anuncios
+        require './servidor/servicios/comerciantes/servicioComerciantes.php';
+        break;
     case 'anuncios':
-        
+
         // Lógica para mostrar anuncios
         require './servidor/servicios/anuncios/servicioAnuncios.php';
         break;
@@ -68,7 +73,7 @@ switch ($path) {
         require './paginas/personas.php';
         break;
     case "perfil":
-        require './paginas/perfil.php';
+        require './paginas/perfil2.php';
 
         break;
     default:
