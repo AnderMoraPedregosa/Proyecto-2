@@ -68,7 +68,7 @@ switch ($path) {
         require './paginas/personas.php';
         break;
     case "perfil":
-        require './paginas/perfil.php';
+        require './paginas/perfil2.php';
 
         break;
     default:
