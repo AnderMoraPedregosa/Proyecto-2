@@ -33,7 +33,7 @@ function getAnuncioSearch($dbh, $palabra)
 function getAnuncios($dbh)
 {
     try {
-        $stmt = $dbh->prepare("SELECT * FROM anuncios");
+        $stmt = $dbh->prepare("SELECT * FROM anuncios order by fecha_creacion desc");
         $stmt->execute();
 
         // Obtener resultados directamente sin necesidad de almacenar en una variable intermedia
