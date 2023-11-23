@@ -1,3 +1,10 @@
+
+let selectElement = document.getElementById("selectCategorias");
+let titulo = document.getElementById("titulo");
+let precio = document.getElementById("precio");
+let descripcion = document.getElementById("desc");
+let imagenesInput = document.getElementById("imagen");
+
 document.getElementById('btnCrearAnuncio').addEventListener('click', function (event) {
     event.preventDefault(); // Evitar la acción predeterminada del botón (en este caso, evitar que el formulario se envíe)
 
@@ -9,30 +16,28 @@ async function insertarActualizarAnuncio() {
         if (validarFormulario()) {
             const url = `/anuncios/insertar`;
 
-            let selectElement = document.getElementById("selectCategorias");
-            let titulo = document.getElementById("titulo");
-            let precio = document.getElementById("precio");
-            let descripcion = document.getElementById("desc");
-            let imagenesInput = document.getElementById("imagen");
 
-            const cat = selectElement.value;
+
+
 
             // Crear un objeto FormData para manejar los datos del formulario, incluyendo archivos
-            const formData = new FormData();
-            formData.append("titulo", titulo.value);
-            formData.append("precio", precio.value);
-            formData.append("descripcion", descripcion.value);
-            formData.append("cat", cat);
+            const data = {
+                id: id,
+                titulo: titulo,
+                precio: precio,
+                descripcion: descripcion,
+                cat: selectElement.value
+            };
 
             // Agregar cada archivo seleccionado al objeto FormData
             for (let i = 0; i < imagenesInput.files.length; i++) {
                 formData.append("imagenes_adicionales[]", imagenesInput.files[i]);
             }
-            
+
             // Realizar la solicitud con fetch y esperar la respuesta
             const response = await fetch(url, {
                 method: 'POST',
-                body: formData,
+                body: JSON.stringify(data),
             });
 
             // Verificar si la respuesta es exitosa

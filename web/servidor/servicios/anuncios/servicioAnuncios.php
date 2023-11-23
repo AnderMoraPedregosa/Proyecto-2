@@ -76,7 +76,6 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'insertar':
-        header("Location: /");
 
         $imagenesAdicionales = $_FILES['imagenes_adicionales'];
 
@@ -114,6 +113,7 @@ switch ($accion) {
         }
 
         insertarAnuncio($dbh, $dataAnuncio);
+        header("Location: /");
 
 
         break;
