@@ -21,18 +21,6 @@ body {
 }
 
 
-#blogBody {
-    font-family: 'Lobster', 'sans-serif';
-    text-align: center;
-    margin: 0em;
-    padding: 0em;
-
-    /*FUENTES*/
-    -webkit-font-smoothing: antialiased;
-    -moz-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: antialiased;
-}
-
 #header {
     height: 12em;
     width: 100%;
@@ -49,35 +37,38 @@ body {
     display: flex;
     justify-content: space-between;
     background: none;
-    
+
 }
+
 .centerf {
     width: 70%;
     margin: 0em auto;
     display: flex;
     justify-content: space-between;
     background: none;
-    
+
 }
+
 .centerh {
     width: 70%;
     margin: 0em auto;
     display: flex;
     justify-content: space-between;
     background: none;
-    
+
 }
-#productosComercio
-{
+
+#productosComercio {
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
 }
+
 .centerPerfil {
     width: 70%;
     margin: 0em auto;
     display: flex;
     justify-content: center;
     background: none;
-    
+
 }
 
 .clearfix {
@@ -190,7 +181,7 @@ body {
 
 }
 
-.confPerf{
+.confPerf {
     font-size: 28px;
     color: #1950D8;
 
@@ -285,26 +276,8 @@ body {
     min-height: 40.625em;
     margin-right: 1.25em;
     background: white
-   
-    
-
 }
-#content-blog {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    border: 2px solid rgba(0, 0, 0, 0.349);
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    width: 90%;
-    height: 90%;
-    min-height: 40.625em;
-    
-    background-color: white;
 
-}
 #content-Formulario {
     border: 0.2em solid rgba(0, 0, 0, 0.349);
     border-radius: 1em;
@@ -315,7 +288,7 @@ body {
     min-height: 40.625em;
     margin-right: 1.25em;
     background-color: (to right, #e2e2e2, #c9d6ff);
-    
+
 
 }
 
@@ -326,9 +299,7 @@ body {
 }
 
 #content h2 {
-    margin-bottom: 0.4em
-
-;
+    margin-bottom: 0.4em;
     font-size: 2em;
 
 }
@@ -345,13 +316,28 @@ body {
     animation: shake 1s ease infinite;
 
 }
+
 @keyframes shake {
-    0% { transform: rotate(0); }
-    25% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0); }
-  }
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(-5deg);
+    }
+
+    50% {
+        transform: rotate(5deg);
+    }
+
+    75% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0);
+    }
+}
 
 #sidebar {
 
@@ -359,7 +345,7 @@ body {
     float: left;
     padding-left: .5em;
     padding-right: .5em;
- 
+
 
 }
 
@@ -460,7 +446,7 @@ body {
     left: 40%;
     transform: translateX(-50%);
     border-radius: 3em;
-   
+
 }
 
 
@@ -675,7 +661,9 @@ form input[type="submit"]:hover {
 
 }
 
-.table-personas, .table-categorias, .table-comercios{
+.table-personas,
+.table-categorias,
+.table-comercios {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 10px;
@@ -686,9 +674,9 @@ form input[type="submit"]:hover {
 }
 
 /* Estilos para las celdas de la tabla */
-.table-personas td, 
+.table-personas td,
 .table-personas th,
-.table-categorias td, 
+.table-categorias td,
 .table-categorias th,
 .table-comercios td,
 .table-comercios th {
@@ -699,8 +687,7 @@ form input[type="submit"]:hover {
 
 /* Estilos para las filas impares (opcional, solo para resaltar alternancias) */
 .table-personas tr:nth-child(odd),
-.table-categorias tr:nth-child(odd)
-.table-comercios tr:nth-child(odd) {
+.table-categorias tr:nth-child(odd) .table-comercios tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
 
@@ -793,8 +780,8 @@ form input[type="submit"]:hover {
     border: 0.2em solid rgba(0, 0, 0, 0.349);
     border-radius: 1em;
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
-   
-    
+
+
 }
 
 .article-item .image-wrap {
@@ -805,7 +792,7 @@ form input[type="submit"]:hover {
     margin-right: 0.938em;
     border: 0.063em solid #ccc;
     box-shadow: 0 .8em 1em rgba(0, 0, 0, 0.61);
-    
+
 }
 
 .article-item .image-wrap img {
@@ -854,16 +841,10 @@ form input[type="submit"]:hover {
     width: 100%;
     height: auto;
 }
-.article-detail-blog  {
-    border: 0.2em solid rgba(0, 0, 0, 0.349);
-    border-radius: 1em;
-    box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
-    margin-top: none;
-    display: flex;
-    margin-bottom: 2em;
-    border: none;
-    flex-direction: column;
-}
+
+
+
+
 .article-detail .subheader {
     margin-top: 0.938em;
     margin-bottom: 0em;
@@ -935,23 +916,23 @@ button {
 }
 
 
-#flechasCarrusel{
+#flechasCarrusel {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-   gap: 2em;
-   margin-top: 10px;
+    gap: 2em;
+    margin-top: 10px;
 }
 
 #anterior:hover,
-#siguiente:hover{
+#siguiente:hover {
     background-color: #3d6be13b;
 
-} 
+}
 
 
-.articulos{
+.articulos {
     margin-top: 2em;
 }
 
@@ -1017,11 +998,13 @@ button {
         flex-direction: column-reverse;
 
     }
+
     #menu a.animacion::before {
-    
-       
-        bottom:0.5em;
+
+
+        bottom: 0.5em;
     }
+
     #menu,
     #menu ul {
         clear: both;
@@ -1070,10 +1053,11 @@ button {
         flex-direction: column-reverse;
 
     }
+
     #menu a.animacion::before {
-    
-       
-        bottom:0.65em;
+
+
+        bottom: 0.65em;
     }
 
     #menu ul {
@@ -1139,9 +1123,9 @@ button {
     }
 
     #menu a.animacion::before {
-    
-       
-        bottom:0.65em;
+
+
+        bottom: 0.65em;
     }
 
     #menu ul li {
@@ -1188,10 +1172,11 @@ button {
 
 
     }
+
     #menu a.animacion::before {
-    
-       
-        bottom:0.75em;
+
+
+        bottom: 0.75em;
     }
 
     #menu ul {
@@ -1298,38 +1283,43 @@ button {
     height: 25em;
     background: linear-gradient(to right, rgba(139, 167, 239, 0.5) 10%, rgba(97, 135, 232, 0.39) 20%, rgba(139, 167, 239, 0.185) 30%);
     animation: moveWave 15s linear infinite;
-    animation-delay: -7.5s; 
-  }
-  
-  a.read-more,
-  a.edit,
-  a.delete {
+    animation-delay: -7.5s;
+}
+
+a.read-more,
+a.edit,
+a.delete {
     /* Fondo con degradado lineal */
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
     /* Otros estilos de diseño */
-    padding: 5px 10px; /* Añade relleno alrededor del texto */
-    border-radius: 5px; /* Redondea los bordes */
-    text-decoration: none; /* Elimina el subrayado predeterminado */
-    color: #333; /* Color del texto */
-  }
-  
-  a.read-more:hover,
-  a.edit:hover,
-  a.delete:hover {
+    padding: 5px 10px;
+    /* Añade relleno alrededor del texto */
+    border-radius: 5px;
+    /* Redondea los bordes */
+    text-decoration: none;
+    /* Elimina el subrayado predeterminado */
+    color: #333;
+    /* Color del texto */
+}
+
+a.read-more:hover,
+a.edit:hover,
+a.delete:hover {
     /* Estilos al pasar el mouse sobre los enlaces */
     background: linear-gradient(to right, #c9d6ff, #e2e2e2);
     /* Cambia el degradado al pasar el mouse */
     /* Puedes ajustar los colores y la dirección del degradado según tu preferencia */
-  }
-  .imagen{
+}
+
+.imagen {
     display: block;
     width: 100%;
     height: 100%;
-    cursor: pointer; 
+    cursor: pointer;
 
-  }
+}
 
-  .modal {
+.modal {
     z-index: 1;
     width: 100%;
     height: 100%;
@@ -1342,81 +1332,125 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    background:  radial-gradient(circle, #e2e2e2,rgb(155, 179, 240));
+    background: radial-gradient(circle, #e2e2e2, rgb(155, 179, 240));
     opacity: 0;
-    pointer-events: none; 
-    visibility: hidden; 
+    pointer-events: none;
+    visibility: hidden;
     padding-top: 1em;
-  }
-  
-  .modal.active {
+}
+
+.modal.active {
     transform: translate(-50%, -50%) scale(0.5);
     opacity: 1;
-    pointer-events: auto; 
-    visibility: visible; 
+    pointer-events: auto;
+    visibility: visible;
     transition: transform 1s ease, opacity 1s ease;
-  }
+}
 
-  .modal img {
+.modal img {
     max-width: 100%;
     height: auto;
     width: auto\9;
     display: block;
-    margin: 0 auto; /* Centra la imagen horizontalmente */
-  }
-  .close-btn {
+    margin: 0 auto;
+    /* Centra la imagen horizontalmente */
+}
+
+.close-btn {
     position: absolute;
     top: -0.1em;
     right: 0.1em;
     cursor: pointer;
     color: white;
     font-size: 15em;
-  }
+}
 
 
-  .modal.active .zoom img {
+.modal.active .zoom img {
     width: 50%;
     height: 50%;
     transition: transform 0.3s ease;
-  }
+}
 
 
 
 
-  /*Blog*/
-  .imagenBlog {
-    max-width: 60%; 
-    border-radius: 5em; 
-    margin-bottom: .5em;
-    padding-left: 1em;
+/*Blog*/
+.imagenBlog {
+    border-radius: 5em;
+    margin-bottom: 0.5em;
+}
 
-  }
-  .dateBlog{
+.dateBlog {
+    margin-top: 1em;
     display: block;
     width: 30%;
     color: rgb(122, 122, 122);
-    font-size: 1.3em;
-    padding: 1em;
-  }
-  .divBlog{
-    font-size: 2em;
-    padding: 1em;
-  }
-
-.subheaderBlog
-{
-    font-size: 4em;
+    font-size: 1em;
 }
 
+.divBlog {
+    font-size: 1em;
+    max-width: 20em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.subheaderBlog {
+    font-size: 1.5em;
+}
+
+#blogBody {
+    font-family: 'Lobster', 'sans-serif';
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    /*FUENTES*/
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
+}
+
+.article-detail-blog {
+    border: 0.2em solid rgba(0, 0, 0, 0.349);
+    border-radius: 1em;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    width: 100%;
+    margin: 1em auto;
+    max-height: 800px;
+    overflow: auto;
+    padding: 1em;
+}
+
+#content-blog {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.349);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    width: 90%;
+    height: 90%;
+    min-height: 40.625em;
+    background-color: white;
+}
+
+
+
 #btnCrearPersona {
-  
+
     background-color: #45a049;
     padding: 0.5em;
     border-radius: 0.3em;
     color: white;
     font-size: 1.3em;
-    transition: background-color 0.3s ease; 
-  }
-  #btnCrearPersona:hover {
-    background-color:rgb(129, 243, 163);
-  }
+    transition: background-color 0.3s ease;
+}
+
+#btnCrearPersona:hover {
+    background-color: rgb(129, 243, 163);
+}

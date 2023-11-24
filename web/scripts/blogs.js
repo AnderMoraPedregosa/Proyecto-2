@@ -24,7 +24,7 @@ async function getBlogs() {
          let response;
          if(urlBlog === "blog"){
             response = await fetch(`${base_url}/blogs/todos`);
-            document.getElementById("tituloBlogs").textContent = "Blogs";
+            
          }
          else{
             response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
@@ -62,7 +62,6 @@ cargarMasBtn.addEventListener('click', async function () {
     numero2 += 11;
     console.log(body);
     mostrarHtmlBoton(body);
-    console.log("pase por aqui");
 
 
 });
@@ -161,6 +160,7 @@ function mostarHtml(body) {
         blogs.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
         blogs.forEach(blogNew => {
             divBlog = document.createElement("div");
+            divBlog.className = "divBlog";
             console.log(blogNew.imagen)
             let tiempoTranscurrido = calcularTiempoTranscurrido(blogNew.fechaC);
             // Agregar la información del anuncio al nuevo elemento div

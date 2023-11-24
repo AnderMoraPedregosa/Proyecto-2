@@ -11,11 +11,9 @@
        
             <script type="module" src="scripts/blogs.js"></script>
         
-            <div class="clearfix"></div>
 
     </section>
     <button id="cargarMasBtn">Cargar más</button>
-    <div class="clearfix"></div>
 </div>
 
 <?php require "partials/footer.php" ?>
