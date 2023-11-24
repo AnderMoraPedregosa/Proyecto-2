@@ -21,12 +21,11 @@ $datos = json_decode(file_get_contents('php://input'), true);
 switch ($accion) {
     case 'search':
         $palabra = urldecode($path_parts[2]);
-        if (empty($palabra)) {
-            $response = ['status' => 'error', 'message' => 'Término de búsqueda no proporcionado'];
-            jsonResponse($response, 400);
-        }
+        $anuncios;
+        
 
         $anuncios = getAnuncioSearch($dbh, $palabra);
+        
         if ($anuncios === false) {
             $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
             jsonResponse($response, 500);

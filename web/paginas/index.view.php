@@ -11,7 +11,7 @@
 
     <div class="center">
         <section id="content">
-            <h2 class="subheader">Últimos productos
+            <h2 id="tituloAnuncios" class="subheader">Últimos productos
                 <img src="../../assets/images/new.png" class="new" alt="newp" />
             </h2>
             <div id="articles">
