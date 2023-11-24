@@ -24,7 +24,7 @@
 
         <aside id="sidebar">
             <div id="nav-blog" class="sidebar-item">
-                <h3>Puedes hacer esto</h3>
+                <h3 id="sidebarTitle"></h3>
                 <a href="/formulario" class="btn btn-success" id="btnCrearProducto" style="display: none;">Crear producto</a>
                 <a href="/blog" class="btn-white" id="btnBlog">Ir al blog</a>
             </div>

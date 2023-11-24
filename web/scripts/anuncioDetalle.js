@@ -96,7 +96,7 @@ window.addEventListener("load", async function () {
 
 function htmlDetalle(anuncio) {
     let srcImagen = anuncio.imagen.split('/');
-    let content = document.getElementById("content");
+    let content = document.getElementById("content-detail");
     const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
 
     // Crear un contenedor principal para las dos columnas
@@ -136,7 +136,7 @@ function htmlDetalle(anuncio) {
 
 
 function htmlDetalleImagenes(anuncio, imagenes) {
-    let contenedor = document.getElementById("content");
+    let contenedor = document.getElementById("content-detail");
     const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
 
     // Crear un nuevo contenedor para los detalles del anuncio
