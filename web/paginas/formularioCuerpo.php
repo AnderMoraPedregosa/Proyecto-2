@@ -3,7 +3,7 @@
 <div class="center">
     <section id="content-Formulario">
 
-        <h1 class="subheader">Formulario</h1>
+        <h1 class="subheader">Crear producto</h1>
 
        <?php include "paginas/crearEditarAnuncio.php"?>
 
@@ -12,21 +12,7 @@
 
     </section>
 
-    <aside id="sidebar">
-        <div id="nav-blog" class="sidebar-item">
-            <h3>Puedes hacer esto</h3>
-            <a href="#" class="btn btn-success">Crear producto</a>
-        </div>
 
-        <div id="search" class="sidebar-item">
-            <h3>Buscador</h3>
-            <p>Encuentra el producto que buscas</p>
-            <form>
-                <input type="text" name="search" />
-                <input type="submit" name="submit" value="Buscar" class="btn" />
-            </form>
-        </div>
-    </aside>
 
     <div class="clearfix"></div>
 </div>
