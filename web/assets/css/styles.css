@@ -80,7 +80,6 @@ body {
     
 }
 
-
 .clearfix {
     clear: both;
     float: none;
@@ -96,7 +95,7 @@ body {
 #logo img {
     display: block;
     float: left;
-    height: 7em;
+    height: 14em;
     margin-top: -1.2em;
     margin-right: 1em;
     animation: latir infinite 5s linear;
@@ -932,7 +931,7 @@ button {
     border-radius: 5px;
     width: 40px;
     height: 40px;
-    background-color: #3d6be13b;
+    background-color: white;
 }
 
 
@@ -947,7 +946,7 @@ button {
 
 #anterior:hover,
 #siguiente:hover{
-    background-color: white;
+    background-color: #3d6be13b;
 
 } 
 
@@ -1408,3 +1407,16 @@ button {
 {
     font-size: 4em;
 }
+
+#btnCrearPersona {
+  
+    background-color: #45a049;
+    padding: 0.5em;
+    border-radius: 0.3em;
+    color: white;
+    font-size: 1.3em;
+    transition: background-color 0.3s ease; 
+  }
+  #btnCrearPersona:hover {
+    background-color:rgb(129, 243, 163);
+  }

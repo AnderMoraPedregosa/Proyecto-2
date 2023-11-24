@@ -112,7 +112,7 @@ function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
         // El usuario confirmó, realizar la eliminación
-        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}/anunciosPerfil`;
+        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
     } else {
         // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
         console.log("Eliminación cancelada");
@@ -153,10 +153,10 @@ function mostarHtml(body) {
                  <h2>${anuncioNew.titulo}</h2>
                  <span class="date">${tiempoTranscurrido}</span>
                  <div class="link-container">
-                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}/anunciosPerfil" class="link read-more"><i class="fa-solid fa-info"></i></a>
-                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="hola" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
+                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}" title="Leer más" class="link read-more"><i class="fa-solid fa-info"></i></a>
+                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" title="Actualizar Anuncio" class="link edit" id="hola" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                 <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
+                 <a href="#" title="Eliminar Anuncio" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
                 </div>
     
                   <div class="clearfix"></div>
