@@ -24,10 +24,12 @@ async function getBlogs() {
          let response;
          if(urlBlog === "blog"){
             response = await fetch(`${base_url}/blogs/todos`);
+            document.getElementById("tituloBlogs").textContent = "Blogs";
          }
          else{
             response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
-            console.log(response);
+            document.getElementById("tituloBlogs").textContent = "Mis Blogs";
+
          }
 
         if (!response.ok) {

@@ -1,13 +1,32 @@
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
+
+var urlActual = window.location.href;
+
+// Divide la URL en partes utilizando "/" como delimitador
+var partesUrl = urlActual.split('/');
+
+// Obtiene el segundo elemento del array (índice 1)
+
+var urlAnuncios = partesUrl[3];
+alert(urlAnuncios)
+
 console.log(datosArray)
 async function getAnuncios() {
     try {
-
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
-        const response = await fetch(`${base_url}/anuncios/todos`);
+        let response;
+        //controlar si mostrar todos los anuncios o solo los propios
+        if(urlAnuncios === ""){
+         response = await fetch(`${base_url}/anuncios/todos`);
+        }
+        else{
+            const base_url = window.location.origin;
+            let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
+            response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}`);
+        }
 
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
@@ -41,9 +60,7 @@ cargarMasBtn.addEventListener('click', async function () {
     mostrarHtmlBoton(body);
     console.log("pase por aqui");
 
-
 });
-
 
 
 
@@ -103,6 +120,7 @@ window.addEventListener("load", async function () {
             articles.appendChild(noResultsMessage);
         }
         console.log(body);
+
 
     });
     let imagenes = document.querySelectorAll('.imagen');
@@ -171,9 +189,10 @@ function mostarHtml(body) {
                  <p class=>${anuncioNew.descripcion.substring(0,255)}...<p>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
-                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}/anuncio" class="link edit" id="hola" style="display: none;" title="Actualizar"><i class="fa-solid fa-pen-to-square"></i></a>
+                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}/anuncio" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                 <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" style="display: none;"  data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};" title="Eliminar"><i class="fa-solid fa-trash"></i></a>
+                <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" id="aEliminar" title="Eliminar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-trash"></i></a>
+
                 </div>
     
                   <div class="clearfix"></div>

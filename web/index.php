@@ -75,7 +75,7 @@ switch ($path) {
         require './paginas/perfil2.php';
         break;
     case "perfilAnuncios":
-        require './paginas/perfil.php';
+        require './paginas/index.view.php';
 
         break;
     case "perfilBlogs":
