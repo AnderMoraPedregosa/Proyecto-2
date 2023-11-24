@@ -30,16 +30,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: `emailUsuario=${emailUsuario}&passwd=${passwd}`,
                 });
-                console.log(response);
                 if (response.ok) {
                     // Obtener el cuerpo de la respuesta como JSON
                     const json = await response.json();
+                    console.log(json)
                     let usuario = {
                         "id_rol": json["user"]["id_rol"],
                         "idPersona": json["user"]["id"]
                     };
                     sessionStorage.setItem("user", JSON.stringify(usuario));
-                    console.log(json);
                     location.href = "/"
                     // También puedes usar sessionStorage aquí si es necesario
                     // sessionStorage.setItem("user", JSON.stringify(json));

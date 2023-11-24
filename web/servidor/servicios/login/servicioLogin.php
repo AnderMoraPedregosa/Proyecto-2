@@ -14,10 +14,8 @@ function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 {
 
     $user = getPersonaByEmail($dbh, $emailUsuario);
-
-
     /*   echo "<script> alert($user) </script>"; */
-    if ($user && password_verify($contraseñaUsuario, $user['passwd'])) {
+    if ($user  && password_verify($contraseñaUsuario, $user['passwd'])) {
 
         /* session_start();
         $_SESSION["user"] = $user; */
@@ -35,7 +33,6 @@ function logearCuenta($emailUsuario, $contraseñaUsuario, $dbh)
 
 
 
-// Verifica si la petición es de tipo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if (isset($_POST['emailUsuario']) && isset($_POST['passwd'])) {

@@ -100,7 +100,7 @@ function eliminar($dbh)
 
 
 //persona por email y contraseña
-function getPersonaByEmailAndPassword($dbh, $email, $pass)
+/* function getPersonaByEmailAndPassword($dbh, $email, $pass)
 {
     $data = array('email' => $email, 'pass' => $pass);
     $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = (:email) AND passwd = (:pass)");
@@ -114,4 +114,4 @@ function getPersonaByEmail($dbh, $email)
     $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = (:email)");
     $stmt->execute($data);
     return $persona = $stmt->fetch(PDO::FETCH_ASSOC);
-}
+} */
