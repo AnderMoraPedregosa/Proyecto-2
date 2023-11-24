@@ -55,11 +55,11 @@ let numero2;
 let body;
 
 
-const cargarMasBtn = document.getElementById("cargarMasBtn");
-cargarMasBtn.addEventListener('click', async function () {
+const cargarMasBtnBlog = document.getElementById("cargarMasBtnBlog");
+cargarMasBtnBlog.addEventListener('click', async function () {
 
-    numero1 += 11;
-    numero2 += 11;
+    numero1 += 10;
+    numero2 += 10;
     console.log(body);
     mostrarHtmlBoton(body);
 
@@ -99,7 +99,7 @@ window.addEventListener("load", async function () {
 
     body = await getBlogs();
     numero1 = 0;
-    numero2 = 10;
+    numero2 = 9;
     mostrarHtmlBoton(body);
     /* const searchForm = document.getElementById("search-form");
 
@@ -141,11 +141,11 @@ window.addEventListener("load", async function () {
 function mostrarHtmlBoton(body) {
     if (body['data'].length > numero2) {
         mostarHtml(body);
-        cargarMasBtn.style.display = 'block';
+        cargarMasBtnBlog.style.display = 'block';
     }
     else {
         mostarHtml(body);
-        cargarMasBtn.style.display = 'none';
+        cargarMasBtnBlog.style.display = 'none';
     }
 }
 

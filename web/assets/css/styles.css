@@ -995,6 +995,9 @@ button {
         width: 80%;
 
     }
+        #content-blog {
+        grid-template-columns: repeat(1, 1fr); /* Cambia a una columna en pantallas más pequeñas */
+    }
 }
 
 @media (max-width: 1200px) {
@@ -1172,6 +1175,7 @@ button {
 }
 
 @media (max-width: 560px) {
+
 
     #logo {
 
@@ -1406,7 +1410,7 @@ a.delete:hover {
 }
 
 .divBlog {
-    font-size: 1em;
+    font-size: 1.1em;
     max-width: 20em;
     margin-left: auto;
     margin-right: auto;
@@ -1444,13 +1448,12 @@ a.delete:hover {
 #content-blog {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
     border: 2px solid rgba(0, 0, 0, 0.349);
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     padding: 20px;
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     min-height: 40.625em;
     background-color: white;
 }
@@ -1470,3 +1473,42 @@ a.delete:hover {
 #btnCrearPersona:hover {
     background-color: rgb(129, 243, 163);
 }
+.center-Blog {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    background: none;
+    
+
+}
+
+#cargarMasBtnBlog {
+    position: absolute;
+    top: 163em;
+    max-height: 5em;
+    max-width: 10em;
+    right: 45%;
+    background: #1950D8;
+    color: white;
+    padding: .8em 1em;
+    font-weight: bold;  
+    text-transform: uppercase;
+    font-size: 0.875em;
+    text-decoration: none;
+    transition: 300ms all;
+    border: none;
+    cursor: pointer;
+    padding: .7em;
+    transform: translateX(-50%);
+    border-radius: 1em;
+    
+}
+
+
+#cargarMasBtnBlog:hover {
+    border: 2px solid #6187E8;
+    color: #6187E8;
+    background-color: lightgrey;
+}
+
