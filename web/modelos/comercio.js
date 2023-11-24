@@ -1,17 +1,17 @@
 // Definición de la clase Anuncio
-class Persona {
+class Comercio {
     // Constructor que recibe los detalles del anuncio
-    constructor(id,dni, nombre, passwd, email, id_rol) {
+    constructor(id, nombre, logo, email, telefono, direccion) {
         this.id = id;
-        this.dni = dni;
-        this.nombre = nombre,
-        this.passwd = passwd,
+        this.nombre = nombre;
+        this.logo = logo;
         this.email = email;
-        this.id_rol = id_rol;
+        this.telefono = telefono;
+        this.direccion = direccion;
     }
 
     // Método para obtener la información completa del anuncio
 
     // Otros métodos y propiedades pueden ser añadidos según sea necesario
 }
-export { Persona};
+export { Comercio};

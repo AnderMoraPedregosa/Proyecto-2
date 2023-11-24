@@ -1,249 +1,345 @@
+import { Categoria } from "../modelos/categoria.js";
 import { Persona } from "../modelos/persona.js";
+import { Comercio } from "../modelos/comercio.js";
 
 
-async function getPersonas() {
+var divCategorias = document.getElementById("crudCategorias");
+var divPersonas = document.getElementById("crudPersonas");
+var divComercios = document.getElementById("crudComercios");
+
+
+const tablasCreadas = {
+    personas: false,
+    categorias: false,
+    comercios : false
+};
+
+let tipo2;
+var idComercio = null;
+const btnUsuarios = document.getElementById("btnUsuarios");
+const btnCategorias = document.getElementById("btnCategorias");
+const btnComercios = document.getElementById("btnComercios");
+
+btnUsuarios.addEventListener("click", () => mostrarTabla("personas"));
+btnCategorias.addEventListener("click", () => mostrarTabla("categorias"));
+btnComercios.addEventListener("click", () => mostrarTabla("comercios"));
+
+function ocultarMostrarTablas(){
+    switch(tipo2){
+        case "personas":
+            divPersonas.style.display = "block";
+            divCategorias.style.display = "none";
+            divComercios.style.display = "none";
+
+            break;
+        case "categorias":
+            divPersonas.style.display = "none";
+            divComercios.style.display = "none";
+            divCategorias.style.display = "block";
+            break;
+        case "comercios":
+            divPersonas.style.display = "none";
+            divCategorias.style.display = "none";
+            divComercios.style.display = "block";
+            break;
+    }
+}
+
+async function mostrarTabla(tipo) {
+    try {
+        tipo2 = tipo;
+        ocultarMostrarTablas();
+        const data = await getData(tipo);
+        //coger el div correspondiente
+        const divTabla = document.getElementById(`crud${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`);
+
+        if (!tablasCreadas[tipo]) {
+            tablasCreadas[tipo] = true;
+            crearTabla(data, tipo, divTabla);
+        }
+    
+    } catch (error) {
+        console.error('Error en la llamada a la API:', error.message);
+    }
+}
+
+function crearTabla(data, tipo, divTabla) {
+    if (data.status === "success") {
+        const elementos = obtenerElementos(data.data, tipo);
+
+        const divElemento = document.createElement("div");
+        divElemento.className = tipo.toLowerCase();
+
+        const table = document.createElement("table");
+        table.className = `table-${tipo.toLowerCase()}`;
+
+        const headersRow = document.createElement("tr");
+        headersRow.innerHTML = obtenerEncabezados(tipo);
+        table.appendChild(headersRow);
+
+        elementos.forEach(elemento => {
+            const row = document.createElement("tr");
+            row.innerHTML = obtenerFila(elemento, tipo);
+            table.appendChild(row);
+        });
+
+        divElemento.appendChild(table);
+
+        divTabla.innerHTML = "";
+        divTabla.appendChild(divElemento);
+
+        // Agregar eventos a los enlaces
+        const nombreEnlaceCrear = `.enlaceCrear${tipo}`;
+        const nombreEnlaceEditar = `.linkEdit${tipo}`;
+
+        document.querySelector(nombreEnlaceCrear)?.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(tipo2 === "categorias"){
+                let nombreCategoria = prompt("Ingrese el nombre de la categoría:");
+            if (nombreCategoria) {
+                console.log("estoy")
+                // Enviar el nombre de la categoría al servidor para insertarla
+                const data = {
+                    nombre : nombreCategoria
+                };
+                const base_url = window.location.origin;
+                let url = `${base_url}/categorias/insertar`
+                insertarActualizar(data, url);
+            }
+            }
+            else{
+                if(tipo2 === "personas"){
+                     openModal("../paginas/crearEditarPersona.php");
+                }
+                else{
+                    openModal("../paginas/crearEditarComercio.php");
+
+                }
+            }
+        });
+
+        const enlacesEditar = divTabla.querySelectorAll(nombreEnlaceEditar);
+        enlacesEditar.forEach(enlaceEditar => {
+            enlaceEditar.addEventListener('click', (e) => {
+                e.preventDefault();
+                if(tipo2 === "categorias"){
+                    let idCat = enlaceEditar.getAttribute('data-id');
+
+                    let nombreCategoria = prompt("Ingrese el nombre de la categoría a modificar:");
+                    let data = {
+                        idCat : idCat,
+                        nombre : nombreCategoria
+                    };
+
+                    let url =  `/categorias/actualizar`;
+                    insertarActualizar(data, url);
+                }else{
+                    if(tipo2 == "personas"){
+                idPersona = enlaceEditar.getAttribute('data-id');
+                openModalActualizar("../paginas/crearEditarPersona.php", idPersona, elementos);
+                    }
+                    else{
+                        idComercio = enlaceEditar.getAttribute('data-id');
+                        openModalActualizar("../paginas/crearEditarComercio.php", idComercio, elementos);
+
+                    }
+                }
+            });
+        });
+
+        const enlacesEliminar = divTabla.querySelectorAll('.eliminar-enlace');
+        enlacesEliminar.forEach(enlaceEliminar => {
+            enlaceEliminar.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = enlaceEliminar.getAttribute('data-id');
+                confirmarEliminacion(id, tipo);
+            });
+        });
+        
+    } else {
+        manejarErrorTabla(divTabla, tipo);
+    }
+}
+
+async function getData(tipo) {
     try {
         const base_url = window.location.origin;
-        const response = await fetch(`${base_url}/personas/todos`);
-
+        const response = await fetch(`${base_url}/${tipo}/todos`);
+        const data = await response.json();
+        console.log(data);
 
         if (!response.ok) {
-            throw new Error(`Error al obtener personas. Código de estado: ${response.status}`);
+            throw new Error(`Error al obtener ${tipo}. Código de estado: ${response.status}`);
         }
 
-
         const contentType = response.headers.get('content-type');
+
         if (!contentType || !contentType.includes('application/json')) {
             const text = await response.text();
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
-
-        const data = await response.json();
         return data;
     } catch (error) {
         console.error('Error en la llamada a la API:', error.message);
-        return { status: 'error', message: 'Error en la llamada a la API' };
+        return { status: 'error', message: `Error en la llamada a la API de ${tipo}` };
     }
 }
 
+function obtenerElementos(data, tipo) {
+    switch (tipo) {
+        case "personas":
+            return datosPersonas(data);
+        case "categorias":
+            return datosCategoria(data);
+        case "comercios":
+            return datosComercios(data);
+        default:
+            return [];
+    }
+}
 
-var idPersona;
-window.addEventListener("load", async function () {
-    let prueba = document.getElementById("crudUsers");
-    let body = await getPersonas();
-    let divPersona;
+function obtenerEncabezados(tipo) {
+    switch (tipo) {
+        case "personas":
+            return `
+                <th>ID</th>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Contraseña</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Operaciones <a href="#" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
+            `;
+        case "categorias":
+            return `
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Operaciones <a href="/categorias/insertar" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
+            `;
+        case "comercios":
+            return `
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Logo</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+                <th>Operaciones <a href="#" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
+            `;
+        default:
+            return "";
+    }
+}
 
+function obtenerFila(elemento, tipo) {
 
-    if (body['status'] == 'success') {
-        var personas = datosPersonas(body['data']);
+     // Objeto de mapeo para los nombres de los roles
+     const roles = {
+        1: "Id: 1 - Admin",
+        2: "Id: 2 - Cliente",
+        3: "Id: 1 - Comerciante",
+    };
 
+    // Función para obtener el nombre del rol basado en el id_rol
+    function obtenerNombreRol(idRol) {
+        return roles[idRol] || "Desconocido";
+    }
 
-        divPersona = document.createElement("div");
-        divPersona.className = "persona";
-
-
-        let table = document.createElement("table");
-        table.className = "table-personas";
-
-
-        // Encabezados de la tabla
-        let headersRow = document.createElement("tr");
-        headersRow.innerHTML = `
-            <th>ID</th>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>ID Rol</th>
-            <th>Operaciones <a href="#" class="enlaceCrearUsuario linkAddUser" ><i class="fa-solid fa-user-plus"></i></a>
-            </th>
-        `;
-        table.appendChild(headersRow);
-
-
-        // Datos de las personas
-        personas.forEach(persona => {
-            let row = document.createElement("tr");
-            console.log(persona.nombre);
-            row.innerHTML = `
-                <td>${persona.id}</td>
-                <td>${persona.dni}</td>
-                <td><i class="fa-solid fa-user"></i>${persona.nombre}</td>
-                <td>${persona.email}</td>
-                <td>${persona.id_rol}</td>
+    switch (tipo) {
+        case "personas":
+            return `
+                <td>${elemento.id}</td>
+                <td>${elemento.dni}</td>
+                <td><i class="fa-solid fa-user"></i>${elemento.nombre}</td>
+                <td>${elemento.passwd}</td>
+                <td>${elemento.email}</td>
+                <td>${obtenerNombreRol(elemento.id_rol)}</td>
                 <td>
-                    <a href="#" class="linkEditUser" data-id="${persona.id}"><i class="fa-solid fa-user-pen"></i></a>
-                    <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${persona.id}"><i class="fa-solid fa-user-minus"></i></a>
+                    <a href="#" class="linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
+                    <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
                 </td>
             `;
-            table.appendChild(row);
-        });
-
-
-        divPersona.appendChild(table);
-
-
-        prueba.appendChild(divPersona);
-
-
-        // Agregar evento a los enlaces eliminar
-        let eliminarEnlaces = divPersona.querySelectorAll('.eliminar-enlace');
-        eliminarEnlaces.forEach(eliminarEnlace => {
-            eliminarEnlace.addEventListener('click', function (event) {
-                event.preventDefault();
-                const idPersona = this.getAttribute('data-id');
-                confirmarEliminacion(idPersona);
-            });
-        });
-
-
-        // Agregar evento al enlace "Crear Usuario" para abrir el modal
-        document.querySelector(".enlaceCrearUsuario").addEventListener('click', function (e) {
-            e.preventDefault();
-            openModal("../paginas/crearEditarPersona.php");
-        });
-
-
-        // Agregar evento al enlace "Editar Usuario" para abrir el modal
-        let editUserLinks = divPersona.querySelectorAll('.linkEditUser');
-        editUserLinks.forEach(editUserLink => {
-            editUserLink.addEventListener('click', function (e) {
-                e.preventDefault();
-                idPersona = this.getAttribute('data-id');
-                openModalActualizar("../paginas/crearEditarPersona.php", idPersona, personas);
-            });
-        });
-
-
-    } else {
-        divPersona = document.createElement("div");
-        divPersona.className = "personas-error";
-        divPersona.innerHTML = `<h2>Error, no se han podido cargar las personas. Vuelva a intentarlo más tarde.</h2>`;
-        prueba.appendChild(divPersona);
+        case "categorias":
+            return `
+                <td>${elemento.id}</td>
+                <td>${elemento.nombre}</td>
+                <td>
+                    <a href="/categorias/actualizar" class="linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
+                    <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
+                </td>
+            `;
+            case "comercios":
+                return `
+                    <td>${elemento.id}</td>
+                    <td>${elemento.nombre}</td>
+                    <td>${elemento.logo}</td>
+                    <td>${elemento.email}</td>
+                    <td>${elemento.telefono}</td>
+                    <td>${elemento.direccion}</td>
+                    <td>
+                        <a href="#" class="linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
+                        <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
+                    </td>
+                `;
+        default:
+            return "";
     }
+}
+
+let idPersona = null;
+
+window.addEventListener("load", async function () {
+    // Tu código relacionado con la carga de la página
+    //cookie?
+    mostrarTabla("personas");
 });
 
-
-function confirmarEliminacion(idPersona) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar el usuario?");
+function confirmarEliminacion(id, tipo) {
+    const confirmacion = confirm(`¿Estás seguro de que deseas eliminar esta ${tipo}?`);
     if (confirmacion) {
-        window.location.href = `/personas/borrarPersona/${idPersona}`;
+        if(tipo2 === "personas"){
+        window.location.href = `/personas/borrarPersona/${id}`;
+        }
+        else{
+            if(tipo2 === "categorias"){
+        window.location.href = `/categorias/borrarCategoria/${id}`;
+            }else{
+                window.location.href = `/comercios/eliminar/${id}`;
+
+            }
+
+        }
     } else {
         console.log("Eliminación cancelada");
     }
 }
 
-
 function openModal(url) {
-    // Obtener valores del formulario
     fetch(url)
         .then(response => response.text())
         .then(data => {
-            // Inserta el contenido en el modal
             document.getElementById("modalContent").innerHTML = data;
-            // Muestra el modal
             document.getElementById("myModal").style.display = "block";
         })
         .catch(error => console.error('Error al cargar el contenido:', error));
 }
 
+$(document).on("click", "#btnCrearPersona", function () {
+    const nombre = document.getElementById("nombre").value;
+    const email = document.getElementById("email").value;
+    const dni = document.getElementById("dni").value;
+    const passwd = document.getElementById("passwd").value;
+    const idRol = document.querySelector('input[name="id_rol"]:checked').value;
 
+    let url;
+    if (this.value === "Actualizar") {
+        url = `/personas/actualizar/${idPersona}`;
+    } else {
+        url = `/personas/insertar`;
+    }
 
-
-     // Agregar evento al botón "Crear Persona" en el modal
-     $(document).on("click", "#btnCrearPersona", function () {
-        // Obtener valores del formulario
-        const nombre = document.getElementById("nombre").value;
-        const email = document.getElementById("email").value;
-        const dni = document.getElementById("dni").value;
-        const passwd = document.getElementById("passwd").value;
-        const idRol = document.querySelector('input[name="id_rol"]:checked').value;
-
-
-        let url;
-        // Verificar si el botón tiene el valor "Actualizar"
-        if (this.value === "Actualizar") {
-            // Realizar lógica para actualizar
-             url = `/personas/actualizar/${idPersona}`;
-        } else {
-
-
-             url = `/personas/insertar`;
-        }
-
-
-        insertarActualizarPersona(nombre, email, dni, passwd, idRol, url);
-
-
-
-
-        // Cerrar el modal después de la operación
-        document.getElementById("myModal").style.display = "none";
-    });
-
-
-
-
-
-
-function openModalActualizar(url, idPersona, personas) {
-    // Obtener valores del formulario
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            // Inserta el contenido en el modal
-            document.getElementById("modalContent").innerHTML = data;
-
-
-            // Filtra la información de la persona por ID
-            const personaSeleccionada = personas.find(persona => persona.id === idPersona);
-
-
-            // Llena los campos del formulario con la información de la persona
-            document.getElementById("nombre").value = personaSeleccionada.nombre;
-            document.getElementById("email").value = personaSeleccionada.email;
-            document.getElementById("dni").value = personaSeleccionada.dni;
-            document.getElementById("passwd").value = personaSeleccionada.passwd;
-
-
-            // Selector para el radio button
-            const radioSelector = `input[name="id_rol"][value="${personaSeleccionada.id_rol}"]`;
-
-
-            // Verifica si el elemento existe en el documento
-            const radioElement = document.querySelector(radioSelector);
-
-
-            if (radioElement) {
-                // Si existe, establece el valor del radio button
-                radioElement.checked = true;
-            } else {
-                // Si no existe, imprime un mensaje en la consola para depuración
-                console.error(`Elemento no encontrado: ${radioSelector}`);
-            }
-
-
-            // Cambiar valor del botón
-            document.getElementById("btnCrearPersona").value = "Actualizar";
-
-
-            // Muestra el modal
-            document.getElementById("myModal").style.display = "block";
-        })
-        .catch(error => console.error('Error al cargar el contenido:', error));
-}
-
-
-// Cierra el modal al hacer clic en la "x"
-document.getElementById("closeModalBtn").addEventListener("click", function () {
-    document.getElementById("myModal").style.display = "none";
-});
-
-
-async function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url) {
-    try {
-        // Crear un objeto con las claves correspondientes
-        const data = {
+     const data = {
             id: idPersona,
             dni: dni,
             email: email,
@@ -251,8 +347,95 @@ async function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url)
             passwd: passwd,
             rol: idRol
         };
+        insertarActualizar(data, url);
+    document.getElementById("myModal").style.display = "none";
+});
 
-        // Realizar la solicitud con fetch y esperar la respuesta
+$(document).on("click", "#btnCrearComercio", function () {
+    const nombre = document.getElementById("nombreComercio").value;
+    const logo = document.getElementById("logoComercio").value;
+    const email = document.getElementById("emailComercio").value;
+    const telefono = document.getElementById("telefonoComercio").value;
+    const direccion = document.getElementById("direccionComercio").value;
+
+    let url;
+    if (this.value === "Actualizar") {
+        url = `/comercios/actualizar/${idComercio}`;
+    } else {
+        url = `/comercios/insertar`;
+    }
+
+     const data = {
+            id: idComercio,
+            nombre: nombre,
+            logo: logo,
+            email: email,
+            telefono: telefono,
+            direccion: direccion
+        };
+        insertarActualizar(data, url);
+    document.getElementById("myModal").style.display = "none";
+});
+
+function openModalActualizar(url, id, elementos) {
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("modalContent").innerHTML = data;
+
+            if(tipo2 === "personas"){
+                cargarDatosPersonaEnFormulario(id, elementos);
+                document.getElementById("btnCrearPersona").value = "Actualizar";
+                document.getElementById("myModal").style.display = "block";
+            }
+            else{
+                cargarDatosComercioEnFormulario(id, elementos);
+                document.getElementById("btnCrearComercio").value = "Actualizar";
+                document.getElementById("myModal").style.display = "block";
+            }
+
+           
+        })
+        .catch(error => console.error('Error al cargar el contenido:', error));
+}
+
+document.getElementById("closeModalBtn").addEventListener("click", function () {
+    document.getElementById("myModal").style.display = "none";
+});
+
+function cargarDatosPersonaEnFormulario(idPersona, elementos){
+    const personaSeleccionada = elementos.find(elemento => elemento.id === idPersona);
+
+    document.getElementById("nombre").value = personaSeleccionada.nombre;
+    document.getElementById("email").value = personaSeleccionada.email;
+    document.getElementById("dni").value = personaSeleccionada.dni;
+    document.getElementById("passwd").value = personaSeleccionada.passwd;
+
+    const radioSelector = `input[name="id_rol"][value="${personaSeleccionada.id_rol}"]`;
+    alert(personaSeleccionada.id_rol);
+    const radioElement = document.querySelector(radioSelector);
+
+    if (radioElement) {
+        radioElement.checked = true;
+    } else {
+        console.error(`Elemento no encontrado: ${radioSelector}`);
+    }
+}
+
+function cargarDatosComercioEnFormulario(idComercio, elementos){
+    const comercioSeleccionado = elementos.find(elemento => elemento.id === idComercio);
+
+    document.getElementById("nombreComercio").value = comercioSeleccionado.nombre;
+    document.getElementById("emailComercio").value = comercioSeleccionado.email;
+    document.getAnimations("logoComercio").value = comercioSeleccionado.logo;
+    document.getElementById("telefonoComercio").value = comercioSeleccionado.telefono;
+    document.getElementById("direccionComercio").value = comercioSeleccionado.direccion;
+}
+
+async function insertarActualizar(data, url) {
+    try {
+        console.log(data);
+
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -261,21 +444,15 @@ async function insertarActualizarPersona(nombre, email, dni, passwd, idRol, url)
             body: JSON.stringify(data),
         });
 
-        // Verificar si la respuesta es exitosa
         if (!response.ok) {
             throw new Error(`Error en la operación: ${response.statusText}`);
         }
 
-        // Obtener el texto de la respuesta
         const responseData = await response.text();
-
-        // Imprimir un mensaje en la consola
         console.log('Operación exitosa:', responseData);
 
-        // Recargar la página después de una operación exitosa
-        location.reload(true); // El parámetro true fuerza la recarga desde el servidor, omitir si no es necesario
+        location.reload(true);
     } catch (error) {
-        // Capturar y manejar errores
         console.error('Error en la operación:', error.message);
     }
 }
@@ -293,5 +470,24 @@ function datosPersonas(data) {
     });
 }
 
+function datosCategoria(data) {
+    return data.map(categoriaJson => {
+        return new Categoria(
+            categoriaJson.id,
+            categoriaJson.nombre
+        );
+    });
+}
 
-
+function datosComercios(data) {
+    return data.map(personaJson => {
+        return new Comercio(
+            personaJson.id,
+            personaJson.nombre,
+            personaJson.logo,
+            personaJson.email,
+            personaJson.telefono,
+            personaJson.direccion
+        );
+    });
+}
