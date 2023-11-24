@@ -170,10 +170,10 @@ function mostarHtml(body) {
                  <span class="date">${tiempoTranscurrido}</span>
                  <p class=>${anuncioNew.descripcion.substring(0,255)}...<p>
                  <div class="link-container">
-                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i> Leer mas</a>
-                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}/anuncio" class="link edit" id="hola" style="display: none;"><i class="fa-solid fa-pen-to-square"></i></a>
+                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
+                 <a href="/anuncioDetalle/actualizar/${anuncioNew.id}/anuncio" class="link edit" id="hola" style="display: none;" title="Actualizar"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                 <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" style="display: none;"  data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
+                 <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" style="display: none;"  data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};" title="Eliminar"><i class="fa-solid fa-trash"></i></a>
                 </div>
     
                   <div class="clearfix"></div>

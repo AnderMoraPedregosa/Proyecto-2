@@ -1,7 +1,7 @@
 <?php require "partials/head.php" ?>
 
 <div class="center">
-    <section id="content">
+    <section id="content-Formulario">
 
         <h1 class="subheader">Formulario</h1>
 
