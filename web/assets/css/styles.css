@@ -659,7 +659,12 @@ form input[type="submit"]:hover {
 }
 
 
+/*ENLACE FAVORITO*/
 
+#fav{
+    color: yellow;
+    font-size: 2em;
+}
 
 .linkEditUser,
 .linkDeleteUser,
