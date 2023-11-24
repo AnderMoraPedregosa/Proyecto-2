@@ -68,10 +68,17 @@ async function getAnunciosSearch(searchTerm) {
         numero1 = 0;
         numero2 = 10;
 
+        let response;
+
+        //si no busca por palabra clave muestra todos los anuncios
+        if(searchTerm === ""){
+            response = await fetch("/anuncios/todos");
+        }else{
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
         const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
-        const response = await fetch(searchUrl);
+         response = await fetch(searchUrl);
+        }
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
