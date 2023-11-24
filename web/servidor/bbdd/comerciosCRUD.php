@@ -32,27 +32,47 @@ function checkIfEmailExists($dbh, $emailUsuario)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function insertarComercio($dbh, $data)
-{
-    try {
+function insertarComercio($dbh, $data){
+try {
+    if (!empty($data['imagenes'])) {
+        $imagenes = $data['imagenes'];
+
         $stmt = $dbh->prepare("INSERT INTO comercios (nombre, logo, email, telefono, direccion)
         VALUES (:nombre, :logo, :email, :telefono, :direccion)");
-        if (!$stmt) {
-            throw new Exception("Error en la preparación de la consulta");
-        }
+        // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
+        $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
+        unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
 
-        $success = $stmt->execute($data);
-        if (!$success) {
-            throw new Exception("Error al ejecutar la consulta");
-        }
+        // Execute con el array directamente
+        $stmt->execute($data);
+        $idAnuncio = $dbh->lastInsertId(); // Obtener el ID del último anuncio insertado
 
-        return true; // Opcional: Puedes devolver algo más significativo si lo deseas
-    } catch (Exception $e) {
-        // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
-        error_log($e->getMessage());
-        return false;
+        // Insertar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
+        foreach ($imagenes as $index => $rutaImagen) {
+            // Evitar insertar la imagen principal nuevamente
+            $dataImagenAdicional = [
+                'id_anuncio' => $idAnuncio,
+                'ruta_imagen' => $rutaImagen,
+            ];
+            insertarRutaImagen($dbh, $dataImagenAdicional);
+        }
+    } else {
+        // Si no se cargó ninguna imagen, manejarlo según tus necesidades
+        $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
+        jsonResponse($response, 400);
     }
+} catch (PDOException $e) {
+    echo "Error en la operación: " . $e->getMessage();
+    $response = ['status' => 'error', 'message' => $e->getMessage()];
+    jsonResponse($response, 400);
+    // También puedes agregar logs o realizar acciones específicas en caso de error.
 }
+}
+
+
+
+
+
 
 
 
