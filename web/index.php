@@ -63,7 +63,7 @@ switch ($path) {
         require './paginas/article.php';
         break;
     case 'login':
-        require './paginas/login.html';
+        require './paginas/login.php';
         break;
     case "personas":
         require './servidor/servicios/personas/servicioPersonas.php';

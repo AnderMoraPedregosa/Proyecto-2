@@ -151,7 +151,7 @@ switch ($accion) {
                     $dataAnuncio['imagenes'][] = $rutaImagen;
                 } else {
                     // Manejar el caso en que haya un error al guardar la imagen
-                    $response = ['status' => 'error', 'message' => 'Error al guardar una o más imágenes'];
+                    $response = ['status' => 'error', 'message' => 'Error al actualizar una o más imágenes'];
                     jsonResponse($response, 500);
                 }
             }

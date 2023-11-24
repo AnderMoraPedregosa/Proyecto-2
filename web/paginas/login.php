@@ -36,7 +36,6 @@
             <a href="/"> <button id="btnVolver">Volver</button></a>
 
 
-
             <form id="formLogin" method="post">
                 <h1>Iniciar Sesión</h1>
                 <div class="iconos-sociales">
