@@ -26,7 +26,7 @@
        <div class="face face2">
          <div class="content">
            <p> Gestionar mis blogs</p>
-           <a href="#" type="button">Gestionar</a>
+           <a href="/perfilBlogs" type="button">Gestionar</a>
          </div>
        </div>
     </div>

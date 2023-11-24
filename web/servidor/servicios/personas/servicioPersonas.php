@@ -71,12 +71,13 @@ switch ($accion) {
         $dni = $datos['dni'];
         $passwd = $datos['passwd'];
         $idRol = $datos['rol'];
+        $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
 
         $datos = [
             "dni" => $dni,
             "email" => $email,
             'nombre' => $nombre,
-            'passwd' => $passwd,
+            'pass' => $hashedPassword,
             'rol' => $idRol
         ];
 

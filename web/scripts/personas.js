@@ -238,7 +238,7 @@ function obtenerFila(elemento, tipo) {
      const roles = {
         1: "Id: 1 - Admin",
         2: "Id: 2 - Cliente",
-        3: "Id: 1 - Comerciante",
+        3: "Id: 3 - Comerciante",
     };
 
     // Función para obtener el nombre del rol basado en el id_rol

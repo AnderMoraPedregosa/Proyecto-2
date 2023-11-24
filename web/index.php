@@ -72,11 +72,14 @@ switch ($path) {
         require './paginas/personas.php';
         break;
     case "perfil":
-        require './paginas/perfil2.php';
+        require './paginas/panelPersonal.php';
         break;
     case "perfilAnuncios":
-        require './paginas/perfil.php';
+        require './paginas/index.view.php';
 
+        break;
+    case "perfilBlogs":
+        require './paginas/blog.php';
         break;
     case "confPerfil":
         require './paginas/confPerfil.php';
