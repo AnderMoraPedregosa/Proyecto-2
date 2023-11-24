@@ -610,9 +610,25 @@ form input[type="submit"]:hover {
     display: table;
 }
 
+
+/*PAGINA CRUD ADMIN*/
+
+/*BOTONES CRUD*/
+
+#botonesCrud > button{
+    background-color: #8BA8EF;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+#botonesCrud > button:hover{
+    background-color: #6187E8;
+ 
+}
 /*pagina crud user*/
 
-/* Estilos para el contenedor principal */
 /* Estilos para el contenedor principal */
 #crudUsers {
     margin: 20px auto;
