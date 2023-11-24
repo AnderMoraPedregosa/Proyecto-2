@@ -1,6 +1,6 @@
 <?php require "paginas/partials/head.php" ?>
 
-<h1>Panel:</h1>
+
 
 <div class="containerTarjetas">
      <div class="carta">
@@ -10,9 +10,9 @@
          </div>
        </div>
        <div class="face face2">
-         <div class="content">
+         <div class="content-panel">
            <p>Gestionar mis anuncios</p>
-           <a href="/perfilAnuncios" type="button">Gestioanr</a>
+           <a href="/perfilAnuncios" type="button">Gestionar</a>
          </div>
        </div>
     </div>
@@ -24,7 +24,7 @@
          </div>
        </div>
        <div class="face face2">
-         <div class="content">
+         <div class="content-panel">
            <p> Gestionar mis blogs</p>
            <a href="/perfilBlogs" type="button">Gestionar</a>
          </div>
@@ -39,9 +39,9 @@
          </div>
        </div>
        <div class="face face2">
-         <div class="content">
+         <div class="content-panel">
            <p> Gestionar Mi perfil</p>
-           <a href="#" type="button">Read More</a>
+           <a href="#" type="button">Gestionar</a>
          </div>
        </div>
     </div>

@@ -4,10 +4,9 @@ const btnLogOutHead = document.getElementById("btnLogOutHead");
 const liFormulario = document.getElementById("liFormulario");
 const liUsuarios = document.getElementById("liUsuarios");
 const liPerfil = document.getElementById("liPerfil");
-
 btnLogOutHead.addEventListener("click", logOut);
 
-function logOut(){
+function logOut() {
     sessionStorage.clear();
     location.reload();
 }
@@ -31,11 +30,11 @@ switch (parseInt(rol)) {
         liPerfil.style.display = "block";
         break;
     case 2:
-    
         break;
     case 3:
         liFormulario.style.display = "block";
         liPerfil.style.display = "block";
+
         break;
     default:
 }
@@ -44,9 +43,6 @@ switch (parseInt(rol)) {
 
 function comprobarRolBtnSesion() {
     if (rol) {
-        if (rol == 3) {
-
-        }
         btnLoginHead.style.display = "none";
         btnLogOutHead.style.display = "block";
     } else {
