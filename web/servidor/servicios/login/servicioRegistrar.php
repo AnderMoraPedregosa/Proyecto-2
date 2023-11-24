@@ -12,7 +12,6 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
 {
 
     try {
-        echo "<script>alert('estoy en registrar usuario');</script>";
 
         $result = checkIfEmailExists($dbh, $emailUsuario);
 
@@ -24,19 +23,22 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
         $hashedPassword = password_hash($contrasenyaUsuario, PASSWORD_DEFAULT);
         $rol = ($tipoUsuario === 'cliente') ? 2 : (($tipoUsuario === 'comerciante') ? 3 : null);
 
-        $data = [
-            'nombre' => $nombreUsuario,
-            'dni' => $dniUsuario,
-            'email' => $emailUsuario,
+        $datos = [
+            "dni" => $dniUsuario,
+            "email" => $emailUsuario,
+            'nombre' =>  $nombreUsuario,
             'pass' => $hashedPassword,
             'rol' => $rol
         ];
 
-        echo "<script>alert($rol);</script>";
 
-        insertarPersona($dbh, $data);
 
-        echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
+
+        if (insertarPersona($dbh, $datos)) {
+            echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se pudo insertar el usuario en bd']);
+        }
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => 'Error al procesar la solicitud ' . $e]);
     }
@@ -49,7 +51,7 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
 echo "<script>alert('estoy en registro');</script>";
 
 if (isset($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'])) {
-    echo "<script>alert('comprobando usuario y contraseña registro');</script>";
+
     registrarNuevoUsuario($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'], $dbh);
 } else {
     $response = ['status' => 'error', 'message' => 'Acción no válida'];

@@ -153,7 +153,7 @@ function mostarHtml(body) {
                  <h2>${anuncioNew.titulo}</h2>
                  <span class="date">${tiempoTranscurrido}</span>
                  <div class="link-container">
-                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}/anunciosPerfil" class="link read-more"><i class="fa-solid fa-info"></i></a>
+                 <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more"><i class="fa-solid fa-info"></i></a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="hola" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
 
                  <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" style="display: ${rol === '1' || rol === '3' ? 'inline' : 'none'};"><i class="fa-solid fa-trash"></i></a>
