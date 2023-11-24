@@ -10,7 +10,6 @@ var partesUrl = urlActual.split('/');
 // Obtiene el segundo elemento del array (índice 1)
 
 var urlAnuncios = partesUrl[3];
-alert(urlAnuncios)
 
 console.log(datosArray)
 async function getAnuncios() {
