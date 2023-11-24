@@ -175,7 +175,7 @@ function getImagenesId($dbh, $id)
     $data = array('id' => $id);
     $stmt = $dbh->prepare("SELECT * FROM imagenes_anuncios WHERE id_anuncio = (:id)");
     $stmt->execute($data);
-    return $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return  $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 function eliminarId($dbh, $id)
 {
