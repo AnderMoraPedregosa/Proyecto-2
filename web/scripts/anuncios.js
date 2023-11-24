@@ -22,6 +22,8 @@ async function getAnuncios() {
          response = await fetch(`${base_url}/anuncios/todos`);
         }
         else{
+            document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
+
             const base_url = window.location.origin;
             let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
             response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}`);
