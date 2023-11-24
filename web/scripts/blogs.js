@@ -4,12 +4,31 @@ let content = document.getElementById("content-blog");
 
 import { Blog } from "../modelos/blog.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
+
+var urlActual = window.location.href;
+
+// Divide la URL en partes utilizando "/" como delimitador
+var partesUrl = urlActual.split('/');
+
+// Obtiene el segundo elemento del array (índice 1)
+
+var urlBlog = partesUrl[3];
+
 async function getBlogs() {
     try {
 
+        //obtener el id de la persona por la sesion
+        let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
-        const response = await fetch(`${base_url}/blogs/todos`);
+         let response;
+         if(urlBlog === "blog"){
+            response = await fetch(`${base_url}/blogs/todos`);
+         }
+         else{
+            response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
+            console.log(response);
+         }
 
         if (!response.ok) {
             throw new Error(`Error al obtener blogs. Código de estado: ${response.status}`);

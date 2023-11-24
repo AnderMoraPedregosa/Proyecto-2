@@ -96,6 +96,19 @@ switch ($accion) {
         eliminarId($dbh, $id);
         header("Location: /");
         die(); // Finalizar el script después de la redirección
+    case "blogsPorComercio":
+
+        $idComercio = getComercioBlog($dbh, $id);
+
+        $blogs = getBlogsPorComercio($dbh, $idComercio);
+
+        if ($blogs === false) {
+            $response = ['status' => 'error', 'message' => 'No se pudieron obtener los blogs'];
+            jsonResponse($response, 500);
+        }
+        $response = ['status' => 'success', 'data' => $blogs];
+        jsonResponse($response);
+        break;    
     default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);

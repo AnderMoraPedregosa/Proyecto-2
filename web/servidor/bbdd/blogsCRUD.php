@@ -55,6 +55,27 @@ function getBlogId($dbh, $id)
 
     return $blog = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+function getComercioBlog($dbh, $id)
+{
+    $data = array('id' => $id);
+
+    $stmt = $dbh->prepare("SELECT DISTINCT id_comercio FROM blogs WHERE id_comerciante = :id");
+    $stmt->execute($data);
+    $id_comercio = $stmt->fetchColumn();
+
+    return $id_comercio;
+}
+
+function getBlogsPorComercio($dbh, $idComercio)
+{
+    $data = array('comercio_id' => $idComercio);
+    $stmt = $dbh->prepare("SELECT * FROM blogs WHERE id_comercio= (:comercio_id)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 // Dentro de tu función insertarAnuncio
 function insertarBlog($dbh, $data)
 {
