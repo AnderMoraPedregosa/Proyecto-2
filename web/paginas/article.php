@@ -5,7 +5,7 @@
 
     <div class="center">
         <div class="articulos">
-            <div id="content">
+            <div id="content-detail">
                 <script type="module" src="../../scripts/anuncioDetalle.js"></script>
             </div>
         </div>

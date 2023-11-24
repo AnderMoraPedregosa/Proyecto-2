@@ -3,9 +3,6 @@
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombreComercio" name="nombre" required>
 
-    <label for="logo">Logo URL:</label>
-    <input type="text" id="logoComercio" name="logo" required>
-
     <label for="email">Email:</label>
     <input type="email" id="emailComercio" name="email" required>
 

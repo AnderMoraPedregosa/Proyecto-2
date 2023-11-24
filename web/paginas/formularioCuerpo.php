@@ -3,7 +3,7 @@
 <div class="center">
     <section id="content-Formulario">
 
-        <h1 class="subheader">Formulario</h1>
+        <h1 class="subheader">Crear producto</h1>
 
        <?php include "paginas/crearEditarAnuncio.php"?>
 

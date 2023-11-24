@@ -11,17 +11,16 @@ var partesUrl = urlActual.split('/');
 
 var urlAnuncios = partesUrl[3];
 
-console.log(datosArray)
 async function getAnuncios() {
     try {
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
         let response;
         //controlar si mostrar todos los anuncios o solo los propios
-        if(urlAnuncios === ""){
-         response = await fetch(`${base_url}/anuncios/todos`);
+        if (urlAnuncios === "") {
+            response = await fetch(`${base_url}/anuncios/todos`);
         }
-        else{
+        else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
             const base_url = window.location.origin;
@@ -57,9 +56,7 @@ cargarMasBtn.addEventListener('click', async function () {
 
     numero1 += 11;
     numero2 += 11;
-    console.log(body);
     mostrarHtmlBoton(body);
-    console.log("pase por aqui");
 
 });
 
@@ -73,13 +70,13 @@ async function getAnunciosSearch(searchTerm) {
         let response;
 
         //si no busca por palabra clave muestra todos los anuncios
-        if(searchTerm === ""){
+        if (searchTerm === "") {
             response = await fetch("/anuncios/todos");
-        }else{
-        // Obtener la ruta base del documento actual
-        const base_url = window.location.origin;
-        const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
-         response = await fetch(searchUrl);
+        } else {
+            // Obtener la ruta base del documento actual
+            const base_url = window.location.origin;
+            const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
+            response = await fetch(searchUrl);
         }
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
@@ -127,7 +124,6 @@ window.addEventListener("load", async function () {
             noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
             articles.appendChild(noResultsMessage);
         }
-        console.log(body);
 
 
     });
@@ -168,7 +164,6 @@ function mostrarHtmlBoton(body) {
 function mostarHtml(body) {
     let divArticle;
     const scrollBefore = window.scrollY;
-    console.log(numero1, numero2)
 
 
     if (body['status'] == 'success') {
@@ -194,7 +189,7 @@ function mostarHtml(body) {
                </div>
                  <h2>${anuncioNew.titulo}</h2>
                  <span class="date">${tiempoTranscurrido}</span>
-                 <p class=>${anuncioNew.descripcion.substring(0,255)}...<p>
+                 <p class=>${anuncioNew.descripcion.substring(0, 255)}...<p>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -248,7 +243,6 @@ function datosAnuncios(data) {
     data.slice(numero1, numero2).forEach(async (anuncioJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
-        console.log(anuncioJson)
         const anuncioNew = new Anuncio(
             anuncioJson.id,
             anuncioJson.titulo,
@@ -282,7 +276,7 @@ function mostrarModal(imagen) {
 
     closeBtn.addEventListener('click', () => {
         modal.classList.remove('active');
-        
+
         setTimeout(() => {
             modal.style.display = 'none';
         }, 300);
