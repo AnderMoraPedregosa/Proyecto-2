@@ -1,7 +1,7 @@
 <?php require "paginas/partials/head.php" ?>
 
 <h1>Panel:</h1>
-<div class="container">
+<div class="container-Panel">
 
 <form class="confPerfil">
     <label for="dni">DNI</label>

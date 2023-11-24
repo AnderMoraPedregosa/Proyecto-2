@@ -236,3 +236,8 @@ body {
 #btnVolver {
     background-color: #3D6CE1;
 }
+
+.radio-buttons {
+    display: flex;
+    gap: 2em;
+}
