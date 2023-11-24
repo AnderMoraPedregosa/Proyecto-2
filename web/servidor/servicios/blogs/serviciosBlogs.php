@@ -13,6 +13,7 @@ function jsonResponse($data, $statusCode = 200)
     // No es necesario llamar a exit aquí
 }
 
+$datos = json_decode(file_get_contents('php://input'), true);
 
 switch ($accion) {
     case 'search':
@@ -53,24 +54,33 @@ switch ($accion) {
         break;
     case 'insertar':
         // Obtener información sobre el anuncio desde el formulario
-        $titulo = $_POST["titulo"];
-        $texto = $_POST["texto"];
+        $titulo = $datos["titulo"];
+        $texto = $datos["texto"];
     
+       // echo "<script>alert('$titulo')</script>";
         date_default_timezone_set('Europe/Madrid');
         // Crear el array $data con la información del anuncio
-        $datos = [
+        $data = [
             'titulo' => $titulo,
             'texto' => $texto,
             'fecha' => date('Y-m-d H:i:s'),
             'comercio' => 1,
-            'anunciante' => 2,
-            'imagenes' => [], // Este array almacenará las rutas de las imágenes
-        ];
+            'anunciante' => 2        ];
         // Insertar el anuncio en la base de datos
-        insertarAnuncio($dbh, $datos);
-        header("Location: /");
-        die(); // Finalizar el script después de la redirección
+        $result = insertarBlogg($dbh, $data);
+        if ($result) {
+            // Si la eliminación fue exitosa
+            $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
+            jsonResponse($response);
 
+            // Redirigir a la página desde la que se hizo la solicitud
+            exit(); // Asegura que el script se detenga después de la redirección
+        } else {
+            // Si hubo un problema al intentar borrar la persona
+            $response = ['status' => 'error', 'message' => 'No se pudo borrar la persona'];
+            jsonResponse($response, 500);
+        }
+        break;
     case "actualizar":
 
         //ACTUALIZAR

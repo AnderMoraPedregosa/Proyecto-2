@@ -77,15 +77,33 @@ function getBlogsPorComercio($dbh, $idComercio)
 }
 
 // Dentro de tu función insertarAnuncio
-function insertarBlog($dbh, $data)
+function insertarBlogg($dbh, $data)
 {
+    try {
+        $stmt = $dbh->prepare("INSERT INTO blogs (titulo, texto,  fecha_creacion, id_comerciante, id_comercio) 
+        VALUES (:titulo, :texto, :fecha, :comercio, :anunciante)");
+        if (!$stmt) {
+            throw new Exception("Error en la preparación de la consulta");
+        }
+        $stmt->execute($data);
+       
+       return true;
+    } catch (Exception $e) {
+        // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
+        error_log($e->getMessage());
+        return false;
+    }
 
+  
+
+
+    /*
     if (!empty($data['imagenes'])) {
         $imagenes = $data['imagenes'];
 
         // Insertar el anuncio en la tabla 'anuncios'
         $stmt = $dbh->prepare("INSERT INTO blogs (titulo, texto,  fecha_creacion, id_comerciante, id_comercio, imagen_blog) 
-            VALUES (:titulo, :texto,  :fecha, :comercio, :anunciante, :imagen_blog)");
+            VALUES (:titulo, :texto,  :fecha, :comercio, :anunciante, null)");
 
         // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
         $data['imagen_blog'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
@@ -97,6 +115,7 @@ function insertarBlog($dbh, $data)
         $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
         jsonResponse($response, 400);
     }
+    */
 }
 
 

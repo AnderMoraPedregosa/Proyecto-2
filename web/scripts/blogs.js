@@ -14,6 +14,18 @@ var partesUrl = urlActual.split('/');
 
 var urlBlog = partesUrl[3];
 
+var divCrearBlog = document.getElementById("crearBlog");
+
+var btnMostrarFormBlog = document.getElementById("btnMostrarFormBlog");
+var divFormBlog = document.getElementById("formCrearBlog");
+var btnCrearBlog = document.getElementById("btnCrearBlog");
+
+btnCrearBlog.addEventListener("click", crearBlog);
+
+btnMostrarFormBlog.addEventListener("click", function (){
+    divFormBlog.style.display = "block";
+})
+
 async function getBlogs() {
     try {
 
@@ -27,6 +39,7 @@ async function getBlogs() {
             
          }
          else{
+            divCrearBlog.style.display = "block";
             response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
             document.getElementById("tituloBlogs").textContent = "Mis Blogs";
 
@@ -224,4 +237,48 @@ function datosBlog(data) {
         blogs.push(blogNew);
     });
     return blogs;
+}
+
+function crearBlog(){
+    alert("creando blog")
+    let nombre = document.getElementById("tituloBlog").value;
+    let imagen = document.getElementById("imagenBlog").value;
+    let texto = document.getElementById("textoBlog").value;
+
+
+    let data = {
+        titulo: nombre,
+        texto: texto
+    };
+
+    const base_url = window.location.origin;
+                let url = `${base_url}/blogs/insertar`
+
+    insertarActualizar(data,url);
+}
+
+
+async function insertarActualizar(data, url) {
+    try {
+        console.log(data);
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la operación: ${response.statusText}`);
+        }
+
+        const responseData = await response.text();
+        console.log('Operación exitosa:', responseData);
+
+        location.reload(true);
+    } catch (error) {
+        console.error('Error en la operación:', error.message);
+    }
 }
