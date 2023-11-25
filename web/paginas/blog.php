@@ -18,7 +18,7 @@
     <label for="textoBlog">Texto del blog:</label>
     <textarea id="textoBlog" name="textoBlog" rows="4" required></textarea>
 
-    <button type="button" id="btnCrearBlog">Crear Blog</button>
+    <button type="button" id="btnCrearBlog">Añadir nuevo blog</button>
     </form>
 </div>
 </div>

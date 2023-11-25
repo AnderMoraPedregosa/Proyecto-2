@@ -1,4 +1,4 @@
-
+/*Tarjetas en la pagina perfil*/
 .containerTarjetas{
     margin: 0 auto;
     width: 80%;
@@ -7,25 +7,22 @@
     justify-content: center;
     flex-wrap:wrap;
     gap: 5em;
-    
   }
   
   .containerTarjetas .carta{
     position: relative;
-    border-radius: 10px;
+    border-radius: 0.625em;
   }
   
   .containerTarjetas .carta .face{
-    border-radius: 12px;
-
-    width:300px;
-    height: 200px;
+    border-radius: 0.75em;
+    width:18.75em;
+    height: 12.5em;
     transition:.4s;
-    
   }
   
   .containerTarjetas .carta .face.face1{
-    border-radius: 12px;
+    border-radius: 0.75em;
     position: relative;
     background: linear-gradient(to left, #e2e2e2, #87a3ff);
     display: flex;
@@ -33,28 +30,26 @@
     align-content:center;
     align-items: center;
     z-index: 1;
-    transform: translateY(100px);
+    transform: translateY(6.25em);
   }
   
   .containerTarjetas .carta:hover .face.face1 {
     transform: translateY(0);
     box-shadow:
-      inset 0 0 60px whitesmoke,
-      inset 20px 0 80px rgba(195, 134, 239, 0.5), 
-      inset -20px 0 80px rgba(11, 58, 174, 0.5), 
-      inset 20px 0 300px rgba(195, 134, 239, 0.5), 
-      inset -20px 0 300px rgba(11, 58, 174, 0.5), 
-      0 0 50px rgba(255, 255, 255, 0.5),
-      -10px 0 80px rgba(195, 134, 239, 0.5),
-      10px 0 80px rgba(11, 58, 174, 0.5); 
-
+      inset 0 0 3.75em whitesmoke,
+      inset 1.25em 0 5em rgba(195, 134, 239, 0.5), 
+      inset -1.25em 0 5em rgba(11, 58, 174, 0.5), 
+      inset 1.25em 0 18.75em rgba(195, 134, 239, 0.5), 
+      inset -1.25em 0 18.75em rgba(11, 58, 174, 0.5), 
+      0 0 3.125em rgba(255, 255, 255, 0.5),
+      -0.625em 0 5em rgba(195, 134, 239, 0.5),
+      0.625em 0 5em rgba(11, 58, 174, 0.5); 
   }
   
   .containerTarjetas .carta .face.face1 .content{
     opacity: .5;
     transition:  0.5s;
     text-align: center;
-
   }
   
   .containerTarjetas .carta:hover .face.face1 .content{
@@ -65,7 +60,6 @@
     font-size: 3em;
     color: black;
     display: inline-block;
-     
   }
   
   .containerTarjetas .carta .face.face1 .content h3{
@@ -84,11 +78,10 @@
      display: flex;
      align-items: center;
      justify-content: center;
-     padding: 20px;
+     padding: 1.25em;
     box-sizing: border-box;
-    box-shadow: 0 20px 50px rgba(0,0,0,.8);
-    transform: translateY(-100px);
-   
+    box-shadow: 0 1.25em 3.125em rgba(0,0,0,.8);
+    transform: translateY(-6.25em);
   }
   
   .containerTarjetas .carta:hover .face.face2{
@@ -96,7 +89,7 @@
   }
   
   .containerTarjetas .carta .face.face2 .content p, a{
-    font-size: 10pt;
+    font-size: 0.625em;
     margin: 0 ;
     padding: 0;
     color:#333;
@@ -106,16 +99,16 @@
     text-decoration:none;
     color: black;
     box-sizing: border-box;
-    outline : 1px dashed #646464;
-    padding: 10px;
-    margin: 15px 0 0;
+    outline : 0.063em dashed #646464;
+    padding: 0.625em;
+    margin: 0.938em 0 0;
     display: inline-block;
   }
   
   .containerTarjetas .carta .face.face2 .content a:hover{
     background: #333 ;
     color: whitesmoke; 
-    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);
+    box-shadow: inset 0em 0em 0.625em rgba(0,0,0,0.5);
   }
   
   .content-panel
