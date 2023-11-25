@@ -33,7 +33,7 @@
 
             <!-- MENU -->
             <nav id="menu">
-                <ul id="menuUl">
+                <ul>
                     <li id="liInicio">
                         <a href="/" class="animacion">Inicio</a>
                     </li>
@@ -46,12 +46,12 @@
                     <li id="liUsuarios" class="crudUsuariosOculto">
                         <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
-                    <li id="liPerfil"  style="display: none;">
+                    <li id="liPerfil" style="display: none;">
                         <a href="/perfil" class="animacion">Perfil</a>
                     </li>
-                    <li id="liConfiguracion">
+                <!--     <li id="liConfiguracion">
                         <a href="/confPerfil" class="animacion"><i class="fa-solid fa-id-card confPerf"></i></a>
-                    </li>
+                    </li> -->
                     <li id="liIniciarSesion">
                         <button class="btn-sesion" id="btnLoginHead" onclick="location.href='/login'">Iniciar sesión</button>
                         <button class="btn-sesion" style="display: none;" id="btnLogOutHead" onclick="location.href='/'">Cerrar sesión</button>

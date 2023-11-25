@@ -22,7 +22,7 @@
     </form>
 </div>
 </div>
-<div class="center">
+<div class="center-blog">
     <section id="content-blog">
 
        
