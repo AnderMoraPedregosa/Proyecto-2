@@ -6,6 +6,7 @@
         <h1 class="subheader">Crear producto</h1>
 
        <?php include "paginas/crearEditarAnuncio.php"?>
+       <?php include "paginas/crearEditarBlog.php"?>
 
         <div class="clearfix"></div>
 
@@ -15,8 +16,7 @@
     <aside id="sidebar">
         <div id="nav-blog" class="sidebar-item">
             <h3>Puedes hacer esto</h3>
-            <a href="/formulario" class="btn btn-success">Crear producto</a>
-            <a href="/blog"  class="btn-white" id="btnBlog">Ir al blog</a>
+            <a href="/formulario/blog" class="btn btn-success">Crear blog</a>
         </div>
 
  

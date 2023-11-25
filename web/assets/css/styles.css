@@ -37,7 +37,14 @@ body {
     justify-content: space-between;
     background: none;
 }
-
+.center-anuncio {
+    margin-bottom: 1em;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    background: none;
+}
 #productosComercio {
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
 }
@@ -106,9 +113,12 @@ body {
 }
 
 #menu ul {
+    justify-content: center;
+    display: flex;
     line-height: 5.313em;
     width: 60%;
     float: right;
+    align-items: baseline;
 }
 
 #menu ul li {
@@ -1159,7 +1169,9 @@ button {
         grid-template-columns: repeat(1, 1fr) !important;
 
     }
-
+    .center{
+        flex-direction: column !important;
+    }
     .article-detail-blog {
         width: 100% !important;
     }

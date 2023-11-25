@@ -1,21 +1,33 @@
 import { Comerciante } from "../modelos/comerciante.js";
-
+import { getPersonaById } from "./Funciones/getPersona.js";
 let selectElement = document.getElementById("selectCategorias");
 let titulo = document.getElementById("titulo");
 let precio = document.getElementById("precio");
 let descripcion = document.getElementById("desc");
 let imagenesInput = document.getElementById("imagen");
 let comerciante;
-document.getElementById('btnCrearAnuncio').addEventListener('click', function (event) {
-    event.preventDefault();
-    insertarActualizarAnuncio();
-});
 
+let accion = window.location.pathname.split("/")
+
+switch (accion[2]) {
+    case "anuncio":
+        document.getElementById('btnCrearAnuncio').addEventListener('click', function (event) {
+            event.preventDefault();
+            insertarActualizarAnuncio();
+        });
+        break;
+    case "blog":
+        document.getElementById('btnCrearBlog').addEventListener('click', function (event) {
+            event.preventDefault();
+            insertarActualizarBlog();
+        });
+        break;
+}
 
 async function insertarActualizarAnuncio() {
     try {
         if (validarFormulario()) {
-            var comercianteJSON = await getComercianteByPersonaId();
+            var comercianteJSON = await getPersonaById();
             comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
             const url = `/anuncios/insertar`;
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
@@ -46,9 +58,40 @@ async function insertarActualizarAnuncio() {
         console.error('Error en la operación:', error.message);
     }
 }
+async function insertarActualizarBlog() {
+    try {
+        if (validarFormulario()) {
+            var comercianteJSON = await getPersonaById();
+            comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
+            const url = `/blogs/insertar`;
+            // Crear un objeto para manejar los datos del formulario, incluyendo archivos
+            const data = {
+                titulo: titulo.value,
+                texto: texto.value,
+                imagenes: await obtenerImagenesBase64(imagenesInput.files),
+                idComercio: comerciante.idComercio,
+                idComerciante: comerciante.id
+            };
 
+            // Realizar la solicitud con fetch y esperar la respuesta
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                window.location.href = "/";
+            } else {
+                const errorText = await response.text();
+                console.error(`Error en la operación: ${errorText}`);
+            }
+        }
+    } catch (error) {
+        console.error('Error en la operación:', error.message);
+    }
+}
 async function validarFormulario() {
-  
+
     try {
         let campos = [
             { nombre: "Titulo", valor: titulo.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
@@ -91,14 +134,3 @@ async function obtenerImagenesBase64(files) {
 }
 
 
-
-async function getComercianteByPersonaId() {
-    try {
-        const response = await fetch(`/comerciantes/comerciantePersona/${datosArray["idPersona"]}`);
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error('Error en la operación:', error.message);
-    }
-}

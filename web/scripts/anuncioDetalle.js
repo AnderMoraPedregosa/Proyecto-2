@@ -3,7 +3,7 @@ import { Anuncio } from "../modelos/anuncio.js";
 import { Categoria } from "../modelos/categoria.js";
 import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
 import { Comerciante } from "../modelos/comerciante.js";
-import { getComercianteByPersonaId } from "./Funciones/getComerciante.js";
+import { getPersonaById } from "./Funciones/getPersona.js";
 
 async function getDetalleAnuncio(id) {
     const response = await fetch(`/anuncios/detalles/${id}`);
@@ -64,7 +64,7 @@ window.addEventListener("load", async function () {
                     selectElement.options[i].selected = true;
                 }
             }
-            var comercianteJSON = await getComercianteByPersonaId();
+            var comercianteJSON = await getPersonaById();
             comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
 
             const url = `/anuncios/actualizar/${anuncioNew.id}`;

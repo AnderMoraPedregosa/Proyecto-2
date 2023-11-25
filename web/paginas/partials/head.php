@@ -33,23 +33,21 @@
 
             <!-- MENU -->
             <nav id="menu">
-                <ul>
+                <ul id="menuUl">
                     <li id="liInicio">
                         <a href="/" class="animacion">Inicio</a>
                     </li>
                     <li id="liBlog">
                         <a href="/blog" class="animacion">Blog</a>
                     </li>
-                    <li id="liFormulario">
-                        <a href="/formulario" class="animacion">Formulario</a>
-                    </li>
+                   
                     <li id="liUsuarios" class="crudUsuariosOculto">
                         <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
-                    <li id="liPerfil" style="display: none;">
+                    <li id="liPerfil"  style="display: none;">
                         <a href="/perfil" class="animacion">Perfil</a>
                     </li>
-                <!--     <li id="liConfiguracion">
+                 <!--    <li id="liConfiguracion">
                         <a href="/confPerfil" class="animacion"><i class="fa-solid fa-id-card confPerf"></i></a>
                     </li> -->
                     <li id="liIniciarSesion">

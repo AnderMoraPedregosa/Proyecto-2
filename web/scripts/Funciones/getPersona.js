@@ -1,4 +1,4 @@
-export async function getComercianteByPersonaId() {
+export async function getPersonaById() {
     try {
         const response = await fetch(`/comerciantes/comerciantePersona/${datosArray["idPersona"]}`);
         const data = await response.json();
@@ -8,3 +8,4 @@ export async function getComercianteByPersonaId() {
         console.error('Error en la operación:', error.message);
     }
 }
+

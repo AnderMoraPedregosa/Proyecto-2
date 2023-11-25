@@ -77,24 +77,24 @@ function getBlogsPorComercio($dbh, $idComercio)
 }
 
 // Dentro de tu función insertarAnuncio
-function insertarBlogg($dbh, $data)
+function insertarBlog($dbh, $data)
 {
     try {
-        $stmt = $dbh->prepare("INSERT INTO blogs (titulo, texto,  fecha_creacion, id_comerciante, id_comercio) 
-        VALUES (:titulo, :texto, :fecha, :comercio, :anunciante)");
+        $stmt = $dbh->prepare("INSERT INTO blogs (titulo, imagen_blog ,texto,  fecha_creacion, id_comerciante, id_comercio) 
+        VALUES (:titulo, :imagenes,:texto, :fecha, :comercio, :anunciante)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
         $stmt->execute($data);
-       
-       return true;
+
+        return true;
     } catch (Exception $e) {
         // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
         error_log($e->getMessage());
         return false;
     }
 
-  
+
 
 
     /*

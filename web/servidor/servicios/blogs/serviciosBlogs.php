@@ -56,28 +56,32 @@ switch ($accion) {
         // Obtener información sobre el anuncio desde el formulario
         $titulo = $datos["titulo"];
         $texto = $datos["texto"];
-    
-       // echo "<script>alert('$titulo')</script>";
+        $imagenes = $datos["imagenes"];
+        $comercio = $datos["idComercio"];
+        $anunciante = $datos["idComerciante"];
+        // echo "<script>alert('$titulo')</script>";
         date_default_timezone_set('Europe/Madrid');
         // Crear el array $data con la información del anuncio
         $data = [
             'titulo' => $titulo,
             'texto' => $texto,
             'fecha' => date('Y-m-d H:i:s'),
-            'comercio' => 1,
-            'anunciante' => 2        ];
+            'imagenes' => $imagenes,
+            'comercio' => $comercio,
+            'anunciante' =>  $anunciante
+        ];
         // Insertar el anuncio en la base de datos
-        $result = insertarBlogg($dbh, $data);
+        $result = insertarBlog($dbh, $data);
         if ($result) {
             // Si la eliminación fue exitosa
-            $response = ['status' => 'success', 'message' => 'Persona eliminada correctamente'];
+            $response = ['status' => 'success', 'message' => 'Blog insertado correctamente'];
             jsonResponse($response);
 
             // Redirigir a la página desde la que se hizo la solicitud
             exit(); // Asegura que el script se detenga después de la redirección
         } else {
             // Si hubo un problema al intentar borrar la persona
-            $response = ['status' => 'error', 'message' => 'No se pudo borrar la persona'];
+            $response = ['status' => 'error', 'message' => 'No se pudo insertat el blog'];
             jsonResponse($response, 500);
         }
         break;
@@ -118,7 +122,7 @@ switch ($accion) {
         }
         $response = ['status' => 'success', 'data' => $blogs];
         jsonResponse($response);
-        break;    
+        break;
     default:
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);

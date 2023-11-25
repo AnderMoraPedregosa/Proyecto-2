@@ -8,7 +8,7 @@
 </head>
 <body>
    
-    <div class="center">
+    <div class="center-anuncio">
       
         <?php require "partials/head.php"; ?>
         <script type="module" src="../../scripts/categoria.js"></script>
