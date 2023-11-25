@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
+/*Ajustes CSS a la ventana Login*/
+/*General*/
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +9,7 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+/*Cuerpo*/
 body {
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
@@ -17,46 +20,50 @@ body {
     height: 100vh;
 }
 
+/*Donde empieza el contenido*/
 .contenedor {
     background-color: #fff;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    border-radius: 1.875em;
+    box-shadow: 0em 0.313em 0.938em rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 768px;
+    width: 48em;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 30em;
 }
 
+/*Registra con tus detalles personales para usar todas las caracteristicas del sitio*/
 .contenedor p {
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    margin: 20px 0;
+    font-size: 0.875em;
+    line-height: 1.25em;
+    letter-spacing: 0.019em;
+    margin: 1.25em 0;
 }
 
+/*o utiliza tu correo electrónico y contraseña*/
 .contenedor span {
-    font-size: 12px;
+    font-size: 0.75em;
 }
 
+/*Olvidaste tu contraseña*/
 .contenedor a {
     color: #333;
-    font-size: 13px;
+    font-size: 0.813em;
     text-decoration: none;
-    margin: 15px 0 10px;
+    margin: 0.938 0em 0.625em;
 }
 
 .contenedor button {
     background-color: #52EC81;
     color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border: 1px solid transparent;
-    border-radius: 8px;
+    font-size: 0.8em;
+    padding: 0.625em 2.813em;
+    border: 0.063em solid transparent;
+    border-radius: 0.5em;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.031em;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 0.625em;
     cursor: pointer;
 }
 
@@ -83,17 +90,17 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 40px;
-    height: 80%;
+    padding: 0 2.5em;
+    height: 100%;
 }
 
 .contenedor input {
     background-color: #eee;
     border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
+    margin: 0.5em 0;
+    padding: 0.625em 0.938em;
+    font-size: 0.813em;
+    border-radius: 0.5em;
     width: 100%;
     outline: none;
 }
@@ -116,8 +123,6 @@ body {
     background: rgb(139, 168, 239);
     background: linear-gradient(90deg, rgba(139, 168, 239, 1) 16%, rgba(97, 135, 232, 1) 40%, rgba(25, 79, 216, 1) 85%);
 }
-
-
 
 .contenedor.active .inicio-sesion {
     transform: translateX(100%);
@@ -153,19 +158,19 @@ body {
 }
 
 .iconos-sociales {
-    margin: 20px 0;
+    margin: 1.25em 0;
     
 }
 
 .iconos-sociales a {
-    border: 1px solid #ccc;
+    border: 0.063em solid #ccc;
     border-radius: 20%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin: 0 3px;
-    width: 40px;
-    height: 40px;
+    margin: 0 0.188em;
+    width: 2.5em;
+    height: 2.5em;
     opacity: 0.4; 
 }
 
@@ -177,13 +182,13 @@ body {
     height: 100%;
     overflow: hidden;
     transition: all 0.6s ease-in-out;
-    border-radius: 150px 0 0 100px;
+    border-radius: 9.375em 0 0 6.25em;
     z-index: 1000;
 }
 
 .contenedor.active .contenedor-botones-toggle {
     transform: translateX(-100%);
-    border-radius: 0 150px 100px 0;
+    border-radius: 0 9.375em 6.25em 0;
 }
 
 .boton-toggle {
@@ -211,7 +216,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 30px;
+    padding: 0 1.875em;
     text-align: center;
     top: 0;
     transform: translateX(0);

@@ -20,11 +20,15 @@ var btnMostrarFormBlog = document.getElementById("btnMostrarFormBlog");
 var divFormBlog = document.getElementById("formCrearBlog");
 var btnCrearBlog = document.getElementById("btnCrearBlog");
 
-btnCrearBlog.addEventListener("click", crearBlog);
-
-btnMostrarFormBlog.addEventListener("click", function (){
-    divFormBlog.style.display = "block";
-})
+btnMostrarFormBlog.addEventListener("click", function () {
+    if (btnMostrarFormBlog.textContent === "Crear Blog") {
+        divFormBlog.style.display = "block";
+        btnMostrarFormBlog.textContent = "Cerrar Crear Blog";
+    } else if (btnMostrarFormBlog.textContent === "Cerrar Crear Blog") {
+        divFormBlog.style.display = "none";
+        btnMostrarFormBlog.textContent = "Crear Blog";
+    }
+});
 
 async function getBlogs() {
     try {
