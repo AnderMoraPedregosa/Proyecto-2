@@ -322,6 +322,8 @@ body {
     min-height: 40.625em;
     margin-right: 1.25em;
     background: white;
+    border: 0.2em solid rgba(0, 0, 0, 0.349);
+    border-radius: 1em;
 }
 
 #content-Formulario {
@@ -428,7 +430,8 @@ body {
     border-radius: 20%;
     position: relative;
     overflow: hidden;
-    scale: 150%;
+    scale: 120%;
+    /*left: 30%;*/  
 }
 
 .btn-sesion:hover {

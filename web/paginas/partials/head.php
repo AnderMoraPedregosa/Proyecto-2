@@ -53,9 +53,10 @@
                         <a href="/confPerfil" class="animacion"><i class="fa-solid fa-id-card confPerf"></i></a>
                     </li>
                     <li id="liIniciarSesion">
-                        <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
-                        <a href="/"><button class="btn-sesion" style="display: none;" id="btnLogOutHead">Cerrar sesion</button></a>
+                        <button class="btn-sesion" id="btnLoginHead" onclick="location.href='/login'">Iniciar sesión</button>
+                        <button class="btn-sesion" style="display: none;" id="btnLogOutHead" onclick="location.href='/'">Cerrar sesión</button>
                     </li>
+
 
                 </ul>
             </nav>
