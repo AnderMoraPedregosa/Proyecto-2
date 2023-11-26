@@ -153,7 +153,7 @@ async function getAnunciosSearch(searchTerm) {
 
         //si no busca por palabra clave muestra todos los anuncios
         if (searchTerm === "") {
-            response = await fetch("/anuncios/todos");
+            response = await fetch("/anuncios/todos/todos");
         } else {
             // Obtener la ruta base del documento actual
             const base_url = window.location.origin;
