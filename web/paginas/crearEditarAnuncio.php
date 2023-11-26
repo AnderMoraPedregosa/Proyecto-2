@@ -3,7 +3,7 @@
     <input type="text" id="tituloAnuncio" name="titulo" />
     <input type="hidden" id="id" name="id_anuncio" value="<?= $path_parts[2] ?>" />
     <label for="precio">Precio</label>
-    <input type="number" id="precio" name="precio" step="0.01" />
+    <input type="number" id="precioAnuncio" name="precio" step="0.01" />
     <label for="desc">Descripcion</label>
     <textarea id="desc" name="desc" placeholder="Introduce la descripcion de tu anuncio"></textarea>
     <label id="labelFile" for="imagen" class="custom-file-upload">

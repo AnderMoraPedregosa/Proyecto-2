@@ -54,8 +54,8 @@ window.addEventListener("load", async function () {
             // Cambiar texto del botón crear
             document.getElementById("editarAnuncio").style.display = "block";
             btnForm.value = "Actualizar";
-            document.getElementById("titulo").value = anuncioNew.titulo;
-            document.getElementById("precio").value = anuncioNew.precio;
+            document.getElementById("tituloAnuncio").value = anuncioNew.titulo;
+            document.getElementById("precioAnuncio").value = anuncioNew.precio;
             document.getElementById("desc").value = anuncioNew.descripcion;
 
             for (var i = 0; i < selectElement.options.length; i++) {
