@@ -1,7 +1,7 @@
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
-
+import { getPersonaById } from "./Funciones/getPersona.js"
 var urlActual = window.location.href;
 
 // Divide la URL en partes utilizando "/" como delimitador
@@ -10,8 +10,7 @@ var partesUrl = urlActual.split('/');
 // Obtiene el segundo elemento del array (índice 1)
 
 var urlAnuncios = partesUrl[3];
-
-async function getAnuncios() {
+async function getAnuncios(idPersona) {
     try {
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
@@ -24,7 +23,7 @@ async function getAnuncios() {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
             const base_url = window.location.origin;
-            let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
+        
             response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}`);
         }
 
@@ -97,9 +96,13 @@ async function getAnunciosSearch(searchTerm) {
 
 
 window.addEventListener("load", async function () {
+    let persona = await getPersonaById();
+    if(!persona && urlAnuncios == "perfilAnuncios")  {
 
+        this.window.location.href = "/error"
+    } 
     let articles = document.getElementById("articles");
-    body = await getAnuncios();
+    body = await getAnuncios(persona['data'][0]['id_persona']);
     numero1 = 0;
     numero2 = 10;
 
@@ -125,7 +128,7 @@ window.addEventListener("load", async function () {
             articles.appendChild(noResultsMessage);
         }
 
-       
+
 
 
     });
@@ -295,3 +298,4 @@ function mostrarModal(imagen) {
         zoomedImage.style.transform = 'scale(1)';
     });
 }
+

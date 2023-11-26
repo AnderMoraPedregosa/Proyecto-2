@@ -37,6 +37,7 @@ body {
     justify-content: space-between;
     background: none;
 }
+
 .center-anuncio {
     margin-bottom: 1em;
     align-items: center;
@@ -45,6 +46,7 @@ body {
     justify-content: space-between;
     background: none;
 }
+
 #productosComercio {
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
 }
@@ -540,22 +542,30 @@ body {
 
 .custom-file-upload:hover {
 
-        background-color: #e0e0e0; /* Cambia el color de fondo al pasar el mouse */
-        color: #333; /* Cambia el color del texto al pasar el mouse */
-        cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    
+    background-color: #e0e0e0;
+    /* Cambia el color de fondo al pasar el mouse */
+    color: #333;
+    /* Cambia el color del texto al pasar el mouse */
+    cursor: pointer;
+    /* Cambia el cursor al pasar el mouse */
+
 }
+
 /*ENLACES ANUNCIOS*/
 
 
 #image-preview {
     justify-content: center;
     display: flex;
-    flex-wrap: wrap; /* Permite que las imágenes se envuelvan en varias líneas */
+    flex-wrap: wrap;
+    /* Permite que las imágenes se envuelvan en varias líneas */
     gap: 0.2em;
-    max-height: 200px; /* Establece una altura máxima para el contenedor */
-    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+    max-height: 200px;
+    /* Establece una altura máxima para el contenedor */
+    overflow-y: auto;
+    /* Agrega una barra de desplazamiento vertical si es necesario */
 }
+
 .link-container {
     margin-right: 1em;
     display: flex;
@@ -600,7 +610,8 @@ body {
 /*FORMULARIO ANUNCIOS*/
 
 input[type="file"] {
-    display: none; /* Oculta el input de tipo file original */
+    display: none;
+    /* Oculta el input de tipo file original */
 }
 
 .custom-file-upload {
@@ -1127,10 +1138,12 @@ button {
         justify-content: center;
         width: 100%;
     }
-    .divBlog{
+
+    .divBlog {
         margin-right: 1em;
 
     }
+
     .divBlog h2 {
         font-size: 1.4em;
     }
@@ -1187,14 +1200,16 @@ button {
 
 
 @media (max-width: 850) {
-   .divBlog{
-    margin-right: -1em !important;
-   }
+    .divBlog {
+        margin-right: -1em !important;
+    }
+
     .divBlog h2 {
-       align-self: center;
+        align-self: center;
         width: 15em;
         font-size: 1em;
     }
+
     .article-detail-blog {
         width: 50% !important;
     }
@@ -1205,9 +1220,11 @@ button {
         grid-template-columns: repeat(1, 1fr) !important;
 
     }
-    .center{
+
+    .center {
         flex-direction: column !important;
     }
+
     .article-detail-blog {
         width: 100% !important;
     }
@@ -1220,9 +1237,11 @@ button {
         justify-content: center;
         width: 100%;
     }
+
     .article-detail-blog {
         width: 69% !important;
     }
+
     #brand {
         display: none;
     }
@@ -1414,12 +1433,12 @@ a.delete:hover {
 }
 
 .divBlog {
-    margin-right: 2em;
+    margin-right: 4em;
 
     display: flex;
     flex-direction: column;
     font-size: 1.1em;
-    max-width: 20em;
+    max-width: 18em;
 }
 
 .subheaderBlog {
@@ -1468,12 +1487,13 @@ a.delete:hover {
 .center-blog {
     display: flex;
     width: 98%;
-    margin: 0em auto;
+    margin-left: 2em;
     justify-content: space-between;
     background: none;
     flex-direction: column;
     align-items: center;
 }
+
 #cargarMasBtnBlog {
     margin-top: -6em;
     margin-bottom: 4em;

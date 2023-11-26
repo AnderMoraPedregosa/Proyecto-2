@@ -79,12 +79,15 @@ function getBlogsPorComercio($dbh, $idComercio)
 // Dentro de tu función insertarAnuncio
 function insertarBlog($dbh, $data)
 {
+    $imagenes = $data['imagenes'];
     try {
         $stmt = $dbh->prepare("INSERT INTO blogs (titulo, imagen_blog ,texto,  fecha_creacion, id_comerciante, id_comercio) 
-        VALUES (:titulo, :imagenes,:texto, :fecha, :comercio, :anunciante)");
+        VALUES (:titulo, :imagen_anuncio,:texto, :fecha, :comercio, :anunciante)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
+        $data['imagen_anuncio'] = $imagenes[0];
+        unset($data['imagenes']);
         $stmt->execute($data);
 
         return true;

@@ -19,10 +19,9 @@
             <a href="/formulario/anuncio" class="btn " id="btnCrearProductoAside" style="display: none;">Crear anuncio</a>
             <a href="/formulario/blog" class="btn btn-success" id="btnCrearBlogAside" style="display: none;">Crear blog</a>
         </div>
-
-
+    </aside>
 </div>
-</aside>
+
 
 <div class="clearfix"></div>
 </div>

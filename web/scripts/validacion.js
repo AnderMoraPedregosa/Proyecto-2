@@ -11,7 +11,8 @@ let accion = window.location.pathname.split("/")
 let tituloForm = document.getElementById("formTitulo");
 let btnCrearProducto = document.getElementById("btnCrearProductoAside");
 let btnCrearBlog = document.getElementById("btnCrearBlogAside");
-
+let tituloBlog = document.getElementById("tituloBlog");
+let textoBlog = document.getElementById("textoBlog");
 switch (accion[2]) {
     case "anuncio":
         btnCrearBlog.style.display = "block";
@@ -59,7 +60,7 @@ async function insertarActualizarAnuncio() {
             });
 
             if (response.ok) {
-                window.location.href = "/";
+                window.location.href = "/perfilAnuncios";
             } else {
                 const errorText = await response.text();
                 console.error(`Error en la operación: ${errorText}`);
@@ -77,8 +78,8 @@ async function insertarActualizarBlog() {
             const url = `/blogs/insertar`;
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
             const data = {
-                titulo: tituloAnuncio.value,
-                texto: texto.value,
+                titulo: textoBlog.value,
+                texto: textoBlog.value,
                 imagenes: await obtenerImagenesBase64(imagenesInput.files),
                 idComercio: comerciante.idComercio,
                 idComerciante: comerciante.id
@@ -104,11 +105,16 @@ async function insertarActualizarBlog() {
 async function validarFormulario() {
 
     try {
-        let campos = [
-            { nombre: "Titulo", valor: tituloAnuncio.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
+        let campos;
+
+        if (accion[2] == "blog") {
+            campos = [{ nombre: "Titulo blog", valor: tituloBlog.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
+            { nombre: "Texto", valor: textoBlog.value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }]
+        } else {
+            campos = [{ nombre: "Titulo", valor: tituloAnuncio.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
             { nombre: "Precio", valor: precio.value.trim(), exp: /^[0-9]+(\.[0-9]{1,2})?$/ },
-            { nombre: "Descripcion", valor: descripcion.value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }
-        ];
+            { nombre: "Descripcion", valor: descripcion.value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }] 
+        }
 
         campos.forEach(campo => {
             if (!campo.exp.test(campo.valor)) {

@@ -70,6 +70,7 @@ switch ($accion) {
             'comercio' => $comercio,
             'anunciante' =>  $anunciante
         ];
+        var_dump($data);
         // Insertar el anuncio en la base de datos
         $result = insertarBlog($dbh, $data);
         if ($result) {

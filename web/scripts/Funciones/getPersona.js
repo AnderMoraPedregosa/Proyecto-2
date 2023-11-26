@@ -1,9 +1,12 @@
 export async function getPersonaById() {
     try {
-        const response = await fetch(`/comerciantes/comerciantePersona/${datosArray["idPersona"]}`);
-        const data = await response.json();
-        return data;
+        if (datosArray) {
+            const response = await fetch(`/comerciantes/comerciantePersona/${datosArray["idPersona"]}`);
+            const data = await response.json();
+            return data;
+        }
 
+        return false;
     } catch (error) {
         console.error('Error en la operación:', error.message);
     }

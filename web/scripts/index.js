@@ -4,7 +4,6 @@ const btnCrearBlog = document.getElementById("btnCrearBlogAside");
 const btnVerBlog = document.getElementById("btnBlog");
 
 const sidebartitle = document.getElementById("sidebarTitle");
-console.log(rol);
 switch (parseInt(rol)) {
     case 1:
         btnCrearProducto.style.display = "block";
