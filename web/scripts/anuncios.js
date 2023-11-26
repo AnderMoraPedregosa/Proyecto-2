@@ -9,6 +9,8 @@ var partesUrl = urlActual.split('/');
 
 // Obtiene el segundo elemento del array (índice 1)
 
+var idPersonaFav;
+
 var urlAnuncios = partesUrl[3];
 async function getAnuncios(idPersona) {
     try {
@@ -94,14 +96,15 @@ async function getAnunciosSearch(searchTerm) {
     }
 }
 
-
+var persona;
 window.addEventListener("load", async function () {
-    let persona = await getPersonaById();
+    persona = await getPersonaById();
     if(!persona)  {
             //no hay nadie logueado
         body = await getAnuncios();
     }
     else{
+        idPersonaFav = datosArray["idPersona"];
         console.log(datosArray["idPersona"])
         body = await getAnuncios(datosArray["idPersona"]);
     }
@@ -202,8 +205,8 @@ function mostarHtml(body) {
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
                  <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" id="aEliminar" title="Eliminar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-trash"></i></a>
-                 <a href="#" id="fav" class="fav"><i class="fa-regular fa-star"></i> </a>
-                </div>
+                 <a href="#" class="linkFav" id="fav" title="Favorito" data-id="${anuncioNew.id}" style="display: ${persona && datosArray["id_rol"] === "2" ? 'block' : 'none'};"><i class="fa-regular fa-heart"></i> </a>
+                 </div>
     
                   <div class="clearfix"></div>
              `;
@@ -215,6 +218,17 @@ function mostarHtml(body) {
                 const idAnuncio = this.getAttribute('data-id');
                 confirmarEliminacion(idAnuncio);
             });
+
+            //favoritos
+            let favEnlace = divArticle.querySelector('#fav');
+            favEnlace.addEventListener("click", function (event) {
+            event.preventDefault();
+            // id del anuncio
+            let idAnuncio = this.getAttribute('data-id');
+
+            guardarEnIndexedDB(idAnuncio, idPersonaFav);
+        });
+    
 
 
         });
@@ -300,5 +314,44 @@ function mostrarModal(imagen) {
     zoom.addEventListener('mouseleave', () => {
         zoomedImage.style.transform = 'scale(1)';
     });
+}
+
+//index db
+
+function guardarEnIndexedDB(idAnuncio, idPersona) {
+    const dbName = "anunciosFavoritos";
+    const request = indexedDB.open(dbName, 1);
+
+    request.onupgradeneeded = function (event) {
+        const db = event.target.result;
+
+        // Verifica si ya existe el object store "favoritos" en la base de datos
+        if (!db.objectStoreNames.contains("favoritos")) {
+            const objectStore = db.createObjectStore("favoritos", { keyPath: ["idPersona", "idAnuncio"] });
+            // Puedes agregar más configuraciones según tus necesidades
+        }
+    };
+
+    request.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction(["favoritos"], "readwrite");
+        const objectStore = transaction.objectStore("favoritos");
+
+        // Guardar la información en IndexedDB
+        const nuevoFavorito = { idPersona: idPersona, idAnuncio: idAnuncio };
+        const addRequest = objectStore.add(nuevoFavorito);
+
+        addRequest.onsuccess = function () {
+            console.log("Favorito guardado en IndexedDB");
+        };
+
+        addRequest.onerror = function () {
+            console.error("Error al guardar el favorito en IndexedDB");
+        };
+    };
+
+    request.onerror = function () {
+        console.error("Error al abrir la base de datos");
+    };
 }
 

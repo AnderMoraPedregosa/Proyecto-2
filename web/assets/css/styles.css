@@ -742,9 +742,11 @@ form input[type="submit"]:hover {
 
 /*ENLACE FAVORITO*/
 #fav {
-    color: yellow;
-    font-size: 2em;
+    color:  #c0392b;
+    font-size: 1.5em;
 }
+
+
 
 .linkEditUser,
 .linkDeleteUser,
