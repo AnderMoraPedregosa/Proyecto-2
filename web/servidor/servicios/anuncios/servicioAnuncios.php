@@ -34,7 +34,12 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case 'todos':
-        $anuncios = getAnuncios($dbh);
+
+        if($id !== "0"){
+            $anuncios = getAnunciosCategoria($dbh, $id);
+        }else{
+            $anuncios = getAnuncios($dbh);
+        }
 
         if ($anuncios === false) {
             $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
@@ -45,15 +50,33 @@ switch ($accion) {
         jsonResponse($response);
         break;
     case "porIdAnuncio":
-        $anuncio = getAnuncioId($dbh, $id);
+
+        //filtrar por categoria
+        $idCategoria = $palabra;
+
+        if($idCategoria !== "0"){
+            $anuncio = getAnuncioIdYcategoria($dbh, $id, $idCategoria);
+        }else{
+            $anuncio = getAnuncioId($dbh, $id);
+        }
+
         $response = ['status' => 'success', 'data' => $anuncio];
         jsonResponse($response);
         break;
     case "comercioConcreto":
 
+        //filtrar por categoria
+        $idCategoria = $palabra;
+
+        //obtener el comercio
         $idComercio = getComercio($dbh, $id);
 
-        $anuncios = getAnuncioPorComercio($dbh, $idComercio);
+        if($idCategoria !== "0"){
+            $anuncios = getAnuncioPorComercioYcategoria($dbh, $idComercio, $idCategoria);
+        }else{
+            $anuncios = getAnuncioPorComercio($dbh, $idComercio);
+        }
+
 
         if ($anuncios === false) {
             $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];

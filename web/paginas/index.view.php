@@ -11,6 +11,12 @@
 
     <div class="center">
         <section id="content">
+            <form>
+                <label></label>
+                <select id="selectCategorias">
+                    <option id="opt1" value="0">Filtrar por categoria:</option>
+                </select>
+            </form>
             <h2 id="tituloAnuncios" class="subheader">Últimos productos
                 <img src="../../assets/images/new.png" class="new" alt="newp" />
             </h2>
@@ -49,5 +55,7 @@
     </div>
 </div>
 <script src="../scripts/index.js"></script>
+<script type="module" src="../scripts/categoria.js"></script>
+
 
 <?php require "paginas/partials/footer.php" ?>

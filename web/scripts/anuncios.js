@@ -12,6 +12,21 @@ var partesUrl = urlActual.split('/');
 var idPersonaFav;
 var data;
 
+//categorias
+var categoriaSeleccionada;
+
+var articles = document.getElementById("articles");
+
+
+const selectCategorias = document.getElementById('selectCategorias');
+selectCategorias.addEventListener('change', async function () {
+    articles.innerHTML = "";
+
+    categoriaSeleccionada = selectCategorias.value;
+    getAnuncios();
+    logicaApp();
+});
+
 var urlAnuncios = partesUrl[3];
 async function getAnuncios(idPersona) {
     try {
@@ -20,14 +35,14 @@ async function getAnuncios(idPersona) {
         let response;
         //controlar si mostrar todos los anuncios o solo los propios
         if (urlAnuncios === "") {
-            response = await fetch(`${base_url}/anuncios/todos`);
+            response = await fetch(`${base_url}/anuncios/todos/${categoriaSeleccionada}`);
         }
         else if(urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
             const base_url = window.location.origin;
         
-            response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}`);
+            response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
             console.log(response);
         }
         else {
@@ -45,33 +60,52 @@ async function getAnuncios(idPersona) {
                     const base_url = window.location.origin;
         
                     // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
-                     response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}`);
+                     response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
+                     console.log("prueba bea")
+                     console.log(response)
         
                     if (response.status !== 200) {
-                        console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
+                        //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
                         continue; // Continuar con el próximo favorito en caso de error
                     }
         
                     // Obtener el cuerpo JSON de la respuesta
                     const detallesData = await response.json();
+                    console.log("prueba uno")
+
                     console.log(detallesData);
         
                     // Verificar si la respuesta es válida y contiene el array 'data'
                     if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
                         // Acceder al primer (y supuesto único) detalle del anuncio
                         const anuncioDetalle = detallesData.data[0];
+                        console.log("prueba final")
+                        console.log(anuncioDetalle)
                         anunciosFavoritos.push(anuncioDetalle);
                     } else {
-                        console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
+                        //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
+                        continue;
                     }
                     console.log(anunciosFavoritos)
                 } catch (error) {
-                    console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+                    //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+                    continue;
                 }
             }
-        
-            // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
+
+            console.log("anuncios favritos")
+            console.log(anunciosFavoritos.length)
+
+            console.log(anunciosFavoritos)
+
+            if(anunciosFavoritos.length === 0){
+               data ={ status: 'error', message: 'Error, no hay anuncios' }
+            }else{
+                 // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
             data = { status: 'success', data: anunciosFavoritos };
+            }
+        
+           
         }
 
       
@@ -84,6 +118,8 @@ async function getAnuncios(idPersona) {
 
         if(urlAnuncios !== "anunciosFavoritos"){
             data = await response.json();
+            console.log("prueba")
+            console.log(data)
         }
         return data;
     } catch (error) {
@@ -142,7 +178,14 @@ async function getAnunciosSearch(searchTerm) {
 }
 
 var persona;
-window.addEventListener("load", async function () {
+window.addEventListener("load", async function() {
+categoriaSeleccionada = "0";
+
+getAnuncios()
+logicaApp();
+});
+
+async function logicaApp(){
     persona = await getPersonaById();
     if(!persona)  {
             //no hay nadie logueado
@@ -195,9 +238,7 @@ window.addEventListener("load", async function () {
             mostrarModal(e.target);
         });
     });
-
-
-});
+}
 
 function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
@@ -210,7 +251,7 @@ function confirmarEliminacion(idAnuncio) {
     }
 }
 function mostrarHtmlBoton(body) {
-    if (body['data'].length > numero2) {
+    if (body && body['data'] && body['data'].length > numero2) {
         mostarHtml(body);
         cargarMasBtn.style.display = 'block';
     }
@@ -224,6 +265,8 @@ function mostarHtml(body) {
     let divArticle;
     const scrollBefore = window.scrollY;
 
+    //eliminar anuncios existentes
+    
 
     if (body['status'] == 'success') {
 

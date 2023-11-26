@@ -45,6 +45,23 @@ function getAnuncios($dbh)
     }
 }
 
+function getAnunciosCategoria($dbh, $idCat)
+{
+    try {
+        $data = array('idCat' => $idCat);
+
+        $stmt = $dbh->prepare("SELECT * FROM anuncios where id_categoria = :idCat order by fecha_creacion desc");
+        $stmt->execute($data);
+
+        // Obtener resultados directamente sin necesidad de almacenar en una variable intermedia
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // Manejar la excepción según tus necesidades (log, mostrar mensaje de error, etc.)
+        echo "Error al obtener anuncios: " . $e->getMessage();
+        return false;
+    }
+}
+
 //solo anuncios por id
 function getAnuncioId($dbh, $id)
 {
@@ -54,10 +71,26 @@ function getAnuncioId($dbh, $id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getAnuncioIdYcategoria($dbh, $id, $idCat)
+{
+    $data = array('id' => $id, "idCat" => $idCat);
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id = (:id) and id_categoria = (:idCat)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getAnuncioPorComercio($dbh, $idComercio)
 {
     $data = array('comercio_id' => $idComercio);
     $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id_comercio= (:comercio_id)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getAnuncioPorComercioYcategoria($dbh, $idComercio, $idCat)
+{
+    $data = array('comercio_id' => $idComercio, "idCat" => $idCat);
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id_comercio= (:comercio_id) and id_categoria = (:idCat)");
     $stmt->execute($data);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
