@@ -2,7 +2,7 @@ import { Comerciante } from "../modelos/comerciante.js";
 import { getPersonaById } from "./Funciones/getPersona.js";
 let selectElement = document.getElementById("selectCategorias");
 let tituloAnuncio = document.getElementById("tituloAnuncio");
-let precio = document.getElementById("precio");
+let precio = document.getElementById("precioAnuncio");
 let descripcion = document.getElementById("desc");
 let imagenesInput = document.getElementById("imagen");
 let formBlog = document.getElementById("formBlog");

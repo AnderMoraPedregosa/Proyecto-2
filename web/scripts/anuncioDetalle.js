@@ -71,9 +71,8 @@ window.addEventListener("load", async function () {
 
             btnForm.addEventListener("click", () => {
               
-
-                const titulo = document.getElementById("titulo").value;
-                const precio = document.getElementById("precio").value;
+                const titulo = document.getElementById("tituloAnuncio").value;
+                const precio = document.getElementById("precioAnuncio").value;
                 const descripcion = document.getElementById("desc").value;
                 const cat = selectElement.value;
 
