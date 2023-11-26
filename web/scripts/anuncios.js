@@ -97,12 +97,14 @@ async function getAnunciosSearch(searchTerm) {
 
 window.addEventListener("load", async function () {
     let persona = await getPersonaById();
-    if(!persona && urlAnuncios == "perfilAnuncios")  {
-
-        this.window.location.href = "/error"
-    } 
+    if(!persona)  {
+            //no hay nadie logueado
+        body = await getAnuncios();
+    }
+    else{
+        body = await getAnuncios(persona['data'][0]['id_persona']);
+    }
     let articles = document.getElementById("articles");
-    body = await getAnuncios(persona['data'][0]['id_persona']);
     numero1 = 0;
     numero2 = 10;
 

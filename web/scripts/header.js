@@ -9,6 +9,7 @@ btnLogOutHead.addEventListener("click", logOut);
 function logOut() {
     sessionStorage.clear();
     location.reload();
+    location.href='/';
 }
 
 //ocultar acciones del admin y comerciante desde el principio

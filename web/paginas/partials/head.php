@@ -52,7 +52,7 @@
                     </li> -->
                     <li id="liIniciarSesion">
                         <button class="btn-sesion" id="btnLoginHead" onclick="location.href='/login'">Iniciar sesión</button>
-                        <button class="btn-sesion" style="display: none;" id="btnLogOutHead" onclick="location.href='/'">Cerrar sesión</button>
+                        <button class="btn-sesion" style="display: none;" id="btnLogOutHead" >Cerrar sesión</button>
                     </li>
 
 
