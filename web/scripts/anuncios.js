@@ -433,7 +433,6 @@ function mostrarModal(imagen) {
 }
 
 //index db
-//index db
 function guardarEnIndexedDB(idAnuncio, idPersona) {
     const dbName = "anunciosFavoritos";
     const request = indexedDB.open(dbName, 1);
@@ -441,11 +440,8 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
     request.onupgradeneeded = function (event) {
         const db = event.target.result;
 
-        // Verifica si ya existe el object store "favoritos" en la base de datos
         if (!db.objectStoreNames.contains("favoritos")) {
             const objectStore = db.createObjectStore("favoritos", { keyPath: "idPersona" });
-
-            // Crea un índice para la propiedad "idPersona"
             objectStore.createIndex("idPersona", "idPersona", { unique: true });
         }
     };
@@ -455,24 +451,31 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
         const transaction = db.transaction(["favoritos"], "readwrite");
         const objectStore = transaction.objectStore("favoritos");
 
-        // Obtener la lista de anuncios favoritos de la persona
         const getRequest = objectStore.get(idPersona);
 
         getRequest.onsuccess = function () {
             const favoritos = getRequest.result ? getRequest.result.anuncios : [];
 
-            // Verificar si el anuncio ya está en la lista de favoritos
             if (favoritos.includes(idAnuncio)) {
                 console.log("El anuncio ya está en la lista de favoritos");
+
+                let index = favoritos.indexOf(idAnuncio);
+                favoritos.splice(index, 1);
+
+                const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
+
+                updateRequest.onsuccess = function () {
+                    console.log("Anuncio eliminado de favoritos en IndexedDB");
+                    // Actualizar la clase del ícono directamente
+                };
             } else {
-                // Agregar al principio el nuevo anuncio a la lista de favoritos
                 favoritos.unshift(idAnuncio);
 
-                // Actualizar la lista de favoritos en IndexedDB
                 const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
 
                 updateRequest.onsuccess = function () {
                     console.log("Favorito guardado en IndexedDB");
+                    // Actualizar la clase del ícono directamente
                 };
 
                 updateRequest.onerror = function () {
