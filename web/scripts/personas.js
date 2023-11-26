@@ -16,6 +16,7 @@ const tablasCreadas = {
 
 let tipo2;
 var idComercio = null;
+var idCat = null;
 const btnUsuarios = document.getElementById("btnUsuarios");
 const btnCategorias = document.getElementById("btnCategorias");
 const btnComercios = document.getElementById("btnComercios");
@@ -95,17 +96,8 @@ function crearTabla(data, tipo, divTabla) {
         document.querySelector(nombreEnlaceCrear)?.addEventListener('click', (e) => {
             e.preventDefault();
             if(tipo2 === "categorias"){
-                let nombreCategoria = prompt("Ingrese el nombre de la categoría:");
-            if (nombreCategoria) {
-                console.log("estoy")
-                // Enviar el nombre de la categoría al servidor para insertarla
-                const data = {
-                    nombre : nombreCategoria
-                };
-                const base_url = window.location.origin;
-                let url = `${base_url}/categorias/insertar`
-                insertarActualizar(data, url);
-            }
+                openModal("../paginas/crearActualizarCategoria.php");
+
             }
             else{
                 if(tipo2 === "personas"){
@@ -123,16 +115,11 @@ function crearTabla(data, tipo, divTabla) {
             enlaceEditar.addEventListener('click', (e) => {
                 e.preventDefault();
                 if(tipo2 === "categorias"){
-                    let idCat = enlaceEditar.getAttribute('data-id');
 
-                    let nombreCategoria = prompt("Ingrese el nombre de la categoría a modificar:");
-                    let data = {
-                        idCat : idCat,
-                        nombre : nombreCategoria
-                    };
+                  idCat = enlaceEditar.getAttribute('data-id');
 
-                    let url =  `/categorias/actualizar`;
-                    insertarActualizar(data, url);
+                  openModalActualizar("../paginas/crearActualizarCategoria.php", idCat, elementos);
+
                 }else{
                     if(tipo2 == "personas"){
                 idPersona = enlaceEditar.getAttribute('data-id');
@@ -377,6 +364,24 @@ $(document).on("click", "#btnCrearComercio", function () {
     document.getElementById("myModal").style.display = "none";
 });
 
+$(document).on("click", "#btnCrearCategoria", function () {
+    const nombre = document.getElementById("nombreCat").value;
+   
+    let url;
+    if (this.value === "Actualizar") {
+        url = `/categorias/actualizar/${idCat}`;
+    } else {
+        url = `/categorias/insertar`;
+    }
+
+     const data = {
+            idCat: idCat,
+            nombre: nombre
+        };
+        insertarActualizar(data, url);
+    document.getElementById("myModal").style.display = "none";
+});
+
 function openModalActualizar(url, id, elementos) {
     fetch(url)
         .then(response => response.text())
@@ -389,9 +394,18 @@ function openModalActualizar(url, id, elementos) {
                 document.getElementById("myModal").style.display = "block";
             }
             else{
+                if (tipo2 === "categorias") {
+                    const categoria = elementos.find(elemento => elemento.id === idCat);
+                    document.getElementById("nombreCat").value = categoria.nombre;
+                    document.getElementById("btnCrearCategoria").value = "Actualizar";
+                    document.getElementById("myModal").style.display = "block";
+                  
+
+                }else{
                 cargarDatosComercioEnFormulario(id, elementos);
                 document.getElementById("btnCrearComercio").value = "Actualizar";
                 document.getElementById("myModal").style.display = "block";
+                }
             }
 
            
