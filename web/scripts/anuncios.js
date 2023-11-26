@@ -345,7 +345,12 @@ function mostarHtml(body) {
             // id del anuncio
             let idAnuncio = this.getAttribute('data-id');
 
-            guardarEnIndexedDB(idAnuncio, idPersonaFav);
+             // Obtener el elemento <i> correspondiente al enlace de favoritos
+            let iconElement = this.querySelector('i');
+
+             // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
+            guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
+
         });
     
 
@@ -433,7 +438,7 @@ function mostrarModal(imagen) {
 }
 
 //index db
-function guardarEnIndexedDB(idAnuncio, idPersona) {
+function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
     const dbName = "anunciosFavoritos";
     const request = indexedDB.open(dbName, 1);
 
@@ -476,6 +481,10 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
                 updateRequest.onsuccess = function () {
                     console.log("Favorito guardado en IndexedDB");
                     // Actualizar la clase del ícono directamente
+
+                     // Actualizar la clase del ícono directamente
+                    iconElement.classList.toggle('fa-regular');
+                    iconElement.classList.toggle('fa-solid');
                 };
 
                 updateRequest.onerror = function () {
