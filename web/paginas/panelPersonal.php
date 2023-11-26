@@ -6,7 +6,7 @@
 </div>
 
 <div class="containerTarjetas">
-  <div class="carta">
+  <div class="carta prueba">
     <div class="face face1">
       <div class="content">
         <i class="fa-solid fa-rectangle-ad"></i>
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div class="carta">
+  <div class="carta prueba">
     <div class="face face1">
       <div class="content">
         <i class="fa-solid fa-blog"></i>
@@ -38,6 +38,20 @@
 
 
   <div class="carta">
+    <div class="face face1">
+      <div class="content">
+      <i class="fa-solid fa-heart"></i>
+      <h3>Anuncios Favoritos</h3>
+      </div>
+    </div>
+    <div class="face face2">
+      <div class="content-panel">
+        <p>Ver mis anuncios favoritos</p>
+        <a href="/anunciosFavoritos" type="button">Gestionar</a>
+      </div>
+    </div>
+  </div>
+  <div class="carta" style="display: 'none';">
     <div class="face face1">
       <div class="content">
         <i class="fa-solid fa-id-card-clip"></i>

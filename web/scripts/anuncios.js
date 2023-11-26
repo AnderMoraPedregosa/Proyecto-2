@@ -10,6 +10,7 @@ var partesUrl = urlActual.split('/');
 // Obtiene el segundo elemento del array (índice 1)
 
 var idPersonaFav;
+var data;
 
 var urlAnuncios = partesUrl[3];
 async function getAnuncios(idPersona) {
@@ -21,17 +22,59 @@ async function getAnuncios(idPersona) {
         if (urlAnuncios === "") {
             response = await fetch(`${base_url}/anuncios/todos`);
         }
-        else {
+        else if(urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
             const base_url = window.location.origin;
         
             response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}`);
+            console.log(response);
+        }
+        else {
+            document.getElementById("tituloAnuncios").textContent = "Mis anuncios favoritos";
+            const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
+            console.log(favoritos);
+            console.log(favoritos[0].anuncios);
+        
+            // Array para almacenar los detalles de los anuncios favoritos
+            const anunciosFavoritos = [];
+        
+            // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
+            for (const idAnuncio of favoritos[0].anuncios) {
+                try {
+                    const base_url = window.location.origin;
+        
+                    // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
+                     response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}`);
+        
+                    if (response.status !== 200) {
+                        console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
+                        continue; // Continuar con el próximo favorito en caso de error
+                    }
+        
+                    // Obtener el cuerpo JSON de la respuesta
+                    const detallesData = await response.json();
+                    console.log(detallesData);
+        
+                    // Verificar si la respuesta es válida y contiene el array 'data'
+                    if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
+                        // Acceder al primer (y supuesto único) detalle del anuncio
+                        const anuncioDetalle = detallesData.data[0];
+                        anunciosFavoritos.push(anuncioDetalle);
+                    } else {
+                        console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
+                    }
+                    console.log(anunciosFavoritos)
+                } catch (error) {
+                    console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+                }
+            }
+        
+            // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
+            data = { status: 'success', data: anunciosFavoritos };
         }
 
-        if (!response.ok) {
-            throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
-        }
+      
 
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
@@ -39,7 +82,9 @@ async function getAnuncios(idPersona) {
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
-        const data = await response.json();
+        if(urlAnuncios !== "anunciosFavoritos"){
+            data = await response.json();
+        }
         return data;
     } catch (error) {
         console.error('Error en la llamada a la API:', error.message);
@@ -102,11 +147,14 @@ window.addEventListener("load", async function () {
     if(!persona)  {
             //no hay nadie logueado
         body = await getAnuncios();
+        
     }
     else{
         idPersonaFav = datosArray["idPersona"];
         console.log(datosArray["idPersona"])
         body = await getAnuncios(datosArray["idPersona"]);
+        console.log("body")
+        console.log(body)
     }
     let articles = document.getElementById("articles");
     numero1 = 0;
@@ -254,9 +302,6 @@ function mostarHtml(body) {
 
 }
 
-
-
-
 function datosAnuncios(data) {
     let anuncios = [];
 
@@ -317,7 +362,6 @@ function mostrarModal(imagen) {
 }
 
 //index db
-
 function guardarEnIndexedDB(idAnuncio, idPersona) {
     const dbName = "anunciosFavoritos";
     const request = indexedDB.open(dbName, 1);
@@ -327,8 +371,10 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
 
         // Verifica si ya existe el object store "favoritos" en la base de datos
         if (!db.objectStoreNames.contains("favoritos")) {
-            const objectStore = db.createObjectStore("favoritos", { keyPath: ["idPersona", "idAnuncio"] });
-            // Puedes agregar más configuraciones según tus necesidades
+            const objectStore = db.createObjectStore("favoritos", { keyPath: "idPersona" });
+
+            // Crea un índice para la propiedad "idPersona"
+            objectStore.createIndex("idPersona", "idPersona", { unique: true });
         }
     };
 
@@ -337,16 +383,29 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
         const transaction = db.transaction(["favoritos"], "readwrite");
         const objectStore = transaction.objectStore("favoritos");
 
-        // Guardar la información en IndexedDB
-        const nuevoFavorito = { idPersona: idPersona, idAnuncio: idAnuncio };
-        const addRequest = objectStore.add(nuevoFavorito);
+        // Obtener la lista de anuncios favoritos de la persona
+        const getRequest = objectStore.get(idPersona);
 
-        addRequest.onsuccess = function () {
-            console.log("Favorito guardado en IndexedDB");
+        getRequest.onsuccess = function () {
+            const favoritos = getRequest.result ? getRequest.result.anuncios : [];
+
+            // Agregar al principio el nuevo anuncio a la lista de favoritos
+            favoritos.unshift(idAnuncio);
+
+            // Actualizar la lista de favoritos en IndexedDB
+            const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
+
+            updateRequest.onsuccess = function () {
+                console.log("Favorito guardado en IndexedDB");
+            };
+
+            updateRequest.onerror = function () {
+                console.error("Error al actualizar la lista de favoritos en IndexedDB");
+            };
         };
 
-        addRequest.onerror = function () {
-            console.error("Error al guardar el favorito en IndexedDB");
+        getRequest.onerror = function () {
+            console.error("Error al obtener la lista de favoritos de IndexedDB");
         };
     };
 
@@ -355,3 +414,34 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
     };
 }
 
+//obtener anuncios de index db
+async function obtenerFavoritosIndexedDB(idPersona) {
+    return new Promise((resolve, reject) => {
+        const dbName = "anunciosFavoritos";
+        const request = indexedDB.open(dbName, 1);
+
+        request.onsuccess = function (event) {
+            const db = event.target.result;
+            const transaction = db.transaction(["favoritos"], "readonly");
+            const objectStore = transaction.objectStore("favoritos");
+            const index = objectStore.index("idPersona");
+
+            const favoritos = [];
+            const range = IDBKeyRange.only(idPersona);
+
+            index.openCursor(range).onsuccess = function (cursorEvent) {
+                const cursor = cursorEvent.target.result;
+                if (cursor) {
+                    favoritos.push(cursor.value);
+                    cursor.continue();
+                } else {
+                    resolve(favoritos);
+                }
+            };
+        };
+
+        request.onerror = function () {
+            reject("Error al abrir la base de datos");
+        };
+    });
+}

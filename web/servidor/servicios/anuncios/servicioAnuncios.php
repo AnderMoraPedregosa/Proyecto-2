@@ -44,6 +44,11 @@ switch ($accion) {
         $response = ['status' => 'success', 'data' => $anuncios];
         jsonResponse($response);
         break;
+    case "porIdAnuncio":
+        $anuncio = getAnuncioId($dbh, $id);
+        $response = ['status' => 'success', 'data' => $anuncio];
+        jsonResponse($response);
+        break;
     case "comercioConcreto":
 
         $idComercio = getComercio($dbh, $id);

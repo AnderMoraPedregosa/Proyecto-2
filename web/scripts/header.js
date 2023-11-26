@@ -27,6 +27,7 @@ switch (parseInt(rol)) {
 
         break;
     case 2:
+        liPerfil.style.display = "block";
         break;
     case 3:
         liPerfil.style.display = "block";
