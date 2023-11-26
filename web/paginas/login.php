@@ -20,16 +20,13 @@
                 <h1>Crear Cuenta</h1>
                 <span>o utiliza tu correo electrónico para registrarte</span>
                 <input type="text" placeholder="Nombre" id="nombreUsuario" name="nombreUsuario">
+                <input type="text" placeholder="Apellido" id="apellidoUsuario" name="apellidoUsuario">
+                <input type="tel" placeholder="Telefono" id="telefonoUsuario" name="telefonoUsuario">
                 <input type="text" placeholder="Dni" id="dniUsuario" name="dniUsuario">
                 <input type="email" placeholder="Correo Electrónico" id="emailUsuario" name="emailUsuario">
                 <input type="password" placeholder="Contraseña" id="contrasenaUsuario" name="passwd">
-                <div class="radio-buttons">
-                    <input type="radio" id="cliente" name="tipoUsuario" value="cliente">
-                    <label for="cliente">Cliente</label>
-                    <input type="radio" id="comerciante" name="tipoUsuario" value="comerciante">
-                    <label for="comerciante">Comerciante</label>
-                </div>
-                <button id="btnRegistro">Solicitar Registrarse</button>
+
+                <button id="btnRegistro">Registrarse</button>
             </form>
         </div>
         <div class="contenedor-formulario inicio-sesion">
