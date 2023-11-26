@@ -88,6 +88,9 @@ switch ($path) {
         require './servidor/servicios/comercios/servicioComercios.php';
 
         break;
+    case "error":
+        require "./paginas/error-404.php";
+        break;
     default:
         // Manejo de rutas no encontradas
         require "./paginas/error-404.php";

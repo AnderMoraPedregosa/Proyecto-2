@@ -1,6 +1,6 @@
 
-const btnCrearProducto = document.getElementById("btnCrearProducto");
-const btnCrearBlog = document.getElementById("btnCrearBlog");
+const btnCrearProducto = document.getElementById("btnCrearProductoAside");
+const btnCrearBlog = document.getElementById("btnCrearBlogAside");
 const btnVerBlog = document.getElementById("btnBlog");
 
 const sidebartitle = document.getElementById("sidebarTitle");

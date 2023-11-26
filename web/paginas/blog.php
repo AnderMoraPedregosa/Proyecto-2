@@ -12,13 +12,8 @@
 </div>
 </div>
 <div class="center-blog">
-    <section id="content-blog">
-
-       
-            <script type="module" src="scripts/blogs.js"></script>
-        
-            
-                
+    <section id="content-blog">    
+            <script type="module" src="scripts/blogs.js"></script>                 
     </section>
     <button id="cargarMasBtnBlog">Cargar más</button>
 </div>

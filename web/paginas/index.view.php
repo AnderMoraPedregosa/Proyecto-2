@@ -25,8 +25,8 @@
         <aside id="sidebar">
             <div id="nav-blog" class="sidebar-item">
                 <h3 id="sidebarTitle"></h3>
-                <a href="/formulario/anuncio" class="btn " id="btnCrearProducto" style="display: none;">Crear anuncio</a>
-                <a href="/formulario/blog" class="btn btn-success" id="btnCrearBlog" style="display: none;">Crear blog</a>
+                <a href="/formulario/anuncio" class="btn " id="btnCrearProductoAside" style="display: none;">Crear anuncio</a>
+                <a href="/formulario/blog" class="btn btn-success" id="btnCrearBlogAside" style="display: none;">Crear blog</a>
 
                 <a href="/blog" class="btn-white" id="btnBlog">Ir al blog</a>
 

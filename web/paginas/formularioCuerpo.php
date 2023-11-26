@@ -3,10 +3,10 @@
 <div class="center">
     <section id="content-Formulario">
 
-        <h1 class="subheader">Crear producto</h1>
+        <h1 class="subheader" id="formTitulo"></h1>
 
-       <?php include "paginas/crearEditarAnuncio.php"?>
-       <?php include "paginas/crearEditarBlog.php"?>
+        <?php include "paginas/crearEditarAnuncio.php" ?>
+        <?php include "paginas/crearEditarBlog.php" ?>
 
         <div class="clearfix"></div>
 
@@ -16,14 +16,15 @@
     <aside id="sidebar">
         <div id="nav-blog" class="sidebar-item">
             <h3>Puedes hacer esto</h3>
-            <a href="/formulario/blog" class="btn btn-success">Crear blog</a>
+            <a href="/formulario/anuncio" class="btn " id="btnCrearProductoAside" style="display: none;">Crear anuncio</a>
+            <a href="/formulario/blog" class="btn btn-success" id="btnCrearBlogAside" style="display: none;">Crear blog</a>
         </div>
 
- 
-        </div>
-    </aside>
 
-    <div class="clearfix"></div>
+</div>
+</aside>
+
+<div class="clearfix"></div>
 </div>
 <script type="module" src="../../scripts/categoria.js"></script>
 <script type="module" src="../../scripts/validacion.js"></script>

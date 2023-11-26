@@ -1,38 +1,49 @@
 import { Comerciante } from "../modelos/comerciante.js";
 import { getPersonaById } from "./Funciones/getPersona.js";
 let selectElement = document.getElementById("selectCategorias");
-let titulo = document.getElementById("titulo");
+let tituloAnuncio = document.getElementById("tituloAnuncio");
 let precio = document.getElementById("precio");
 let descripcion = document.getElementById("desc");
 let imagenesInput = document.getElementById("imagen");
-let comerciante;
-
+let formBlog = document.getElementById("formBlog");
+let formAnuncio = document.getElementById("formAnuncio");
 let accion = window.location.pathname.split("/")
+let tituloForm = document.getElementById("formTitulo");
+let btnCrearProducto = document.getElementById("btnCrearProductoAside");
+let btnCrearBlog = document.getElementById("btnCrearBlogAside");
 
 switch (accion[2]) {
     case "anuncio":
+        btnCrearBlog.style.display = "block";
+        tituloForm.textContent = "Crear anuncio";
+        formBlog.style.display = "none";
         document.getElementById('btnCrearAnuncio').addEventListener('click', function (event) {
             event.preventDefault();
             insertarActualizarAnuncio();
         });
         break;
     case "blog":
+        btnCrearProducto.style.display = "block";
+        tituloForm.textContent = "Crear blog";
+        formAnuncio.style.display = "none";
         document.getElementById('btnCrearBlog').addEventListener('click', function (event) {
             event.preventDefault();
             insertarActualizarBlog();
         });
         break;
+    default:
+        window.location.href = "/error";
 }
 
 async function insertarActualizarAnuncio() {
     try {
         if (validarFormulario()) {
             var comercianteJSON = await getPersonaById();
-            comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
+            let comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
             const url = `/anuncios/insertar`;
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
             const data = {
-                titulo: titulo.value,
+                titulo: tituloAnuncio.value,
                 precio: precio.value,
                 descripcion: descripcion.value,
                 cat: selectElement.value,
@@ -62,11 +73,11 @@ async function insertarActualizarBlog() {
     try {
         if (validarFormulario()) {
             var comercianteJSON = await getPersonaById();
-            comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
+            let comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
             const url = `/blogs/insertar`;
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
             const data = {
-                titulo: titulo.value,
+                titulo: tituloAnuncio.value,
                 texto: texto.value,
                 imagenes: await obtenerImagenesBase64(imagenesInput.files),
                 idComercio: comerciante.idComercio,
@@ -94,7 +105,7 @@ async function validarFormulario() {
 
     try {
         let campos = [
-            { nombre: "Titulo", valor: titulo.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
+            { nombre: "Titulo", valor: tituloAnuncio.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
             { nombre: "Precio", valor: precio.value.trim(), exp: /^[0-9]+(\.[0-9]{1,2})?$/ },
             { nombre: "Descripcion", valor: descripcion.value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }
         ];
