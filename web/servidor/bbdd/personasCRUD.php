@@ -14,9 +14,9 @@ function getPersonas($dbh)
 function getPersonaId($dbh, $id)
 {
     $data = array('id' => $id);
-    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id= (:id)");
+    $stmt = $dbh->prepare("SELECT * FROM personas WHERE id= (:id)");
     $stmt->execute($data);
-    return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // Dentro de tu función insertarAnuncio
 
@@ -36,17 +36,13 @@ function insertarPersona($dbh, $data)
 {
     try {
         $stmt = $dbh->prepare("INSERT INTO personas (dni, nombre, passwd, email, id_rol)
-        VALUES (:dni, :nombre, :passwd, :email, :rol)");
+        VALUES (:dni, :nombre, :pass, :email, :rol)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
-
-        $success = $stmt->execute($data);
-        if (!$success) {
-            throw new Exception("Error al ejecutar la consulta");
-        }
-
-        return true; // Opcional: Puedes devolver algo más significativo si lo deseas
+       return $stmt->execute($data);
+       
+       
     } catch (Exception $e) {
         // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
         error_log($e->getMessage());
@@ -105,13 +101,13 @@ function getPersonaByEmailAndPassword($dbh, $email, $pass)
     $data = array('email' => $email, 'pass' => $pass);
     $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = (:email) AND passwd = (:pass)");
     $stmt->execute($data);
-    return $persona = $stmt->fetch(PDO::FETCH_ASSOC);
+    return  $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 function getPersonaByEmail($dbh, $email)
 {
     $data = array('email' => $email);
-    $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = (:email)");
+    $stmt = $dbh->prepare("SELECT * FROM personas WHERE email = :email");
     $stmt->execute($data);
-    return $persona = $stmt->fetch(PDO::FETCH_ASSOC);
+    return  $stmt->fetch(PDO::FETCH_ASSOC);
 }

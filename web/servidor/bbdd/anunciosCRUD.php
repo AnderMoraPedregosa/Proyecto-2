@@ -8,7 +8,7 @@ function getAnuncioSearch($dbh, $palabra)
 {
     try {
         $data = array('palabra' => '%' . $palabra . '%');
-        $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE titulo LIKE :palabra");
+        $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE titulo LIKE :palabra ORDER BY fecha_creacion desc");
 
         $stmt->execute($data);
 
@@ -33,8 +33,25 @@ function getAnuncioSearch($dbh, $palabra)
 function getAnuncios($dbh)
 {
     try {
-        $stmt = $dbh->prepare("SELECT * FROM anuncios");
+        $stmt = $dbh->prepare("SELECT * FROM anuncios order by fecha_creacion desc");
         $stmt->execute();
+
+        // Obtener resultados directamente sin necesidad de almacenar en una variable intermedia
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // Manejar la excepción según tus necesidades (log, mostrar mensaje de error, etc.)
+        echo "Error al obtener anuncios: " . $e->getMessage();
+        return false;
+    }
+}
+
+function getAnunciosCategoria($dbh, $idCat)
+{
+    try {
+        $data = array('idCat' => $idCat);
+
+        $stmt = $dbh->prepare("SELECT * FROM anuncios where id_categoria = :idCat order by fecha_creacion desc");
+        $stmt->execute($data);
 
         // Obtener resultados directamente sin necesidad de almacenar en una variable intermedia
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,38 +68,71 @@ function getAnuncioId($dbh, $id)
     $data = array('id' => $id);
     $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id= (:id)");
     $stmt->execute($data);
-    return $anuncio = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getAnuncioIdYcategoria($dbh, $id, $idCat)
+{
+    $data = array('id' => $id, "idCat" => $idCat);
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id = (:id) and id_categoria = (:idCat)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getAnuncioPorComercio($dbh, $idComercio)
+{
+    $data = array('comercio_id' => $idComercio);
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id_comercio= (:comercio_id)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getAnuncioPorComercioYcategoria($dbh, $idComercio, $idCat)
+{
+    $data = array('comercio_id' => $idComercio, "idCat" => $idCat);
+    $stmt = $dbh->prepare("SELECT * FROM anuncios WHERE id_comercio= (:comercio_id) and id_categoria = (:idCat)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // Dentro de tu función insertarAnuncio
 function insertarAnuncio($dbh, $data)
 {
-    if (!empty($data['imagenes'])) {
-        $imagenes = $data['imagenes'];
 
-        // Insertar el anuncio en la tabla 'anuncios'
-        $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, categoria, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio, imagen_anuncio) 
-            VALUES (:titulo, :precio, :categoria, :descripcion, :id_categoria, :fecha, :comercio, :anunciante, :imagen_anuncio)");
+    try {
+        if (!empty($data['imagenes'])) {
+            $imagenes = $data['imagenes'];
 
-        // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
-        $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
-        unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
+            // Insertar el anuncio en la tabla 'anuncios'
+            $stmt = $dbh->prepare("INSERT INTO anuncios (titulo, precio, descripcion, id_categoria, fecha_creacion, id_comerciante, id_comercio, imagen_anuncio) 
+                VALUES (:titulo, :precio, :descripcion, :id_categoria, :fecha, :anunciante, :comercio, :imagen_anuncio)");
 
-        $stmt->execute($data);
-        $idAnuncio = $dbh->lastInsertId(); // Obtener el ID del último anuncio insertado
+            // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
+            $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
+            unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
 
-        // Insertar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
-        foreach ($imagenes as $index => $rutaImagen) {
-            // Evitar insertar la imagen principal nuevamente
-            $dataImagenAdicional = [
-                'id_anuncio' => $idAnuncio,
-                'ruta_imagen' => $rutaImagen,
-            ];
-            insertarRutaImagen($dbh, $dataImagenAdicional);
+            // Execute con el array directamente
+            $stmt->execute($data);
+            $idAnuncio = $dbh->lastInsertId(); // Obtener el ID del último anuncio insertado
+
+            // Insertar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
+            foreach ($imagenes as $index => $rutaImagen) {
+                // Evitar insertar la imagen principal nuevamente
+                $dataImagenAdicional = [
+                    'id_anuncio' => $idAnuncio,
+                    'ruta_imagen' => $rutaImagen,
+                ];
+                insertarRutaImagen($dbh, $dataImagenAdicional);
+            }
+        } else {
+            // Si no se cargó ninguna imagen, manejarlo según tus necesidades
+            $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
+            jsonResponse($response, 400);
         }
-    } else {
-        // Si no se cargó ninguna imagen, manejarlo según tus necesidades
-        $response = ['status' => 'error', 'message' => 'No se han proporcionado archivos de imagen válidos'];
+    } catch (PDOException $e) {
+        echo "Error en la operación: " . $e->getMessage();
+        $response = ['status' => 'error', 'message' => $e->getMessage()];
         jsonResponse($response, 400);
+        // También puedes agregar logs o realizar acciones específicas en caso de error.
     }
 }
 
@@ -91,16 +141,65 @@ function insertarRutaImagen($dbh, $data)
 {
     $stmt = $dbh->prepare("INSERT INTO imagenes_anuncios (id_anuncio, ruta_imagen) 
         VALUES (:id_anuncio, :ruta_imagen)");
+
+    // Execute con el array directamente
     $stmt->execute($data);
     close();
+}
+
+function actualizarRutaImagen($dbh, $data)
+{
+
+    $stmt = $dbh->prepare("UPDATE imagenes_anuncios SET ruta_imagen = :ruta_imagen WHERE id_anuncio = :id_anuncio");
+
+    // Execute con el array directamente
+    $stmt->execute($data);
+    close();
+}
+
+function getComercio($dbh, $id)
+{
+    $data = array('id' => $id);
+
+    $stmt = $dbh->prepare("SELECT DISTINCT id_comercio FROM anuncios WHERE id_comerciante = :id");
+    $stmt->execute($data);
+    $id_comercio = $stmt->fetchColumn();
+
+    return $id_comercio;
 }
 
 function actualizarAnuncio($dbh, $data)
 {
 
-    $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio, categoria = :categoria, descripcion = :descripcion, id_categoria = :id_categoria, fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio WHERE id = :id");
-    $stmt->execute($data);
-    close();
+    try {
+        if (!empty($data['imagenes'])) {
+            $imagenes = $data['imagenes'];
+
+            $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria,
+            fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio , imagen_anuncio = :imagen_anuncio WHERE id = :id");
+
+            // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
+            $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
+            unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
+            $stmt->execute($data);
+            $idAnuncio = $data['id']; // No necesitas obtener el último ID insertado en una actualización
+
+            // Actualizar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
+            foreach ($imagenes as $index => $rutaImagen) {
+                // Evitar insertar la imagen principal nuevamente
+                $dataImagenAdicional = [
+                    'id_anuncio' => $idAnuncio,
+                    'ruta_imagen' => $rutaImagen,
+                ];
+                actualizarRutaImagen($dbh, $dataImagenAdicional);
+            }
+        }
+    } catch (PDOException $e) {
+
+        $response = ['status' => 'error', 'message' => $e->getMessage()];
+        jsonResponse($response, 400);
+        // También puedes agregar logs o realizar acciones específicas en caso de error.
+    }
 }
 
 
@@ -109,7 +208,7 @@ function getImagenesId($dbh, $id)
     $data = array('id' => $id);
     $stmt = $dbh->prepare("SELECT * FROM imagenes_anuncios WHERE id_anuncio = (:id)");
     $stmt->execute($data);
-    return $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return  $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 function eliminarId($dbh, $id)
 {

@@ -7,7 +7,10 @@
     <title>Comercio de Vitoria</title>
 
     <!--HOJA DE ESTILOS-->
+    <link rel="stylesheet" type="text/css" href="../../assets/css/tarjetasPerfil.css" />
+
     <link rel="stylesheet" type="text/css" href="../../assets/css/styles.css" />
+
     <!--favicon-->
     <link rel="icon" type="image/png" href="../../assets/images/losJavasLogo.png">
 
@@ -30,26 +33,29 @@
 
             <!-- MENU -->
             <nav id="menu">
-                <ul>
+                <ul id="menuUl">
                     <li id="liInicio">
                         <a href="/" class="animacion">Inicio</a>
                     </li>
                     <li id="liBlog">
                         <a href="/blog" class="animacion">Blog</a>
                     </li>
-                    <li id="liFormulario">
-                        <a href="/formulario" class="animacion">Formulario</a>
-                    </li>
-                    <li id="liUsuarios">
+                   
+                    <li id="liUsuarios" class="crudUsuariosOculto">
                         <a href="/crudPersonas" class="animacion">Usuarios</a>
                     </li>
-                    <li id="liPerfil">
-                        <a href="#" class="animacion">Perfil</a>
+                    <li id="liPerfil"  style="display: none;">
+                        <a href="/perfil" class="animacion">Perfil</a>
                     </li>
+                 <!--    <li id="liConfiguracion">
+                        <a href="/confPerfil" class="animacion"><i class="fa-solid fa-id-card confPerf"></i></a>
+                    </li> -->
                     <li id="liIniciarSesion">
-                        <a href="/login"><button class="btn-sesion" id="btnLoginHead">Iniciar sesion</button></a>
-                        <a href="/login"><button class="btn-sesion" id="btnLogOutHead" style="display: none;">Cerrar sesion</button></a>
+                        <button class="btn-sesion" id="btnLoginHead" onclick="location.href='/login'">Iniciar sesión</button>
+                        <button class="btn-sesion" style="display: none;" id="btnLogOutHead" >Cerrar sesión</button>
                     </li>
+
+
                 </ul>
             </nav>
             <script src="../../scripts/header.js"></script>

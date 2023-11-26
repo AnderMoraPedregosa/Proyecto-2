@@ -1,6 +1,10 @@
 // Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
+import { Categoria } from "../modelos/categoria.js";
 import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.js"
+import { Comerciante } from "../modelos/comerciante.js";
+import { getPersonaById } from "./Funciones/getPersona.js";
+
 async function getDetalleAnuncio(id) {
     const response = await fetch(`/anuncios/detalles/${id}`);
     const data = await response.json();
@@ -8,6 +12,16 @@ async function getDetalleAnuncio(id) {
 }
 
 
+async function getCategoriaById(id) {
+    const response = await fetch(`/categorias/categoria/${id}`);
+    const data = await response.json();
+    return data;
+}
+let comerciante;
+let categoria;
+var btnForm = document.getElementById("btnCrearAnuncio");
+let selectElement = document.getElementById("selectCategorias");
+let imagenesInput = document.getElementById("imagen");
 
 window.addEventListener("load", async function () {
     // Obtener la ruta de la URL
@@ -16,60 +30,60 @@ window.addEventListener("load", async function () {
     const pathSegments = path.split('/');
     const accion = pathSegments[2]
     // Obtener el último segmento, que debería ser el 'id'
-    const id = pathSegments.pop();
+    var id = pathSegments.pop();
 
 
     if (id) {
         var anuncioJSON = await getDetalleAnuncio(id);
-        console.log(anuncioJSON);
         const anuncioNew = new Anuncio(
             anuncioJSON["anuncio"][0].id,
             anuncioJSON["anuncio"][0].titulo,
             anuncioJSON["anuncio"][0].imagen_anuncio,
-            anuncioJSON["anuncio"][0].categoria,
             anuncioJSON["anuncio"][0].descripcion,
             anuncioJSON["anuncio"][0].fecha_creacion,
             anuncioJSON["anuncio"][0].precio,
-            anuncioJSON["anuncio"][0].id_categorias,
+            anuncioJSON["anuncio"][0].id_categoria,
             anuncioJSON["anuncio"][0].id_comercios,
             anuncioJSON["anuncio"][0].id_comerciante
         );
-
+        categoria = await categoriaAnuncio(anuncioNew.idCategoria);
         anuncioJSON["imagenes"].length == 1 || !anuncioJSON["imagenes"].length ?
             htmlDetalle(anuncioNew) : htmlDetalleImagenes(anuncioNew, anuncioJSON['imagenes']);
 
         if (accion === "actualizar") {
-            //cambiar texto del boton crear
+            // Cambiar texto del botón crear
             document.getElementById("editarAnuncio").style.display = "block";
+            btnForm.value = "Actualizar";
+            document.getElementById("tituloAnuncio").value = anuncioNew.titulo;
+            document.getElementById("precioAnuncio").value = anuncioNew.precio;
+            document.getElementById("desc").value = anuncioNew.descripcion;
 
-            //cambiar texto del boton crear
-            document.getElementById("btnCrearAnuncio").value = "Modificar";
-
-            document.getElementById("titulo").value = anuncioNew.titulo;
-
-            document.getElementById("precio").value = anuncioNew.precio;
-            document.getElementById("desc").value = anuncioNew.descripcion
-                ;
-            var selectElement = document.getElementById("selectCategorias");
-
-            var opcionesArray = Array.from(selectElement.options);
-
-
-            // Iterar sobre las opciones del select
-            opcionesArray.forEach((option) => {
-                var [id, nombreCategoria] = option.value.split('|');
-                console.log("ID de la categoría:", id);
-                console.log("Nombre de la categoría:", nombreCategoria);
-
-                // Comprobar si el valor de la opción actual coincide con la categoría del anuncio
-                if (anuncioNew.categoria === nombreCategoria) {
-                    // Establecer la propiedad selected de la opción
-                    option.selected = true;
+            for (var i = 0; i < selectElement.options.length; i++) {
+                // Si la opción está seleccionada, agregarla a la lista en JavaScript
+                if (anuncioNew.idCategoria == selectElement.options[i].value) {
+                    selectElement.options[i].selected = true;
                 }
+            }
+            var comercianteJSON = await getPersonaById();
+            comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
+
+            const url = `/anuncios/actualizar/${anuncioNew.id}`;
+
+            btnForm.addEventListener("click", () => {
+              
+                const titulo = document.getElementById("tituloAnuncio").value;
+                const precio = document.getElementById("precioAnuncio").value;
+                const descripcion = document.getElementById("desc").value;
+                const cat = selectElement.value;
+
+
+
+                insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, url);
+
             });
-
-
         }
+
+
     } else {
         console.error("No se pudo obtener el 'id' de la URL");
     }
@@ -81,7 +95,7 @@ window.addEventListener("load", async function () {
 
 function htmlDetalle(anuncio) {
     let srcImagen = anuncio.imagen.split('/');
-    let content = document.getElementById("content");
+    let content = document.getElementById("content-detail");
     const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
 
     // Crear un contenedor principal para las dos columnas
@@ -107,7 +121,7 @@ function htmlDetalle(anuncio) {
         <span class="date">Publicado: ${tiempoTranscurrido}</span>
         <p>${anuncio.descripcion}</p>
         <p>${anuncio.precio} €</p>
-        <p>${anuncio.categoria}</p>
+        <p>${categoria.nombre}</p>
         <div class="clearfix"></div>
     `;
 
@@ -121,7 +135,7 @@ function htmlDetalle(anuncio) {
 
 
 function htmlDetalleImagenes(anuncio, imagenes) {
-    let contenedor = document.getElementById("content");
+    let contenedor = document.getElementById("content-detail");
     const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
 
     // Crear un nuevo contenedor para los detalles del anuncio
@@ -129,6 +143,9 @@ function htmlDetalleImagenes(anuncio, imagenes) {
 
     // Crear un div para contener las imágenes y los botones
     let carrusel = document.createElement("div");
+    let flechas = document.createElement("div");
+    flechas.id = "flechasCarrusel";
+
     carrusel.id = "carrusel";
     contenedorDetalles.appendChild(carrusel);
 
@@ -150,8 +167,10 @@ function htmlDetalleImagenes(anuncio, imagenes) {
     btnSiguiente.textContent = "►";
 
     // Agregar botones al contenedor de imágenes
-    contenedorDetalles.appendChild(btnAnterior);
-    contenedorDetalles.appendChild(btnSiguiente);
+    flechas.appendChild(btnAnterior);
+    flechas.appendChild(btnSiguiente);
+
+    carrusel.appendChild(flechas);
 
     // Agregar detalles del anuncio al nuevo contenedor
     contenedorDetalles.innerHTML += `
@@ -166,7 +185,7 @@ function htmlDetalleImagenes(anuncio, imagenes) {
             ${anuncio.precio} €
         </p>
         <p>
-            ${anuncio.categoria}
+            ${categoria.nombre}
         </p>`;
 
     // Agregar el nuevo contenedor al contenedor principal
@@ -203,3 +222,69 @@ function carruselImg() {
     document.getElementById("siguiente").addEventListener("click", nextImage);
 }
 
+
+
+
+async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, url) {
+    try {
+        // Crear un objeto con las claves correspondientes
+        const data = {
+            id: id,
+            titulo: titulo,
+            precio: precio,
+            descripcion: descripcion,
+            cat: cat,
+            imagenes: await obtenerImagenesBase64(imagenesInput.files),
+            idComercio: comerciante.idComercio,
+            idComerciante: comerciante.id
+        };
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        // Verificar si la respuesta es exitosa
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Error en la operación: ${errorText}`);
+        }
+
+        // Obtener el objeto JSON de la respuesta
+
+
+
+        // Actualizar dinámicamente el DOM con JavaScript si es necesario
+
+    } catch (error) {
+        // Capturar y manejar errores
+        console.error('Error en la operación:', error.message);
+
+    }
+}
+
+async function categoriaAnuncio(id) {
+    let categoriaJSON = await getCategoriaById(id);
+
+    return categoria = new Categoria(categoriaJSON['categoria'][0].id, categoriaJSON['categoria'][0].nombre)
+
+}
+
+async function obtenerImagenesBase64(files) {
+    const promesas = Array.from(files).map(file => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                resolve({ nombre: file.name, base64: event.target.result });
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    return Promise.all(promesas);
+}

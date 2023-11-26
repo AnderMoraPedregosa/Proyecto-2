@@ -14,6 +14,62 @@ iniciarSesionBtn.addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    let botonRegistrar = document.getElementById("btnRegistro");
+    botonRegistrar.addEventListener('click', async function (event) {
+        try {
+            event.preventDefault();
+            const nombreUsuario = document.getElementById('nombreUsuario');
+            const dniUsuario = document.getElementById('dniUsuario');
+            const emailRegistro = document.getElementById('emailUsuario');
+            const contrasenyaUsuario = document.getElementById('contrasenaUsuario');
+            const tipoUsuario = document.getElementsByName('tipoUsuario');
+            let tipoUsuarioSeleccionado = false;
+            let seleccionadoTipo;
+            for (let i = 0; i < tipoUsuario.length; i++) {
+                if (tipoUsuario[i].checked) {
+                    seleccionadoTipo = tipoUsuario[i].value;
+                    tipoUsuarioSeleccionado = true;
+                    break;
+                }
+            }
+            if (nombreUsuario.value === '' || dniUsuario.value === '' || emailRegistro.value === '' || contrasenyaUsuario.value === '' || !tipoUsuarioSeleccionado) {
+                alert('Por favor, complete todos los campos.');
+            } else {
+                let datos = {
+                    nombre: nombreUsuario.value,
+                    dni: dniUsuario.value,
+                    email: emailRegistro.value,
+                    contra: contrasenyaUsuario.value,
+                    tipo: seleccionadoTipo,
+                }
+                const response = await fetch('/registrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: JSON.stringify(datos)
+                });
+                if (response.ok) {
+                    // Obtener el cuerpo de la respuesta como JSON
+                    const data = await response.json();
+
+                    // Hacer algo con los datos obtenidos
+                    console.log('Respuesta del servidor:', data);
+                } else {
+                    // Si la solicitud no fue exitosa, manejar el error
+                    console.error('Error al realizar la solicitud:', response.status, response.statusText);
+                }
+            }
+
+
+
+
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
+    })
+
+
     let botonLogin = document.getElementById("btnLogin")
     botonLogin.addEventListener('click', async function (event) {
         try {
@@ -30,12 +86,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: `emailUsuario=${emailUsuario}&passwd=${passwd}`,
                 });
-                console.log(response);
                 if (response.ok) {
                     // Obtener el cuerpo de la respuesta como JSON
                     const json = await response.json();
-                    // Hacer algo con el cuerpo de la respuesta (por ejemplo, imprimirlo en la consola)
-                    sessionStorage.setItem("user", JSON.stringify(json['user']))
+                    console.log(json)
+                    let usuario = {
+                        "id_rol": json["user"]["id_rol"],
+                        "idPersona": json["user"]["id"]
+                    };
+                    sessionStorage.setItem("user", JSON.stringify(usuario));
                     location.href = "/"
                     // También puedes usar sessionStorage aquí si es necesario
                     // sessionStorage.setItem("user", JSON.stringify(json));
