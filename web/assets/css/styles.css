@@ -748,9 +748,10 @@ form input[type="submit"]:hover {
 
 
 
-.linkEditUser,
-.linkDeleteUser,
-.enlaceCrearUsuario {
+.linkCreateAdmin,
+.linkEditAdmin,
+.linkDeleteAdmin {
+    font-size: 0.8em;
     width: 0.938em;
     border: 0.125em solid black;
     padding: 0.313em 0.375em;
@@ -762,15 +763,15 @@ form input[type="submit"]:hover {
     transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
-.linkEditUser {
+.linkEditAdmin {
     background-color: #3D6CE1;
 }
 
-.linkDeleteUser {
+.linkDeleteAdmin {
     background-color: #c0392b;
 }
 
-.enlaceCrearUsuario {
+.linkCreateAdmin {
     margin-left: 1.25em;
     background-color: #45a049;
 
@@ -779,9 +780,12 @@ form input[type="submit"]:hover {
 .table-personas,
 .table-categorias,
 .table-comercios {
-    width: 100%;
+    margin: 1em auto;
+    width: 90%;
     border-collapse: collapse;
     margin-bottom: 0.625em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); 
+
 }
 
 .table-personas i {

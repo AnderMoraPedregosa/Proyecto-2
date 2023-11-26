@@ -196,13 +196,13 @@ function obtenerEncabezados(tipo) {
                 <th>Contraseña</th>
                 <th>Email</th>
                 <th>Rol</th>
-                <th>Operaciones <a href="#" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
+                <th>Operaciones <a href="#" class="linkCreateAdmin enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
             `;
         case "categorias":
             return `
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Operaciones <a href="/categorias/insertar" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
+                <th>Operaciones <a href="/categorias/insertar" class="linkCreateAdmin enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
             `;
         case "comercios":
             return `
@@ -212,7 +212,7 @@ function obtenerEncabezados(tipo) {
                 <th>Email</th>
                 <th>Telefono</th>
                 <th>Direccion</th>
-                <th>Operaciones <a href="#" class="enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
+                <th>Operaciones <a href="#" class="linkCreateAdmin enlaceCrear${tipo} linkAddUser"><i class="fa-solid fa-user-plus"></i></a></th>
             `;
         default:
             return "";
@@ -243,8 +243,8 @@ function obtenerFila(elemento, tipo) {
                 <td>${elemento.email}</td>
                 <td>${obtenerNombreRol(elemento.id_rol)}</td>
                 <td>
-                    <a href="#" class="linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
-                    <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
+                    <a href="#" class="linkEditAdmin linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
+                    <a href="#" class="linkDeleteAdmin eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
                 </td>
             `;
         case "categorias":
@@ -252,8 +252,8 @@ function obtenerFila(elemento, tipo) {
                 <td>${elemento.id}</td>
                 <td>${elemento.nombre}</td>
                 <td>
-                    <a href="/categorias/actualizar" class="linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
-                    <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
+                    <a href="/categorias/actualizar" class=" linkEditAdmin linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
+                    <a href="#" class="linkDeleteAdmin eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
                 </td>
             `;
             case "comercios":
@@ -265,8 +265,8 @@ function obtenerFila(elemento, tipo) {
                     <td>${elemento.telefono}</td>
                     <td>${elemento.direccion}</td>
                     <td>
-                        <a href="#" class="linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
-                        <a href="#" class="eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
+                        <a href="#" class="linkEditAdmin linkEdit${tipo}" data-id="${elemento.id}"><i class="fa-solid fa-user-pen"></i></a>
+                        <a href="#" class="linkDeleteAdmin eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
                     </td>
                 `;
         default:
