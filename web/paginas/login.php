@@ -16,7 +16,7 @@
 
         <div class="contenedor-formulario registro">
             <a href="/"> <button id="btnVolver">Volver</button></a>
-            <form action="/registrar" method="post">
+            <form id="formReg" method="post">
                 <h1>Crear Cuenta</h1>
                 <span>o utiliza tu correo electrónico para registrarte</span>
                 <input type="text" placeholder="Nombre" id="nombreUsuario" name="nombreUsuario">
@@ -29,13 +29,11 @@
                     <input type="radio" id="comerciante" name="tipoUsuario" value="comerciante">
                     <label for="comerciante">Comerciante</label>
                 </div>
-                <button id="registro">Solicitar Registrarse</button>
+                <button id="btnRegistro">Solicitar Registrarse</button>
             </form>
         </div>
         <div class="contenedor-formulario inicio-sesion">
             <a href="/"> <button id="btnVolver">Volver</button></a>
-
-
             <form id="formLogin" method="post">
                 <h1>Iniciar Sesión</h1>
                 <div class="iconos-sociales">

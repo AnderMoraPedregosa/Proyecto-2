@@ -10,7 +10,6 @@ var urlActual = window.location.href;
 // Divide la URL en partes utilizando "/" como delimitador
 var partesUrl = urlActual.split('/');
 
-// Obtiene el segundo elemento del array (índice 1)
 
 var urlBlog = partesUrl[3];
 
@@ -18,7 +17,6 @@ var divCrearBlog = document.getElementById("crearBlog");
 
 var btnMostrarFormBlog = document.getElementById("btnMostrarFormBlog");
 var divFormBlog = document.getElementById("formCrearBlog");
-var btnCrearBlog = document.getElementById("btnCrearBlog");
 
 btnMostrarFormBlog.addEventListener("click", function () {
     if (btnMostrarFormBlog.textContent === "Crear Blog") {
@@ -37,17 +35,17 @@ async function getBlogs() {
         let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
         // Obtener la ruta base del documento actual
         const base_url = window.location.origin;
-         let response;
-         if(urlBlog === "blog"){
+        let response;
+        if (urlBlog === "blog") {
             response = await fetch(`${base_url}/blogs/todos`);
-            
-         }
-         else{
+
+        }
+        else {
             divCrearBlog.style.display = "block";
             response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
             document.getElementById("tituloBlogs").textContent = "Mis Blogs";
 
-         }
+        }
 
         if (!response.ok) {
             throw new Error(`Error al obtener blogs. Código de estado: ${response.status}`);
@@ -169,7 +167,7 @@ function mostrarHtmlBoton(body) {
 function mostarHtml(body) {
     let divBlog;
     const scrollBefore = window.scrollY;
-  
+
 
     if (body['status'] == 'success') {
 
@@ -198,13 +196,13 @@ function mostarHtml(body) {
             </div>
              `;
             content.appendChild(divBlog);
-/* 
-            let eliminarEnlace = divBlog.querySelector('.eliminar-enlace');
-            eliminarEnlace.addEventListener('click', function (event) {
-                event.preventDefault();
-                const idAnuncio = this.getAttribute('data-id');
-                confirmarEliminacion(idAnuncio);
-            }); */
+            /* 
+                        let eliminarEnlace = divBlog.querySelector('.eliminar-enlace');
+                        eliminarEnlace.addEventListener('click', function (event) {
+                            event.preventDefault();
+                            const idAnuncio = this.getAttribute('data-id');
+                            confirmarEliminacion(idAnuncio);
+                        }); */
 
         });
 
@@ -243,7 +241,7 @@ function datosBlog(data) {
     return blogs;
 }
 
-function crearBlog(){
+function crearBlog() {
     alert("creando blog")
     let nombre = document.getElementById("tituloBlog").value;
     let imagen = document.getElementById("imagenBlog").value;
@@ -256,9 +254,9 @@ function crearBlog(){
     };
 
     const base_url = window.location.origin;
-                let url = `${base_url}/blogs/insertar`
+    let url = `${base_url}/blogs/insertar`
 
-    insertarActualizar(data,url);
+    insertarActualizar(data, url);
 }
 
 

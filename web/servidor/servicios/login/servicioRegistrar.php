@@ -7,6 +7,7 @@ function jsonResponse($data, $statusCode = 200)
     //header('Content-Type: application/json');
     echo json_encode($data);
 }
+$datos = json_decode(file_get_contents('php://input'), true);
 
 function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $contrasenyaUsuario, $tipoUsuario, $dbh)
 {
@@ -31,9 +32,6 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
             'rol' => $rol
         ];
 
-
-
-
         if (insertarPersona($dbh, $datos)) {
             echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
         } else {
@@ -48,11 +46,9 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
 
 // Aquí maneja la acción específica 'regiatro'
 
-echo "<script>alert('estoy en registro');</script>";
+if ($datos) {
 
-if (isset($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'])) {
-
-    registrarNuevoUsuario($_POST['nombreUsuario'], $_POST['dniUsuario'], $_POST['emailUsuario'], $_POST['passwd'], $_POST['tipoUsuario'], $dbh);
+    registrarNuevoUsuario($datos['nombre'], $datos['dni'], $datos['email'], $datos['contra'], $datos['tipo'], $dbh);
 } else {
     $response = ['status' => 'error', 'message' => 'Acción no válida'];
     jsonResponse($response, 400);

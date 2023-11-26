@@ -40,7 +40,7 @@ function insertarPersona($dbh, $data)
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
-        $stmt->execute($data);
+       return $stmt->execute($data);
        
        
     } catch (Exception $e) {
