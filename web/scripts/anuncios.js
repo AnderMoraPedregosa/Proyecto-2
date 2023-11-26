@@ -181,9 +181,32 @@ var persona;
 window.addEventListener("load", async function() {
 categoriaSeleccionada = "0";
 
+const searchInput = document.getElementById("search-input");
+
+// Verificar si existe la cookie "buscador"
+const buscadorCookie = getCookie("buscador");
+
+// Establecer el valor del input basado en la existencia de la cookie
+searchInput.placeholder = buscadorCookie ? buscadorCookie : "prueba";
+
 getAnuncios()
 logicaApp();
 });
+
+function getCookie(nombre) {
+    const nombreCooke = `${nombre}=`;
+    const cookies = document.cookie.split(';');
+    
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i].trim();
+        if (cookie.indexOf(nombreCooke) === 0) {
+            return cookie.substring(nombreCooke.length, cookie.length);
+        }
+    }
+    
+    return null;
+}
+
 
 async function logicaApp(){
     persona = await getPersonaById();
@@ -210,6 +233,11 @@ async function logicaApp(){
         event.preventDefault();
 
         const searchInput = document.getElementById("search-input").value;
+
+        // Guardar en cookie
+        document.cookie = `buscador=${searchInput}; path=/`;
+
+
         body = await getAnunciosSearch(searchInput);
         // Limpia los anuncios existentes
         articles.innerHTML = "";
