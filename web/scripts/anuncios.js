@@ -405,6 +405,7 @@ function mostrarModal(imagen) {
 }
 
 //index db
+//index db
 function guardarEnIndexedDB(idAnuncio, idPersona) {
     const dbName = "anunciosFavoritos";
     const request = indexedDB.open(dbName, 1);
@@ -432,19 +433,24 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
         getRequest.onsuccess = function () {
             const favoritos = getRequest.result ? getRequest.result.anuncios : [];
 
-            // Agregar al principio el nuevo anuncio a la lista de favoritos
-            favoritos.unshift(idAnuncio);
+            // Verificar si el anuncio ya está en la lista de favoritos
+            if (favoritos.includes(idAnuncio)) {
+                console.log("El anuncio ya está en la lista de favoritos");
+            } else {
+                // Agregar al principio el nuevo anuncio a la lista de favoritos
+                favoritos.unshift(idAnuncio);
 
-            // Actualizar la lista de favoritos en IndexedDB
-            const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
+                // Actualizar la lista de favoritos en IndexedDB
+                const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
 
-            updateRequest.onsuccess = function () {
-                console.log("Favorito guardado en IndexedDB");
-            };
+                updateRequest.onsuccess = function () {
+                    console.log("Favorito guardado en IndexedDB");
+                };
 
-            updateRequest.onerror = function () {
-                console.error("Error al actualizar la lista de favoritos en IndexedDB");
-            };
+                updateRequest.onerror = function () {
+                    console.error("Error al actualizar la lista de favoritos en IndexedDB");
+                };
+            }
         };
 
         getRequest.onerror = function () {
@@ -456,6 +462,7 @@ function guardarEnIndexedDB(idAnuncio, idPersona) {
         console.error("Error al abrir la base de datos");
     };
 }
+
 
 //obtener anuncios de index db
 async function obtenerFavoritosIndexedDB(idPersona) {
