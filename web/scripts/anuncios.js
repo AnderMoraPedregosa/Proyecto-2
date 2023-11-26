@@ -94,9 +94,9 @@ async function getAnunciosSearch(searchTerm) {
     }
 }
 
-
+var persona;
 window.addEventListener("load", async function () {
-    let persona = await getPersonaById();
+    persona = await getPersonaById();
     if(!persona)  {
             //no hay nadie logueado
         body = await getAnuncios();
@@ -202,8 +202,8 @@ function mostarHtml(body) {
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
                  <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" id="aEliminar" title="Eliminar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-trash"></i></a>
-                 <a href="#" id="fav" class="fav"><i class="fa-regular fa-star"></i> </a>
-                </div>
+                 <a href="#" class="linkFav" id="fav" title="Favorito" style="display: ${persona && datosArray["id_rol"] === "2" ? 'block' : 'none'};"><i class="fa-regular fa-heart"></i> </a>
+                 </div>
     
                   <div class="clearfix"></div>
              `;
@@ -301,4 +301,3 @@ function mostrarModal(imagen) {
         zoomedImage.style.transform = 'scale(1)';
     });
 }
-
