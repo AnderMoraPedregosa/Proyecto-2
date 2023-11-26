@@ -34,15 +34,26 @@ function checkIfEmailExists($dbh, $emailUsuario)
 
 function insertarPersona($dbh, $data)
 {
+    $telefono = $data['telefono'];
+    $apellidos = $data['apellidos'];
+    unset($data['telefono']);
+    unset($data['apellidos']);
+
     try {
         $stmt = $dbh->prepare("INSERT INTO personas (dni, nombre, passwd, email, id_rol)
         VALUES (:dni, :nombre, :pass, :email, :rol)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }
-       return $stmt->execute($data);
-       
-       
+        $stmt->execute($data);
+        $idPersona = $dbh->lastInsertId();
+        $dataCliente = [
+            'apellidos' => $apellidos,
+            'telefono' => $telefono,
+            'idPersona' => $idPersona
+        ];
+        insertarCliente($dbh, $dataCliente);
+        return true;
     } catch (Exception $e) {
         // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
         error_log($e->getMessage());
@@ -50,7 +61,12 @@ function insertarPersona($dbh, $data)
     }
 }
 
+function insertarCliente($dbh, $data)
+{
 
+    $stmt = $dbh->prepare("INSERT INTO clientes (apellidos, telefono, id_persona) VALUES (:apellidos, :telefono, :idPersona)");
+    return  $stmt->execute($data);
+}
 
 function actualizarPersona($dbh, $data)
 {

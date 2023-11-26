@@ -21,26 +21,19 @@ document.addEventListener('DOMContentLoaded', function () {
             const nombreUsuario = document.getElementById('nombreUsuario');
             const dniUsuario = document.getElementById('dniUsuario');
             const emailRegistro = document.getElementById('emailUsuario');
+            const telefonoUsuario = document.getElementById('telefonoUsuario');
             const contrasenyaUsuario = document.getElementById('contrasenaUsuario');
-            const tipoUsuario = document.getElementsByName('tipoUsuario');
-            let tipoUsuarioSeleccionado = false;
-            let seleccionadoTipo;
-            for (let i = 0; i < tipoUsuario.length; i++) {
-                if (tipoUsuario[i].checked) {
-                    seleccionadoTipo = tipoUsuario[i].value;
-                    tipoUsuarioSeleccionado = true;
-                    break;
-                }
-            }
-            if (nombreUsuario.value === '' || dniUsuario.value === '' || emailRegistro.value === '' || contrasenyaUsuario.value === '' || !tipoUsuarioSeleccionado) {
+            const apellidoUsuario = document.getElementById("apellidoUsuario");
+            if (nombreUsuario.value === '' || dniUsuario.value === '' || emailRegistro.value === '' || contrasenyaUsuario.value === '' || apellidoUsuario.value === '' || telefonoUsuario.value === '') {
                 alert('Por favor, complete todos los campos.');
             } else {
                 let datos = {
                     nombre: nombreUsuario.value,
                     dni: dniUsuario.value,
+                    telefono: telefonoUsuario.value,
                     email: emailRegistro.value,
                     contra: contrasenyaUsuario.value,
-                    tipo: seleccionadoTipo,
+                    apellidos: apellidoUsuario.value,
                 }
                 const response = await fetch('/registrar', {
                     method: 'POST',

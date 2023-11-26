@@ -9,7 +9,7 @@ function jsonResponse($data, $statusCode = 200)
 }
 $datos = json_decode(file_get_contents('php://input'), true);
 
-function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $contrasenyaUsuario, $tipoUsuario, $dbh)
+function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $contrasenyaUsuario, $apellidos, $telefono, $dbh)
 {
 
     try {
@@ -22,16 +22,15 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
         }
 
         $hashedPassword = password_hash($contrasenyaUsuario, PASSWORD_DEFAULT);
-        $rol = ($tipoUsuario === 'cliente') ? 2 : (($tipoUsuario === 'comerciante') ? 3 : null);
-
         $datos = [
             "dni" => $dniUsuario,
             "email" => $emailUsuario,
             'nombre' =>  $nombreUsuario,
             'pass' => $hashedPassword,
-            'rol' => $rol
+            'apellidos' => $apellidos,
+            'telefono' => $telefono,
+            'rol' => 2
         ];
-
         if (insertarPersona($dbh, $datos)) {
             echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
         } else {
@@ -48,7 +47,7 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
 
 if ($datos) {
 
-    registrarNuevoUsuario($datos['nombre'], $datos['dni'], $datos['email'], $datos['contra'], $datos['tipo'], $dbh);
+    registrarNuevoUsuario($datos['nombre'], $datos['dni'], $datos['email'], $datos['contra'], $datos['apellidos'], $datos['telefono'], $dbh);
 } else {
     $response = ['status' => 'error', 'message' => 'Acción no válida'];
     jsonResponse($response, 400);
