@@ -102,7 +102,8 @@ window.addEventListener("load", async function () {
         body = await getAnuncios();
     }
     else{
-        body = await getAnuncios(persona['data'][0]['id_persona']);
+        console.log(datosArray["idPersona"])
+        body = await getAnuncios(datosArray["idPersona"]);
     }
     let articles = document.getElementById("articles");
     numero1 = 0;
