@@ -20,6 +20,21 @@
       </div>
     </div>
   </div>
+  <!--administracion admin -->
+  <div class="carta" id="cartaAdmin">
+    <div class="face face1">
+      <div class="content">
+        <i class="fa-solid fa-blog"></i>
+        <h3>Panel de administracion</h3>
+      </div>
+    </div>
+    <div class="face face2">
+      <div class="content-panel">
+        <p>Gestionar usuarios/categorias/comercios</p>
+        <a href="/crudPersonas" type="button">Gestionar</a>
+      </div>
+    </div>
+  </div>
 
   <div class="carta prueba">
     <div class="face face1">
@@ -37,7 +52,7 @@
   </div>
 
 
-  <div class="carta">
+  <div class="carta" id="cartaFavoritos">
     <div class="face face1">
       <div class="content">
       <i class="fa-solid fa-heart"></i>
@@ -51,7 +66,7 @@
       </div>
     </div>
   </div>
-  <div class="carta" style="display: 'none';">
+  <div class="carta" >
     <div class="face face1">
       <div class="content">
         <i class="fa-solid fa-id-card-clip"></i>
