@@ -69,7 +69,7 @@ switch ($accion) {
         $idCategoria = $palabra;
 
         //obtener el comercio
-        $idComercio = getComercio($dbh, $id);
+        $idComercio = getComercioId($dbh, $id);
 
         if ($idCategoria !== "0") {
             $anuncios = getAnuncioPorComercioYcategoria($dbh, $idComercio, $idCategoria);

@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', function () {
      const userNameCookie = getCookie("userName");
  
      // Establecer el valor del input basado en la existencia de la cookie
-     nombreInput.value = userNameCookie ? userNameCookie : "prueba";
- 
+     nombreInput.value = userNameCookie ? userNameCookie : "";
+    if(nombreInput.value == ""){
+        nombreInput.placeholder = 'Email';    }
 
     let botonRegistrar = document.getElementById("btnRegistro");
 

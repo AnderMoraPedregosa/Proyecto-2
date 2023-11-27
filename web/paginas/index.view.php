@@ -43,7 +43,7 @@
                 <form>
                 <label></label>
                 <select id="selectCategorias">
-                    <option id="opt1" value="0">Filtrar por categoria:</option>
+                    <option id="opt1" value="0">Todas</option>
                 </select>
             </form>
             </div>

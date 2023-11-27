@@ -48,6 +48,7 @@ switch ($accion) {
         $response = ['status' => 'success', 'data' => $comerciante];
         jsonResponse($response);
         break;
+    
     case "borrarPersona":
         $result = borrarPersona($dbh, $id);
 
@@ -129,4 +130,3 @@ switch ($accion) {
         }
         break;
 }
-ob_end_flush();

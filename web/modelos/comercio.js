@@ -1,10 +1,9 @@
 // Definición de la clase Anuncio
 class Comercio {
     // Constructor que recibe los detalles del anuncio
-    constructor(id, nombre, logo, email, telefono, direccion) {
+    constructor(id, nombre, email, telefono, direccion) {
         this.id = id;
         this.nombre = nombre;
-        this.logo = logo;
         this.email = email;
         this.telefono = telefono;
         this.direccion = direccion;

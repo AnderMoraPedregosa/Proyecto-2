@@ -18,12 +18,13 @@ function getPersonaId($dbh, $id)
     $stmt->execute($data);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-// Dentro de tu función insertarAnuncio
-
-
-//insertar Persona
-
-
+function getComercio($dbh, $id)
+{
+    $data = array('id' => $id);
+    $stmt = $dbh->prepare("SELECT * FROM comercios WHERE id= (:id)");
+    $stmt->execute($data);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 function checkIfEmailExists($dbh, $emailUsuario)
 {
     $data = array('email' => $emailUsuario);
