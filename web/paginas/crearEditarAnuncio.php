@@ -26,6 +26,7 @@
     <input type="submit" name="formAnuncios" value="Crear" id="btnCrearAnuncio" class="btn btn-success" />
 </form>
 <div class="clearfix"></div>
-<script src="../scripts/formPreview.js"></script>
+<script src="../../scripts/formPreview.js"></script>
 </body>
 </html>
+

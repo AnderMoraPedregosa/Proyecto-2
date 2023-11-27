@@ -42,7 +42,7 @@
                     <a href="#" class="icono"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>o utiliza tu correo electrónico y contraseña</span>
-                <input type="email" placeholder="Correo Electrónico" id="emailUsuarioLogin" name="emailUsuarioLogin">
+                <input type="email" id="emailUsuarioLogin" name="emailUsuarioLogin">
                 <input type="password" placeholder="Contraseña" id="passwd" name="passwd">
                 <a href="#">¿Olvidaste tu Contraseña?</a>
                 <button id="btnLogin">Iniciar Sesión</button>

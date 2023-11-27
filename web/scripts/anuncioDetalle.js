@@ -69,8 +69,8 @@ window.addEventListener("load", async function () {
 
             const url = `/anuncios/actualizar/${anuncioNew.id}`;
 
-            btnForm.addEventListener("click", () => {
-              
+            btnForm.addEventListener("click", (event) => {
+                event.preventDefault();
                 const titulo = document.getElementById("tituloAnuncio").value;
                 const precio = document.getElementById("precioAnuncio").value;
                 const descripcion = document.getElementById("desc").value;
@@ -229,7 +229,6 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
     try {
         // Crear un objeto con las claves correspondientes
         const data = {
-            id: id,
             titulo: titulo,
             precio: precio,
             descripcion: descripcion,
@@ -238,6 +237,7 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
             idComercio: comerciante.idComercio,
             idComerciante: comerciante.id
         };
+        console.log(url);
         const response = await fetch(url, {
             method: 'POST',
             headers: {

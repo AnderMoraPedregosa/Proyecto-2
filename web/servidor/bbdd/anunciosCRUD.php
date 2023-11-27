@@ -150,11 +150,16 @@ function insertarRutaImagen($dbh, $data)
 function actualizarRutaImagen($dbh, $data)
 {
 
-    $stmt = $dbh->prepare("UPDATE imagenes_anuncios SET ruta_imagen = :ruta_imagen WHERE id_anuncio = :id_anuncio");
+    try {
+        $stmt = $dbh->prepare("INSERT INTO imagenes_anuncios (id_anuncio, ruta_imagen) 
+    VALUES (:id_anuncio, :ruta_imagen)");
 
-    // Execute con el array directamente
-    $stmt->execute($data);
-    close();
+        // Execute con el array directamente
+        return $stmt->execute($data);
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
 }
 
 function getComercio($dbh, $id)
@@ -174,7 +179,7 @@ function actualizarAnuncio($dbh, $data)
     try {
         if (!empty($data['imagenes'])) {
             $imagenes = $data['imagenes'];
-
+            $dataEliminar = ['id_anuncio' => $data['id']];
             $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria,
             fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio , imagen_anuncio = :imagen_anuncio WHERE id = :id");
 
@@ -184,14 +189,22 @@ function actualizarAnuncio($dbh, $data)
             $stmt->execute($data);
             $idAnuncio = $data['id']; // No necesitas obtener el último ID insertado en una actualización
 
-            // Actualizar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
-            foreach ($imagenes as $index => $rutaImagen) {
-                // Evitar insertar la imagen principal nuevamente
-                $dataImagenAdicional = [
-                    'id_anuncio' => $idAnuncio,
-                    'ruta_imagen' => $rutaImagen,
-                ];
-                actualizarRutaImagen($dbh, $dataImagenAdicional);
+            if (eliminarImagenesAnuncio($dbh, $dataEliminar)) {
+                foreach ($imagenes as $index => $rutaImagen) {
+                    // Evitar insertar la imagen principal nuevamente
+                    $dataImagenAdicional = [
+                        'id_anuncio' => $idAnuncio,
+                        'ruta_imagen' => $rutaImagen,
+                    ];
+
+                    if (actualizarRutaImagen($dbh, $dataImagenAdicional)) {
+                        $response = ['success' => true, 'message' => 'Anuncio actualizado correctamente'];
+                        jsonResponse($response, 400);
+                    };
+                }
+            } else {
+                $response = ['status' => 'error', 'message' => 'Error eliminando las imagenes del anuncio'];
+                jsonResponse($response, 400);
             }
         }
     } catch (PDOException $e) {
@@ -202,7 +215,16 @@ function actualizarAnuncio($dbh, $data)
     }
 }
 
-
+function eliminarImagenesAnuncio($dbh, $data)
+{
+    try {
+        $stmt = $dbh->prepare("DELETE FROM imagenes_anuncios WHERE id_anuncio =(:id_anuncio)");
+        return  $stmt->execute($data);
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
 function getImagenesId($dbh, $id)
 {
     $data = array('id' => $id);
@@ -220,7 +242,6 @@ function eliminarId($dbh, $id)
 //borar todos los anuncios
 function eliminar($dbh)
 {
-    $stmt = $dbh->prepare("DELETE FROM anuncios");
 
     $stmt = $dbh->prepare("DELETE FROM anuncios");
     $stmt->execute();

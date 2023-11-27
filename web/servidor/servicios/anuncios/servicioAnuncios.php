@@ -22,10 +22,10 @@ switch ($accion) {
     case 'search':
         $palabra = urldecode($path_parts[2]);
         $anuncios;
-        
+
 
         $anuncios = getAnuncioSearch($dbh, $palabra);
-        
+
         if ($anuncios === false) {
             $response = ['status' => 'error', 'message' => 'No se pudieron obtener los anuncios'];
             jsonResponse($response, 500);
@@ -35,9 +35,9 @@ switch ($accion) {
         break;
     case 'todos':
 
-        if($id !== "0" && $id !== "todos"){
+        if ($id !== "0" && $id !== "todos") {
             $anuncios = getAnunciosCategoria($dbh, $id);
-        }else{
+        } else {
             $anuncios = getAnuncios($dbh);
         }
 
@@ -54,9 +54,9 @@ switch ($accion) {
         //filtrar por categoria
         $idCategoria = $palabra;
 
-        if($idCategoria !== "0"){
+        if ($idCategoria !== "0") {
             $anuncio = getAnuncioIdYcategoria($dbh, $id, $idCategoria);
-        }else{
+        } else {
             $anuncio = getAnuncioId($dbh, $id);
         }
 
@@ -71,9 +71,9 @@ switch ($accion) {
         //obtener el comercio
         $idComercio = getComercio($dbh, $id);
 
-        if($idCategoria !== "0"){
+        if ($idCategoria !== "0") {
             $anuncios = getAnuncioPorComercioYcategoria($dbh, $idComercio, $idCategoria);
-        }else{
+        } else {
             $anuncios = getAnuncioPorComercio($dbh, $idComercio);
         }
 
@@ -165,7 +165,6 @@ switch ($accion) {
             'anunciante' => $idComerciante,
         ];
 
-        
 
         // Verificar si se proporcionaron imágenes
         if (!empty($imagenesAdicionales)) {
@@ -184,6 +183,7 @@ switch ($accion) {
                 }
             }
         }
+
         actualizarAnuncio($dbh, $dataAnuncio);
         break;
     case "borrarAnuncio":
