@@ -7,7 +7,7 @@
 </div>
 <div class="center">
 <div id="crearBlog" style="display: none;">
-    <button id="btnMostrarFormBlog">Crear Blog</button>
+    <button id="btnMostrarFormBlog" style="display: none;">Crear Blog</button>
     
 </div>
 <div class="center-blog">
