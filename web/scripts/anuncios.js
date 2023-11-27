@@ -194,13 +194,13 @@ logicaApp();
 });
 
 function getCookie(nombre) {
-    const nombreCooke = `${nombre}=`;
+    const nombreCookie = `${nombre}=`;
     const cookies = document.cookie.split(';');
     
     for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
-        if (cookie.indexOf(nombreCooke) === 0) {
-            return cookie.substring(nombreCooke.length, cookie.length);
+        if (cookie.indexOf(nombreCookie) === 0) {
+            return cookie.substring(nombreCookie.length, cookie.length);
         }
     }
     
