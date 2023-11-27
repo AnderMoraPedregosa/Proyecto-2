@@ -1,4 +1,18 @@
 # Proyecto-2  
+Para descargarse el contenido, recomendamos usar el manual de usuario, donde explica detalladamente como colocar las carpetas dentro de su ordenador.
+Resumidamente, tendrá que clonar el proyecto y la carpeta Reto2 cortarla y almacenarla en otro lugar del ordenador, por consiguiente, tendrá que cortar lo restante del clonado(carpeta Proyecto-2) y guardarla dentro de la carpeta Reto2/www
+Lamentamos las complicaciones. Si no se aclara con esto en el manual de usuario tendrá todos los pasos a seguir.
+
+Los usuarios y contraseñas usadas estan en la documentación/usuarios y contraseñas
+Si no desea abrir la documentacion:
+Usuario:  sandra@email.com   contraseña: 1234  (Administrador)
+Usuario:  juan@email.com       contraseña: 1234   (Comerciante)
+Usuario:  alberto@email.com  contraseña: 1234  (Cliente)
+
+
+
+
+Ramas en Github
 Main:
         Esta es la rama principal y contiene el código estable y listo para producción. Es una rama necesaria en la mayoría de los casos.
 
