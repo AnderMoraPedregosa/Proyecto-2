@@ -806,10 +806,29 @@ form input[type="submit"]:hover {
 }
 
 /* Estilos para las filas impares  */
-.table-personas tr:nth-child(odd),
-.table-categorias tr:nth-child(odd) .table-comercios tr:nth-child(odd) {
+.table-personas tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
+.table-categorias tr:nth-child(odd)  {
+    background-color: #f2f2f2;
+}
+.table-comercios tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/* Estilos para las filas impares  */
+.table-personas tr:nth-child(even)
+{
+     background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    }
+
+    .table-categorias tr:nth-child(even){
+     background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    }
+   
+.table-comercios tr:nth-child(even) {
+     background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    }
 
 .table-personas th,
 .table-categorias th,
