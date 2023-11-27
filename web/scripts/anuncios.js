@@ -2,13 +2,14 @@
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 import { getPersonaById } from "./Funciones/getPersona.js"
+import { Categoria } from "../modelos/categoria.js";
 var urlActual = window.location.href;
 
 // Divide la URL en partes utilizando "/" como delimitador
 var partesUrl = urlActual.split('/');
 
 // Obtiene el segundo elemento del array (índice 1)
-
+let categoria;
 var idPersonaFav;
 var data;
 
@@ -37,11 +38,11 @@ async function getAnuncios(idPersona) {
         if (urlAnuncios === "") {
             response = await fetch(`${base_url}/anuncios/todos/${categoriaSeleccionada}`);
         }
-        else if(urlAnuncios === "perfilAnuncios") {
+        else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
             const base_url = window.location.origin;
-        
+
             response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
             console.log(response);
         }
@@ -50,31 +51,31 @@ async function getAnuncios(idPersona) {
             const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
             console.log(favoritos);
             console.log(favoritos[0].anuncios);
-        
+
             // Array para almacenar los detalles de los anuncios favoritos
             const anunciosFavoritos = [];
-        
+
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
             for (const idAnuncio of favoritos[0].anuncios) {
                 try {
                     const base_url = window.location.origin;
-        
+
                     // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
-                     response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
-                     console.log("prueba bea")
-                     console.log(response)
-        
+                    response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
+                    console.log("prueba bea")
+                    console.log(response)
+
                     if (response.status !== 200) {
                         //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
                         continue; // Continuar con el próximo favorito en caso de error
                     }
-        
+
                     // Obtener el cuerpo JSON de la respuesta
                     const detallesData = await response.json();
                     console.log("prueba uno")
 
                     console.log(detallesData);
-        
+
                     // Verificar si la respuesta es válida y contiene el array 'data'
                     if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
                         // Acceder al primer (y supuesto único) detalle del anuncio
@@ -98,17 +99,17 @@ async function getAnuncios(idPersona) {
 
             console.log(anunciosFavoritos)
 
-            if(anunciosFavoritos.length === 0){
-               data ={ status: 'error', message: 'Error, no hay anuncios' }
-            }else{
-                 // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
-            data = { status: 'success', data: anunciosFavoritos };
+            if (anunciosFavoritos.length === 0) {
+                data = { status: 'error', message: 'Error, no hay anuncios' }
+            } else {
+                // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
+                data = { status: 'success', data: anunciosFavoritos };
             }
-        
-           
+
+
         }
 
-      
+
 
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
@@ -116,7 +117,7 @@ async function getAnuncios(idPersona) {
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
-        if(urlAnuncios !== "anunciosFavoritos"){
+        if (urlAnuncios !== "anunciosFavoritos") {
             data = await response.json();
             console.log("prueba")
             console.log(data)
@@ -178,44 +179,44 @@ async function getAnunciosSearch(searchTerm) {
 }
 
 var persona;
-window.addEventListener("load", async function() {
-categoriaSeleccionada = "0";
+window.addEventListener("load", async function () {
+    categoriaSeleccionada = "0";
 
-const searchInput = document.getElementById("search-input");
+    const searchInput = document.getElementById("search-input");
 
-// Verificar si existe la cookie "buscador"
-const buscadorCookie = getCookie("buscador");
+    // Verificar si existe la cookie "buscador"
+    const buscadorCookie = getCookie("buscador");
 
-// Establecer el valor del input basado en la existencia de la cookie
-searchInput.placeholder = buscadorCookie ? buscadorCookie : "prueba";
+    // Establecer el valor del input basado en la existencia de la cookie
+    searchInput.placeholder = buscadorCookie ? buscadorCookie : "prueba";
 
-getAnuncios()
-logicaApp();
+    getAnuncios()
+    logicaApp();
 });
 
 function getCookie(nombre) {
     const nombreCookie = `${nombre}=`;
     const cookies = document.cookie.split(';');
-    
+
     for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
         if (cookie.indexOf(nombreCookie) === 0) {
             return cookie.substring(nombreCookie.length, cookie.length);
         }
     }
-    
+
     return null;
 }
 
 
-async function logicaApp(){
+async function logicaApp() {
     persona = await getPersonaById();
-    if(!persona)  {
-            //no hay nadie logueado
+    if (!persona) {
+        //no hay nadie logueado
         body = await getAnuncios();
-        
+
     }
-    else{
+    else {
         idPersonaFav = datosArray["idPersona"];
         console.log(datosArray["idPersona"])
         body = await getAnuncios(datosArray["idPersona"]);
@@ -294,13 +295,13 @@ function mostarHtml(body) {
     const scrollBefore = window.scrollY;
 
     //eliminar anuncios existentes
-    
+
 
     if (body['status'] == 'success') {
-
         let anuncios = datosAnuncios(body['data']);
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(anuncioNew => {
+        anuncios.forEach(async anuncioNew => {
+            categoria = await categoriaAnuncio(anuncioNew.idCategoria)
             divArticle = document.createElement("div");
             divArticle.className = "article-item";
             let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
@@ -320,6 +321,7 @@ function mostarHtml(body) {
                  <h2>${anuncioNew.titulo}</h2>
                  <span class="date">${tiempoTranscurrido}</span>
                  <p class=>${anuncioNew.descripcion.substring(0, 255)}...<p>
+                 <h3>${categoria.nombre}</h3>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -341,18 +343,18 @@ function mostarHtml(body) {
             //favoritos
             let favEnlace = divArticle.querySelector('#fav');
             favEnlace.addEventListener("click", function (event) {
-            event.preventDefault();
-            // id del anuncio
-            let idAnuncio = this.getAttribute('data-id');
+                event.preventDefault();
+                // id del anuncio
+                let idAnuncio = this.getAttribute('data-id');
 
-             // Obtener el elemento <i> correspondiente al enlace de favoritos
-            let iconElement = this.querySelector('i');
+                // Obtener el elemento <i> correspondiente al enlace de favoritos
+                let iconElement = this.querySelector('i');
 
-             // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
-            guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
+                // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
+                guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
 
-        });
-    
+            });
+
 
 
         });
@@ -482,7 +484,7 @@ function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
                     console.log("Favorito guardado en IndexedDB");
                     // Actualizar la clase del ícono directamente
 
-                     // Actualizar la clase del ícono directamente
+                    // Actualizar la clase del ícono directamente
                     iconElement.classList.toggle('fa-regular');
                     iconElement.classList.toggle('fa-solid');
                 };
@@ -534,4 +536,17 @@ async function obtenerFavoritosIndexedDB(idPersona) {
             reject("Error al abrir la base de datos");
         };
     });
+}
+
+async function categoriaAnuncio(id) {
+    let categoriaJSON = await getCategoriaById(id);
+
+    return categoria = new Categoria(categoriaJSON['categoria'][0].id, categoriaJSON['categoria'][0].nombre)
+
+}
+
+async function getCategoriaById(id) {
+    const response = await fetch(`/categorias/categoria/${id}`);
+    const data = await response.json();
+    return data;
 }
