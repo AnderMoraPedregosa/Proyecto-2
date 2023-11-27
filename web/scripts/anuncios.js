@@ -420,6 +420,18 @@ function mostarHtml(body) {
              `;
             articles.appendChild(divArticle);
 
+            let imagenes = document.querySelectorAll('.imagen');
+
+
+            // Iterar sobre cada imagen y asignar el evento de clic a cada una
+            imagenes.forEach(imagen => {
+                imagen.addEventListener('click', (e) => {
+                    // Llamar a la función para mostrar la ventana modal
+                    mostrarModal(e.target);
+                });
+            });
+        
+
 
             let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
             eliminarEnlace.addEventListener('click', function (event) {
@@ -466,21 +478,6 @@ function mostarHtml(body) {
         divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
         articles.appendChild(divArticle);
     }
-
-
-    let imagenes = document.querySelectorAll('.imagen');
-
-
-    // Iterar sobre cada imagen y asignar el evento de clic a cada una
-    imagenes.forEach(imagen => {
-        imagen.addEventListener('click', (e) => {
-            // Llamar a la función para mostrar la ventana modal
-            mostrarModal(e.target);
-        });
-    });
-
-
-
 
 }
 
