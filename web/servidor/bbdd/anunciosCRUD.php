@@ -199,13 +199,19 @@ function actualizarAnuncio($dbh, $data)
 
                     if (actualizarRutaImagen($dbh, $dataImagenAdicional)) {
                         $response = ['success' => true, 'message' => 'Anuncio actualizado correctamente'];
-                        jsonResponse($response, 400);
+                        jsonResponse($response, 200);
                     };
                 }
             } else {
                 $response = ['status' => 'error', 'message' => 'Error eliminando las imagenes del anuncio'];
                 jsonResponse($response, 400);
             }
+        } else {
+            $stmt = $dbh->prepare("UPDATE anuncios SET titulo = :titulo, precio = :precio,  descripcion = :descripcion, id_categoria = :categoria,
+            fecha_creacion = :fecha, id_comerciante = :anunciante, id_comercio = :comercio WHERE id = :id");
+            $stmt->execute($data);
+            $response = ['success' => true, 'message' => 'Anuncio actualizado correctamente'];
+            jsonResponse($response, 200);
         }
     } catch (PDOException $e) {
 

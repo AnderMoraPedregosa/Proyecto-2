@@ -706,5 +706,3 @@ async function obtenerFavoritosIndexedDB(idPersona) {
     });
 }
 
-
-

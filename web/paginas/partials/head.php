@@ -40,19 +40,17 @@
                     <li id="liBlog">
                         <a href="/blog" class="animacion">Blog</a>
                     </li>
-                   
+
                     <li id="liUsuarios" class="crudUsuariosOculto">
                         <a href="/crudPersonas" class="animacion">Panel</a>
                     </li>
-                    <li id="liPerfil"  style="display: none;">
-                        <a href="/perfil" class="animacion">Perfil</a>
+                    <li id="liPerfil" style="display: none;">
+                        <a href="/panel" class="animacion">Perfil</a>
                     </li>
-                 <!--    <li id="liConfiguracion">
-                        <a href="/confPerfil" class="animacion"><i class="fa-solid fa-id-card confPerf"></i></a>
-                    </li> -->
+
                     <li id="liIniciarSesion">
                         <button class="btn-sesion" id="btnLoginHead" onclick="location.href='/login'">Iniciar sesión</button>
-                        <button class="btn-sesion" style="display: none;" id="btnLogOutHead" >Cerrar sesión</button>
+                        <button class="btn-sesion" style="display: none;" id="btnLogOutHead">Cerrar sesión</button>
                     </li>
 
 

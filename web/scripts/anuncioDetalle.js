@@ -250,6 +250,8 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Error en la operación: ${errorText}`);
+        } else {
+            window.location.reload();
         }
 
         // Obtener el objeto JSON de la respuesta

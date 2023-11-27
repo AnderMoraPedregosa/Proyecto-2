@@ -71,7 +71,7 @@ switch ($path) {
     case "crudPersonas":
         require './paginas/personas.php';
         break;
-    case "perfil":
+    case "panel":
         require './paginas/panelPersonal.php';
         break;
     case "perfilAnuncios":
@@ -85,6 +85,9 @@ switch ($path) {
         break;
     case "confPerfil":
         require './paginas/confPerfil.php';
+        break;
+    case "perfil":
+        require './paginas/perfil.php';
         break;
     case "comercios":
         require './servidor/servicios/comercios/servicioComercios.php';
