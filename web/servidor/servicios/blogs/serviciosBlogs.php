@@ -66,11 +66,25 @@ switch ($accion) {
             'titulo' => $titulo,
             'texto' => $texto,
             'fecha' => date('Y-m-d H:i:s'),
-            'imagenes' => $imagenes,
             'comercio' => $comercio,
             'anunciante' =>  $anunciante
         ];
-        var_dump($data);
+        if (!empty($imagenes)) {
+            foreach ($imagenes as $index => $imagen) {
+                $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
+                $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
+                // Guardar la imagen en el sistema de archivos y obtener su ruta
+                $rutaImagen = guardarImagenBase64($imagen['base64'], $nombreImagen);
+
+                if ($rutaImagen) {
+                    $data['imagenes'][] = $rutaImagen;
+                } else {
+                    // Manejar el caso en que haya un error al guardar la imagen
+                    $response = ['status' => 'error', 'message' => 'Error al guardar una o más imágenes'];
+                    jsonResponse($response, 500);
+                }
+            }
+        }
         // Insertar el anuncio en la base de datos
         $result = insertarBlog($dbh, $data);
         if ($result) {
@@ -128,4 +142,23 @@ switch ($accion) {
         $response = ['status' => 'error', 'message' => 'Acción no válida'];
         jsonResponse($response, 400);
         break;
+}
+
+function guardarImagenBase64($base64Data, $nombreImagen)
+{
+    $rutaImagen = "imagenes/" . $nombreImagen;
+
+
+    // Decodificar la imagen base64 y guardarla en el sistema de archivos
+    $imagenDecodificada = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
+
+    if ($imagenDecodificada === false) {
+        return false; // Error al decodificar la imagen base64
+    }
+
+    if (file_put_contents($rutaImagen, $imagenDecodificada) !== false) {
+        return $rutaImagen; // Éxito al guardar la imagen
+    } else {
+        return false; // Error al escribir en el archivo
+    }
 }
