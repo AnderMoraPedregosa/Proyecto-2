@@ -44,7 +44,6 @@ switch ($accion) {
             $response = ['status' => 'error', 'message' => 'No se pudo obtener el comerciante'];
             jsonResponse($response, 500);
         }
-
         $response = ['status' => 'success', 'data' => $comerciante];
         jsonResponse($response);
         break;

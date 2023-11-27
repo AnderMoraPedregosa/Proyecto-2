@@ -5,18 +5,17 @@ let content = document.getElementById("content-blog");
 import { Blog } from "../modelos/blog.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 
-var urlActual = window.location.href;
-
+let urlActual = window.location.href;
 // Divide la URL en partes utilizando "/" como delimitador
-var partesUrl = urlActual.split('/');
+let partesUrl = urlActual.split('/');
 
 
-var urlBlog = partesUrl[3];
+let urlBlog = partesUrl[3];
 
-var divCrearBlog = document.getElementById("crearBlog");
+let sidebar = document.getElementById("sidebar");
 
-var btnMostrarFormBlog = document.getElementById("btnMostrarFormBlog");
-var divFormBlog = document.getElementById("formCrearBlog");
+let btnMostrarFormBlog = document.getElementById("btnMostrarFormBlog");
+let divFormBlog = document.getElementById("formCrearBlog");
 
 btnMostrarFormBlog.addEventListener("click", function () {
     if (btnMostrarFormBlog.textContent === "Crear Blog") {
@@ -37,11 +36,13 @@ async function getBlogs() {
         const base_url = window.location.origin;
         let response;
         if (urlBlog === "blog") {
+            sidebar.style.display = "none";
+
             response = await fetch(`${base_url}/blogs/todos`);
 
         }
         else {
-            divCrearBlog.style.display = "block";
+            sidebar.style.display = "block";
             response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
             document.getElementById("tituloBlogs").textContent = "Mis Blogs";
 
@@ -75,7 +76,6 @@ cargarMasBtnBlog.addEventListener('click', async function () {
 
     numero1 += 10;
     numero2 += 10;
-    console.log(body);
     mostrarHtmlBoton(body);
 
 
@@ -116,43 +116,11 @@ window.addEventListener("load", async function () {
     numero1 = 0;
     numero2 = 9;
     mostrarHtmlBoton(body);
-    /* const searchForm = document.getElementById("search-form");
-
-    searchForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const searchInput = document.getElementById("search-input").value;
-        body = await getAnunciosSearch(searchInput);
-        // Limpia los anuncios existentes
-        content.innerHTML = "";
-        if (body['data']) {
-            if (body['data'].length > 0) {
-                mostrarHtmlBoton(body);
-            }
-        } else {
-            // Mostrar un mensaje si no hay resultados
-            const noResultsMessage = document.createElement("div");
-            noResultsMessage.className = "anuncios-error";
-            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
-            content.appendChild(noResultsMessage);
-        }
-        console.log(body);
-
-    }); */
 
 
 });
 
-/* function confirmarEliminacion(idAnuncio) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
-    if (confirmacion) {
-        // El usuario confirmó, realizar la eliminación
-        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
-    } else {
-        // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
-        console.log("Eliminación cancelada");
-    }
-} */
+
 function mostrarHtmlBoton(body) {
     if (body['data'].length > numero2) {
         mostarHtml(body);
@@ -176,7 +144,6 @@ function mostarHtml(body) {
         blogs.forEach(blogNew => {
             divBlog = document.createElement("div");
             divBlog.className = "divBlog";
-            console.log(blogNew.imagen)
             let tiempoTranscurrido = calcularTiempoTranscurrido(blogNew.fechaC);
             // Agregar la información del anuncio al nuevo elemento div
             divBlog.innerHTML = `
@@ -223,7 +190,6 @@ function datosBlog(data) {
     let blogs = [];
 
     data.slice(numero1, numero2).forEach(async (blogJson) => {
-        console.log(blogJson)
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
         const blogNew = new Blog(
@@ -241,46 +207,3 @@ function datosBlog(data) {
     return blogs;
 }
 
-function crearBlog() {
-    alert("creando blog")
-    let nombre = document.getElementById("tituloBlog").value;
-    let imagen = document.getElementById("imagenBlog").value;
-    let texto = document.getElementById("textoBlog").value;
-
-
-    let data = {
-        titulo: nombre,
-        texto: texto
-    };
-
-    const base_url = window.location.origin;
-    let url = `${base_url}/blogs/insertar`
-
-    insertarActualizar(data, url);
-}
-
-
-async function insertarActualizar(data, url) {
-    try {
-        console.log(data);
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error en la operación: ${response.statusText}`);
-        }
-
-        const responseData = await response.text();
-        console.log('Operación exitosa:', responseData);
-
-        location.reload(true);
-    } catch (error) {
-        console.error('Error en la operación:', error.message);
-    }
-}

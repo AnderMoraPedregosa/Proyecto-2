@@ -253,7 +253,7 @@ function actualizarIconosFavoritos(favoritos) {
 
         // Verificar si el anuncio está en la lista de favoritos
         const esFavorito = favoritos.includes(idAnuncio);
-
+        
         // Obtener el elemento <i> correspondiente al enlace de favoritos
         const iconElement = enlace.querySelector('i');
 
@@ -415,7 +415,7 @@ function mostarHtml(body) {
                  <span class="date">${tiempoTranscurrido}</span>
                  <h3>${categoria.nombre}</h3>
                  <h4> Comercio: ${comercio.nombre}</h4>
-                 <p> <strong>Direccion:</strong> ${comercio.direccion} <strong>Telefono:</strong> ${comercio.telefono} <strong> Email:</strong> ${comercio.email}<p>
+                 <p> <strong>Direccion:</strong> ${comercio.direccion}, <strong>Telefono:</strong> ${comercio.telefono}, <strong> Email:</strong> ${comercio.email}<p>
             
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>

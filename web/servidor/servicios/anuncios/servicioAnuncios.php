@@ -107,7 +107,7 @@ switch ($accion) {
         $precio =  $datos['precio'];
         $desc =  $datos['descripcion'];
         $cat = $datos['cat'];
-        $imagenesAdicionales =  $datos['imagenes'];
+        $imagenes =  $datos['imagenes'];
 
         date_default_timezone_set('Europe/Madrid');
         // Crear el array $data con la información del anuncio
@@ -124,8 +124,8 @@ switch ($accion) {
 
 
         // Verificar si se proporcionaron imágenes
-        if (!empty($imagenesAdicionales)) {
-            foreach ($imagenesAdicionales as $index => $imagen) {
+        if (!empty($imagenes)) {
+            foreach ($imagenes as $index => $imagen) {
                 $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
                 $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
                 // Guardar la imagen en el sistema de archivos y obtener su ruta
@@ -151,7 +151,7 @@ switch ($accion) {
         $precio = isset($datos['precio']) ? $datos['precio'] : '';
         $desc = isset($datos['descripcion']) ? $datos['descripcion'] : '';
         $cat = isset($datos['cat']) ? $datos['cat'] : '';
-        $imagenesAdicionales = isset($datos['imagenes']) ? $datos['imagenes'] : [];
+        $imagenes = isset($datos['imagenes']) ? $datos['imagenes'] : [];
         date_default_timezone_set('Europe/Madrid');
         // Crear el array $data con la información del anuncio
         $dataAnuncio = [
@@ -167,8 +167,8 @@ switch ($accion) {
 
 
         // Verificar si se proporcionaron imágenes
-        if (!empty($imagenesAdicionales)) {
-            foreach ($imagenesAdicionales as $index => $imagen) {
+        if (!empty($imagenes)) {
+            foreach ($imagenes as $index => $imagen) {
                 $extension = pathinfo($imagen['nombre'], PATHINFO_EXTENSION);
                 $nombreImagen = date('YmdHis') . '_' . $index . '.' . $extension;
                 // Guardar la imagen en el sistema de archivos y obtener su ruta

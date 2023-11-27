@@ -30,7 +30,6 @@ function showPreviewBlog(input) {
 previewContainer.innerHTML = `` ;
     var file = input.files[0]; // Obtén solo la primera imagen seleccionada
     if (file) {
-        console.log(file)
         var reader = new FileReader();
 
         reader.onload = function (e) {
