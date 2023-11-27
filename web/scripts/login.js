@@ -14,6 +14,16 @@ iniciarSesionBtn.addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+     // Obtiene el input de nombre de usuario para establecer el valor basado en una cookie
+     const nombreInput = document.getElementById("emailUsuarioLogin");
+
+     // Verifica si existe la cookie "userName"
+     const userNameCookie = getCookie("userName");
+     alert(nombreInput);
+ 
+     // Establecer el valor del input basado en la existencia de la cookie
+     nombreInput.value = userNameCookie ? userNameCookie : "prueba";
+ 
 
     let botonRegistrar = document.getElementById("btnRegistro");
 
@@ -115,6 +125,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+// Función para obtener el valor de una cookie por su nombre
+function getCookie(nombre) {
+    const nombreCookie = `${nombre}=`;
+    const cookies = document.cookie.split(';');
+
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i].trim();
+        if (cookie.indexOf(nombreCookie) === 0) {
+            return cookie.substring(nombreCookie.length, cookie.length);
+        }
+    }
+
+    return null;
+}
 
 // Función para generar la sesión del usuario
 async function generarSesion(json) {
@@ -127,9 +151,17 @@ async function generarSesion(json) {
     // Almacena los datos de sesión en sessionStorage
     sessionStorage.setItem("user", JSON.stringify(usuario));
 
+    console.log(json)
+
+     // Guardar en cookie
+     document.cookie = `userName=${json["user"]["email"]}; path=/`;
+
+   
     // Redirige a la página principal
     location.href = "/";
 }
+
+
 
 // Función para iniciar sesión automáticamente después del registro
 async function iniciarSesionAutomatica(email, password) {
