@@ -95,7 +95,8 @@ async function insertarActualizarBlog() {
             });
 
             if (response.ok) {
-              
+                window.location.href = "/perfilBlogs";
+
             } else {
                 const errorText = await response.text();
                 console.error(`Error en la operación: ${errorText}`);
@@ -116,7 +117,7 @@ async function validarFormulario() {
         } else {
             campos = [{ nombre: "Titulo", valor: tituloAnuncio.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
             { nombre: "Precio", valor: precio.value.trim(), exp: /^[0-9]+(\.[0-9]{1,2})?$/ },
-            { nombre: "Descripcion", valor: descripcion.value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }] 
+            { nombre: "Descripcion", valor: descripcion.value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }]
         }
 
         campos.forEach(campo => {
