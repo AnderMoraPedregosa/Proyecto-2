@@ -1,4 +1,4 @@
-const saludoPerfil = document.getElementById("saludoPerfil");
+let saludoPerfil = document.getElementById("saludoPerfil");
 document.getElementById("cartaFavoritos").style.display = "none";
 document.getElementById("cartaAdmin").style.display = "none";
 

@@ -15,10 +15,10 @@ iniciarSesionBtn.addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', function () {
      // Obtiene el input de nombre de usuario para establecer el valor basado en una cookie
-     const nombreInput = document.getElementById("emailUsuarioLogin");
+     let nombreInput = document.getElementById("emailUsuarioLogin");
 
      // Verifica si existe la cookie "userName"
-     const userNameCookie = getCookie("userName");
+     let userNameCookie = getCookie("userName");
  
      // Establecer el valor del input basado en la existencia de la cookie
      nombreInput.value = userNameCookie ? userNameCookie : "";
@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
             // Evita el comportamiento predeterminado del formulario
             event.preventDefault();
 
-            const nombreUsuario = document.getElementById('nombreUsuario');
-            const dniUsuario = document.getElementById('dniUsuario');
-            const emailRegistro = document.getElementById('emailUsuario');
-            const telefonoUsuario = document.getElementById('telefonoUsuario');
-            const contrasenyaUsuario = document.getElementById('contrasenaUsuario');
-            const apellidoUsuario = document.getElementById("apellidoUsuario");
+            let nombreUsuario = document.getElementById('nombreUsuario');
+            let dniUsuario = document.getElementById('dniUsuario');
+            let emailRegistro = document.getElementById('emailUsuario');
+            let telefonoUsuario = document.getElementById('telefonoUsuario');
+            let contrasenyaUsuario = document.getElementById('contrasenaUsuario');
+            let apellidoUsuario = document.getElementById("apellidoUsuario");
 
             // Validación de campos vacíos
             if (nombreUsuario.value === '' || dniUsuario.value === '' || emailRegistro.value === '' || contrasenyaUsuario.value === '' || apellidoUsuario.value === '' || telefonoUsuario.value === '') {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 // Realiza una solicitud de registro al servidor
-                const response = await fetch('/registrar', {
+                let response = await fetch('/registrar', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Verifica si la solicitud fue exitosa
                 if (response.ok) {
                     // Obtiene la respuesta del servidor como JSON
-                    const data = await response.json();
+                    let data = await response.json();
 
                     // Genera la sesión después de registrar al usuario
                     generarSesion(data);
@@ -90,15 +90,15 @@ document.addEventListener('DOMContentLoaded', function () {
             // Evita el comportamiento predeterminado del formulario
             event.preventDefault();
 
-            const emailUsuario = document.getElementById('emailUsuarioLogin').value;
-            const passwd = document.getElementById('passwd').value;
+            let emailUsuario = document.getElementById('emailUsuarioLogin').value;
+            let passwd = document.getElementById('passwd').value;
 
             // Validación de campos vacíos
             if (emailUsuario == "" || passwd == "") {
                 alert("Debes rellenar las credenciales")
             } else {
                 // Realiza una solicitud de inicio de sesión al servidor
-                const response = await fetch('/loginService', {
+                let response = await fetch('/loginService', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Verifica si la solicitud fue exitosa
                 if (response.ok) {
-                    const json = await response.json();
+                    let json = await response.json();
 
                     // Genera la sesión después de iniciar sesión
                     generarSesion(json);
@@ -127,8 +127,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 // Función para obtener el valor de una cookie por su nombre
 function getCookie(nombre) {
-    const nombreCookie = `${nombre}=`;
-    const cookies = document.cookie.split(';');
+    let nombreCookie = `${nombre}=`;
+    let cookies = document.cookie.split(';');
 
     for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
@@ -166,7 +166,7 @@ async function generarSesion(json) {
 // Función para iniciar sesión automáticamente después del registro
 async function iniciarSesionAutomatica(email, password) {
     // Realiza una solicitud de inicio de sesión al servidor
-    const response = await fetch('/loginService', {
+    let response = await fetch('/loginService', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -177,7 +177,7 @@ async function iniciarSesionAutomatica(email, password) {
     // Verifica si la solicitud fue exitosa
     if (response.ok) {
         // Obtiene la respuesta del servidor como JSON
-        const json = await response.json();
+        let json = await response.json();
 
         // Genera la sesión después de iniciar sesión automáticamente
         generarSesion(json);

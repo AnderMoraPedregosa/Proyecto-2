@@ -33,7 +33,7 @@ async function getBlogs() {
         //obtener el id de la persona por la sesion
         let idPersona = sessionStorage.getItem('user') ? datosArray['idPersona'] : null;
         // Obtener la ruta base del documento actual
-        const base_url = window.location.origin;
+        let base_url = window.location.origin;
         let response;
         if (urlBlog === "blog") {
             sidebar.style.display = "none";
@@ -52,13 +52,13 @@ async function getBlogs() {
             throw new Error(`Error al obtener blogs. Código de estado: ${response.status}`);
         }
 
-        const contentType = response.headers.get('content-type');
+        let contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text();
+            let text = await response.text();
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
-        const data = await response.json();
+        let data = await response.json();
         return data;
     } catch (error) {
         console.error('Error en la llamada a la API:', error.message);
@@ -71,7 +71,7 @@ let numero2;
 let body;
 
 
-const cargarMasBtnBlog = document.getElementById("cargarMasBtnBlog");
+let cargarMasBtnBlog = document.getElementById("cargarMasBtnBlog");
 cargarMasBtnBlog.addEventListener('click', async function () {
 
     numero1 += 10;
@@ -134,7 +134,7 @@ function mostrarHtmlBoton(body) {
 
 function mostarHtml(body) {
     let divBlog;
-    const scrollBefore = window.scrollY;
+    let scrollBefore = window.scrollY;
 
 
     if (body['status'] == 'success') {
@@ -192,7 +192,7 @@ function datosBlog(data) {
     data.slice(numero1, numero2).forEach(async (blogJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
-        const blogNew = new Blog(
+        let blogNew = new Blog(
             blogJson.id,
             blogJson.titulo,
             blogJson.imagen_blog,

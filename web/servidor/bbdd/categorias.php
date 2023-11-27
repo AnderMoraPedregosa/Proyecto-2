@@ -55,8 +55,3 @@ function actualizarCategoria($dbh, $data)
     close();
     return $success;
 }
-
-
-
-
-

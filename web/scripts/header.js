@@ -1,8 +1,8 @@
-const datosArray = JSON.parse(sessionStorage.getItem('user'));
-const btnLoginHead = document.getElementById("btnLoginHead");
-const btnLogOutHead = document.getElementById("btnLogOutHead");
-const liUsuarios = document.getElementById("liUsuarios");
-const liPerfil = document.getElementById("liPerfil");
+let datosArray = JSON.parse(sessionStorage.getItem('user'));
+let btnLoginHead = document.getElementById("btnLoginHead");
+let btnLogOutHead = document.getElementById("btnLogOutHead");
+let liUsuarios = document.getElementById("liUsuarios");
+let liPerfil = document.getElementById("liPerfil");
 
 btnLogOutHead.addEventListener("click", logOut);
 

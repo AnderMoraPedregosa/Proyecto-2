@@ -36,42 +36,23 @@ function checkIfEmailExists($dbh, $emailUsuario)
 function insertarComercio($dbh, $data)
 {
     try {
-        if (!empty($data['imagenes'])) {
-            $imagenes = $data['imagenes'];
 
-            $stmt = $dbh->prepare("INSERT INTO comercios (nombre, logo, email, telefono, direccion)
-        VALUES (:nombre, :logo, :email, :telefono, :direccion)");
+            $stmt = $dbh->prepare("INSERT INTO comercios (nombre, email, telefono, direccion)
+            VALUES (:nombre, :email, :telefono, :direccion)");
             // Ajustar el array $data para que coincida con los nombres de marcadores de posición en la consulta
-            $data['imagen_anuncio'] = $imagenes[0]; // Tomando la primera imagen como imagen principal
-            unset($data['imagenes']); // Eliminar la clave 'imagenes' para evitar conflictos
 
             // Execute con el array directamente
             $stmt->execute($data);
-            $idAnuncio = $dbh->lastInsertId(); // Obtener el ID del último anuncio insertado
 
-            // Insertar las rutas de las imágenes adicionales en la tabla 'imagenes_anuncios'
-            foreach ($imagenes as $index => $rutaImagen) {
-                // Evitar insertar la imagen principal nuevamente
-                $dataImagenAdicional = [
-                    'id_anuncio' => $idAnuncio,
-                    'ruta_imagen' => $rutaImagen,
-                ];
-                insertarRutaImagen($dbh, $dataImagenAdicional);
-            }
+
             return true;
-        } else {
-            // Si no se cargó ninguna imagen, manejarlo según tus necesidades
-            return false;
-        }
+
     } catch (PDOException $e) {
         echo "Error en la operación: " . $e->getMessage();
         return false;
         // También puedes agregar logs o realizar acciones específicas en caso de error.
     }
 }
-
-
-
 
 
 

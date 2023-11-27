@@ -41,11 +41,11 @@ switch (accion[2]) {
 async function insertarActualizarAnuncio() {
     try {
         if (validarFormulario()) {
-            var comercianteJSON = await getPersonaById();
+            let comercianteJSON = await getPersonaById();
             let comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
-            const url = `/anuncios/insertar`;
+            let url = `/anuncios/insertar`;
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
-            const data = {
+            let data = {
                 titulo: tituloAnuncio.value,
                 precio: precio.value,
                 descripcion: descripcion.value,
@@ -56,7 +56,7 @@ async function insertarActualizarAnuncio() {
             };
 
             // Realizar la solicitud con fetch y esperar la respuesta
-            const response = await fetch(url, {
+            let response = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -64,7 +64,7 @@ async function insertarActualizarAnuncio() {
             if (response.ok) {
                 window.location.href = "/perfilAnuncios";
             } else {
-                const errorText = await response.text();
+                let errorText = await response.text();
                 console.error(`Error en la operación: ${errorText}`);
             }
         }
@@ -75,12 +75,12 @@ async function insertarActualizarAnuncio() {
 async function insertarActualizarBlog() {
     try {
         if (validarFormulario()) {
-            var comercianteJSON = await getPersonaById();
+            let comercianteJSON = await getPersonaById();
 
             let comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
-            const url = `/blogs/insertar`;
+            let url = `/blogs/insertar`;
             // Crear un objeto para manejar los datos del formulario, incluyendo archivos
-            const data = {
+            let data = {
                 titulo: textoBlog.value,
                 texto: textoBlog.value,
                 imagenes: await obtenerImagenesBase64(imagenBlog.files),
@@ -89,7 +89,7 @@ async function insertarActualizarBlog() {
             };
 
             // Realizar la solicitud con fetch y esperar la respuesta
-            const response = await fetch(url, {
+            let response = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -98,7 +98,7 @@ async function insertarActualizarBlog() {
                 window.location.href = "/perfilBlogs";
 
             } else {
-                const errorText = await response.text();
+                let errorText = await response.text();
                 console.error(`Error en la operación: ${errorText}`);
             }
         }
@@ -138,9 +138,9 @@ async function validarFormulario() {
 }
 
 async function obtenerImagenesBase64(files) {
-    const promesas = Array.from(files).map(file => {
+    let promesas = Array.from(files).map(file => {
         return new Promise((resolve, reject) => {
-            const reader = new FileReader();
+            let reader = new FileReader();
             reader.onload = (event) => {
                 resolve({ nombre: file.name, base64: event.target.result });
             };

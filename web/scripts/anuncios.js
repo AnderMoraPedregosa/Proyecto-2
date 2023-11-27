@@ -28,7 +28,7 @@ let articles = document.getElementById("articles");
 
 
 
-const selectCategorias = document.getElementById('selectCategorias');
+let selectCategorias = document.getElementById('selectCategorias');
 selectCategorias.addEventListener('change', async function () {
     articles.innerHTML = "";
 
@@ -43,7 +43,7 @@ let urlAnuncios = partesUrl[3];
 async function getAnuncios(idPersona) {
     try {
         // Obtener la ruta base del documento actual
-        const base_url = window.location.origin;
+        let base_url = window.location.origin;
         let response;
         //controlar si mostrar todos los anuncios o solo los propios
         if (urlAnuncios === "") {
@@ -52,7 +52,7 @@ async function getAnuncios(idPersona) {
         else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
-            const base_url = window.location.origin;
+            let base_url = window.location.origin;
 
             response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
         }
@@ -62,12 +62,12 @@ async function getAnuncios(idPersona) {
            
        
             // Array para almacenar los detalles de los anuncios favoritos
-            const anunciosFavoritos = [];
+            let anunciosFavoritos = [];
 
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
             //for (const idAnuncio of favoritos[0].anuncios) {
                try {
-                    const base_url = window.location.origin;
+                let base_url = window.location.origin;
 
                     // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
                     response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
@@ -78,13 +78,13 @@ async function getAnuncios(idPersona) {
                     }
 
                     // Obtener el cuerpo JSON de la respuesta
-                    const detallesData = await response.json();
+                    let detallesData = await response.json();
 
 
                     // Verificar si la respuesta es válida y contiene el array 'data'
                     if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
                         // Acceder al primer (y supuesto único) detalle del anuncio
-                        const anuncioDetalle = detallesData.data[0];
+                        let anuncioDetalle = detallesData.data[0];
                         anunciosFavoritos.push(anuncioDetalle);
                     } else {
                         //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
@@ -108,9 +108,9 @@ async function getAnuncios(idPersona) {
 
 
 
-        const contentType = response.headers.get('content-type');
+        let contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text();
+            let text = await response.text();
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
@@ -133,7 +133,7 @@ let body;
 
 
 
-const cargarMasBtn = document.getElementById("cargarMasBtn");
+let cargarMasBtn = document.getElementById("cargarMasBtn");
 cargarMasBtn.addEventListener('click', async function () {
 
 
@@ -159,8 +159,8 @@ async function getAnunciosSearch(searchTerm) {
             response = await fetch("/anuncios/todos/todos");
         } else {
             // Obtener la ruta base del documento actual
-            const base_url = window.location.origin;
-            const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
+            let base_url = window.location.origin;
+            let searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
             response = await fetch(searchUrl);
         }
         if (!response.ok) {
@@ -168,14 +168,14 @@ async function getAnunciosSearch(searchTerm) {
         }
 
 
-        const contentType = response.headers.get('content-type');
+        let contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text();
+            let text = await response.text();
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
 
-        const data = await response.json();
+        let data = await response.json();
         return data;
     } catch (error) {
         return { status: 'error', message: 'Error en la llamada a la API' };
@@ -188,11 +188,11 @@ window.addEventListener("load", async function () {
     categoriaSeleccionada = "0";
 
 
-    const searchInput = document.getElementById("search-input");
+    let searchInput = document.getElementById("search-input");
 
 
     // Verificar si existe la cookie "buscador"
-    const buscadorCookie = getCookie("buscador");
+    let buscadorCookie = getCookie("buscador");
 
 
     // Establecer el valor del input basado en la existencia de la cookie
@@ -262,8 +262,8 @@ function actualizarIconosFavoritos(favoritos) {
 
 */
 function getCookie(nombre) {
-    const nombreCooke = `${nombre}=`;
-    const cookies = document.cookie.split(';');
+    let nombreCooke = `${nombre}=`;
+    let cookies = document.cookie.split(';');
 
     for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
@@ -296,14 +296,14 @@ async function logicaApp() {
 
 
     mostrarHtmlBoton(body);
-    const searchForm = document.getElementById("search-form");
+    let searchForm = document.getElementById("search-form");
 
 
     searchForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
 
-        const searchInput = document.getElementById("search-input").value;
+        let searchInput = document.getElementById("search-input").value;
 
 
         // Guardar en cookie
@@ -321,7 +321,7 @@ async function logicaApp() {
             }
         } else {
             // Mostrar un mensaje si no hay resultados
-            const noResultsMessage = document.createElement("div");
+            let noResultsMessage = document.createElement("div");
             noResultsMessage.className = "anuncios-error";
             noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
             articles.appendChild(noResultsMessage);
@@ -344,7 +344,7 @@ async function logicaApp() {
 
 
 function confirmarEliminacion(idAnuncio) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
+    let confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
         // El usuario confirmó, realizar la eliminación
         if (urlAnuncios === "perfilAnuncios") {
@@ -436,7 +436,7 @@ function mostarHtml(body) {
             let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
             eliminarEnlace.addEventListener('click', function (event) {
                 event.preventDefault();
-                const idAnuncio = this.getAttribute('data-id');
+                let idAnuncio = this.getAttribute('data-id');
                 confirmarEliminacion(idAnuncio);
             });
 
@@ -489,7 +489,7 @@ function datosAnuncios(data) {
     data.slice(numero1, numero2).forEach(async (anuncioJson) => {
         let divArticle = document.createElement("div");
         divArticle.className = "article-item";
-        const anuncioNew = new Anuncio(
+        let anuncioNew = new Anuncio(
             anuncioJson.id,
             anuncioJson.titulo,
             anuncioJson.imagen_anuncio,
@@ -511,10 +511,10 @@ function datosAnuncios(data) {
 
 
 function mostrarModal(imagen) {
-    const modal = document.getElementById('modal');
-    const zoomedImage = document.getElementById('zoomedImage');
-    const closeBtn = document.getElementById('closeBtn');
-    const zoom = modal.querySelector('.zoom');
+    let modal = document.getElementById('modal');
+    let zoomedImage = document.getElementById('zoomedImage');
+    let closeBtn = document.getElementById('closeBtn');
+    let zoom = modal.querySelector('.zoom');
 
 
     // Lógica para mostrar la ventana modal
@@ -536,9 +536,9 @@ function mostrarModal(imagen) {
 
 
     zoom.addEventListener('mousemove', (e) => {
-        const { left, top, width, height } = zoom.getBoundingClientRect();
-        const x = (e.clientX - left) / width * 100;
-        const y = (e.clientY - top) / height * 100;
+        let { left, top, width, height } = zoom.getBoundingClientRect();
+        let x = (e.clientX - left) / width * 100;
+        let y = (e.clientY - top) / height * 100;
 
 
         zoomedImage.style.transformOrigin = `${x}% ${y}%`;
@@ -692,13 +692,13 @@ async function comercioAnuncio(id) {
 
 
 async function getCategoriaById(id) {
-    const response = await fetch(`/categorias/categoria/${id}`);
-    const data = await response.json();
+    let response = await fetch(`/categorias/categoria/${id}`);
+    let data = await response.json();
     return data;
 }
 
 async function getComercioId(id) {
-    const response = await fetch(`/comercios/comercio/${id}`);
-    const data = await response.json();
+    let response = await fetch(`/comercios/comercio/${id}`);
+    let data = await response.json();
     return data;
 }

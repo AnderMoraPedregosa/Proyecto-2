@@ -211,7 +211,6 @@ function obtenerEncabezados(tipo) {
             return `
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Logo</th>
                 <th>Email</th>
                 <th>Telefono</th>
                 <th>Direccion</th>
@@ -263,7 +262,6 @@ function obtenerFila(elemento, tipo) {
                 return `
                     <td>${elemento.id}</td>
                     <td>${elemento.nombre}</td>
-                    <td>${elemento.logo}</td>
                     <td>${elemento.email}</td>
                     <td>${elemento.telefono}</td>
                     <td>${elemento.direccion}</td>
@@ -375,13 +373,19 @@ $(document).on("click", "#btnCrearPersona", function () {
 //mostrar u ocultar el select de comercios
 $(document).on("change", "#id_rol", function () {
     const idRolSeleccionado = document.querySelector('input[name="id_rol"]:checked').value;
+    alert(idRolSeleccionado) // 3 es el valor del comerciante
 
     // Obtén el select de comercios
     const selectComercios = document.getElementById('selectComercios');
     // Muestra u oculta el select según la selección del radio button
-    if (idRolSeleccionado === '3') { // 3 es el valor del comerciante
+    if (idRolSeleccionado === '3') {
         selectComercios.style.display = 'block';
     } else {
+        if(idRolSeleccionado === "2"){
+            selectComercios.style.display = 'none';
+
+            document.getElementById("crudCliente").display = "block";
+        }
         selectComercios.style.display = 'none';
     }
 });
@@ -390,7 +394,6 @@ $(document).on("change", "#id_rol", function () {
 
 $(document).on("click", "#btnCrearComercio", function () {
     const nombre = document.getElementById("nombreComercio").value;
-    const logo = document.getElementById("logoComercio").value;
     const email = document.getElementById("emailComercio").value;
     const telefono = document.getElementById("telefonoComercio").value;
     const direccion = document.getElementById("direccionComercio").value;
@@ -405,7 +408,6 @@ $(document).on("click", "#btnCrearComercio", function () {
      const data = {
             id: idComercio,
             nombre: nombre,
-            logo: logo,
             email: email,
             telefono: telefono,
             direccion: direccion
@@ -507,6 +509,9 @@ function cargarDatosPersonaEnFormulario(idPersona, elementos){
             document.getElementById('selectComercios').style.display = 'block';
             // Llama a la función para llenar el select de comercios
         } else {
+            if(personaSeleccionada.id_rol === "2"){
+                document.getElementById("crudCliente").style.display = "block";
+            }
             document.getElementById('selectComercios').style.display = 'none';
         }
     } else {
@@ -519,7 +524,6 @@ function cargarDatosComercioEnFormulario(idComercio, elementos){
 
     document.getElementById("nombreComercio").value = comercioSeleccionado.nombre;
     document.getElementById("emailComercio").value = comercioSeleccionado.email;
-    document.getAnimations("logoComercio").value = comercioSeleccionado.logo;
     document.getElementById("telefonoComercio").value = comercioSeleccionado.telefono;
     document.getElementById("direccionComercio").value = comercioSeleccionado.direccion;
 }
@@ -577,7 +581,6 @@ function datosComercios(data) {
         return new Comercio(
             personaJson.id,
             personaJson.nombre,
-            personaJson.logo,
             personaJson.email,
             personaJson.telefono,
             personaJson.direccion

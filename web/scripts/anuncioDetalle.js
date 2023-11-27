@@ -6,36 +6,36 @@ import { Comerciante } from "../modelos/comerciante.js";
 import { getPersonaById } from "./Funciones/getPersona.js";
 
 async function getDetalleAnuncio(id) {
-    const response = await fetch(`/anuncios/detalles/${id}`);
-    const data = await response.json();
+    let response = await fetch(`/anuncios/detalles/${id}`);
+    let data = await response.json();
     return data;
 }
 
 
 async function getCategoriaById(id) {
-    const response = await fetch(`/categorias/categoria/${id}`);
-    const data = await response.json();
+    let response = await fetch(`/categorias/categoria/${id}`);
+    let data = await response.json();
     return data;
 }
 let comerciante;
 let categoria;
-var btnForm = document.getElementById("btnCrearAnuncio");
+let btnForm = document.getElementById("btnCrearAnuncio");
 let selectElement = document.getElementById("selectCategorias");
 let imagenesInput = document.getElementById("imagen");
 
 window.addEventListener("load", async function () {
     // Obtener la ruta de la URL
-    const path = window.location.pathname;
+    let path = window.location.pathname;
     // Dividir la ruta en segmentos
-    const pathSegments = path.split('/');
-    const accion = pathSegments[2]
+    let pathSegments = path.split('/');
+    let accion = pathSegments[2]
     // Obtener el último segmento, que debería ser el 'id'
-    var id = pathSegments.pop();
+    let id = pathSegments.pop();
 
 
     if (id) {
-        var anuncioJSON = await getDetalleAnuncio(id);
-        const anuncioNew = new Anuncio(
+        let anuncioJSON = await getDetalleAnuncio(id);
+        let anuncioNew = new Anuncio(
             anuncioJSON["anuncio"][0].id,
             anuncioJSON["anuncio"][0].titulo,
             anuncioJSON["anuncio"][0].imagen_anuncio,
@@ -64,17 +64,17 @@ window.addEventListener("load", async function () {
                     selectElement.options[i].selected = true;
                 }
             }
-            var comercianteJSON = await getPersonaById();
+            let comercianteJSON = await getPersonaById();
             comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
 
             const url = `/anuncios/actualizar/${anuncioNew.id}`;
 
             btnForm.addEventListener("click", (event) => {
                 event.preventDefault();
-                const titulo = document.getElementById("tituloAnuncio").value;
-                const precio = document.getElementById("precioAnuncio").value;
-                const descripcion = document.getElementById("desc").value;
-                const cat = selectElement.value;
+                let titulo = document.getElementById("tituloAnuncio").value;
+                let precio = document.getElementById("precioAnuncio").value;
+                let descripcion = document.getElementById("desc").value;
+                let cat = selectElement.value;
 
 
 
@@ -96,7 +96,7 @@ window.addEventListener("load", async function () {
 function htmlDetalle(anuncio) {
     let srcImagen = anuncio.imagen.split('/');
     let content = document.getElementById("content-detail");
-    const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
+    let tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
 
     // Crear un contenedor principal para las dos columnas
     let container = document.createElement("div");
@@ -136,7 +136,7 @@ function htmlDetalle(anuncio) {
 
 function htmlDetalleImagenes(anuncio, imagenes) {
     let contenedor = document.getElementById("content-detail");
-    const tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
+    let tiempoTranscurrido = calcularTiempoTranscurrido(anuncio.fechaC);
 
     // Crear un nuevo contenedor para los detalles del anuncio
     let contenedorDetalles = document.createElement("div");
@@ -195,8 +195,8 @@ function htmlDetalleImagenes(anuncio, imagenes) {
 
 function carruselImg() {
     let currentImageIndex = 0;
-    const images = document.querySelectorAll("#carrusel img");
-    const totalImages = images.length;
+    let images = document.querySelectorAll("#carrusel img");
+    let totalImages = images.length;
 
     function showImage(index) {
         images.forEach((img, i) => {
@@ -228,7 +228,7 @@ function carruselImg() {
 async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, url) {
     try {
         // Crear un objeto con las claves correspondientes
-        const data = {
+        let data = {
             titulo: titulo,
             precio: precio,
             descripcion: descripcion,
@@ -238,7 +238,7 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
             idComerciante: comerciante.id
         };
         console.log(url);
-        const response = await fetch(url, {
+        let response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ async function insertarActualizarAnuncio(id, titulo, precio, descripcion, cat, u
 
         // Verificar si la respuesta es exitosa
         if (!response.ok) {
-            const errorText = await response.text();
+            let errorText = await response.text();
             throw new Error(`Error en la operación: ${errorText}`);
         } else {
             window.location.reload();
@@ -275,9 +275,9 @@ async function categoriaAnuncio(id) {
 }
 
 async function obtenerImagenesBase64(files) {
-    const promesas = Array.from(files).map(file => {
+    let promesas = Array.from(files).map(file => {
         return new Promise((resolve, reject) => {
-            const reader = new FileReader();
+            let reader = new FileReader();
             reader.onload = (event) => {
                 resolve({ nombre: file.name, base64: event.target.result });
             };
