@@ -2,6 +2,7 @@
 Para descargarse el contenido, recomendamos usar el manual de usuario, donde explica detalladamente como colocar las carpetas dentro de su ordenador.
 Resumidamente, tendrá que clonar el proyecto y la carpeta Reto2 cortarla y almacenarla en otro lugar del ordenador, por consiguiente, tendrá que cortar lo restante del clonado(carpeta Proyecto-2) y guardarla dentro de la carpeta Reto2/www
 Lamentamos las complicaciones. Si no se aclara con esto en el manual de usuario tendrá todos los pasos a seguir.
+Recuerde usar Docker Desktop y en la carpeta donde este el Dockerfile y Docker-compose.yml usar el comando en la terminal "docker compose up -d --build". Gracias y que disfrute
 
 Los usuarios y contraseñas usadas estan en la documentación/usuarios y contraseñas
 Si no desea abrir la documentacion:
