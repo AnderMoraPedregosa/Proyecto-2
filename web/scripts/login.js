@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
      // Verifica si existe la cookie "userName"
      const userNameCookie = getCookie("userName");
-     alert(nombreInput);
  
      // Establecer el valor del input basado en la existencia de la cookie
      nombreInput.value = userNameCookie ? userNameCookie : "prueba";
