@@ -15,7 +15,8 @@
     <div class="contenedor" id="contenedor">
 
         <div class="contenedor-formulario registro">
-            <a href="/"> <button id="btnVolver">Volver</button></a>
+        <button id="btnVolver" onclick="window.location.href='/';">Volver</button>
+
             <form id="formReg" method="post">
                 <h1>Crear Cuenta</h1>
                 <span>o utiliza tu correo electrónico para registrarte</span>
@@ -30,7 +31,8 @@
             </form>
         </div>
         <div class="contenedor-formulario inicio-sesion">
-            <a href="/"> <button id="btnVolver">Volver</button></a>
+        <button id="btnVolver1" onclick="window.location.href='/';">Volver</button>
+
             <form id="formLogin" method="post">
                 <h1>Iniciar Sesión</h1>
                 <div class="iconos-sociales">

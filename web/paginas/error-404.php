@@ -11,12 +11,12 @@
       background-color: #f4f4f4;
       color: #333;
       text-align: center;
-      padding: 50px;
+      padding: 3.125em;
       margin: 0;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 37.5em;
       margin: 0 auto;
     }
 
@@ -27,7 +27,7 @@
 
     p {
       font-size: 18px;
-      margin-bottom: 20px;
+      margin-bottom: 1.25em;
     }
 
     a {
@@ -288,13 +288,18 @@
     const canvas = document.getElementById('dinoCanvas');
     const ctx = canvas.getContext('2d');
 
+    // Cargar imágenes
+    const dinoImg = new Image();
+    const obstacleImg = new Image();
+    dinoImg.src = '../imagenes/dinosaurio.png';
+    obstacleImg.src = '../imagenes/meteorito.png';
+
     // Dinosaurio
     const dino = {
       x: 50,
       y: canvas.height - 50,
       width: 50,
       height: 50,
-      color: '#0095DD',
       jumping: false,
       jumpHeight: 150,
     };
@@ -305,18 +310,15 @@
       y: canvas.height - 50,
       width: 20,
       height: 20,
-      color: '#FF0000',
       speed: 2,
     };
 
     function drawDino() {
-      ctx.fillStyle = dino.color;
-      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+      ctx.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
     }
 
     function drawObstacle() {
-      ctx.fillStyle = obstacle.color;
-      ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+      ctx.drawImage(obstacleImg, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     }
 
     function jump() {

@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comercio Vitoria</title>
+</head>
+<body>
 <?php require "partials/head.php" ?>
 
 <div id="slider" class="slider-small">
@@ -7,7 +14,7 @@
 </div>
 <div class="center">
 <div id="crearBlog" style="display: none;">
-    <button id="btnMostrarFormBlog">Crear Blog</button>
+    <button id="btnMostrarFormBlog" style="display: none;">Crear Blog</button>
     
 </div>
 <div class="center-blog">
@@ -20,7 +27,7 @@
 <aside id="sidebar">
     <div id="nav-blog" class="sidebar-item">
         <h3>Crea un blog</h3>
-        <a href="/formulario/blog" class="btn btn-success" id="btnCrearBlogAside"">Crear blog</a>
+        <a href="/formulario/blog" class="btn btn-success" id="btnCrearBlogAside">Crear blog</a>
     </div>
 </aside>
 
@@ -28,3 +35,5 @@
 </div>
 
 <?php require "partials/footer.php" ?>
+</body>
+</html>
