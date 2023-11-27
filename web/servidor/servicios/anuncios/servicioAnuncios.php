@@ -190,7 +190,7 @@ switch ($accion) {
         eliminarId($dbh, $id);
 
         //redireccionar al index o al perfil
-        if ($palabra === "anunciosPerfil") {
+        if ($palabra === "perfilAnuncios") {
             header("Location: /perfilAnuncios");
         } else {
             header("Location: /");

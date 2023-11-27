@@ -374,7 +374,14 @@ function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
         // El usuario confirmó, realizar la eliminación
-        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
+        if(urlAnuncios === "perfilAnuncios" ){
+        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}/perfilAnuncios`;
+        }
+        else{
+            window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
+
+        }
+        
     } else {
         // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
         console.log("Eliminación cancelada");
