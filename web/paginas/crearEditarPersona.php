@@ -31,6 +31,10 @@
         <input type="radio" id="admin" name="id_rol" value="1" />
         <label for="admin">Admin</label>
     </div>
+    <select id="comercios" style="display: none;">
+        
+    </select>
+
     <input type="button" name="crearPersona" value="Crear" id="btnCrearPersona" class="pruebaPersona " />
 
 </form>

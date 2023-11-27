@@ -52,11 +52,34 @@ function insertarPersona($dbh, $data)
             'telefono' => $telefono,
             'idPersona' => $idPersona
         ];
-        if (insertarCliente($dbh, $dataCliente)) {
-            return true;
-        } else {
-            return false;
-        };
+
+        $dataComerciante = [
+            'idComercio' => "1",
+            'idPersona' => $idPersona
+        ];
+
+        $dataAdmin = [
+            'idPersona' => $idPersona
+        ];
+        switch($data["rol"]){
+            case "2":
+                if(insertarCliente($dbh, $dataCliente)){
+                    return true;
+                };
+                break;
+            case "3":
+                if(insertarComerciante($dbh, $dataComerciante)){
+                    return true;
+                };
+                break;
+            case "1":
+                if(insertarAdmin($dbh, $dataAdmin)){
+                    return true;
+                };
+                break;
+        }
+
+        
     } catch (Exception $e) {
         // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
         error_log($e->getMessage());
@@ -68,6 +91,30 @@ function insertarCliente($dbh, $data)
 {
     try {
         $stmt = $dbh->prepare("INSERT INTO clientes (apellidos, telefono, id_persona) VALUES (:apellidos, :telefono, :idPersona)");
+        $stmt->execute($data);
+        return true;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+function insertarComerciante($dbh, $data)
+{
+    try {
+        $stmt = $dbh->prepare("INSERT INTO comerciantes (id_comercio, id_persona) VALUES (:idComercio, :idPersona)");
+        $stmt->execute($data);
+        return true;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+function insertarAdmin($dbh, $data)
+{
+    try {
+        $stmt = $dbh->prepare("INSERT INTO admins (id_persona) VALUES (:idPersona)");
         $stmt->execute($data);
         return true;
     } catch (Exception $e) {
