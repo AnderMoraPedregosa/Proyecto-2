@@ -31,7 +31,9 @@ function registrarNuevoUsuario($nombreUsuario, $dniUsuario, $emailUsuario, $cont
             'telefono' => $telefono,
             'rol' => 2
         ];
-        if (insertarPersona($dbh, $datos)) {
+
+        $result = insertarPersona($dbh, $datos);
+        if ($result) {
             echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
         } else {
             echo json_encode(['success' => false, 'message' => 'No se pudo insertar el usuario en bd']);
