@@ -82,31 +82,6 @@ cargarMasBtnBlog.addEventListener('click', async function () {
 });
 
 
-/* async function getAnunciosSearch(searchTerm) {
-    try {
-        numero1 = 0;
-        numero2 = 10;
-
-        // Obtener la ruta base del documento actual
-        const base_url = window.location.origin;
-        const searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
-        const response = await fetch(searchUrl);
-        if (!response.ok) {
-            throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
-        }
-
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text();
-            throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        return { status: 'error', message: 'Error en la llamada a la API' };
-    }
-} */
 
 
 window.addEventListener("load", async function () {
