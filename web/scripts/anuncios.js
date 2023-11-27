@@ -23,9 +23,6 @@ var categoriaSeleccionada;
 
 var articles = document.getElementById("articles");
 
-
-
-
 const selectCategorias = document.getElementById('selectCategorias');
 selectCategorias.addEventListener('change', async function () {
     articles.innerHTML = "";
@@ -58,16 +55,15 @@ async function getAnuncios(idPersona) {
         }
         else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios favoritos";
-            const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
-            console.log(favoritos);
-            console.log(favoritos[0].anuncios);
+            //const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
+           
        
             // Array para almacenar los detalles de los anuncios favoritos
             const anunciosFavoritos = [];
        
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
-            for (const idAnuncio of favoritos[0].anuncios) {
-                try {
+            //for (const idAnuncio of favoritos[0].anuncios) {
+               try {
                     const base_url = window.location.origin;
        
                     // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
@@ -77,7 +73,6 @@ async function getAnuncios(idPersona) {
        
                     if (response.status !== 200) {
                         //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
-                        continue; // Continuar con el próximo favorito en caso de error
                     }
        
                     // Obtener el cuerpo JSON de la respuesta
@@ -96,14 +91,12 @@ async function getAnuncios(idPersona) {
                         anunciosFavoritos.push(anuncioDetalle);
                     } else {
                         //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
-                        continue;
                     }
                     console.log(anunciosFavoritos)
                 } catch (error) {
                     //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
-                    continue;
                 }
-            }
+           // }
 
 
             console.log("anuncios favritos")
@@ -113,18 +106,16 @@ async function getAnuncios(idPersona) {
             console.log(anunciosFavoritos)
 
 
-            if(anunciosFavoritos.length === 0){
-               data ={ status: 'error', message: 'Error, no hay anuncios' }
-            }else{
+            //if(anunciosFavoritos.length === 0){
+            //   data ={ status: 'error', message: 'Error, no hay anuncios' }
+            //}else{
                  // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
             data = { status: 'success', data: anunciosFavoritos };
-            }
+            //}
        
            
         }
 
-
-     
 
 
         const contentType = response.headers.get('content-type');
@@ -163,10 +154,6 @@ cargarMasBtn.addEventListener('click', async function () {
 
 
 });
-
-
-
-
 
 
 async function getAnunciosSearch(searchTerm) {
@@ -228,7 +215,7 @@ logicaApp();
 
 });
 
-
+/*
 document.addEventListener('DOMContentLoaded', async function() {
 
 
@@ -241,7 +228,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         return acumulador;
     }, []);
    
-    console.log("eeee")
     console.log(anunciosEnFavoritos)
    
     // Actualizar iconos de favoritos en la página
@@ -285,7 +271,7 @@ function actualizarIconosFavoritos(favoritos) {
     });
 }
 
-
+*/
 function getCookie(nombre) {
     const nombreCooke = `${nombre}=`;
     const cookies = document.cookie.split(';');
@@ -374,14 +360,7 @@ function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
         // El usuario confirmó, realizar la eliminación
-        if(urlAnuncios === "perfilAnuncios" ){
-        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}/perfilAnuncios`;
-        }
-        else{
-            window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
-
-        }
-        
+        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
     } else {
         // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
         console.log("Eliminación cancelada");
@@ -455,13 +434,14 @@ function mostarHtml(body) {
               //favoritos
               var favEnlace = divArticle.querySelector('#fav');
 
+              /*
               if(datosArray){
             if(datosArray['id_rol'] === "2" ){
                 recogerFavoritos();
                 actualizarIconosFavoritos(anunciosEnFavoritos);
             }
         }
-          
+          */
             favEnlace.addEventListener("click", function (event) {
             event.preventDefault();
             // id del anuncio
@@ -473,7 +453,7 @@ function mostarHtml(body) {
 
 
              // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
-            guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
+            //guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
 
         });
    
@@ -578,6 +558,7 @@ function mostrarModal(imagen) {
 }
 
 
+/*
 //index db
 function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
     const dbName = "anunciosFavoritos";
@@ -644,8 +625,8 @@ function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
                     iconElement.classList.add('fa-solid');
            
                     //Obtener los favoritos actualizados y actualizar iconos en la página
-                    //const favoritosActualizados = await obtenerFavoritosIndexedDB(idPersona);
-                   //actualizarIconosFavoritos(favoritosActualizados);
+                    const favoritosActualizados = await obtenerFavoritosIndexedDB(idPersona);
+                   actualizarIconosFavoritos(favoritosActualizados);
                 };
 
 
@@ -667,9 +648,7 @@ function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
     };
 }
 
-
-
-
+/*
 //obtener anuncios de index db
 async function obtenerFavoritosIndexedDB(idPersona) {
     return new Promise((resolve, reject) => {
@@ -706,3 +685,5 @@ async function obtenerFavoritosIndexedDB(idPersona) {
     });
 }
 
+
+*/
