@@ -2,28 +2,26 @@
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 import { getPersonaById } from "./Funciones/getPersona.js"
-import { Categoria } from "../modelos/categoria.js";
-import { Comercio } from "../modelos/comercio.js";
-let urlActual = window.location.href;
-let comercio;
-let categoria;
-// Divide la URL en partes utilizando "/" como delimitador
-let partesUrl = urlActual.split('/');
+var urlActual = window.location.href;
 
-let anunciosEnFavoritos;
+
+// Divide la URL en partes utilizando "/" como delimitador
+var partesUrl = urlActual.split('/');
+
+var anunciosEnFavoritos;
 
 // Obtiene el segundo elemento del array (índice 1)
 
 
-let idPersonaFav;
-let data;
+var idPersonaFav;
+var data;
 
 
 //categorias
-let categoriaSeleccionada;
+var categoriaSeleccionada;
 
 
-let articles = document.getElementById("articles");
+var articles = document.getElementById("articles");
 
 
 
@@ -39,7 +37,7 @@ selectCategorias.addEventListener('change', async function () {
 });
 
 
-let urlAnuncios = partesUrl[3];
+var urlAnuncios = partesUrl[3];
 async function getAnuncios(idPersona) {
     try {
         // Obtener la ruta base del documento actual
@@ -49,63 +47,69 @@ async function getAnuncios(idPersona) {
         if (urlAnuncios === "") {
             response = await fetch(`${base_url}/anuncios/todos/${categoriaSeleccionada}`);
         }
-        else if (urlAnuncios === "perfilAnuncios") {
+        else if(urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
-            const base_url = window.location.origin;
 
+            const base_url = window.location.origin;
+       
             response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
         }
         else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios favoritos";
-            //const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
-           
+            const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
+            
        
             // Array para almacenar los detalles de los anuncios favoritos
             const anunciosFavoritos = [];
-
+       
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
-            //for (const idAnuncio of favoritos[0].anuncios) {
-               try {
+            for (const idAnuncio of favoritos[0].anuncios) {
+                try {
                     const base_url = window.location.origin;
-
+       
                     // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
-                    response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
-
-
+                     response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
+                    
+       
                     if (response.status !== 200) {
                         //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
+                        continue; // Continuar con el próximo favorito en caso de error
                     }
-
+       
                     // Obtener el cuerpo JSON de la respuesta
                     const detallesData = await response.json();
 
-
+       
                     // Verificar si la respuesta es válida y contiene el array 'data'
                     if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
                         // Acceder al primer (y supuesto único) detalle del anuncio
                         const anuncioDetalle = detallesData.data[0];
+                        
                         anunciosFavoritos.push(anuncioDetalle);
                     } else {
                         //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
+                        continue;
                     }
                 } catch (error) {
                     //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+                    continue;
                 }
-           // }
+            }
 
 
-
-            //if(anunciosFavoritos.length === 0){
-            //   data ={ status: 'error', message: 'Error, no hay anuncios' }
-            //}else{
+            if(anunciosFavoritos.length === 0){
+               data ={ status: 'error', message: 'Error, no hay anuncios' }
+            }else{
                  // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
-           // data = { status: 'success', data: anunciosFavoritos };
-            //}
+            data = { status: 'success', data: anunciosFavoritos };
+            }
        
            
         }
 
+
+     
 
 
         const contentType = response.headers.get('content-type');
@@ -115,9 +119,9 @@ async function getAnuncios(idPersona) {
         }
 
 
-        if (urlAnuncios !== "anunciosFavoritos") {
+        if(urlAnuncios !== "anunciosFavoritos"){
             data = await response.json();
-
+           
         }
         return data;
     } catch (error) {
@@ -143,6 +147,10 @@ cargarMasBtn.addEventListener('click', async function () {
 
 
 });
+
+
+
+
 
 
 async function getAnunciosSearch(searchTerm) {
@@ -183,31 +191,32 @@ async function getAnunciosSearch(searchTerm) {
 }
 
 
-let persona;
-window.addEventListener("load", async function () {
-    categoriaSeleccionada = "0";
+var persona;
+window.addEventListener("load", async function() {
+categoriaSeleccionada = "0";
 
 
-    const searchInput = document.getElementById("search-input");
+const searchInput = document.getElementById("search-input");
 
 
-    // Verificar si existe la cookie "buscador"
-    const buscadorCookie = getCookie("buscador");
+// Verificar si existe la cookie "buscador"
+const buscadorCookie = getCookie("buscador");
 
 
-    // Establecer el valor del input basado en la existencia de la cookie
-    searchInput.placeholder = buscadorCookie ? buscadorCookie : "Ropa hombre";
+// Establecer el valor del input basado en la existencia de la cookie
+searchInput.placeholder = buscadorCookie ? buscadorCookie : "prueba";
 
 
-    getAnuncios()
-    logicaApp();
+getAnuncios()
+logicaApp();
 
 });
 
-/*
+
 document.addEventListener('DOMContentLoaded', async function() {
 
 
+    if(datosArray){
     const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
 
 
@@ -217,13 +226,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         return acumulador;
     }, []);
    
-    console.log(anunciosEnFavoritos)
+   
+}
    
     // Actualizar iconos de favoritos en la página
     //actualizarIconosFavoritos(anunciosEnFavoritos);
 });
 
-async function recogerFavoritos() {
+async function recogerFavoritos(){
     const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
 
     // Almacena los IDs de los anuncios que están en favoritos
@@ -231,7 +241,7 @@ async function recogerFavoritos() {
         acumulador.push(...fav.anuncios);
         return acumulador;
     }, []);
-
+   
 }
 
 
@@ -245,7 +255,7 @@ function actualizarIconosFavoritos(favoritos) {
 
         // Verificar si el anuncio está en la lista de favoritos
         const esFavorito = favoritos.includes(idAnuncio);
-        
+
         // Obtener el elemento <i> correspondiente al enlace de favoritos
         const iconElement = enlace.querySelector('i');
 
@@ -260,35 +270,35 @@ function actualizarIconosFavoritos(favoritos) {
     });
 }
 
-*/
+
 function getCookie(nombre) {
     const nombreCooke = `${nombre}=`;
     const cookies = document.cookie.split(';');
-
+   
     for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
         if (cookie.indexOf(nombreCooke) === 0) {
             return cookie.substring(nombreCooke.length, cookie.length);
         }
     }
-
+   
     return null;
 }
 
 
 
 
-async function logicaApp() {
+async function logicaApp(){
     persona = await getPersonaById();
-    if (!persona) {
-        //no hay nadie logueado
+    if(!persona)  {
+            //no hay nadie logueado
         body = await getAnuncios();
-
+       
     }
-    else {
+    else{
         idPersonaFav = datosArray["idPersona"];
         body = await getAnuncios(datosArray["idPersona"]);
-
+       
     }
     let articles = document.getElementById("articles");
     numero1 = 0;
@@ -347,14 +357,10 @@ function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
         // El usuario confirmó, realizar la eliminación
-        if (urlAnuncios === "perfilAnuncios") {
-            window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}/perfilAnuncios`;
-        }
-        else {
-            window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
-
-        }
-
+        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
+    } else {
+        // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
+        console.log("Eliminación cancelada");
     }
 }
 function mostrarHtmlBoton(body) {
@@ -375,7 +381,7 @@ function mostarHtml(body) {
 
 
     //eliminar anuncios existentes
-
+   
 
 
     if (body['status'] == 'success') {
@@ -383,9 +389,7 @@ function mostarHtml(body) {
 
         let anuncios = datosAnuncios(body['data']);
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(async anuncioNew => {
-            comercio = await comercioAnuncio(anuncioNew.idComercio);
-            categoria = await categoriaAnuncio(anuncioNew.idCategoria);
+        anuncios.forEach(anuncioNew => {
             divArticle = document.createElement("div");
             divArticle.className = "article-item";
             let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
@@ -403,17 +407,13 @@ function mostarHtml(body) {
                  </div>
                </div>
                  <h2>${anuncioNew.titulo}</h2>
-                 <p>${anuncioNew.descripcion.substring(0, 255)}...<p>
                  <span class="date">${tiempoTranscurrido}</span>
-                 <h3>${categoria.nombre}</h3>
-                 <h4> Comercio: ${comercio.nombre}</h4>
-                 <p> <strong>Direccion:</strong> ${comercio.direccion}, <strong>Telefono:</strong> ${comercio.telefono}, <strong> Email:</strong> ${comercio.email}<p>
-            
+                 <p class=>${anuncioNew.descripcion.substring(0, 255)}...<p>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
                  <a href="#" class="eliminar-enlace link delete enlacesCrudAnuncios" data-id="${anuncioNew.id}" id="aEliminar" title="Eliminar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-trash"></i></a>
-                 <a href="#" class="linkFav" id="fav" title="Favorito" data-id="${anuncioNew.id}" style="display: ${persona && datosArray["id_rol"] === "2" ? 'block' : 'none'};"><i class="fa-regular fa-heart"></i>.</a>
+                 <a href="#" class="linkFav" id="fav" title="Favorito" data-id="${anuncioNew.id}" style="display: ${persona && datosArray["id_rol"] === "2" ? 'block' : 'none'};"><i class="fa-regular fa-heart"></i></a>
                  </div>
    
                   <div class="clearfix"></div>
@@ -428,32 +428,31 @@ function mostarHtml(body) {
                 confirmarEliminacion(idAnuncio);
             });
 
-            //favoritos
-            let favEnlace = divArticle.querySelector('#fav');
+              //favoritos
+              var favEnlace = divArticle.querySelector('#fav');
 
-              /*
               if(datosArray){
             if(datosArray['id_rol'] === "2" ){
                 recogerFavoritos();
                 actualizarIconosFavoritos(anunciosEnFavoritos);
             }
         }
-          */
+          
             favEnlace.addEventListener("click", function (event) {
-                event.preventDefault();
-                // id del anuncio
-                let idAnuncio = this.getAttribute('data-id');
+            event.preventDefault();
+            // id del anuncio
+            let idAnuncio = this.getAttribute('data-id');
 
 
-                // Obtener el elemento <i> correspondiente al enlace de favoritos
-                let iconElement = this.querySelector('i');
+             // Obtener el elemento <i> correspondiente al enlace de favoritos
+            let iconElement = this.querySelector('i');
 
 
              // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
-            //guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
+            guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
 
-            });
-
+        });
+   
 
 
         });
@@ -555,7 +554,6 @@ function mostrarModal(imagen) {
 }
 
 
-/*
 //index db
 function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
     const dbName = "anunciosFavoritos";
@@ -591,7 +589,8 @@ function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
 
                 iconElement.classList.remove('fa-solid');
                 iconElement.classList.add('fa-regular');
-
+               
+                console.log("El anuncio ya está en la lista de favoritos");
 
 
                 let index = favoritos.indexOf(idAnuncio);
@@ -602,6 +601,7 @@ function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
 
 
                 updateRequest.onsuccess = function () {
+                    console.log("Anuncio eliminado de favoritos en IndexedDB");
                     // Actualizar la clase del ícono directamente
                 };
             } else {
@@ -612,15 +612,16 @@ function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
 
 
                 updateRequest.onsuccess = async function () {
+                    console.log("Favorito guardado en IndexedDB");
                     // Actualizar la clase del ícono directamente
                     iconElement.classList.remove('fa-regular');
 
 
                     iconElement.classList.add('fa-solid');
-
+           
                     //Obtener los favoritos actualizados y actualizar iconos en la página
-                    const favoritosActualizados = await obtenerFavoritosIndexedDB(idPersona);
-                    actualizarIconosFavoritos(favoritosActualizados);
+                    //const favoritosActualizados = await obtenerFavoritosIndexedDB(idPersona);
+                   //actualizarIconosFavoritos(favoritosActualizados);
                 };
 
 
@@ -642,7 +643,9 @@ function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
     };
 }
 
-/*
+
+
+
 //obtener anuncios de index db
 async function obtenerFavoritosIndexedDB(idPersona) {
     return new Promise((resolve, reject) => {
@@ -677,31 +680,4 @@ async function obtenerFavoritosIndexedDB(idPersona) {
             reject("Error al abrir la base de datos");
         };
     });
-}
-*/
-
-async function categoriaAnuncio(id) {
-    let categoriaJSON = await getCategoriaById(id);
-    return categoria = new Categoria(categoriaJSON['categoria'][0].id, categoriaJSON['categoria'][0].nombre)
-
-}
-
-async function comercioAnuncio(id) {
-    let comercioJSON = await getComercioId(id);
-    return comercio = new Comercio(comercioJSON['comercio'][0].id, comercioJSON['comercio'][0].nombre,
-        comercioJSON['comercio'][0].email, comercioJSON['comercio'][0].telefono, comercioJSON['comercio'][0].direccion)
-
-}
-
-
-async function getCategoriaById(id) {
-    const response = await fetch(`/categorias/categoria/${id}`);
-    const data = await response.json();
-    return data;
-}
-
-async function getComercioId(id) {
-    const response = await fetch(`/comercios/comercio/${id}`);
-    const data = await response.json();
-    return data;
 }
