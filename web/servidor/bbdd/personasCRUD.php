@@ -36,8 +36,12 @@ function insertarPersona($dbh, $data)
 {
     $telefono = $data['telefono'];
     $apellidos = $data['apellidos'];
+    $comercio = $data['comercio'];
+
     unset($data['telefono']);
     unset($data['apellidos']);
+    unset($data['telefono']);
+    unset($data['comercio']);
 
     try {
         $stmt = $dbh->prepare("INSERT INTO personas (dni, nombre, passwd, email, id_rol)
@@ -54,7 +58,7 @@ function insertarPersona($dbh, $data)
         ];
 
         $dataComerciante = [
-            'idComercio' => "1",
+            'idComercio' => $comercio,
             'idPersona' => $idPersona
         ];
 

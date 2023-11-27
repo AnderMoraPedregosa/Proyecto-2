@@ -166,7 +166,10 @@ async function getData(tipo) {
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
+        console.log("comercios")
+        console.log(data)
         return data;
+        
     } catch (error) {
         console.error('Error en la llamada a la API:', error.message);
         return { status: 'error', message: `Error en la llamada a la API de ${tipo}` };
@@ -277,7 +280,6 @@ function obtenerFila(elemento, tipo) {
 let idPersona = null;
 
 window.addEventListener("load", async function () {
-    // Tu código relacionado con la carga de la página
     //cookie?
     mostrarTabla("personas");
 });
@@ -302,7 +304,30 @@ function confirmarEliminacion(id, tipo) {
     }
 }
 
+
+
 function openModal(url) {
+    if(tipo2 === "personas"){
+        getData("comercios")
+        .then(comercios => {
+            console.log("comercios2")
+            console.log(typeof comercios)
+            console.log(comercios)
+
+            const selectComercios = document.getElementById('selectComercios');
+            selectComercios.innerHTML = '';
+            
+            //llenar select de los comercios
+            if (typeof comercios === 'object' && comercios !== null && Array.isArray(comercios.data)) {
+                comercios.data.forEach(comercio => {
+                    const option = document.createElement('option');
+                    option.value = comercio.id;
+                    option.textContent = comercio.nombre;
+                    selectComercios.appendChild(option);
+                });
+            }
+        })
+    }
     fetch(url)
         .then(response => response.text())
         .then(data => {
@@ -318,6 +343,14 @@ $(document).on("click", "#btnCrearPersona", function () {
     const dni = document.getElementById("dni").value;
     const passwd = document.getElementById("passwd").value;
     const idRol = document.querySelector('input[name="id_rol"]:checked').value;
+    //comercio
+    const selectComercios = document.getElementById('selectComercios');
+
+// Obtén el valor seleccionado
+    const comercioSeleccionado = selectComercios.value;
+
+    alert("comercio")
+    alert(comercioSeleccionado)
 
     let url;
     if (this.value === "Actualizar") {
@@ -332,11 +365,28 @@ $(document).on("click", "#btnCrearPersona", function () {
             email: email,
             nombre: nombre,
             passwd: passwd,
-            rol: idRol
+            rol: idRol,
+            comercio: comercioSeleccionado
         };
         insertarActualizar(data, url);
     document.getElementById("myModal").style.display = "none";
 });
+
+//mostrar u ocultar el select de comercios
+$(document).on("change", "#id_rol", function () {
+    const idRolSeleccionado = document.querySelector('input[name="id_rol"]:checked').value;
+
+    // Obtén el select de comercios
+    const selectComercios = document.getElementById('selectComercios');
+    // Muestra u oculta el select según la selección del radio button
+    if (idRolSeleccionado === '3') { // 3 es el valor del comerciante
+        selectComercios.style.display = 'block';
+    } else {
+        selectComercios.style.display = 'none';
+    }
+});
+
+
 
 $(document).on("click", "#btnCrearComercio", function () {
     const nombre = document.getElementById("nombreComercio").value;
@@ -383,6 +433,24 @@ $(document).on("click", "#btnCrearCategoria", function () {
 });
 
 function openModalActualizar(url, id, elementos) {
+    if(tipo2 === "personas"){
+        getData("comercios")
+        .then(comercios => {
+
+            const selectComercios = document.getElementById('selectComercios');
+            selectComercios.innerHTML = '';
+            
+            //llenar select de los comercios
+            if (typeof comercios === 'object' && comercios !== null && Array.isArray(comercios.data)) {
+                comercios.data.forEach(comercio => {
+                    const option = document.createElement('option');
+                    option.value = comercio.id;
+                    option.textContent = comercio.nombre;
+                    selectComercios.appendChild(option);
+                });
+            }
+        })
+    }
     fetch(url)
         .then(response => response.text())
         .then(data => {
@@ -425,12 +493,22 @@ function cargarDatosPersonaEnFormulario(idPersona, elementos){
     document.getElementById("dni").value = personaSeleccionada.dni;
     document.getElementById("passwd").value = personaSeleccionada.passwd;
 
+    const idComercioPersona = personaSeleccionada.id_comercio;
+
+    const selectComercios = document.getElementById('selectComercios');
+    selectComercios.value = idComercioPersona;
+
     const radioSelector = `input[name="id_rol"][value="${personaSeleccionada.id_rol}"]`;
-    alert(personaSeleccionada.id_rol);
     const radioElement = document.querySelector(radioSelector);
 
     if (radioElement) {
         radioElement.checked = true;
+        if (personaSeleccionada.id_rol === "3") { // 3 es el ID del rol "Comerciante"
+            document.getElementById('selectComercios').style.display = 'block';
+            // Llama a la función para llenar el select de comercios
+        } else {
+            document.getElementById('selectComercios').style.display = 'none';
+        }
     } else {
         console.error(`Elemento no encontrado: ${radioSelector}`);
     }
@@ -479,7 +557,8 @@ function datosPersonas(data) {
             personaJson.nombre,
             personaJson.passwd,
             personaJson.email,
-            personaJson.id_rol
+            personaJson.id_rol,
+            personaJson.id_comercio
         );
     });
 }
