@@ -13,3 +13,19 @@ export async function getPersonaById() {
     }
 }
 
+
+
+
+
+async function categoriaAnuncio(id) {
+    let categoriaJSON = await getCategoriaById(id);
+
+    return categoria = new Categoria(categoriaJSON['categoria'][0].id, categoriaJSON['categoria'][0].nombre)
+
+}
+
+async function getCategoriaById(id) {
+    const response = await fetch(`/categorias/categoria/${id}`);
+    const data = await response.json();
+    return data;
+}
