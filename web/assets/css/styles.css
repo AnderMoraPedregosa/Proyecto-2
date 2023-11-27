@@ -1535,9 +1535,18 @@ a.delete:hover {
     color: white;
     font-size: 1em;
     transition: background-color 0.3s ease;
+ 
 }
 
 #btnMostrarFormBlog:hover,
 #btnCrearBlog {
     background-color: #038609;
+}
+#btnMostrarFormBlog{   display: none;}
+.centradoAnuncioDetalle{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
