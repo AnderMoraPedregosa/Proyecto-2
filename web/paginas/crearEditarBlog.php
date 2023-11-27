@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comercio Vitoria</title>
+  
+</head>
+<body>
 <form class="form_blogs" enctype="multipart/form-data" id="formBlog">
     <label for="tituloBlog">Título:</label>
     <input type="text" id="tituloBlog" name="tituloBlog" required>
@@ -13,3 +22,5 @@
 </form>
 <div class="clearfix"></div>
 <script src="../scripts/formPreview.js"></script>
+</body>
+</html>

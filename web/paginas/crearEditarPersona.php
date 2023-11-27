@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comercio Vitoria</title>
+  
+</head>
+<body>
 <form class="formCrearPersona">
     <label for="dni">DNI</label>
     <input type="text" id="dni" name="dni" required="required" />
@@ -25,3 +34,5 @@
     <input type="button" name="crearPersona" value="Crear" id="btnCrearPersona" class="pruebaPersona " />
 
 </form>
+</body>
+</html>
