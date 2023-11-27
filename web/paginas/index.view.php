@@ -11,12 +11,7 @@
 
     <div class="center">
         <section id="content">
-            <form>
-                <label></label>
-                <select id="selectCategorias">
-                    <option id="opt1" value="0">Filtrar por categoria:</option>
-                </select>
-            </form>
+
             <h2 id="tituloAnuncios" class="subheader">Últimos productos
                 <img src="../../assets/images/new.png" class="new" alt="newp" />
             </h2>
@@ -29,23 +24,27 @@
         </section>
 
         <aside id="sidebar">
+        <div id="search" class="sidebar-item">
+                <h3>Buscador</h3>
+                <p>Encuentra el producto que buscas</p>
+                <form action="/anuncios/search/" id="search-form">
+                    <input type="text" id="search-input" name="search"  />
+                    <input type="submit" name="submit" value="Buscar" class="btn" />
+                </form>
+                <form>
+                <label></label>
+                <select id="selectCategorias">
+                    <option id="opt1" value="0">Filtrar por categoria:</option>
+                </select>
+            </form>
+            </div>
+
             <div id="nav-blog" class="sidebar-item">
                 <h3 id="sidebarTitle"></h3>
                 <a href="/formulario/anuncio" class="btn " id="btnCrearProductoAside" style="display: none;">Crear anuncio</a>
                 <a href="/formulario/blog" class="btn btn-success" id="btnCrearBlogAside" style="display: none;">Crear blog</a>
 
                 <a href="/blog" class="btn-white" id="btnBlog">Ir al blog</a>
-
-
-            </div>
-
-            <div id="search" class="sidebar-item">
-                <h3>Buscador</h3>
-                <p>Encuentra el producto que buscas</p>
-                <form action="/anuncios/search/" id="search-form">
-                    <input type="text" id="search-input" name="search" />
-                    <input type="submit" name="submit" value="Buscar" class="btn" />
-                </form>
             </div>
         </aside>
 
