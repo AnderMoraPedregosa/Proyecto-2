@@ -52,8 +52,11 @@ function insertarPersona($dbh, $data)
             'telefono' => $telefono,
             'idPersona' => $idPersona
         ];
-        insertarCliente($dbh, $dataCliente);
-        return true;
+        if (insertarCliente($dbh, $dataCliente)) {
+            return true;
+        } else {
+            return false;
+        };
     } catch (Exception $e) {
         // Manejo de errores: Puedes loggear el error, devolver un mensaje de error específico, etc.
         error_log($e->getMessage());
@@ -63,9 +66,14 @@ function insertarPersona($dbh, $data)
 
 function insertarCliente($dbh, $data)
 {
-
-    $stmt = $dbh->prepare("INSERT INTO clientes (apellidos, telefono, id_persona) VALUES (:apellidos, :telefono, :idPersona)");
-    return  $stmt->execute($data);
+    try {
+        $stmt = $dbh->prepare("INSERT INTO clientes (apellidos, telefono, id_persona) VALUES (:apellidos, :telefono, :idPersona)");
+        $stmt->execute($data);
+        return true;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
 }
 
 function actualizarPersona($dbh, $data)
