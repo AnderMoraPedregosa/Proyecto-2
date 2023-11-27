@@ -2,7 +2,6 @@
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 import { getPersonaById } from "./Funciones/getPersona.js"
-import { Categoria } from "../modelos/categoria.js";
 var urlActual = window.location.href;
 
 
@@ -12,7 +11,8 @@ var partesUrl = urlActual.split('/');
 var anunciosEnFavoritos;
 
 // Obtiene el segundo elemento del array (índice 1)
-let categoria;
+
+
 var idPersonaFav;
 var data;
 
@@ -47,7 +47,7 @@ async function getAnuncios(idPersona) {
         if (urlAnuncios === "") {
             response = await fetch(`${base_url}/anuncios/todos/${categoriaSeleccionada}`);
         }
-        else if (urlAnuncios === "perfilAnuncios") {
+        else if(urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
 
@@ -113,12 +113,11 @@ async function getAnuncios(idPersona) {
             console.log(anunciosFavoritos)
 
 
-
-            if (anunciosFavoritos.length === 0) {
-                data = { status: 'error', message: 'Error, no hay anuncios' }
-            } else {
-                // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
-                data = { status: 'success', data: anunciosFavoritos };
+            if(anunciosFavoritos.length === 0){
+               data ={ status: 'error', message: 'Error, no hay anuncios' }
+            }else{
+                 // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
+            data = { status: 'success', data: anunciosFavoritos };
             }
        
            
@@ -135,7 +134,7 @@ async function getAnuncios(idPersona) {
         }
 
 
-        if (urlAnuncios !== "anunciosFavoritos") {
+        if(urlAnuncios !== "anunciosFavoritos"){
             data = await response.json();
             console.log("prueba")
             console.log(data)
@@ -304,16 +303,14 @@ function getCookie(nombre) {
 
 
 
-
-
-async function logicaApp() {
+async function logicaApp(){
     persona = await getPersonaById();
-    if (!persona) {
-        //no hay nadie logueado
+    if(!persona)  {
+            //no hay nadie logueado
         body = await getAnuncios();
        
     }
-    else {
+    else{
         idPersonaFav = datosArray["idPersona"];
         console.log(datosArray["idPersona"])
         body = await getAnuncios(datosArray["idPersona"]);
@@ -377,7 +374,14 @@ function confirmarEliminacion(idAnuncio) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este anuncio?");
     if (confirmacion) {
         // El usuario confirmó, realizar la eliminación
-        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
+        if(urlAnuncios === "perfilAnuncios" ){
+        window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}/perfilAnuncios`;
+        }
+        else{
+            window.location.href = `/anuncios/borrarAnuncio/${idAnuncio}`;
+
+        }
+        
     } else {
         // El usuario canceló, no hacer nada o realizar acciones adicionales aquí
         console.log("Eliminación cancelada");
@@ -409,8 +413,7 @@ function mostarHtml(body) {
 
         let anuncios = datosAnuncios(body['data']);
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(async anuncioNew => {
-            categoria = await categoriaAnuncio(anuncioNew.idCategoria)
+        anuncios.forEach(anuncioNew => {
             divArticle = document.createElement("div");
             divArticle.className = "article-item";
             let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
@@ -430,7 +433,6 @@ function mostarHtml(body) {
                  <h2>${anuncioNew.titulo}</h2>
                  <span class="date">${tiempoTranscurrido}</span>
                  <p class=>${anuncioNew.descripcion.substring(0, 255)}...<p>
-                 <h3>${categoria.nombre}</h3>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -470,8 +472,8 @@ function mostarHtml(body) {
             let iconElement = this.querySelector('i');
 
 
-                // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
-                guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
+             // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
+            guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
 
         });
    
@@ -704,21 +706,3 @@ async function obtenerFavoritosIndexedDB(idPersona) {
     });
 }
 
-
-
-
-
-
-
-async function categoriaAnuncio(id) {
-    let categoriaJSON = await getCategoriaById(id);
-
-    return categoria = new Categoria(categoriaJSON['categoria'][0].id, categoriaJSON['categoria'][0].nombre)
-
-}
-
-async function getCategoriaById(id) {
-    const response = await fetch(`/categorias/categoria/${id}`);
-    const data = await response.json();
-    return data;
-}
