@@ -162,7 +162,7 @@ function actualizarRutaImagen($dbh, $data)
     }
 }
 
-function getComercio($dbh, $id)
+function getComercioId($dbh, $id)
 {
     $data = array('id' => $id);
 

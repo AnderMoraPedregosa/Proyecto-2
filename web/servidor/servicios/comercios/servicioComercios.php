@@ -118,6 +118,27 @@ switch ($accion) {
             jsonResponse($response, 500);
         }
         break;
+    case 'comercio':
+        $comercio = getComercio($dbh, $id);
+
+        // Asegúrate de que $comercio sea un array o un objeto antes de pasarlo a jsonResponse
+        if ($comercio !== null) {
+            $response = [
+                'success' => true,
+                'comercio' => $comercio,
+            ];
+
+            jsonResponse($response);
+        } else {
+            // Manejar el caso en el que no se encuentra el comercio, por ejemplo, devolver un error.
+            $errorResponse = [
+                'success' => false,
+                'error' => 'Comercio no encontrado',
+            ];
+
+            jsonResponse($errorResponse);
+        }
+        break;
     case "eliminar":
         $result = eliminarComercio($dbh, $id);
 
@@ -136,4 +157,3 @@ switch ($accion) {
         }
         break;
 }
-ob_end_flush();
