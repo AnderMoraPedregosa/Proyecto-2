@@ -31,7 +31,16 @@ switch (accion[2]) {
         formAnuncio.style.display = "none";
         document.getElementById('btnCrearBlog').addEventListener('click', function (event) {
             event.preventDefault();
-            insertarActualizarBlog();
+            let imagenBlogFiles = imagenBlog.files;
+         console.log()
+
+            if (imagenBlogFiles[0]) {
+               
+                insertarActualizarBlog();
+
+            } else {
+                alert("Tienes que poner una imagen!")
+            }
         });
         break;
     default:
@@ -74,6 +83,7 @@ async function insertarActualizarAnuncio() {
 }
 async function insertarActualizarBlog() {
     try {
+
         if (validarFormulario()) {
             let comercianteJSON = await getPersonaById();
 
@@ -106,11 +116,11 @@ async function insertarActualizarBlog() {
         console.error('Error en la operación:', error.message);
     }
 }
-async function validarFormulario() {
+function validarFormulario() {
 
     try {
         let campos;
-
+        console.log(accion[2])
         if (accion[2] == "blog") {
             campos = [{ nombre: "Titulo blog", valor: tituloBlog.value.trim(), exp: /^[A-Z][A-Za-z0-9\s'-]+$/ },
             { nombre: "Texto", valor: textoBlog.value.trim(), exp: /^[A-Za-z0-9\s'-]+$/ }]
@@ -125,11 +135,13 @@ async function validarFormulario() {
                 throw new Error("El campo '" + campo.nombre + "' no tiene un formato adecuado");
             }
         });
-
-        let categoria = selectElement.value;
-        if (categoria === "0") {
-            throw new Error("Selecciona una categoria");
+        if (accion[2] != "blog") {
+            let categoria = selectElement.value;
+            if (categoria === "0") {
+                throw new Error("Selecciona una categoria");
+            }
         }
+
         return true;
     } catch (err) {
         alert(err);

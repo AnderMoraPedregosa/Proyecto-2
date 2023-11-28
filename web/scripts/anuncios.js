@@ -349,13 +349,14 @@ async function mostarHtml(body) {
                    </div>
                  </div>
                </div>
+               <div class="infoAnuncio">
                  <h2>${anuncioNew.titulo}</h2>
                  <p>${anuncioNew.descripcion.substring(0, 255)}...<p>
                  <span class="date">${tiempoTranscurrido}</span>
                  <h3>${categoria.nombre}</h3>
                  <h4> Comercio: ${comercio.nombre}</h4>
                  <p> <strong>Direccion:</strong> ${comercio.direccion}, <strong>Telefono:</strong> ${comercio.telefono}, <strong> Email:</strong> ${comercio.email}<p>
-            
+                </div>
                  <div class="link-container">
                  <a href="/anuncioDetalle/detalles/${anuncioNew.id}" class="link read-more" title="Leer mas"><i  class="fa-solid fa-info"></i> </a>
                  <a href="/anuncioDetalle/actualizar/${anuncioNew.id}" class="link edit" id="aEditar" title="Actualizar" style="display: ${urlAnuncios === "perfilAnuncios" ? 'block' : 'none'};"><i class="fa-solid fa-pen-to-square"></i></a>
