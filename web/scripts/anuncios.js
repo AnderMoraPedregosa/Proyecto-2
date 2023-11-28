@@ -20,7 +20,7 @@ let data;
 
 
 //categorias
-let categoriaSeleccionada;
+let categoriaSeleccionada = 0;
 
 
 let articles = document.getElementById("articles");
@@ -32,23 +32,24 @@ let db, tablaFavoritos;
 
 
 
-let selectCategorias = document.getElementById('selectCategorias');
-selectCategorias.addEventListener('change', async function () {
-    articles.innerHTML = "";
 
-
-    categoriaSeleccionada = selectCategorias.value;
-});
 
 
 let urlAnuncios = partesUrl[3];
+
+async function getAnunciosCategoria(cateAnuncios) {
+    let response = await fetch(`/anuncios/todos/${cateAnuncios}`)
+    let data = response.json()
+    return data;
+}
+
 async function getAnuncios(idPersona) {
     try {
         // Obtener la ruta base del documento actual
         let response;
         //controlar si mostrar todos los anuncios o solo los propios
         if (urlAnuncios === "") {
-            response = await fetch(`/anuncios/todos/${categoriaSeleccionada}`);
+            response = await fetch(`/anuncios/todos`);
         }
         else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
@@ -176,61 +177,49 @@ async function getAnunciosSearch(searchTerm) {
 
 let persona;
 window.addEventListener("load", async function () {
-
-
-    categoriaSeleccionada = "0";
-
-
     let searchInput = document.getElementById("search-input");
-
+    let selectCategorias = document.getElementById('selectCategorias');
+    selectCategorias.addEventListener('change', async function () {
+        let categoriaSeleccionada = selectCategorias.value;
+        if (categoriaSeleccionada != 0) {
+            await filterAdsByCategory(categoriaSeleccionada);
+        }
+    });
 
     // Verificar si existe la cookie "buscador"
     let buscadorCookie = getCookie("buscador");
 
-
     // Establecer el valor del input basado en la existencia de la cookie
     searchInput.placeholder = buscadorCookie ? buscadorCookie : "Ropa hombre";
-    persona = await getPersonaById();
+    let persona = await getPersonaById();
+    let body;
     if (!persona) {
-        //no hay nadie logueado
+        // No hay nadie logueado
         body = await getAnuncios();
-
-    }
-    else {
+    } else {
         idPersonaFav = datosArray["idPersona"];
         body = await getAnuncios(datosArray["idPersona"]);
-
     }
-    let articles = document.getElementById("articles");
-    numero1 = 0;
-    numero2 = 10;
 
+    let articles = document.getElementById("articles");
+    let numero1 = 0;
+    let numero2 = 10;
 
     mostrarHtmlBoton(body);
+
     let searchForm = document.getElementById("search-form");
-
-
     searchForm.addEventListener("submit", async function (event) {
         event.preventDefault();
-
-
         let searchInput = document.getElementById("search-input").value;
-
 
         // Guardar en cookie
         document.cookie = `buscador=${searchInput}; path=/`;
 
-
-
-
         body = await getAnunciosSearch(searchInput);
         // Limpia los anuncios existentes
         articles.innerHTML = "";
-        if (body['data'] && (body['data'].length > 0
-        )) {
-
+        if (body['data'] && body['data'].length > 0) {
             mostrarHtmlBoton(body);
-
         } else {
             // Mostrar un mensaje si no hay resultados
             let noResultsMessage = document.createElement("div");
@@ -238,12 +227,9 @@ window.addEventListener("load", async function () {
             noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
             articles.appendChild(noResultsMessage);
         }
-
-
-
     });
-    let imagenes = document.querySelectorAll('.imagen');
 
+    let imagenes = document.querySelectorAll('.imagen');
 
     // Iterar sobre cada imagen y asignar el evento de clic a cada una
     imagenes.forEach(imagen => {
@@ -252,7 +238,8 @@ window.addEventListener("load", async function () {
             mostrarModal(e.target);
         });
     });
-    console.log(enlacesFavoritos)
+
+    console.log(enlacesFavoritos);
 
     if (datosArray && datosArray["id_rol"] === "2") {
         crearIndexdb().then(() => {
@@ -262,7 +249,16 @@ window.addEventListener("load", async function () {
         });
     }
 
+    async function filterAdsByCategory(categoria) {
+
+        body = await getAnunciosCategoria(categoria);
+
+
+        articles.innerHTML = "";
+        mostrarHtmlBoton(body);
+    }
 });
+
 
 /*
 document.addEventListener('DOMContentLoaded', async function() {
