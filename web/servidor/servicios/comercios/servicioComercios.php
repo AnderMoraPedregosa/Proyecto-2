@@ -56,14 +56,12 @@ switch ($accion) {
         break;
     case "insertar":
         $nombre = $datos['nombre'];
-        $logo = $datos['logo'];
         $email = $datos['email'];
         $telefono = $datos['telefono'];
         $direccion = $datos['direccion'];
 
         $datos = [
             "nombre" => $nombre,
-            "logo" => $logo,
             'email' => $email,
             'telefono' => $telefono,
             'direccion' => $direccion

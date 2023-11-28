@@ -1,9 +1,9 @@
 
-const btnCrearProducto = document.getElementById("btnCrearProductoAside");
-const btnCrearBlog = document.getElementById("btnCrearBlogAside");
-const btnVerBlog = document.getElementById("btnBlog");
+let btnCrearProducto = document.getElementById("btnCrearProductoAside");
+let btnCrearBlog = document.getElementById("btnCrearBlogAside");
+let btnVerBlog = document.getElementById("btnBlog");
 
-const sidebartitle = document.getElementById("sidebarTitle");
+let sidebartitle = document.getElementById("sidebarTitle");
 switch (parseInt(rol)) {
     case 1:
         btnCrearProducto.style.display = "block";

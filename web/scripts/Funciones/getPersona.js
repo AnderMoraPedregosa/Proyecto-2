@@ -1,8 +1,8 @@
 export async function getPersonaById() {
     try {
         if (datosArray) {
-            const response = await fetch(`/comerciantes/comerciantePersona/${datosArray["idPersona"]}`);
-            const data = await response.json();
+            let response = await fetch(`/comerciantes/comerciantePersona/${datosArray["idPersona"]}`);
+            let data = await response.json();
             return data;
         }
 

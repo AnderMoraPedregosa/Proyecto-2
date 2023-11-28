@@ -2,15 +2,15 @@
 import { Categoria } from "../modelos/categoria.js";
 
 async function getCategorias() {
-    const response = await fetch("/categorias/todos");
-    const data = await response.json();
+    let response = await fetch("/categorias/todos");
+    let data = await response.json();
     return data;
 }
 
 
 window.addEventListener("load", async function () {
-    var selectCategorias = document.getElementById("selectCategorias");
-    var body = await getCategorias();
+    let selectCategorias = document.getElementById("selectCategorias");
+    let body = await getCategorias();
     body['data'].forEach(async (categoriaJson) => {
 
         // Crear una nueva instancia con los datos obtenidos

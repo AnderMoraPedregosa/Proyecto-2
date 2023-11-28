@@ -2,17 +2,17 @@
 
 function showPreview(input) {
 
-    var previewContainer = document.getElementById('image-preview');
+    let previewContainer = document.getElementById('image-preview');
     previewContainer.innerHTML = '';
 
-    var files = input.files;
+    let files = input.files;
 
-    for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        var reader = new FileReader();
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        let reader = new FileReader();
 
         reader.onload = function (e) {
-            var previewImage = document.createElement('img');
+            let previewImage = document.createElement('img');
             previewImage.src = e.target.result;
             previewImage.classList.add('preview-image');
             previewImage.style.maxWidth = '10em'; // Ajusta el ancho máximo
@@ -26,14 +26,14 @@ function showPreview(input) {
 
 
 function showPreviewBlog(input) {
-    var previewContainer = document.getElementById('image-preview-blog');
+    let previewContainer = document.getElementById('image-preview-blog');
 previewContainer.innerHTML = `` ;
-    var file = input.files[0]; // Obtén solo la primera imagen seleccionada
+let file = input.files[0]; // Obtén solo la primera imagen seleccionada
     if (file) {
-        var reader = new FileReader();
+        let reader = new FileReader();
 
         reader.onload = function (e) {
-            var previewImage = document.createElement('img');
+            let previewImage = document.createElement('img');
             previewImage.src = e.target.result;
             previewImage.classList.add('preview-image-blog');
             previewImage.style.maxWidth = '10em'; // Ajusta el ancho máximo

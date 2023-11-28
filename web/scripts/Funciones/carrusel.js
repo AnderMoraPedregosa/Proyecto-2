@@ -1,8 +1,8 @@
  function carruselImg() {
     document.addEventListener("DOMContentLoaded", function () {
         let currentImageIndex = 0;
-        const images = document.querySelectorAll("#carrusel img");
-        const totalImages = images.length;
+        let images = document.querySelectorAll("#carrusel img");
+        let totalImages = images.length;
     
         function showImage(index) {
             images.forEach((img, i) => {

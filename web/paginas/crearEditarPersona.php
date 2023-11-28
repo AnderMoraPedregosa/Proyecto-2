@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Comercio Vitoria</title>
-  
+
 </head>
 <body>
 <form class="formCrearPersona">
@@ -31,12 +31,13 @@
         <input type="radio" id="admin" name="id_rol" value="1" />
         <label for="admin">Admin</label>
     </div>
-    <select id="comercios" style="display: none;">
-        
+    <select id="selectComercios" style="display: none;">
+
     </select>
 
     <input type="button" name="crearPersona" value="Crear" id="btnCrearPersona" class="pruebaPersona " />
 
 </form>
+
 </body>
 </html>

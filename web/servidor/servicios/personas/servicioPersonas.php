@@ -71,6 +71,7 @@ switch ($accion) {
         $dni = $datos['dni'];
         $passwd = $datos['passwd'];
         $idRol = $datos['rol'];
+        $comercio = $datos["comercio"];
         $hashedPassword = password_hash($passwd, PASSWORD_DEFAULT);
 
         $datos = [
@@ -78,7 +79,8 @@ switch ($accion) {
             "email" => $email,
             'nombre' => $nombre,
             'pass' => $hashedPassword,
-            'rol' => $idRol
+            'rol' => $idRol,
+            "comercio" => $comercio
         ];
 
         $result = insertarPersona($dbh, $datos);
