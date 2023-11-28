@@ -35,7 +35,7 @@ switch ($accion) {
         break;
     case 'todos':
 
-        if ($id !== "0" && $id !== "todos") {
+        if ($id !== "0" && $id !== "") {
             $anuncios = getAnunciosCategoria($dbh, $id);
         } else {
             $anuncios = getAnuncios($dbh);

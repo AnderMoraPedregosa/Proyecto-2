@@ -38,8 +38,6 @@ selectCategorias.addEventListener('change', async function () {
 
 
     categoriaSeleccionada = selectCategorias.value;
-    getAnuncios();
-    logicaApp();
 });
 
 
@@ -47,18 +45,16 @@ let urlAnuncios = partesUrl[3];
 async function getAnuncios(idPersona) {
     try {
         // Obtener la ruta base del documento actual
-        let base_url = window.location.origin;
         let response;
         //controlar si mostrar todos los anuncios o solo los propios
         if (urlAnuncios === "") {
-            response = await fetch(`${base_url}/anuncios/todos/${categoriaSeleccionada}`);
+            response = await fetch(`/anuncios/todos/${categoriaSeleccionada}`);
         }
         else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
-            let base_url = window.location.origin;
 
-            response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
+            response = await fetch(`/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
         }
         else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios tablaFavoritos";
@@ -71,14 +67,7 @@ async function getAnuncios(idPersona) {
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
             //for (const idAnuncio of tablaFavoritos[0].anuncios) {
             try {
-                // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
-                response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
-
-
-                if (response.status !== 200) {
-                    //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
-                }
-
+                response = await fetch(`/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
                 // Obtener el cuerpo JSON de la respuesta
                 let detallesData = await response.json();
 
@@ -158,7 +147,7 @@ async function getAnunciosSearch(searchTerm) {
 
         //si no busca por palabra clave muestra todos los anuncios
         if (searchTerm === "") {
-            response = await fetch("/anuncios/todos/todos");
+            response = await fetch("/anuncios/todos/");
         } else {
             // Obtener la ruta base del documento actual
             let base_url = window.location.origin;
@@ -201,10 +190,68 @@ window.addEventListener("load", async function () {
 
     // Establecer el valor del input basado en la existencia de la cookie
     searchInput.placeholder = buscadorCookie ? buscadorCookie : "Ropa hombre";
+    persona = await getPersonaById();
+    if (!persona) {
+        //no hay nadie logueado
+        body = await getAnuncios();
+
+    }
+    else {
+        idPersonaFav = datosArray["idPersona"];
+        body = await getAnuncios(datosArray["idPersona"]);
+
+    }
+    let articles = document.getElementById("articles");
+    numero1 = 0;
+    numero2 = 10;
 
 
-    getAnuncios()
-    logicaApp();
+    mostrarHtmlBoton(body);
+    let searchForm = document.getElementById("search-form");
+
+
+    searchForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+
+        let searchInput = document.getElementById("search-input").value;
+
+
+        // Guardar en cookie
+        document.cookie = `buscador=${searchInput}; path=/`;
+
+
+
+
+        body = await getAnunciosSearch(searchInput);
+        // Limpia los anuncios existentes
+        articles.innerHTML = "";
+        if (body['data'] && (body['data'].length > 0
+        )) {
+
+            mostrarHtmlBoton(body);
+
+        } else {
+            // Mostrar un mensaje si no hay resultados
+            let noResultsMessage = document.createElement("div");
+            noResultsMessage.className = "anuncios-error";
+            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
+            articles.appendChild(noResultsMessage);
+        }
+
+
+
+    });
+    let imagenes = document.querySelectorAll('.imagen');
+
+
+    // Iterar sobre cada imagen y asignar el evento de clic a cada una
+    imagenes.forEach(imagen => {
+        imagen.addEventListener('click', (e) => {
+            // Llamar a la función para mostrar la ventana modal
+            mostrarModal(e.target);
+        });
+    });
     console.log(enlacesFavoritos)
 
     if (datosArray && datosArray["id_rol"] === "2") {
@@ -317,69 +364,6 @@ function getCookie(nombre) {
 
 
 
-async function logicaApp() {
-    persona = await getPersonaById();
-    if (!persona) {
-        //no hay nadie logueado
-        body = await getAnuncios();
-
-    }
-    else {
-        idPersonaFav = datosArray["idPersona"];
-        body = await getAnuncios(datosArray["idPersona"]);
-
-    }
-    let articles = document.getElementById("articles");
-    numero1 = 0;
-    numero2 = 10;
-
-
-    mostrarHtmlBoton(body);
-    let searchForm = document.getElementById("search-form");
-
-
-    searchForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-
-        let searchInput = document.getElementById("search-input").value;
-
-
-        // Guardar en cookie
-        document.cookie = `buscador=${searchInput}; path=/`;
-
-
-
-
-        body = await getAnunciosSearch(searchInput);
-        // Limpia los anuncios existentes
-        articles.innerHTML = "";
-        if (body['data']) {
-            if (body['data'].length > 0) {
-                mostrarHtmlBoton(body);
-            }
-        } else {
-            // Mostrar un mensaje si no hay resultados
-            let noResultsMessage = document.createElement("div");
-            noResultsMessage.className = "anuncios-error";
-            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
-            articles.appendChild(noResultsMessage);
-        }
-
-
-
-    });
-    let imagenes = document.querySelectorAll('.imagen');
-
-
-    // Iterar sobre cada imagen y asignar el evento de clic a cada una
-    imagenes.forEach(imagen => {
-        imagen.addEventListener('click', (e) => {
-            // Llamar a la función para mostrar la ventana modal
-            mostrarModal(e.target);
-        });
-    });
-}
 
 
 function confirmarEliminacion(idAnuncio) {
@@ -397,6 +381,7 @@ function confirmarEliminacion(idAnuncio) {
     }
 }
 function mostrarHtmlBoton(body) {
+
     if (body && body['data'] && body['data'].length > numero2) {
         mostarHtml(body);
         cargarMasBtn.style.display = 'block';
@@ -423,7 +408,6 @@ async function mostarHtml(body) {
 
         let anuncios = datosAnuncios(body['data']);
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-
         // Define una función auxiliar para manejar la lógica de cada anuncio
         const procesarAnuncio = async (anuncioNew) => {
             comercio = await comercioAnuncio(anuncioNew.idComercio);
