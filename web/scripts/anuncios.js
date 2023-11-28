@@ -385,7 +385,11 @@ function mostarHtml(body) {
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
         anuncios.forEach(async anuncioNew => {
             comercio = await comercioAnuncio(anuncioNew.idComercio);
-            categoria = await categoriaAnuncio(anuncioNew.idCategoria);
+            if (comercio) {
+                categoria = await categoriaAnuncio(anuncioNew.idCategoria);}
+                if (categoria) {
+                    comercio =await comercioAnuncio(anuncioNew.idComercio);}
+                
             divArticle = document.createElement("div");
             divArticle.className = "article-item";
             let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
