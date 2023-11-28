@@ -45,7 +45,7 @@ async function getBlogs() {
             sidebar.style.display = "block";
             response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
             document.getElementById("tituloBlogs").textContent = "Mis Blogs";
-
+            document.getElementById("sliderDesc").style.display = "none";
         }
 
         if (!response.ok) {
