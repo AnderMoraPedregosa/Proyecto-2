@@ -25,6 +25,10 @@ let categoriaSeleccionada;
 
 let articles = document.getElementById("articles");
 
+//variable index db
+var db,almacen;
+
+
 
 
 
@@ -67,7 +71,6 @@ async function getAnuncios(idPersona) {
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
             //for (const idAnuncio of favoritos[0].anuncios) {
                try {
-
                     // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
                     response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
 
@@ -184,6 +187,7 @@ async function getAnunciosSearch(searchTerm) {
 
 let persona;
 window.addEventListener("load", async function () {
+   
     categoriaSeleccionada = "0";
 
 
@@ -442,14 +446,9 @@ function mostarHtml(body) {
             //favoritos
             let favEnlace = divArticle.querySelector('#fav');
 
-              /*
-              if(datosArray){
-            if(datosArray['id_rol'] === "2" ){
-                recogerFavoritos();
-                actualizarIconosFavoritos(anunciosEnFavoritos);
-            }
-        }
-          */
+              
+             
+          
             favEnlace.addEventListener("click", function (event) {
                 event.preventDefault();
                 // id del anuncio
@@ -457,7 +456,8 @@ function mostarHtml(body) {
 
 
                 // Obtener el elemento <i> correspondiente al enlace de favoritos
-                let iconElement = this.querySelector('i');
+                //let iconElement = this.querySelector('i');
+
 
 
              // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
@@ -550,131 +550,10 @@ function mostrarModal(imagen) {
     });
 }
 
-
-/*
-//index db
-function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
-    const dbName = "anunciosFavoritos";
-    const request = indexedDB.open(dbName, 1);
-
-
-    request.onupgradeneeded = function (event) {
-        const db = event.target.result;
-
-
-        if (!db.objectStoreNames.contains("favoritos")) {
-            const objectStore = db.createObjectStore("favoritos", { keyPath: "idPersona" });
-            objectStore.createIndex("idPersona", "idPersona", { unique: true });
-        }
-    };
-
-
-    request.onsuccess = function (event) {
-        const db = event.target.result;
-        const transaction = db.transaction(["favoritos"], "readwrite");
-        const objectStore = transaction.objectStore("favoritos");
-
-
-        const getRequest = objectStore.get(idPersona);
-
-
-        getRequest.onsuccess = function () {
-            const favoritos = getRequest.result ? getRequest.result.anuncios : [];
-
-
-            if (favoritos.includes(idAnuncio)) {
-
-
-                iconElement.classList.remove('fa-solid');
-                iconElement.classList.add('fa-regular');
+//crear bd
 
 
 
-                let index = favoritos.indexOf(idAnuncio);
-                favoritos.splice(index, 1);
-
-
-                const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
-
-
-                updateRequest.onsuccess = function () {
-                    // Actualizar la clase del ícono directamente
-                };
-            } else {
-                favoritos.unshift(idAnuncio);
-
-
-                const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
-
-
-                updateRequest.onsuccess = async function () {
-                    // Actualizar la clase del ícono directamente
-                    iconElement.classList.remove('fa-regular');
-
-
-                    iconElement.classList.add('fa-solid');
-
-                    //Obtener los favoritos actualizados y actualizar iconos en la página
-                    const favoritosActualizados = await obtenerFavoritosIndexedDB(idPersona);
-                    actualizarIconosFavoritos(favoritosActualizados);
-                };
-
-
-                updateRequest.onerror = function () {
-                    console.error("Error al actualizar la lista de favoritos en IndexedDB");
-                };
-            }
-        };
-
-
-        getRequest.onerror = function () {
-            console.error("Error al obtener la lista de favoritos de IndexedDB");
-        };
-    };
-
-
-    request.onerror = function () {
-        console.error("Error al abrir la base de datos");
-    };
-}
-
-/*
-//obtener anuncios de index db
-async function obtenerFavoritosIndexedDB(idPersona) {
-    return new Promise((resolve, reject) => {
-        const dbName = "anunciosFavoritos";
-        const request = indexedDB.open(dbName, 1);
-
-
-        request.onsuccess = function (event) {
-            const db = event.target.result;
-            const transaction = db.transaction(["favoritos"], "readonly");
-            const objectStore = transaction.objectStore("favoritos");
-            const index = objectStore.index("idPersona");
-
-
-            const favoritos = [];
-            const range = IDBKeyRange.only(datosArray && datosArray["idPersona"]);
-
-
-            index.openCursor(range).onsuccess = function (cursorEvent) {
-                const cursor = cursorEvent.target.result;
-                if (cursor) {
-                    favoritos.push(cursor.value);
-                    cursor.continue();
-                } else {
-                    resolve(favoritos);
-                }
-            };
-        };
-
-
-        request.onerror = function () {
-            reject("Error al abrir la base de datos");
-        };
-    });
-}
-*/
 
 async function categoriaAnuncio(id) {
     let categoriaJSON = await getCategoriaById(id);
