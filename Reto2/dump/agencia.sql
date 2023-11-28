@@ -176,16 +176,16 @@ INSERT INTO categorias (nombre) VALUES
 
 /*COMERCIOS*/
 
-INSERT INTO comercios (nombre, logo, email, telefono, direccion)
+INSERT INTO comercios (nombre, email, telefono, direccion)
 VALUES 
-('Carrocerias Martinez ', NULL, 'carromartinez@email.com', 1234567890, 'Calle Principal 123'),
-('Electrodomestis Fagor', NULL, 'electrofagor@email.com', 9876543210, 'Avenida Secundaria 456'),
-('My House', NULL, 'housemy@email.com', 5551112222, 'Calle Comercial 789'),
-('ElectroMart', NULL, 'electromart@email.com', 1237894560, 'Avenida Tecnológica 321'),
-('ModaExpress', NULL, 'modaexpress@email.com', 9876543211, 'Plaza de la Moda 567'),
-('Librería Lectura', NULL, 'librerialectura@email.com', 8765432109, 'Calle de los Libros 234'),
-('SuperDeportes', NULL, 'superdeportes@email.com', 1112223333, 'Avenida Deportiva 876'),
-('Gaming gamers', NULL, 'gamingamers@email.com', 333222111, 'Avenida comercio 222');
+('Carrocerias Martinez ', 'carromartinez@email.com', 1234567890, 'Calle Principal 123'),
+('Electrodomestis Fagor', 'electrofagor@email.com', 9876543210, 'Avenida Secundaria 456'),
+('My House', 'housemy@email.com', 5551112222, 'Calle Comercial 789'),
+('ElectroMart', 'electromart@email.com', 1237894560, 'Avenida Tecnológica 321'),
+('ModaExpress', 'modaexpress@email.com', 9876543211, 'Plaza de la Moda 567'),
+('Librería Lectura', 'librerialectura@email.com', 8765432109, 'Calle de los Libros 234'),
+('SuperDeportes', 'superdeportes@email.com', 1112223333, 'Avenida Deportiva 876'),
+('Gaming gamers', 'gamingamers@email.com', 333222111, 'Avenida comercio 222');
 
 
 
