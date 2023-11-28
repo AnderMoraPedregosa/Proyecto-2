@@ -185,7 +185,7 @@ VALUES
 ('ModaExpress', 'modaexpress@email.com', 9876543211, 'Plaza de la Moda 567'),
 ('Librería Lectura', 'librerialectura@email.com', 8765432109, 'Calle de los Libros 234'),
 ('SuperDeportes', 'superdeportes@email.com', 1112223333, 'Avenida Deportiva 876'),
-('Gaming gamers', 'gamingamers@email.com', 333222111, 'Avenida comercio 222');
+('Toysaras', 'toysaras@email.com', 333222111, 'Avenida comercio 222');
 
 
 
