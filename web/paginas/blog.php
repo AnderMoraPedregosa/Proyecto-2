@@ -18,6 +18,8 @@
     
 </div>
 <div class="center-blog">
+<button id="volverIndexView">Volver</button>
+
     <section id="content-blog">
         <script type="module" src="scripts/blogs.js"></script>
     </section>

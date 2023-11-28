@@ -97,7 +97,7 @@
 
 
 </div>
-<script src="../scripts/perfil.js"></script>
+<script type="module" src="../../scripts/perfil.js"></script>
 <?php require "paginas/partials/footer.php" ?>
 </body>
 </html>

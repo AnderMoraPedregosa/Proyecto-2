@@ -86,7 +86,9 @@ cargarMasBtnBlog.addEventListener('click', async function () {
 
 window.addEventListener("load", async function () {
 
-
+    this.document.getElementById("volverIndexView").addEventListener("click", () => {
+        this.window.history.back();
+    })
     body = await getBlogs();
     numero1 = 0;
     numero2 = 9;
