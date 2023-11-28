@@ -397,6 +397,7 @@ $(document).on("change", "#id_rol", function () {
             document.getElementById("labelTelefono").style.display = "block";
             break;
         case '3':
+            selectComercios.style.display = "block";
             quitarInputs();
 
             break;
@@ -488,7 +489,6 @@ function openModalActualizar(url, id, elementos) {
                     document.getElementById("nombreCat").value = categoria.nombre;
                     document.getElementById("btnCrearCategoria").value = "Actualizar";
                     document.getElementById("myModal").style.display = "block";
-
 
                 } else {
                     cargarDatosComercioEnFormulario(id, elementos);
