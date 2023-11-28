@@ -1,104 +1,56 @@
-// Importacion de las clases y funciones necesarias desde archivos externos
 import { Anuncio } from "../modelos/anuncio.js";
 import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
-import { getPersonaById } from "./Funciones/getPersona.js"
+import { getPersonaById } from "./Funciones/getPersona.js";
 import { Categoria } from "../modelos/categoria.js";
 import { Comercio } from "../modelos/comercio.js";
+
 let urlActual = window.location.href;
 let comercio;
 let categoria;
-// Divide la URL en partes utilizando "/" como delimitador
 let partesUrl = urlActual.split('/');
-
-var enlacesFavoritos;
-
-// Obtiene el segundo elemento del array (índice 1)
-
-
+let numero1 = 0;
+let numero2 = 10;
 let idPersonaFav;
 let data;
-
-
-//categorias
+let body;
+let persona;
 let categoriaSeleccionada = 0;
-
-
 let articles = document.getElementById("articles");
-
-//variable index db
+let cargarMasBtn = document.getElementById("cargarMasBtn");
 let db, tablaFavoritos;
-
-
-
-
-
-
-
-
 let urlAnuncios = partesUrl[3];
 
 async function getAnunciosCategoria(cateAnuncios) {
-    let response = await fetch(`/anuncios/todos/${cateAnuncios}`)
-    let data = response.json()
+    let response = await fetch(`/anuncios/todos/${cateAnuncios}`);
+    let data = await response.json();
     return data;
 }
 
 async function getAnuncios(idPersona) {
     try {
-        // Obtener la ruta base del documento actual
         let response;
-        //controlar si mostrar todos los anuncios o solo los propios
+
         if (urlAnuncios === "") {
             response = await fetch(`/anuncios/todos`);
-        }
-        else if (urlAnuncios === "perfilAnuncios") {
+        } else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
-
-
             response = await fetch(`/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
-        }
-        else {
+        } else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios tablaFavoritos";
-            //const tablaFavoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
-
-
-            // Array para favoritosar los detalles de los anuncios tablaFavoritos
             let anunciosFavoritos = [];
 
-            // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
-            //for (const idAnuncio of tablaFavoritos[0].anuncios) {
             try {
                 response = await fetch(`/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
-                // Obtener el cuerpo JSON de la respuesta
                 let detallesData = await response.json();
 
-
-                // Verificar si la respuesta es válida y contiene el array 'data'
                 if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
-                    // Acceder al primer (y supuesto único) detalle del anuncio
                     let anuncioDetalle = detallesData.data[0];
                     anunciosFavoritos.push(anuncioDetalle);
-                } else {
-                    //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
                 }
             } catch (error) {
-                //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+                console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
             }
-            // }
-
-
-
-            //if(anunciosFavoritos.length === 0){
-            //   data ={ status: 'error', message: 'Error, no hay anuncios' }
-            //}else{
-            // Ahora, anunciosFavoritos contiene los detalles de los anuncios tablaFavoritos
-            // data = { status: 'success', data: anunciosFavoritos };
-            //}
-
-
         }
-
-
 
         let contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
@@ -106,10 +58,8 @@ async function getAnuncios(idPersona) {
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
-
         if (urlAnuncios !== "anunciosFavoritos") {
             data = await response.json();
-
         }
         return data;
     } catch (error) {
@@ -117,55 +67,36 @@ async function getAnuncios(idPersona) {
         return { status: 'error', message: 'Error en la llamada a la API' };
     }
 }
-//variables globales
-let numero1;
-let numero2;
-let body;
 
-
-
-
-let cargarMasBtn = document.getElementById("cargarMasBtn");
 cargarMasBtn.addEventListener('click', async function () {
-
-
     numero1 += 11;
     numero2 += 11;
     mostrarHtmlBoton(body);
-
-
 });
-
 
 async function getAnunciosSearch(searchTerm) {
     try {
         numero1 = 0;
         numero2 = 10;
-
-
         let response;
 
-
-        //si no busca por palabra clave muestra todos los anuncios
         if (searchTerm === "") {
             response = await fetch("/anuncios/todos/");
         } else {
-            // Obtener la ruta base del documento actual
             let base_url = window.location.origin;
             let searchUrl = `${base_url}/anuncios/search/${encodeURIComponent(searchTerm)}`;
             response = await fetch(searchUrl);
         }
+
         if (!response.ok) {
             throw new Error(`Error al obtener anuncios. Código de estado: ${response.status}`);
         }
-
 
         let contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
             let text = await response.text();
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
-
 
         let data = await response.json();
         return data;
@@ -174,8 +105,6 @@ async function getAnunciosSearch(searchTerm) {
     }
 }
 
-
-let persona;
 window.addEventListener("load", async function () {
     let searchInput = document.getElementById("search-input");
     let selectCategorias = document.getElementById('selectCategorias');
@@ -190,15 +119,11 @@ window.addEventListener("load", async function () {
         }
     });
 
-    // Verificar si existe la cookie "buscador"
     let buscadorCookie = getCookie("buscador");
-
-    // Establecer el valor del input basado en la existencia de la cookie
     searchInput.placeholder = buscadorCookie ? buscadorCookie : "Ropa hombre";
     let persona = await getPersonaById();
-    let body;
+
     if (!persona) {
-        // No hay nadie logueado
         body = await getAnuncios();
     } else {
         idPersonaFav = datosArray["idPersona"];
@@ -206,8 +131,8 @@ window.addEventListener("load", async function () {
     }
 
     let articles = document.getElementById("articles");
-    let numero1 = 0;
-    let numero2 = 10;
+    numero1 = 0;
+    numero2 = 10;
 
     mostrarHtmlBoton(body);
 
@@ -216,16 +141,12 @@ window.addEventListener("load", async function () {
         event.preventDefault();
         let searchInput = document.getElementById("search-input").value;
 
-        // Guardar en cookie
         document.cookie = `buscador=${searchInput}; path=/`;
-
         body = await getAnunciosSearch(searchInput);
-        // Limpia los anuncios existentes
         articles.innerHTML = "";
         if (body['data'] && body['data'].length > 0) {
             mostrarHtmlBoton(body);
         } else {
-            // Mostrar un mensaje si no hay resultados
             let noResultsMessage = document.createElement("div");
             noResultsMessage.className = "anuncios-error";
             noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
@@ -235,15 +156,13 @@ window.addEventListener("load", async function () {
 
     let imagenes = document.querySelectorAll('.imagen');
 
-    // Iterar sobre cada imagen y asignar el evento de clic a cada una
     imagenes.forEach(imagen => {
         imagen.addEventListener('click', (e) => {
-            // Llamar a la función para mostrar la ventana modal
             mostrarModal(e.target);
         });
     });
 
-    console.log(enlacesFavoritos);
+   
 
     if (datosArray && datosArray["id_rol"] === "2") {
         crearIndexdb().then(() => {
@@ -254,10 +173,7 @@ window.addEventListener("load", async function () {
     }
 
     async function filterAdsByCategory(categoria) {
-
         body = await getAnunciosCategoria(categoria);
-
-
         articles.innerHTML = "";
         mostrarHtmlBoton(body);
     }
@@ -393,7 +309,6 @@ function mostrarHtmlBoton(body) {
 
 
 async function mostarHtml(body) {
-        articles.innerHTML = ``;
     let divArticle;
     const scrollBefore = window.scrollY;
 
