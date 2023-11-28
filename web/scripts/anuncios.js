@@ -10,7 +10,7 @@ let categoria;
 // Divide la URL en partes utilizando "/" como delimitador
 let partesUrl = urlActual.split('/');
 
-let anunciosEnFavoritos;
+var enlacesFavoritos;
 
 // Obtiene el segundo elemento del array (índice 1)
 
@@ -20,90 +20,82 @@ let data;
 
 
 //categorias
-let categoriaSeleccionada;
+let categoriaSeleccionada = 0;
 
 
 let articles = document.getElementById("articles");
 
+//variable index db
+let db, tablaFavoritos;
 
 
 
-let selectCategorias = document.getElementById('selectCategorias');
-selectCategorias.addEventListener('change', async function () {
-    articles.innerHTML = "";
 
 
-    categoriaSeleccionada = selectCategorias.value;
-    getAnuncios();
-    logicaApp();
-});
+
 
 
 let urlAnuncios = partesUrl[3];
+
+async function getAnunciosCategoria(cateAnuncios) {
+    let response = await fetch(`/anuncios/todos/${cateAnuncios}`)
+    let data = response.json()
+    return data;
+}
+
 async function getAnuncios(idPersona) {
     try {
         // Obtener la ruta base del documento actual
-        let base_url = window.location.origin;
         let response;
         //controlar si mostrar todos los anuncios o solo los propios
         if (urlAnuncios === "") {
-            response = await fetch(`${base_url}/anuncios/todos/${categoriaSeleccionada}`);
+            response = await fetch(`/anuncios/todos`);
         }
         else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
 
-            let base_url = window.location.origin;
 
-            response = await fetch(`${base_url}/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
+            response = await fetch(`/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
         }
         else {
-            document.getElementById("tituloAnuncios").textContent = "Mis anuncios favoritos";
-            //const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
-           
-       
-            // Array para almacenar los detalles de los anuncios favoritos
+            document.getElementById("tituloAnuncios").textContent = "Mis anuncios tablaFavoritos";
+            //const tablaFavoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
+
+
+            // Array para favoritosar los detalles de los anuncios tablaFavoritos
             let anunciosFavoritos = [];
 
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
-            //for (const idAnuncio of favoritos[0].anuncios) {
-               try {
-                let base_url = window.location.origin;
-
-                    // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
-                    response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
-
-
-                    if (response.status !== 200) {
-                        //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
-                    }
-
-                    // Obtener el cuerpo JSON de la respuesta
-                    let detallesData = await response.json();
+            //for (const idAnuncio of tablaFavoritos[0].anuncios) {
+            try {
+                response = await fetch(`/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
+                // Obtener el cuerpo JSON de la respuesta
+                let detallesData = await response.json();
 
 
-                    // Verificar si la respuesta es válida y contiene el array 'data'
-                    if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
-                        // Acceder al primer (y supuesto único) detalle del anuncio
-                        let anuncioDetalle = detallesData.data[0];
-                        anunciosFavoritos.push(anuncioDetalle);
-                    } else {
-                        //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
-                    }
-                } catch (error) {
-                    //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+                // Verificar si la respuesta es válida y contiene el array 'data'
+                if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
+                    // Acceder al primer (y supuesto único) detalle del anuncio
+                    let anuncioDetalle = detallesData.data[0];
+                    anunciosFavoritos.push(anuncioDetalle);
+                } else {
+                    //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
                 }
-           // }
+            } catch (error) {
+                //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+            }
+            // }
 
 
 
             //if(anunciosFavoritos.length === 0){
             //   data ={ status: 'error', message: 'Error, no hay anuncios' }
             //}else{
-                 // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
-           // data = { status: 'success', data: anunciosFavoritos };
+            // Ahora, anunciosFavoritos contiene los detalles de los anuncios tablaFavoritos
+            // data = { status: 'success', data: anunciosFavoritos };
             //}
-       
-           
+
+
         }
 
 
@@ -156,7 +148,7 @@ async function getAnunciosSearch(searchTerm) {
 
         //si no busca por palabra clave muestra todos los anuncios
         if (searchTerm === "") {
-            response = await fetch("/anuncios/todos/todos");
+            response = await fetch("/anuncios/todos/");
         } else {
             // Obtener la ruta base del documento actual
             let base_url = window.location.origin;
@@ -185,82 +177,172 @@ async function getAnunciosSearch(searchTerm) {
 
 let persona;
 window.addEventListener("load", async function () {
-    categoriaSeleccionada = "0";
-
-
     let searchInput = document.getElementById("search-input");
-
+    let selectCategorias = document.getElementById('selectCategorias');
+    selectCategorias.addEventListener('change', async function () {
+        let categoriaSeleccionada = selectCategorias.value;
+        if (categoriaSeleccionada != 0) {
+            await filterAdsByCategory(categoriaSeleccionada);
+        }
+    });
 
     // Verificar si existe la cookie "buscador"
     let buscadorCookie = getCookie("buscador");
 
-
     // Establecer el valor del input basado en la existencia de la cookie
     searchInput.placeholder = buscadorCookie ? buscadorCookie : "Ropa hombre";
+    let persona = await getPersonaById();
+    let body;
+    if (!persona) {
+        // No hay nadie logueado
+        body = await getAnuncios();
+    } else {
+        idPersonaFav = datosArray["idPersona"];
+        body = await getAnuncios(datosArray["idPersona"]);
+    }
+
+    let articles = document.getElementById("articles");
+    let numero1 = 0;
+    let numero2 = 10;
+
+    mostrarHtmlBoton(body);
+
+    let searchForm = document.getElementById("search-form");
+    searchForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        let searchInput = document.getElementById("search-input").value;
+
+        // Guardar en cookie
+        document.cookie = `buscador=${searchInput}; path=/`;
+
+        body = await getAnunciosSearch(searchInput);
+        // Limpia los anuncios existentes
+        articles.innerHTML = "";
+        if (body['data'] && body['data'].length > 0) {
+            mostrarHtmlBoton(body);
+        } else {
+            // Mostrar un mensaje si no hay resultados
+            let noResultsMessage = document.createElement("div");
+            noResultsMessage.className = "anuncios-error";
+            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
+            articles.appendChild(noResultsMessage);
+        }
+    });
+
+    let imagenes = document.querySelectorAll('.imagen');
+
+    // Iterar sobre cada imagen y asignar el evento de clic a cada una
+    imagenes.forEach(imagen => {
+        imagen.addEventListener('click', (e) => {
+            // Llamar a la función para mostrar la ventana modal
+            mostrarModal(e.target);
+        });
+    });
+
+    console.log(enlacesFavoritos);
+
+    if (datosArray && datosArray["id_rol"] === "2") {
+        crearIndexdb().then(() => {
+            actualizarIconosFavoritos();
+        }).catch((error) => {
+            console.error('Error al abrir la base de datos', error);
+        });
+    }
+
+    async function filterAdsByCategory(categoria) {
+
+        body = await getAnunciosCategoria(categoria);
 
 
-    getAnuncios()
-    logicaApp();
-
+        articles.innerHTML = "";
+        mostrarHtmlBoton(body);
+    }
 });
+
 
 /*
 document.addEventListener('DOMContentLoaded', async function() {
 
 
-    const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
+    const tablaFavoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
 
 
-    // Almacena los IDs de los anuncios que están en favoritos
-    anunciosEnFavoritos = favoritos.reduce((acumulador, fav) => {
+    // favoritosa los IDs de los anuncios que están en tablaFavoritos
+    anunciosEnFavoritos = tablaFavoritos.reduce((acumulador, fav) => {
         acumulador.push(...fav.anuncios);
         return acumulador;
     }, []);
    
     console.log(anunciosEnFavoritos)
    
-    // Actualizar iconos de favoritos en la página
+    // Actualizar iconos de tablaFavoritos en la página
     //actualizarIconosFavoritos(anunciosEnFavoritos);
 });
 
 async function recogerFavoritos() {
-    const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
+    const tablaFavoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
 
-    // Almacena los IDs de los anuncios que están en favoritos
-    anunciosEnFavoritos = favoritos.reduce((acumulador, fav) => {
+    // favoritosa los IDs de los anuncios que están en tablaFavoritos
+    anunciosEnFavoritos = tablaFavoritos.reduce((acumulador, fav) => {
         acumulador.push(...fav.anuncios);
         return acumulador;
     }, []);
 
 }
 
+*/
 
-function actualizarIconosFavoritos(favoritos) {
-    // Obtener todos los enlaces de favoritos en la página
-    const enlacesFavoritos = document.querySelectorAll('.linkFav');
+function actualizarIconosFavoritos() {
+    const tablaFavoritos = getAnunciosFavoritos();
+    // Obtener todos los enlaces de tablaFavoritos en la página
 
-    // Iterar sobre cada enlace y actualizar el ícono
-    enlacesFavoritos.forEach(enlace => {
-        const idAnuncio = enlace.getAttribute('data-id');
+    console.log(tablaFavoritos)
+    console.log(datosArray["idPersona"])
 
-        // Verificar si el anuncio está en la lista de favoritos
-        const esFavorito = favoritos.includes(idAnuncio);
-        
-        // Obtener el elemento <i> correspondiente al enlace de favoritos
-        const iconElement = enlace.querySelector('i');
+    let requestFav = tablaFavoritos.get(datosArray["idPersona"]);
+    console.log(requestFav)
+    requestFav.onsuccess = function (event) {
 
-        // Actualizar la clase del ícono según si es favorito o no
-        if (esFavorito) {
-            iconElement.classList.remove('fa-regular');
-            iconElement.classList.add('fa-solid');
-        } else {
-            iconElement.classList.remove('fa-solid');
-            iconElement.classList.add('fa-regular');
+        var anunciosFav = requestFav.result;
+
+        console.log("anuncios fav")
+        console.log(datosArray["idPersona"])
+
+        let listaAnuncios = anunciosFav.anuncios;
+
+        //todos los anuncios favoritos
+        console.log(listaAnuncios);
+
+        if (listaAnuncios.length !== 0) {
+
+            // Iterar sobre cada enlace y actualizar el ícono
+            enlacesFavoritos.forEach(enlace => {
+                console.log("prueba")
+                const idAnuncio = enlace.getAttribute('data-id');
+
+                // Verificar si el anuncio está en la lista de tablaFavoritos
+                const esFavorito = tablaFavoritos.anuncios.includes(idAnuncio);
+
+                // Obtener el elemento <i> correspondiente al enlace de tablaFavoritos
+                const iconElement = enlace.querySelector('i');
+
+                // Actualizar la clase del ícono según si es favorito o no
+                if (esFavorito) {
+                    iconElement.classList.remove('fa-regular');
+                    iconElement.classList.add('fa-solid');
+                } else {
+                    iconElement.classList.remove('fa-solid');
+                    iconElement.classList.add('fa-regular');
+                }
+
+            });
         }
-    });
+
+    }
+
 }
 
-*/
+
 function getCookie(nombre) {
     let nombreCooke = `${nombre}=`;
     let cookies = document.cookie.split(';');
@@ -278,69 +360,6 @@ function getCookie(nombre) {
 
 
 
-async function logicaApp() {
-    persona = await getPersonaById();
-    if (!persona) {
-        //no hay nadie logueado
-        body = await getAnuncios();
-
-    }
-    else {
-        idPersonaFav = datosArray["idPersona"];
-        body = await getAnuncios(datosArray["idPersona"]);
-
-    }
-    let articles = document.getElementById("articles");
-    numero1 = 0;
-    numero2 = 10;
-
-
-    mostrarHtmlBoton(body);
-    let searchForm = document.getElementById("search-form");
-
-
-    searchForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-
-        let searchInput = document.getElementById("search-input").value;
-
-
-        // Guardar en cookie
-        document.cookie = `buscador=${searchInput}; path=/`;
-
-
-
-
-        body = await getAnunciosSearch(searchInput);
-        // Limpia los anuncios existentes
-        articles.innerHTML = "";
-        if (body['data']) {
-            if (body['data'].length > 0) {
-                mostrarHtmlBoton(body);
-            }
-        } else {
-            // Mostrar un mensaje si no hay resultados
-            let noResultsMessage = document.createElement("div");
-            noResultsMessage.className = "anuncios-error";
-            noResultsMessage.innerHTML = `<h2>No se encontraron resultados para "${searchInput}".</h2>`;
-            articles.appendChild(noResultsMessage);
-        }
-
-
-
-    });
-    let imagenes = document.querySelectorAll('.imagen');
-
-
-    // Iterar sobre cada imagen y asignar el evento de clic a cada una
-    imagenes.forEach(imagen => {
-        imagen.addEventListener('click', (e) => {
-            // Llamar a la función para mostrar la ventana modal
-            mostrarModal(e.target);
-        });
-    });
-}
 
 
 function confirmarEliminacion(idAnuncio) {
@@ -358,6 +377,7 @@ function confirmarEliminacion(idAnuncio) {
     }
 }
 function mostrarHtmlBoton(body) {
+
     if (body && body['data'] && body['data'].length > numero2) {
         mostarHtml(body);
         cargarMasBtn.style.display = 'block';
@@ -369,7 +389,7 @@ function mostrarHtmlBoton(body) {
 }
 
 
-function mostarHtml(body) {
+async function mostarHtml(body) {
     let divArticle;
     const scrollBefore = window.scrollY;
 
@@ -381,9 +401,11 @@ function mostarHtml(body) {
     if (body['status'] == 'success') {
 
 
+
         let anuncios = datosAnuncios(body['data']);
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(async anuncioNew => {
+        // Define una función auxiliar para manejar la lógica de cada anuncio
+        const procesarAnuncio = async (anuncioNew) => {
             comercio = await comercioAnuncio(anuncioNew.idComercio);
             if (comercio) {
                 categoria = await categoriaAnuncio(anuncioNew.idCategoria);}
@@ -434,7 +456,7 @@ function mostarHtml(body) {
                     mostrarModal(e.target);
                 });
             });
-        
+
 
 
             let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
@@ -444,35 +466,32 @@ function mostarHtml(body) {
                 confirmarEliminacion(idAnuncio);
             });
 
-            //favoritos
+            //tablaFavoritos
             let favEnlace = divArticle.querySelector('#fav');
 
-              /*
-              if(datosArray){
-            if(datosArray['id_rol'] === "2" ){
-                recogerFavoritos();
-                actualizarIconosFavoritos(anunciosEnFavoritos);
-            }
-        }
-          */
+
+
+
             favEnlace.addEventListener("click", function (event) {
                 event.preventDefault();
                 // id del anuncio
                 let idAnuncio = this.getAttribute('data-id');
 
+                console.log(idAnuncio);
 
-                // Obtener el elemento <i> correspondiente al enlace de favoritos
-                let iconElement = this.querySelector('i');
+                guardarEnIndexdb(idAnuncio);
 
-
-             // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
-            //guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
 
             });
+        };
+
+        // Utiliza un bucle for...of para asegurar el orden de las operaciones asíncronas
+        for (const anuncioNew of anuncios) {
+            await procesarAnuncio(anuncioNew);
+        }
 
 
 
-        });
 
 
         window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
@@ -481,7 +500,10 @@ function mostarHtml(body) {
         divArticle.className = "anuncios-error";
         divArticle.innerHTML = `<h2>Error, no se han podido cargar los anuncios. Vuelva a intentarlo más tarde.</h2>`;
         articles.appendChild(divArticle);
+        enlacesFavoritos = document.querySelectorAll('.linkFav')
+        console.log(enlacesFavoritos)
     }
+
 
 }
 
@@ -555,131 +577,79 @@ function mostrarModal(imagen) {
     });
 }
 
+//crear bd
 
-/*
-//index db
-function guardarEnIndexedDB(idAnuncio, idPersona, iconElement) {
-    const dbName = "anunciosFavoritos";
-    const request = indexedDB.open(dbName, 1);
-
-
-    request.onupgradeneeded = function (event) {
-        const db = event.target.result;
-
-
-        if (!db.objectStoreNames.contains("favoritos")) {
-            const objectStore = db.createObjectStore("favoritos", { keyPath: "idPersona" });
-            objectStore.createIndex("idPersona", "idPersona", { unique: true });
-        }
-    };
-
-
-    request.onsuccess = function (event) {
-        const db = event.target.result;
-        const transaction = db.transaction(["favoritos"], "readwrite");
-        const objectStore = transaction.objectStore("favoritos");
-
-
-        const getRequest = objectStore.get(idPersona);
-
-
-        getRequest.onsuccess = function () {
-            const favoritos = getRequest.result ? getRequest.result.anuncios : [];
-
-
-            if (favoritos.includes(idAnuncio)) {
-
-
-                iconElement.classList.remove('fa-solid');
-                iconElement.classList.add('fa-regular');
-
-
-
-                let index = favoritos.indexOf(idAnuncio);
-                favoritos.splice(index, 1);
-
-
-                const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
-
-
-                updateRequest.onsuccess = function () {
-                    // Actualizar la clase del ícono directamente
-                };
-            } else {
-                favoritos.unshift(idAnuncio);
-
-
-                const updateRequest = objectStore.put({ idPersona: idPersona, anuncios: favoritos });
-
-
-                updateRequest.onsuccess = async function () {
-                    // Actualizar la clase del ícono directamente
-                    iconElement.classList.remove('fa-regular');
-
-
-                    iconElement.classList.add('fa-solid');
-
-                    //Obtener los favoritos actualizados y actualizar iconos en la página
-                    const favoritosActualizados = await obtenerFavoritosIndexedDB(idPersona);
-                    actualizarIconosFavoritos(favoritosActualizados);
-                };
-
-
-                updateRequest.onerror = function () {
-                    console.error("Error al actualizar la lista de favoritos en IndexedDB");
-                };
-            }
-        };
-
-
-        getRequest.onerror = function () {
-            console.error("Error al obtener la lista de favoritos de IndexedDB");
-        };
-    };
-
-
-    request.onerror = function () {
-        console.error("Error al abrir la base de datos");
-    };
-}
-
-/*
-//obtener anuncios de index db
-async function obtenerFavoritosIndexedDB(idPersona) {
+function crearIndexdb() {
     return new Promise((resolve, reject) => {
-        const dbName = "anunciosFavoritos";
-        const request = indexedDB.open(dbName, 1);
+        const request = indexedDB.open('AnunciosFavoritos', 1);
 
-
-        request.onsuccess = function (event) {
-            const db = event.target.result;
-            const transaction = db.transaction(["favoritos"], "readonly");
-            const objectStore = transaction.objectStore("favoritos");
-            const index = objectStore.index("idPersona");
-
-
-            const favoritos = [];
-            const range = IDBKeyRange.only(datosArray && datosArray["idPersona"]);
-
-
-            index.openCursor(range).onsuccess = function (cursorEvent) {
-                const cursor = cursorEvent.target.result;
-                if (cursor) {
-                    favoritos.push(cursor.value);
-                    cursor.continue();
-                } else {
-                    resolve(favoritos);
-                }
-            };
+        request.onsuccess = () => {
+            db = request.result;
+            resolve();
         };
 
+        request.onupgradeneeded = () => {
+            db = request.result;
+            tablaFavoritos = db.createObjectStore('favoritos', {
+                keyPath: 'idPersona'
+            });
+        };
 
-        request.onerror = function () {
-            reject("Error al abrir la base de datos");
+        request.onerror = (error) => {
+            reject(error);
         };
     });
 }
-*/
+function guardarEnIndexdb(idAnuncio) {
+    // Añadir almacén
+    tablaFavoritos = getAnunciosFavoritos();
+    let requestFav = tablaFavoritos.get(idPersonaFav);
+
+    requestFav.onsuccess = function (event) {
+        var anunciosFav = requestFav.result;
+        let listaAnuncios = [];
+
+        if (anunciosFav === undefined) {
+            listaAnuncios.push(idAnuncio);
+        } else {
+
+            listaAnuncios = anunciosFav.anuncios;
+
+            // Utiliza indexOf para verificar si el idAnuncio ya existe
+
+            if (!listaAnuncios.includes(idAnuncio)) {
+                listaAnuncios.push(idAnuncio);
+            }
+
+        }
+
+
+        let anuncioFav = {
+            idPersona: idPersonaFav,
+            anuncios: listaAnuncios
+        };
+
+        const peticionAdd = tablaFavoritos.put(anuncioFav); // Añadir objeto
+
+        peticionAdd.onsuccess = function () {
+            console.log('Producto agregado');
+        };
+
+        peticionAdd.onerror = function () {
+            alert("Error insertando producto");
+        };
+    };
+}
+
+function getAnunciosFavoritos() {
+    console.log(db)
+
+    const transaction = db.transaction(['favoritos'], 'readwrite');
+    return tablaFavoritos = transaction.objectStore('favoritos');
+}
+
+
+
 
 async function categoriaAnuncio(id) {
     let categoriaJSON = await getCategoriaById(id);

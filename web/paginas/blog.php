@@ -9,7 +9,7 @@
 
 <div id="slider" class="slider-small">
     <h1 id="tituloBlogs"></h1>
-    <h2>Aquí encontrarás informacion acerca de los comercios o noticias nuevas que nos quieran transmitir! Estate un rato y averiguarás cosas que probablemente no sabias!</h2>
+    <h2 id="sliderDesc">Aquí encontrarás informacion acerca de los comercios o noticias nuevas que nos quieran transmitir! Estate un rato y averiguarás cosas que probablemente no sabias!</h2>
     <div class="wave"></div>
 </div>
 <div class="center">
@@ -17,7 +17,10 @@
     <button id="btnMostrarFormBlog" style="display: none;">Crear Blog</button>
     
 </div>
+<button id="volverIndexView">Volver</button>
+
 <div class="center-blog">
+
     <section id="content-blog">
         <script type="module" src="scripts/blogs.js"></script>
     </section>

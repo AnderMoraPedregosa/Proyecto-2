@@ -196,6 +196,9 @@ body {
 /*Barra horizontal azul, colores, animacion, tanto la grande como la pequeña*/
 
 #slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 9em;
     color: black;
@@ -326,6 +329,24 @@ body {
     min-height: 40.625em;
     margin-right: 1.25em;
     background: white;
+}
+
+#volverIndexView {
+    max-height: 2.4em;
+    text-align: center;
+    font-size: 0.9em;
+    margin: .5em;
+    background-color: #6187E8;
+    padding: 0.5em;
+    border-radius: 0.8em;
+    color: #fff;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#volverIndexView:hover {
+    background-color: #3D6CE1;
+
 }
 
 #content {
@@ -648,6 +669,7 @@ form label {
 }
 
 form input[type="text"],
+form input[type="tel"],
 form input[type="number"],
 form input[type="email"],
 form input[type="password"],
@@ -809,26 +831,27 @@ form input[type="submit"]:hover {
 .table-personas tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
-.table-categorias tr:nth-child(odd)  {
+
+.table-categorias tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
+
 .table-comercios tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
 
 /* Estilos para las filas impares  */
-.table-personas tr:nth-child(even)
-{
-     background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    }
+.table-personas tr:nth-child(even) {
+    background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
+}
 
-    .table-categorias tr:nth-child(even){
-     background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    }
-   
+.table-categorias tr:nth-child(even) {
+    background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
+}
+
 .table-comercios tr:nth-child(even) {
-     background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    }
+    background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);
+}
 
 .table-personas th,
 .table-categorias th,
@@ -917,6 +940,18 @@ form input[type="submit"]:hover {
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
 }
 
+.article-item-blog {
+    width: 100%;
+    border-bottom: 0.063em solid #eee;
+    padding-bottom: 1.25em;
+    padding-top: 1.25em;
+    text-align: left;
+    background-color: rgba(214, 214, 214, 0.733);
+    border: 0.2em solid rgba(0, 0, 0, 0.349);
+    border-radius: 1em;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
+}
+
 .article-item .image-wrap {
     width: 17em;
     height: 14em;
@@ -927,6 +962,7 @@ form input[type="submit"]:hover {
     border: 0.063em solid #ccc;
     box-shadow: 0 0.8em 1em rgba(0, 0, 0, 0.61);
 }
+
 .article-item .image-wrap img {
     height: 100%;
 }
@@ -1554,15 +1590,19 @@ a.delete:hover {
     color: white;
     font-size: 1em;
     transition: background-color 0.3s ease;
- 
+
 }
 
 #btnMostrarFormBlog:hover,
 #btnCrearBlog {
     background-color: #038609;
 }
-#btnMostrarFormBlog{   display: none;}
-.centradoAnuncioDetalle{
+
+#btnMostrarFormBlog {
+    display: none;
+}
+
+.centradoAnuncioDetalle {
     width: 80%;
     display: flex;
     justify-content: space-between;

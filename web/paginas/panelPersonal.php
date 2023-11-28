@@ -76,6 +76,7 @@
       </div>
     </div>
   </div>
+  <!--
   <div class="carta" >
     <div class="face face1">
       <div class="content">
@@ -90,14 +91,14 @@
       </div>
     </div>
   </div>
-
+-->
 
 
 
 
 
 </div>
-<script src="../scripts/perfil.js"></script>
+<script type="module" src="../../scripts/perfil.js"></script>
 <?php require "paginas/partials/footer.php" ?>
 </body>
 </html>

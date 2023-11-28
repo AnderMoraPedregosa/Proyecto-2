@@ -45,7 +45,7 @@ async function getBlogs() {
             sidebar.style.display = "block";
             response = await fetch(`${base_url}/blogs/blogsPorComercio/${idPersona}`);
             document.getElementById("tituloBlogs").textContent = "Mis Blogs";
-
+            document.getElementById("sliderDesc").style.display = "none";
         }
 
         if (!response.ok) {
@@ -86,7 +86,9 @@ cargarMasBtnBlog.addEventListener('click', async function () {
 
 window.addEventListener("load", async function () {
 
-
+    this.document.getElementById("volverIndexView").addEventListener("click", () => {
+        this.window.history.back();
+    })
     body = await getBlogs();
     numero1 = 0;
     numero2 = 9;
@@ -123,7 +125,7 @@ function mostarHtml(body) {
             // Agregar la información del anuncio al nuevo elemento div
             divBlog.innerHTML = `
             <h2 class="subheaderBlog">${blogNew.titulo}</h2>
-            <div class="article-item article-detail-blog">
+            <div class="article-item-blog article-detail-blog">
                <img  class="imagenBlog" src="${blogNew.imagen}"></img>
                 <span class="dateBlog">
                   ${tiempoTranscurrido}

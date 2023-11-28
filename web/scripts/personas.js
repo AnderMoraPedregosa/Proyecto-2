@@ -11,7 +11,7 @@ var divComercios = document.getElementById("crudComercios");
 const tablasCreadas = {
     personas: false,
     categorias: false,
-    comercios : false
+    comercios: false
 };
 
 let tipo2;
@@ -25,8 +25,8 @@ btnUsuarios.addEventListener("click", () => mostrarTabla("personas"));
 btnCategorias.addEventListener("click", () => mostrarTabla("categorias"));
 btnComercios.addEventListener("click", () => mostrarTabla("comercios"));
 
-function ocultarMostrarTablas(){
-    switch(tipo2){
+function ocultarMostrarTablas() {
+    switch (tipo2) {
         case "personas":
             divPersonas.style.display = "block";
             divCategorias.style.display = "none";
@@ -58,7 +58,7 @@ async function mostrarTabla(tipo) {
             tablasCreadas[tipo] = true;
             crearTabla(data, tipo, divTabla);
         }
-    
+
     } catch (error) {
         console.error('Error en la llamada a la API:', error.message);
     }
@@ -95,15 +95,15 @@ function crearTabla(data, tipo, divTabla) {
 
         document.querySelector(nombreEnlaceCrear)?.addEventListener('click', (e) => {
             e.preventDefault();
-            if(tipo2 === "categorias"){
+            if (tipo2 === "categorias") {
                 openModal("../paginas/crearActualizarCategoria.php");
 
             }
-            else{
-                if(tipo2 === "personas"){
-                     openModal("../paginas/crearEditarPersona.php");
+            else {
+                if (tipo2 === "personas") {
+                    openModal("../paginas/crearEditarPersona.php");
                 }
-                else{
+                else {
                     openModal("../paginas/crearEditarComercio.php");
 
                 }
@@ -114,18 +114,18 @@ function crearTabla(data, tipo, divTabla) {
         enlacesEditar.forEach(enlaceEditar => {
             enlaceEditar.addEventListener('click', (e) => {
                 e.preventDefault();
-                if(tipo2 === "categorias"){
+                if (tipo2 === "categorias") {
 
-                  idCat = enlaceEditar.getAttribute('data-id');
+                    idCat = enlaceEditar.getAttribute('data-id');
 
-                  openModalActualizar("../paginas/crearActualizarCategoria.php", idCat, elementos);
+                    openModalActualizar("../paginas/crearActualizarCategoria.php", idCat, elementos);
 
-                }else{
-                    if(tipo2 == "personas"){
-                idPersona = enlaceEditar.getAttribute('data-id');
-                openModalActualizar("../paginas/crearEditarPersona.php", idPersona, elementos);
+                } else {
+                    if (tipo2 == "personas") {
+                        idPersona = enlaceEditar.getAttribute('data-id');
+                        openModalActualizar("../paginas/crearEditarPersona.php", idPersona, elementos);
                     }
-                    else{
+                    else {
                         idComercio = enlaceEditar.getAttribute('data-id');
                         openModalActualizar("../paginas/crearEditarComercio.php", idComercio, elementos);
 
@@ -142,7 +142,7 @@ function crearTabla(data, tipo, divTabla) {
                 confirmarEliminacion(id, tipo);
             });
         });
-        
+
     } else {
         manejarErrorTabla(divTabla, tipo);
     }
@@ -153,7 +153,6 @@ async function getData(tipo) {
         const base_url = window.location.origin;
         const response = await fetch(`${base_url}/${tipo}/todos`);
         const data = await response.json();
-        console.log(data);
 
         if (!response.ok) {
             throw new Error(`Error al obtener ${tipo}. Código de estado: ${response.status}`);
@@ -166,10 +165,8 @@ async function getData(tipo) {
             throw new Error(`La respuesta no es un JSON válido. Contenido: ${text}`);
         }
 
-        console.log("comercios")
-        console.log(data)
         return data;
-        
+
     } catch (error) {
         console.error('Error en la llamada a la API:', error.message);
         return { status: 'error', message: `Error en la llamada a la API de ${tipo}` };
@@ -223,8 +220,8 @@ function obtenerEncabezados(tipo) {
 
 function obtenerFila(elemento, tipo) {
 
-     // Objeto de mapeo para los nombres de los roles
-     const roles = {
+    // Objeto de mapeo para los nombres de los roles
+    const roles = {
         1: "Id: 1 - Admin",
         2: "Id: 2 - Cliente",
         3: "Id: 3 - Comerciante",
@@ -258,8 +255,8 @@ function obtenerFila(elemento, tipo) {
                     <a href="#" class="linkDeleteAdmin eliminar-enlace linkDeleteUser" data-id="${elemento.id}"><i class="fa-solid fa-user-minus"></i></a>
                 </td>
             `;
-            case "comercios":
-                return `
+        case "comercios":
+            return `
                     <td>${elemento.id}</td>
                     <td>${elemento.nombre}</td>
                     <td>${elemento.email}</td>
@@ -285,46 +282,42 @@ window.addEventListener("load", async function () {
 function confirmarEliminacion(id, tipo) {
     const confirmacion = confirm(`¿Estás seguro de que deseas eliminar esta ${tipo}?`);
     if (confirmacion) {
-        if(tipo2 === "personas"){
-        window.location.href = `/personas/borrarPersona/${id}`;
+        if (tipo2 === "personas") {
+            window.location.href = `/personas/borrarPersona/${id}`;
         }
-        else{
-            if(tipo2 === "categorias"){
-        window.location.href = `/categorias/borrarCategoria/${id}`;
-            }else{
+        else {
+            if (tipo2 === "categorias") {
+                window.location.href = `/categorias/borrarCategoria/${id}`;
+            } else {
                 window.location.href = `/comercios/eliminar/${id}`;
 
             }
 
         }
-    } else {
-        console.log("Eliminación cancelada");
     }
 }
 
 
 
 function openModal(url) {
-    if(tipo2 === "personas"){
+    if (tipo2 === "personas") {
         getData("comercios")
-        .then(comercios => {
-            console.log("comercios2")
-            console.log(typeof comercios)
-            console.log(comercios)
+            .then(comercios => {
 
-            const selectComercios = document.getElementById('selectComercios');
-            selectComercios.innerHTML = '';
-            
-            //llenar select de los comercios
-            if (typeof comercios === 'object' && comercios !== null && Array.isArray(comercios.data)) {
-                comercios.data.forEach(comercio => {
-                    const option = document.createElement('option');
-                    option.value = comercio.id;
-                    option.textContent = comercio.nombre;
-                    selectComercios.appendChild(option);
-                });
-            }
-        })
+
+                const selectComercios = document.getElementById('selectComercios');
+                selectComercios.innerHTML = '';
+
+                //llenar select de los comercios
+                if (typeof comercios === 'object' && comercios !== null && Array.isArray(comercios.data)) {
+                    comercios.data.forEach(comercio => {
+                        const option = document.createElement('option');
+                        option.value = comercio.id;
+                        option.textContent = comercio.nombre;
+                        selectComercios.appendChild(option);
+                    });
+                }
+            })
     }
     fetch(url)
         .then(response => response.text())
@@ -341,23 +334,36 @@ $(document).on("click", "#btnCrearPersona", function () {
     const dni = document.getElementById("dni").value;
     const passwd = document.getElementById("passwd").value;
     const idRol = document.querySelector('input[name="id_rol"]:checked').value;
+    const tel = document.getElementById("telefonoIn").value;
+    const apellidos = document.getElementById("apellidoIn").value;
+
     //comercio
     const selectComercios = document.getElementById('selectComercios');
 
-// Obtén el valor seleccionado
+    // Obtén el valor seleccionado
     const comercioSeleccionado = selectComercios.value;
 
-    alert("comercio")
-    alert(comercioSeleccionado)
+    let data;
 
     let url;
     if (this.value === "Actualizar") {
         url = `/personas/actualizar/${idPersona}`;
+    } else if (idRol == "2") {
+        url = `/registrar`;
+        data = {
+            id: idPersona,
+            dni: dni,
+            telefono: tel,
+            apellidos: apellidos,
+            email: email,
+            nombre: nombre,
+            passwd: passwd,
+            rol: idRol,
+            comercio: comercioSeleccionado
+        };
     } else {
-        url = `/personas/insertar`;
-    }
-
-     const data = {
+        url = `/personas/insertar`
+        data = {
             id: idPersona,
             dni: dni,
             email: email,
@@ -366,31 +372,45 @@ $(document).on("click", "#btnCrearPersona", function () {
             rol: idRol,
             comercio: comercioSeleccionado
         };
-        insertarActualizar(data, url);
+    }
+
+
+    insertarActualizar(data, url);
     document.getElementById("myModal").style.display = "none";
 });
 
 //mostrar u ocultar el select de comercios
 $(document).on("change", "#id_rol", function () {
     const idRolSeleccionado = document.querySelector('input[name="id_rol"]:checked').value;
-    alert(idRolSeleccionado) // 3 es el valor del comerciante
 
     // Obtén el select de comercios
     const selectComercios = document.getElementById('selectComercios');
-    // Muestra u oculta el select según la selección del radio button
-    if (idRolSeleccionado === '3') {
-        selectComercios.style.display = 'block';
-    } else {
-        if(idRolSeleccionado === "2"){
-            selectComercios.style.display = 'none';
+    // Muestra u oculta el select según la selección del radio button´
+    switch (idRolSeleccionado) {
+        case '1':
+            quitarInputs();
+            break;
+        case '2':
+            document.getElementById("apellidoIn").style.display = "block";
+            document.getElementById("telefonoIn").style.display = "block";
+            document.getElementById("labelApellido").style.display = "block";
+            document.getElementById("labelTelefono").style.display = "block";
+            break;
+        case '3':
+            selectComercios.style.display = "block";
+            quitarInputs();
 
-            document.getElementById("crudCliente").display = "block";
-        }
-        selectComercios.style.display = 'none';
+            break;
     }
+
 });
 
-
+function quitarInputs() {
+    document.getElementById("apellidoIn").style.display = "none";
+    document.getElementById("telefonoIn").style.display = "none";
+    document.getElementById("labelApellido").style.display = "none";
+    document.getElementById("labelTelefono").style.display = "none";
+}
 
 $(document).on("click", "#btnCrearComercio", function () {
     const nombre = document.getElementById("nombreComercio").value;
@@ -405,20 +425,20 @@ $(document).on("click", "#btnCrearComercio", function () {
         url = `/comercios/insertar`;
     }
 
-     const data = {
-            id: idComercio,
-            nombre: nombre,
-            email: email,
-            telefono: telefono,
-            direccion: direccion
-        };
-        insertarActualizar(data, url);
+    const data = {
+        id: idComercio,
+        nombre: nombre,
+        email: email,
+        telefono: telefono,
+        direccion: direccion
+    };
+    insertarActualizar(data, url);
     document.getElementById("myModal").style.display = "none";
 });
 
 $(document).on("click", "#btnCrearCategoria", function () {
     const nombre = document.getElementById("nombreCat").value;
-   
+
     let url;
     if (this.value === "Actualizar") {
         url = `/categorias/actualizar/${idCat}`;
@@ -426,59 +446,58 @@ $(document).on("click", "#btnCrearCategoria", function () {
         url = `/categorias/insertar`;
     }
 
-     const data = {
-            idCat: idCat,
-            nombre: nombre
-        };
-        insertarActualizar(data, url);
+    const data = {
+        idCat: idCat,
+        nombre: nombre
+    };
+    insertarActualizar(data, url);
     document.getElementById("myModal").style.display = "none";
 });
 
 function openModalActualizar(url, id, elementos) {
-    if(tipo2 === "personas"){
+    if (tipo2 === "personas") {
         getData("comercios")
-        .then(comercios => {
+            .then(comercios => {
 
-            const selectComercios = document.getElementById('selectComercios');
-            selectComercios.innerHTML = '';
-            
-            //llenar select de los comercios
-            if (typeof comercios === 'object' && comercios !== null && Array.isArray(comercios.data)) {
-                comercios.data.forEach(comercio => {
-                    const option = document.createElement('option');
-                    option.value = comercio.id;
-                    option.textContent = comercio.nombre;
-                    selectComercios.appendChild(option);
-                });
-            }
-        })
+                const selectComercios = document.getElementById('selectComercios');
+                selectComercios.innerHTML = '';
+
+                //llenar select de los comercios
+                if (typeof comercios === 'object' && comercios !== null && Array.isArray(comercios.data)) {
+                    comercios.data.forEach(comercio => {
+                        const option = document.createElement('option');
+                        option.value = comercio.id;
+                        option.textContent = comercio.nombre;
+                        selectComercios.appendChild(option);
+                    });
+                }
+            })
     }
     fetch(url)
         .then(response => response.text())
         .then(data => {
             document.getElementById("modalContent").innerHTML = data;
 
-            if(tipo2 === "personas"){
+            if (tipo2 === "personas") {
                 cargarDatosPersonaEnFormulario(id, elementos);
                 document.getElementById("btnCrearPersona").value = "Actualizar";
                 document.getElementById("myModal").style.display = "block";
             }
-            else{
+            else {
                 if (tipo2 === "categorias") {
                     const categoria = elementos.find(elemento => elemento.id === idCat);
                     document.getElementById("nombreCat").value = categoria.nombre;
                     document.getElementById("btnCrearCategoria").value = "Actualizar";
                     document.getElementById("myModal").style.display = "block";
-                  
 
-                }else{
-                cargarDatosComercioEnFormulario(id, elementos);
-                document.getElementById("btnCrearComercio").value = "Actualizar";
-                document.getElementById("myModal").style.display = "block";
+                } else {
+                    cargarDatosComercioEnFormulario(id, elementos);
+                    document.getElementById("btnCrearComercio").value = "Actualizar";
+                    document.getElementById("myModal").style.display = "block";
                 }
             }
 
-           
+
         })
         .catch(error => console.error('Error al cargar el contenido:', error));
 }
@@ -487,7 +506,7 @@ document.getElementById("closeModalBtn").addEventListener("click", function () {
     document.getElementById("myModal").style.display = "none";
 });
 
-function cargarDatosPersonaEnFormulario(idPersona, elementos){
+function cargarDatosPersonaEnFormulario(idPersona, elementos) {
     const personaSeleccionada = elementos.find(elemento => elemento.id === idPersona);
 
     document.getElementById("nombre").value = personaSeleccionada.nombre;
@@ -509,8 +528,8 @@ function cargarDatosPersonaEnFormulario(idPersona, elementos){
             document.getElementById('selectComercios').style.display = 'block';
             // Llama a la función para llenar el select de comercios
         } else {
-            if(personaSeleccionada.id_rol === "2"){
-                document.getElementById("crudCliente").style.display = "block";
+            if (personaSeleccionada.id_rol === "2") {
+                /*   document.getElementById("crudCliente").style.display = "block"; */
             }
             document.getElementById('selectComercios').style.display = 'none';
         }
@@ -519,7 +538,7 @@ function cargarDatosPersonaEnFormulario(idPersona, elementos){
     }
 }
 
-function cargarDatosComercioEnFormulario(idComercio, elementos){
+function cargarDatosComercioEnFormulario(idComercio, elementos) {
     const comercioSeleccionado = elementos.find(elemento => elemento.id === idComercio);
 
     document.getElementById("nombreComercio").value = comercioSeleccionado.nombre;
@@ -530,7 +549,6 @@ function cargarDatosComercioEnFormulario(idComercio, elementos){
 
 async function insertarActualizar(data, url) {
     try {
-        console.log(data);
 
         const response = await fetch(url, {
             method: 'POST',
@@ -545,7 +563,6 @@ async function insertarActualizar(data, url) {
         }
 
         const responseData = await response.text();
-        console.log('Operación exitosa:', responseData);
 
         location.reload(true);
     } catch (error) {
