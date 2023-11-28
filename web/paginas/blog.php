@@ -17,8 +17,9 @@
     <button id="btnMostrarFormBlog" style="display: none;">Crear Blog</button>
     
 </div>
-<div class="center-blog">
 <button id="volverIndexView">Volver</button>
+
+<div class="center-blog">
 
     <section id="content-blog">
         <script type="module" src="scripts/blogs.js"></script>

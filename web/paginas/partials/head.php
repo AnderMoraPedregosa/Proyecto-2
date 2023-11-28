@@ -42,7 +42,7 @@
                     </li>
 
                     <li id="liUsuarios" class="crudUsuariosOculto">
-                        <a href="/crudPersonas" class="animacion">Panel</a>
+                        <a href="/crudPersonas" class="animacion">Administracion</a>
                     </li>
                     <li id="liPerfil" style="display: none;">
                         <a href="/panel" class="animacion">Perfil</a>
