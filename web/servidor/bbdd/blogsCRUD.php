@@ -81,7 +81,7 @@ function insertarBlog($dbh, $data)
 {
     $imagenes = $data['imagenes'];
     try {
-        $stmt = $dbh->prepare("INSERT INTO blogs (titulo, imagen_blog ,texto,  fecha_creacion, id_comerciante, id_comercio) 
+        $stmt = $dbh->prepare("INSERT INTO blogs (titulo, imagen_blog ,texto,  fecha_creacion,id_comercio,id_comerciante) 
         VALUES (:titulo, :imagen_anuncio,:texto, :fecha, :comercio, :anunciante)");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
