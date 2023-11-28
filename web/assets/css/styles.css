@@ -331,6 +331,22 @@ body {
     background: white;
 }
 
+#volverIndexView{
+    font-size: 0.9em;
+    margin: 1.2em 3.5em;
+    background-color: #6187E8;
+    padding: 0.5em;
+    border-radius: 0.8em;
+    color: #fff;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#volverIndexView:hover{
+    background-color: #3D6CE1;
+
+}
+
 #content {
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
     padding: 2em;

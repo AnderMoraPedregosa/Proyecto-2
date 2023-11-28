@@ -76,6 +76,7 @@
       </div>
     </div>
   </div>
+  <!--
   <div class="carta" >
     <div class="face face1">
       <div class="content">
@@ -90,7 +91,7 @@
       </div>
     </div>
   </div>
-
+-->
 
 
 

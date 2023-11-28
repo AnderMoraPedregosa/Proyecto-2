@@ -5,6 +5,13 @@ import { calcularTiempoTranscurrido } from "../scripts/Funciones/calcularTiempo.
 import { Comerciante } from "../modelos/comerciante.js";
 import { getPersonaById } from "./Funciones/getPersona.js";
 
+let btnVolver = document.getElementById("volverIndexView");
+
+btnVolver.addEventListener("click", function(){
+    //volver a la pagina anterior
+    window.history.back();
+
+})
 async function getDetalleAnuncio(id) {
     let response = await fetch(`/anuncios/detalles/${id}`);
     let data = await response.json();

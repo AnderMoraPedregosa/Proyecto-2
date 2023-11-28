@@ -13,11 +13,16 @@
     <div class="center-anuncio">
 
         <?php require "partials/head.php"; ?>
+
         <div class="centradoAnuncioDetalle">
+
             <script type="module" src="../../scripts/categoria.js"></script>
 
             <div class="articulos">
+
                 <div id="content-detail">
+                <button id="volverIndexView" >Volver</button>
+
                     <script type="module" src="../../scripts/anuncioDetalle.js"></script>
                 </div>
             </div>
