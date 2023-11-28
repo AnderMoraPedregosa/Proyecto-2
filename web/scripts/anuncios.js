@@ -183,6 +183,10 @@ window.addEventListener("load", async function () {
         let categoriaSeleccionada = selectCategorias.value;
         if (categoriaSeleccionada != 0) {
             await filterAdsByCategory(categoriaSeleccionada);
+        } else {
+            let body = await getAnuncios();
+            console.log(body)
+            mostrarHtmlBoton(body);
         }
     });
 
@@ -377,7 +381,6 @@ function confirmarEliminacion(idAnuncio) {
     }
 }
 function mostrarHtmlBoton(body) {
-
     if (body && body['data'] && body['data'].length > numero2) {
         mostarHtml(body);
         cargarMasBtn.style.display = 'block';
@@ -390,6 +393,7 @@ function mostrarHtmlBoton(body) {
 
 
 async function mostarHtml(body) {
+        articles.innerHTML = ``;
     let divArticle;
     const scrollBefore = window.scrollY;
 
@@ -408,10 +412,12 @@ async function mostarHtml(body) {
         const procesarAnuncio = async (anuncioNew) => {
             comercio = await comercioAnuncio(anuncioNew.idComercio);
             if (comercio) {
-                categoria = await categoriaAnuncio(anuncioNew.idCategoria);}
-                if (categoria) {
-                    comercio =await comercioAnuncio(anuncioNew.idComercio);}
-                
+                categoria = await categoriaAnuncio(anuncioNew.idCategoria);
+            }
+            if (categoria) {
+                comercio = await comercioAnuncio(anuncioNew.idComercio);
+            }
+
             divArticle = document.createElement("div");
             divArticle.className = "article-item";
             let tiempoTranscurrido = calcularTiempoTranscurrido(anuncioNew.fechaC);
