@@ -123,7 +123,7 @@ function mostarHtml(body) {
             // Agregar la información del anuncio al nuevo elemento div
             divBlog.innerHTML = `
             <h2 class="subheaderBlog">${blogNew.titulo}</h2>
-            <div class="article-item article-detail-blog">
+            <div class="article-item-blog article-detail-blog">
                <img  class="imagenBlog" src="${blogNew.imagen}"></img>
                 <span class="dateBlog">
                   ${tiempoTranscurrido}
