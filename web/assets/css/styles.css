@@ -592,7 +592,7 @@ body {
     margin-right: 1em;
     display: flex;
     justify-content: flex-end;
-    margin-top: -15.375em;
+    margin-top: auto 0;
     align-items: baseline;
 }
 
@@ -928,6 +928,9 @@ form input[type="submit"]:hover {
 
 /*Articulos de la pagina web, control de sus imagenes, texto, fecha */
 .article-item {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
     height: 14.5em;
     width: 100%;
     border-bottom: 0.063em solid #eee;
@@ -1349,7 +1352,7 @@ button {
     }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 569px) {
     #logo {
         display: none;
     }
@@ -1360,6 +1363,10 @@ button {
 
     #header {
         height: auto;
+    }
+
+    .article-item {
+        height: 17em;
     }
 
     #menu a.animacion::before {
@@ -1397,6 +1404,20 @@ button {
     }
 }
 
+@media (max-width: 568px) {
+    .article-item .infoAnuncio{
+        padding: 1em;
+    }
+    .article-item {
+        display: flex;
+        height: 30em;
+        align-items: center;
+        flex-direction: column;
+    }
+    .article-item .image-wrap{
+      height: 100%;
+    }
+}
 
 /*CSS en los botones Informacion, Editar y Eliminar*/
 a.read-more,
