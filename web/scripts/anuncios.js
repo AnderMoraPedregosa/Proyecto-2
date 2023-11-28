@@ -26,7 +26,7 @@ let categoriaSeleccionada;
 let articles = document.getElementById("articles");
 
 //variable index db
-var db,almacen;
+var db, almacen;
 
 
 
@@ -63,49 +63,49 @@ async function getAnuncios(idPersona) {
         else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios favoritos";
             //const favoritos = await obtenerFavoritosIndexedDB(idPersonaFav);
-           
-       
+
+
             // Array para almacenar los detalles de los anuncios favoritos
             let anunciosFavoritos = [];
 
             // Por cada ID de anuncio favorito, obtener los detalles desde la base de datos
             //for (const idAnuncio of favoritos[0].anuncios) {
-               try {
-                    // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
-                    response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
+            try {
+                // Realiza una solicitud a tu API o base de datos para obtener los detalles del anuncio
+                response = await fetch(`${base_url}/anuncios/porIdAnuncio/${idAnuncio}/${categoriaSeleccionada}`);
 
 
-                    if (response.status !== 200) {
-                        //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
-                    }
-
-                    // Obtener el cuerpo JSON de la respuesta
-                    let detallesData = await response.json();
-
-
-                    // Verificar si la respuesta es válida y contiene el array 'data'
-                    if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
-                        // Acceder al primer (y supuesto único) detalle del anuncio
-                        let anuncioDetalle = detallesData.data[0];
-                        anunciosFavoritos.push(anuncioDetalle);
-                    } else {
-                        //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
-                    }
-                } catch (error) {
-                    //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+                if (response.status !== 200) {
+                    //console.error(`Error al obtener detalles del anuncio ${idAnuncio}. Código de estado: ${response.status}`);
                 }
-           // }
+
+                // Obtener el cuerpo JSON de la respuesta
+                let detallesData = await response.json();
+
+
+                // Verificar si la respuesta es válida y contiene el array 'data'
+                if (detallesData && Array.isArray(detallesData.data) && detallesData.data.length > 0) {
+                    // Acceder al primer (y supuesto único) detalle del anuncio
+                    let anuncioDetalle = detallesData.data[0];
+                    anunciosFavoritos.push(anuncioDetalle);
+                } else {
+                    //console.error(`Respuesta no válida para el anuncio ${idAnuncio}`);
+                }
+            } catch (error) {
+                //console.error(`Error al obtener detalles del anuncio ${idAnuncio}: ${error.message}`);
+            }
+            // }
 
 
 
             //if(anunciosFavoritos.length === 0){
             //   data ={ status: 'error', message: 'Error, no hay anuncios' }
             //}else{
-                 // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
-           // data = { status: 'success', data: anunciosFavoritos };
+            // Ahora, anunciosFavoritos contiene los detalles de los anuncios favoritos
+            // data = { status: 'success', data: anunciosFavoritos };
             //}
-       
-           
+
+
         }
 
 
@@ -187,7 +187,7 @@ async function getAnunciosSearch(searchTerm) {
 
 let persona;
 window.addEventListener("load", async function () {
-   
+
     categoriaSeleccionada = "0";
 
 
@@ -372,7 +372,7 @@ function mostrarHtmlBoton(body) {
 }
 
 
-function mostarHtml(body) {
+async function mostarHtml(body) {
     let divArticle;
     const scrollBefore = window.scrollY;
 
@@ -382,11 +382,11 @@ function mostarHtml(body) {
 
 
     if (body['status'] == 'success') {
-
-
         let anuncios = datosAnuncios(body['data']);
         anuncios.sort((a, b) => new Date(b.fechaC) - new Date(a.fechaC));
-        anuncios.forEach(async anuncioNew => {
+
+        // Define una función auxiliar para manejar la lógica de cada anuncio
+        const procesarAnuncio = async (anuncioNew) => {
             comercio = await comercioAnuncio(anuncioNew.idComercio);
             categoria = await categoriaAnuncio(anuncioNew.idCategoria);
             divArticle = document.createElement("div");
@@ -433,7 +433,7 @@ function mostarHtml(body) {
                     mostrarModal(e.target);
                 });
             });
-        
+
 
 
             let eliminarEnlace = divArticle.querySelector('.eliminar-enlace');
@@ -446,9 +446,9 @@ function mostarHtml(body) {
             //favoritos
             let favEnlace = divArticle.querySelector('#fav');
 
-              
-             
-          
+
+
+
             favEnlace.addEventListener("click", function (event) {
                 event.preventDefault();
                 // id del anuncio
@@ -460,14 +460,18 @@ function mostarHtml(body) {
 
 
 
-             // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
-            //guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
+                // Llamar a la función para guardar en IndexedDB y cambiar la clase del ícono
+                //guardarEnIndexedDB(idAnuncio, idPersonaFav, iconElement);
 
             });
+        };
+
+        // Utiliza un bucle for...of para asegurar el orden de las operaciones asíncronas
+        for (const anuncioNew of anuncios) {
+            await procesarAnuncio(anuncioNew);
+        }
 
 
-
-        });
 
 
         window.scrollTo({ top: scrollBefore, behavior: 'smooth' });
