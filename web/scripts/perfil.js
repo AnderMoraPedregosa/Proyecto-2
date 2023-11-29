@@ -5,8 +5,8 @@ document.getElementById("cartaAdmin").style.display = "none";
 
 switch (parseInt(rol)) {
     case 1:
-        document.getElementsByClassName("prueba")[0].style.display = "block";
-        document.getElementsByClassName("prueba")[1].style.display = "block";
+        document.getElementsByClassName("prueba")[0].style.display = "none";
+        document.getElementsByClassName("prueba")[1].style.display = "none";
         document.getElementById("cartaAdmin").style.display = "block";
 
         liUsuarios.style.display = "block";
@@ -23,11 +23,11 @@ switch (parseInt(rol)) {
         document.getElementsByClassName("prueba")[0].style.display = "block";
         document.getElementsByClassName("prueba")[1].style.display = "block";
         let personaJSON = await getPersona()
-        let persona = new Persona(personaJSON['data'][0].id,personaJSON['data'][0].dni , 
-        personaJSON['data'][0].nombre,personaJSON['data'][0].passwd,personaJSON['data'][0].email,personaJSON['data'][0].id_rol);
+        let persona = new Persona(personaJSON['data'][0].id, personaJSON['data'][0].dni,
+            personaJSON['data'][0].nombre, personaJSON['data'][0].passwd, personaJSON['data'][0].email, personaJSON['data'][0].id_rol);
 
         liPerfil.style.display = "block";
-        saludoPerfil.textContent = "Bienvenido/a "+persona.nombre+"! Este es tu panel para gestionar los anuncios y blogs del comercio al que perteneces."
+        saludoPerfil.textContent = "Bienvenido/a " + persona.nombre + "! Este es tu panel para gestionar los anuncios y blogs del comercio al que perteneces."
 
         break;
     default:
