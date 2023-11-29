@@ -594,6 +594,7 @@ body {
     justify-content: flex-end;
     margin-top: auto 0;
     align-items: baseline;
+    flex-wrap: wrap;
 }
 
 .link {
@@ -1120,11 +1121,7 @@ button {
         font-size: 0.8em;
         width: 70%;
     }
-    .link-container {
-
-        margin-left: 20em;
-
-    }
+   
 }
 
 
