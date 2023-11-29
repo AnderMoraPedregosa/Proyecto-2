@@ -41,9 +41,9 @@
                         <a href="/blog" class="animacion">Blog</a>
                     </li>
 
-                   <!--  <li id="liUsuarios" class="crudUsuariosOculto">
-                        <a href="/crudPersonas" class="animacion">Administracion</a>
-                    </li> -->
+                    <li id="liUsuarios" class="crudUsuariosOculto">
+                        <a href="/crudPersonas" style="display: none;" class="animacion">Administracion</a>
+                    </li>
                     <li id="liPerfil" style="display: none;">
                         <a href="/panel" class="animacion">Perfil</a>
                     </li>
