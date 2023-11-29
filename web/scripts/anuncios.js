@@ -19,8 +19,13 @@ let articles = document.getElementById("articles");
 let cargarMasBtn = document.getElementById("cargarMasBtn");
 let db, tablaFavoritos;
 let urlAnuncios = partesUrl[3];
-let comercianteJSON = await getPersonaById();
-let comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
+let comercianteJSON;
+let comerciante;
+if (rol) {
+    comercianteJSON = await getPersonaById();
+    comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
+}
+
 async function getAnunciosCategoria(cateAnuncios) {
     let response = await fetch(`/anuncios/todos/${cateAnuncios}`);
     let data = await response.json();
