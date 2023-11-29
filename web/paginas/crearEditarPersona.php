@@ -29,10 +29,10 @@
             <input type="radio" id="cliente" name="id_rol" value="2"  />
             <label for="cliente">Cliente</label>
 
-            <input type="radio" id="comerciante" name="id_rol" value="3" checked />
+            <input type="radio" id="comerciante" name="id_rol" value="3"  />
             <label for="comerciante">Comerciante</label>
 
-            <input type="radio" id="admin" name="id_rol" value="1" />
+            <input type="radio" id="admin" name="id_rol" value="1" checked/>
             <label for="admin">Admin</label>
         </div>
         <select id="selectComercios" style="display: none;">

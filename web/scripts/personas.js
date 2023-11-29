@@ -400,8 +400,12 @@ $(document).on("change", "#id_rol", function () {
     switch (idRolSeleccionado) {
         case '1':
             quitarInputs();
+            selectComercios.style.display = "none";
+
             break;
         case '2':
+            selectComercios.style.display = "none";
+
             document.getElementById("apellidoIn").style.display = "block";
             document.getElementById("telefonoIn").style.display = "block";
             document.getElementById("labelApellido").style.display = "block";
