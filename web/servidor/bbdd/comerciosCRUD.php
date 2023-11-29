@@ -61,7 +61,7 @@ function insertarComercio($dbh, $data)
 function actualizarComercio($dbh, $data)
 {
     try {
-        $stmt = $dbh->prepare("UPDATE comercios SET nombre = :nombre, logo = :logo, email = :email, telefono = :telefono, direccion = :direccion WHERE id = :idComercio");
+        $stmt = $dbh->prepare("UPDATE comercios SET nombre = :nombre, email = :email, telefono = :telefono, direccion = :direccion WHERE id = :idComercio");
         if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta");
         }

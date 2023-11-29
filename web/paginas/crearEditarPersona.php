@@ -15,21 +15,21 @@
         <label for="dni">DNI</label>
         <input type="text" id="dni" name="dni" required="required" />
         <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required="required" />
-        <label for="apellido" id="labelApellido">Apellido</label>
-        <input type="text" id="apellidoIn" name="apellido" required="required" />
-        <label for="telefono" id="labelTelefono">Telefono</label>
-        <input type="tel" id="telefonoIn" name="telefono" required="required" />
+        <input  type="text" id="nombre" name="nombre" required="required" />
+        <label  style="display: none"  for="apellido" id="labelApellido">Apellido</label>
+        <input  style="display: none" type="text" id="apellidoIn" name="apellido" required="required" />
+        <label  style="display: none" for="telefono" id="labelTelefono">Telefono</label>
+        <input style="display: none" type="tel" id="telefonoIn" name="telefono" required="required" />
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required="required" />
         <label for="passwd">Contraseña</label>
         <input type="password" id="passwd" name="passwd" required="required" />
         <label>Rol</label>
         <div id="id_rol">
-            <input type="radio" id="cliente" name="id_rol" value="2" checked />
+            <input type="radio" id="cliente" name="id_rol" value="2"  />
             <label for="cliente">Cliente</label>
 
-            <input type="radio" id="comerciante" name="id_rol" value="3" />
+            <input type="radio" id="comerciante" name="id_rol" value="3" checked />
             <label for="comerciante">Comerciante</label>
 
             <input type="radio" id="admin" name="id_rol" value="1" />

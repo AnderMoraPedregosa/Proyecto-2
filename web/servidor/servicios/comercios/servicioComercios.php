@@ -86,7 +86,6 @@ switch ($accion) {
         //ACTUALIZAR
         $idComercio = $datos['id'];
         $nombre = $datos['nombre'];
-        $logo = $datos['logo'];
         $email = $datos['email'];
         $telefono = $datos['telefono'];
         $direccion = $datos['direccion'];
@@ -94,7 +93,6 @@ switch ($accion) {
         $datos = [
             "idComercio" => $idComercio,
             "nombre" => $nombre,
-            "logo" => $logo,
             'email' => $email,
             'telefono' => $telefono,
             'direccion' => $direccion
