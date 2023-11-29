@@ -930,6 +930,7 @@ form input[type="submit"]:hover {
 .article-item {
     display: flex;
     flex-wrap: nowrap;
+    justify-content: space-between;
     flex-direction: row;
     height: 14.5em;
     width: 100%;
@@ -1119,6 +1120,11 @@ button {
         font-size: 0.8em;
         width: 70%;
     }
+    .link-container {
+
+        margin-left: 20em;
+
+    }
 }
 
 
@@ -1138,6 +1144,11 @@ button {
 
     #menu {
         width: 80%;
+
+    }
+    .link-container {
+
+        margin-left: 0em;
 
     }
 }
