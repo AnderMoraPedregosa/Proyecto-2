@@ -25,8 +25,13 @@ async function getAnunciosCategoria(cateAnuncios) {
     let data = await response.json();
     return data;
 }
-
+async function getIdComercio(idPersona) {
+    let response = await fetch(`/comerciantes/comerciantePersona/${idPersona}`);
+    let data = await response.json();
+    return data;
+}
 async function getAnuncios(idPersona) {
+    let comercianteId = await getIdComercio(idPersona);
     try {
         let response;
 
@@ -34,7 +39,7 @@ async function getAnuncios(idPersona) {
             response = await fetch(`/anuncios/todos`);
         } else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
-            response = await fetch(`/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
+            response = await fetch(`/anuncios/comercioConcreto/${comercianteId['data'][0].id}/${categoriaSeleccionada}`);
         } else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios tablaFavoritos";
             let anunciosFavoritos = [];
@@ -162,7 +167,7 @@ window.addEventListener("load", async function () {
         });
     });
 
-   
+
 
     if (datosArray && datosArray["id_rol"] === "2") {
         crearIndexdb().then(() => {
