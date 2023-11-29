@@ -3,7 +3,7 @@ import { calcularTiempoTranscurrido } from "./Funciones/calcularTiempo.js";
 import { getPersonaById } from "./Funciones/getPersona.js";
 import { Categoria } from "../modelos/categoria.js";
 import { Comercio } from "../modelos/comercio.js";
-
+import { Comerciante } from "../modelos/comerciante.js";
 let urlActual = window.location.href;
 let comercio;
 let categoria;
@@ -19,14 +19,15 @@ let articles = document.getElementById("articles");
 let cargarMasBtn = document.getElementById("cargarMasBtn");
 let db, tablaFavoritos;
 let urlAnuncios = partesUrl[3];
-
+let comercianteJSON = await getPersonaById();
+let comerciante = new Comerciante(comercianteJSON["data"][0].id, comercianteJSON["data"][0].id_comercio, comercianteJSON["data"][0].id_persona)
 async function getAnunciosCategoria(cateAnuncios) {
     let response = await fetch(`/anuncios/todos/${cateAnuncios}`);
     let data = await response.json();
     return data;
 }
 
-async function getAnuncios(idPersona) {
+async function getAnuncios(idComerciante) {
     try {
         let response;
 
@@ -34,7 +35,7 @@ async function getAnuncios(idPersona) {
             response = await fetch(`/anuncios/todos`);
         } else if (urlAnuncios === "perfilAnuncios") {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios";
-            response = await fetch(`/anuncios/comercioConcreto/${idPersona}/${categoriaSeleccionada}`);
+            response = await fetch(`/anuncios/comercioConcreto/${idComerciante}/${categoriaSeleccionada}`);
         } else {
             document.getElementById("tituloAnuncios").textContent = "Mis anuncios tablaFavoritos";
             let anunciosFavoritos = [];
@@ -127,7 +128,7 @@ window.addEventListener("load", async function () {
         body = await getAnuncios();
     } else {
         idPersonaFav = datosArray["idPersona"];
-        body = await getAnuncios(datosArray["idPersona"]);
+        body = await getAnuncios(comerciante.id);
     }
 
     let articles = document.getElementById("articles");
@@ -162,7 +163,7 @@ window.addEventListener("load", async function () {
         });
     });
 
-   
+
 
     if (datosArray && datosArray["id_rol"] === "2") {
         crearIndexdb().then(() => {
