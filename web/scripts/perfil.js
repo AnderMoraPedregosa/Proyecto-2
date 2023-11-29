@@ -2,7 +2,7 @@ import { Persona } from "../modelos/persona.js";
 let saludoPerfil = document.getElementById("saludoPerfil");
 document.getElementById("cartaFavoritos").style.display = "none";
 document.getElementById("cartaAdmin").style.display = "none";
-
+document.getElementById("liUsuarios").style.display = "none";
 switch (parseInt(rol)) {
     case 1:
         document.getElementsByClassName("prueba")[0].style.display = "none";
@@ -10,7 +10,7 @@ switch (parseInt(rol)) {
         document.getElementById("cartaAdmin").style.display = "block";
 
         liUsuarios.style.display = "block";
-        liPerfil.style.display = "none";
+        liPerfil.style.display = "block";
 
         break;
     case 2:
