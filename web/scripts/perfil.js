@@ -10,7 +10,7 @@ switch (parseInt(rol)) {
         document.getElementById("cartaAdmin").style.display = "block";
 
         liUsuarios.style.display = "block";
-        liPerfil.style.display = "block";
+        liPerfil.style.display = "none";
 
         break;
     case 2:
