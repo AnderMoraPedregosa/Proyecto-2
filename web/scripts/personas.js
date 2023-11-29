@@ -348,6 +348,17 @@ $(document).on("click", "#btnCrearPersona", function () {
     let url;
     if (this.value === "Actualizar") {
         url = `/personas/actualizar/${idPersona}`;
+        data = {
+            id: idPersona,
+            dni: dni,
+            telefono: tel,
+            apellidos: apellidos,
+            email: email,
+            nombre: nombre,
+            passwd: passwd,
+            rol: idRol,
+            comercio: comercioSeleccionado
+        };
     } else if (idRol == "2") {
         url = `/registrar`;
         data = {
